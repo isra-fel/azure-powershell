@@ -48,9 +48,32 @@ In this directory, run AutoRest:
 
 ``` yaml
 require:
-  - $(this-folder)/../readme.azure.md
+  - $(this-folder)/../readme.azure.noprofile.md
   - $(repo)/specification/hanaonazure/resource-manager/readme.md
 
-module-version: 0.0.1
+# For new RP, the version is 0.1.0
+module-version: 0.1.0
+# Normally, title is the service name
+title: Hana
+subject-prefix: Sap
 
+# If there are post APIs for some kinds of actions in the RP, you may need to 
+# uncomment following line to support viaIdentity for these post APIs
+# identity-correction-for-post: true
+
+directive:
+  # Following is two common directive which are normally required in all the RPs
+  # 1. Remove the unexpanded parameter set
+  # 2. For New-* cmdlets, ViaIdentity is not required, so CreateViaIdentityExpanded is removed as well
+  - where:
+      variant: ^Create$|^CreateViaIdentity$|^CreateViaIdentityExpanded$|^Update$|^UpdateViaIdentity$
+    remove: true
+  # Remove the set-* cmdlet
+  - where:
+      verb: Set
+    remove: true
+  # Remove commands of Hana instance, which need to be reconsidered
+  - where:
+      subject: HanaInstance
+    remove: true
 ```

@@ -65,7 +65,7 @@ This command updates a standard time series insights environment.
 ### Example 2:  Update a standard time series insights environment
 ```powershell
 PS C:\> $env = Get-AzTimeSeriesInsightsEnvironment -ResourceGroupName testgroup -Name tsitest001
-PS C:\> Update-AzTimeSeriesInsightsEnvironment -InputObject $env -Capacity 6 -Sku S1
+PS C:\> PS C:\> Update-AzTimeSeriesInsightsEnvironment -InputObject $env -Capacity 6 -Sku S1
 
 DataAccessFqdn               : b6d113a4-0865-405f-b09e-ad4355b5d046.env.timeseries.azure.com
 DataAccessId                 : b6d113a4-0865-405f-b09e-ad4355b5d046
@@ -107,6 +107,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -Capacity
@@ -123,6 +124,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -DataRetentionTime
@@ -138,6 +140,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -DefaultProfile
@@ -153,6 +156,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -InputObject
@@ -169,6 +173,7 @@ Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -Name
@@ -184,6 +189,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -NoWait
@@ -199,6 +205,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -PartitionKeyProperty
@@ -215,6 +222,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -ResourceGroupName
@@ -230,6 +238,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -Sku
@@ -245,6 +254,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -StorageLimitExceededBehavior
@@ -263,6 +273,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -SubscriptionId
@@ -278,6 +289,7 @@ Position: Named
 Default value: (Get-AzContext).Subscription.Id
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -Tag
@@ -293,6 +305,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -Confirm
@@ -308,6 +321,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### -WhatIf
@@ -324,6 +338,7 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
+Dynamic: False
 ```
 
 ### CommonParameters
@@ -337,16 +352,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### Microsoft.Azure.PowerShell.Cmdlets.TimeSeriesInsights.Models.Api20180815Preview.IEnvironmentResource
 
+## ALIASES
+
 ## NOTES
 
-ALIASES
-
-COMPLEX PARAMETER PROPERTIES
-
+### COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-
-INPUTOBJECT <ITimeSeriesInsightsIdentity>: Identity Parameter
+#### INPUTOBJECT <ITimeSeriesInsightsIdentity>: Identity Parameter
   - `[AccessPolicyName <String>]`: Name of the access policy.
   - `[EnvironmentName <String>]`: Name of the environment
   - `[EventSourceName <String>]`: The name of the Time Series Insights event source associated with the specified environment.
@@ -355,7 +368,7 @@ INPUTOBJECT <ITimeSeriesInsightsIdentity>: Identity Parameter
   - `[ResourceGroupName <String>]`: Name of an Azure Resource group.
   - `[SubscriptionId <String>]`: Azure Subscription ID.
 
-PARTITIONKEYPROPERTY <ITimeSeriesIdProperty[]>: The list of event properties which will be used to partition data in the environment.
+#### PARTITIONKEYPROPERTY <ITimeSeriesIdProperty[]>: The list of event properties which will be used to partition data in the environment.
   - `[Name <String>]`: The name of the property.
   - `[Type <PropertyType?>]`: The type of the property.
 
