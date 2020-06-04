@@ -18,31 +18,7 @@ Update-AzSapMonitor -Name <String> -ResourceGroupName <String> [-SubscriptionId 
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Update1
-```
-Update-AzSapMonitor -Name <String> -ResourceGroupName <String> -TagsParameter <ITags>
- [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### UpdateExpanded1
-```
-Update-AzSapMonitor -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>] [-Tag <Hashtable>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### UpdateViaIdentity1
-```
-Update-AzSapMonitor -InputObject <IHanaIdentity> -TagsParameter <ITags> [-DefaultProfile <PSObject>]
- [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
 ### UpdateViaIdentityExpanded
-```
-Update-AzSapMonitor -InputObject <IHanaIdentity> [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
-```
-
-### UpdateViaIdentityExpanded1
 ```
 Update-AzSapMonitor -InputObject <IHanaIdentity> [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-Confirm]
  [-WhatIf] [<CommonParameters>]
@@ -86,7 +62,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -InputObject
@@ -95,7 +70,7 @@ To construct, see NOTES section for INPUTOBJECT properties and create a hash tab
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.IHanaIdentity
-Parameter Sets: UpdateViaIdentity1, UpdateViaIdentityExpanded, UpdateViaIdentityExpanded1
+Parameter Sets: UpdateViaIdentityExpanded
 Aliases:
 
 Required: True
@@ -103,7 +78,6 @@ Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -Name
@@ -111,7 +85,7 @@ Name of the SAP monitor resource.
 
 ```yaml
 Type: System.String
-Parameter Sets: Update1, UpdateExpanded, UpdateExpanded1
+Parameter Sets: UpdateExpanded
 Aliases: SapMonitorName
 
 Required: True
@@ -119,7 +93,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -ResourceGroupName
@@ -127,7 +100,7 @@ Name of the resource group.
 
 ```yaml
 Type: System.String
-Parameter Sets: Update1, UpdateExpanded, UpdateExpanded1
+Parameter Sets: UpdateExpanded
 Aliases:
 
 Required: True
@@ -135,7 +108,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -SubscriptionId
@@ -144,7 +116,7 @@ The subscription ID forms part of the URI for every service call.
 
 ```yaml
 Type: System.String
-Parameter Sets: Update1, UpdateExpanded, UpdateExpanded1
+Parameter Sets: UpdateExpanded
 Aliases:
 
 Required: False
@@ -152,7 +124,6 @@ Position: Named
 Default value: (Get-AzContext).Subscription.Id
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -Tag
@@ -160,7 +131,7 @@ Tags field of the resource.
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: UpdateExpanded, UpdateExpanded1, UpdateViaIdentityExpanded, UpdateViaIdentityExpanded1
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -168,24 +139,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
-```
-
-### -TagsParameter
-Tags field of the resource.
-To construct, see NOTES section for TAGSPARAMETER properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20171103Preview.ITags
-Parameter Sets: Update1, UpdateViaIdentity1
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -Confirm
@@ -201,7 +154,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -WhatIf
@@ -218,7 +170,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### CommonParameters
@@ -226,34 +177,27 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20171103Preview.ITags
-
 ### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.IHanaIdentity
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20171103Preview.ISapMonitor
-
 ### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.ISapMonitor
-
-## ALIASES
 
 ## NOTES
 
-### COMPLEX PARAMETER PROPERTIES
+ALIASES
+
+COMPLEX PARAMETER PROPERTIES
+
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-#### INPUTOBJECT <IHanaIdentity>: Identity Parameter
-  - `[HanaInstanceName <String>]`: Name of the SAP HANA on Azure instance.
+
+INPUTOBJECT <IHanaIdentity>: Identity Parameter
   - `[Id <String>]`: Resource identity path
   - `[ProviderInstanceName <String>]`: Name of the provider instance.
   - `[ResourceGroupName <String>]`: Name of the resource group.
   - `[SapMonitorName <String>]`: Name of the SAP monitor resource.
   - `[SubscriptionId <String>]`: Subscription ID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
-
-#### TAGSPARAMETER <ITags>: Tags field of the resource.
-  - `[Tag <ITags1>]`: Tags field of the resource.
-    - `[(Any) <String>]`: This indicates any property can be added to this object.
 
 ## RELATED LINKS
 

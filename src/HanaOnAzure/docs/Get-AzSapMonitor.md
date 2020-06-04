@@ -23,25 +23,9 @@ Get-AzSapMonitor -Name <String> -ResourceGroupName <String> [-SubscriptionId <St
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### Get1
-```
-Get-AzSapMonitor -Name <String> -ResourceGroupName <String> [-SubscriptionId <String[]>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
 ### GetViaIdentity
 ```
 Get-AzSapMonitor -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
-### GetViaIdentity1
-```
-Get-AzSapMonitor -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
-### List1
-```
-Get-AzSapMonitor [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -82,7 +66,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -InputObject
@@ -91,7 +74,7 @@ To construct, see NOTES section for INPUTOBJECT properties and create a hash tab
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.IHanaIdentity
-Parameter Sets: GetViaIdentity, GetViaIdentity1
+Parameter Sets: GetViaIdentity
 Aliases:
 
 Required: True
@@ -99,7 +82,6 @@ Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -Name
@@ -107,7 +89,7 @@ Name of the SAP monitor resource.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: Get
 Aliases: SapMonitorName
 
 Required: True
@@ -115,7 +97,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -ResourceGroupName
@@ -123,7 +104,7 @@ Name of the resource group.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: Get
 Aliases:
 
 Required: True
@@ -131,7 +112,6 @@ Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### -SubscriptionId
@@ -140,7 +120,7 @@ The subscription ID forms part of the URI for every service call.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get, Get1, List, List1
+Parameter Sets: Get, List
 Aliases:
 
 Required: False
@@ -148,7 +128,6 @@ Position: Named
 Default value: (Get-AzContext).Subscription.Id
 Accept pipeline input: False
 Accept wildcard characters: False
-Dynamic: False
 ```
 
 ### CommonParameters
@@ -160,19 +139,18 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20171103Preview.ISapMonitor
-
 ### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.ISapMonitor
-
-## ALIASES
 
 ## NOTES
 
-### COMPLEX PARAMETER PROPERTIES
+ALIASES
+
+COMPLEX PARAMETER PROPERTIES
+
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-#### INPUTOBJECT <IHanaIdentity>: Identity Parameter
-  - `[HanaInstanceName <String>]`: Name of the SAP HANA on Azure instance.
+
+INPUTOBJECT <IHanaIdentity>: Identity Parameter
   - `[Id <String>]`: Resource identity path
   - `[ProviderInstanceName <String>]`: Name of the provider instance.
   - `[ResourceGroupName <String>]`: Name of the resource group.
