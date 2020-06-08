@@ -1,6 +1,6 @@
 ---
 Module Name: Az.Hana
-Module Guid: 0ea632e6-c26d-4a75-a392-ba19de08d7a9
+Module Guid: d7331fd4-c760-456f-84fc-3727faa0bbc7
 Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.hana
 Help Version: 1.0.0.0
 Locale: en-US
