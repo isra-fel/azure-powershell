@@ -76,4 +76,9 @@ directive:
   - where:
       subject: HanaInstance
     remove: true
+  # Rename some parameters to follow powershell convention
+  - where:
+      parameter-name: LogAnalyticsWorkspaceArmId
+    set:
+      parameter-name: LogAnalyticsWorkspaceResourceId
 ```
