@@ -57,7 +57,7 @@ module-version: 0.1.0
 title: Hana
 subject-prefix: Sap
 
-# If there are post APIs for some kinds of actions in the RP, you may need to 
+# If there are post APIs for some kinds of actions in the RP, you may need to
 # uncomment following line to support viaIdentity for these post APIs
 # identity-correction-for-post: true
 
@@ -81,4 +81,18 @@ directive:
       parameter-name: LogAnalyticsWorkspaceArmId
     set:
       parameter-name: LogAnalyticsWorkspaceResourceId
+  - where:
+      parameter-name: MonitorSubnet
+    set:
+      parameter-name: MonitorSubnetResourceId
+  # Make location required
+  # Fixme: when service team makes the change, remove this line
+  - from: swagger-document
+    where: $.definitions.TrackedResource
+    transform: $['required'] = ['location']
+  # Hide New-*ProviderInstance for customization
+  - where:
+      verb: New
+      subject: ProviderInstance
+    hide: true
 ```

@@ -14,9 +14,8 @@ Creates a provider instance for the specified subscription, resource group, SapM
 
 ```
 New-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
- [-SubscriptionId <String>] [-Metadata <String>] [-PropertiesType <String>]
- [-ProviderInstanceProperty <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-SubscriptionId <String>] [-Metadata <Hashtable>] [-Property <Hashtable>] [-Type <String>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,23 +23,19 @@ Creates a provider instance for the specified subscription, resource group, SapM
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### -------------------------- EXAMPLE 1 --------------------------
 ```powershell
-PS C:\> {{ Add code here }}
-
-{{ Add output here }}
+{{ Add code here }}
 ```
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-PS C:\> {{ Add code here }}
-
 {{ Add output here }}
+
+### -------------------------- EXAMPLE 2 --------------------------
+```powershell
+{{ Add code here }}
 ```
 
-{{ Add description here }}
+{{ Add output here }}
 
 ## PARAMETERS
 
@@ -78,7 +73,7 @@ Accept wildcard characters: False
 A JSON string containing metadata of the provider instance.
 
 ```yaml
-Type: System.String
+Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -119,26 +114,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PropertiesType
-The type of provider instance.
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProviderInstanceProperty
+### -Property
 A JSON string containing the properties of the provider instance.
 
 ```yaml
-Type: System.String
+Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -191,6 +171,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-AzContext).Subscription.Id
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Type
+The type of provider instance.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

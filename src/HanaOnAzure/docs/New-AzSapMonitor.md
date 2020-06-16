@@ -13,10 +13,10 @@ Creates a SAP monitor for the specified subscription, resource group, and resour
 ## SYNTAX
 
 ```
-New-AzSapMonitor -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
- [-EnableCustomerAnalytic] [-Location <String>] [-LogAnalyticsWorkspaceArmId <String>]
- [-LogAnalyticsWorkspaceId <String>] [-LogAnalyticsWorkspaceSharedKey <String>] [-MonitorSubnet <String>]
- [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
+New-AzSapMonitor -Name <String> -ResourceGroupName <String> -Location <String> [-SubscriptionId <String>]
+ [-EnableCustomerAnalytic] [-LogAnalyticsWorkspaceId <String>] [-LogAnalyticsWorkspaceResourceId <String>]
+ [-LogAnalyticsWorkspaceSharedKey <String>] [-MonitorSubnetResourceId <String>] [-Tag <Hashtable>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -97,15 +97,15 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogAnalyticsWorkspaceArmId
-The ARM ID of the Log Analytics Workspace that is used for monitoring
+### -LogAnalyticsWorkspaceId
+The workspace ID of the log analytics workspace to be used for monitoring
 
 ```yaml
 Type: System.String
@@ -119,8 +119,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogAnalyticsWorkspaceId
-The workspace ID of the log analytics workspace to be used for monitoring
+### -LogAnalyticsWorkspaceResourceId
+The ARM ID of the Log Analytics Workspace that is used for monitoring
 
 ```yaml
 Type: System.String
@@ -149,7 +149,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MonitorSubnet
+### -MonitorSubnetResourceId
 The subnet which the SAP monitor will be deployed in
 
 ```yaml
