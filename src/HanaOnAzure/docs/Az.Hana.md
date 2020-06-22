@@ -1,6 +1,6 @@
 ---
 Module Name: Az.Hana
-Module Guid: 1bad58bb-b41f-43b8-a9a9-0aff6b0ae43e
+Module Guid: 00b42cd2-fc0c-48a7-8f13-dccf9ba752d6
 Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.hana
 Help Version: 1.0.0.0
 Locale: en-US
@@ -14,7 +14,7 @@ Microsoft Azure PowerShell: Hana cmdlets
 ### [Get-AzSapMonitor](Get-AzSapMonitor.md)
 Gets properties of a SAP monitor for the specified subscription, resource group, and resource name.
 
-### [Get-AzSapProviderInstance](Get-AzSapProviderInstance.md)
+### [Get-AzSapMonitorProviderInstance](Get-AzSapMonitorProviderInstance.md)
 Gets properties of a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
 
 ### [New-AzSapMonitor](New-AzSapMonitor.md)
@@ -26,7 +26,7 @@ Creates a provider instance for the specified subscription, resource group, SapM
 ### [Remove-AzSapMonitor](Remove-AzSapMonitor.md)
 Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
 
-### [Remove-AzSapProviderInstance](Remove-AzSapProviderInstance.md)
+### [Remove-AzSapMonitorProviderInstance](Remove-AzSapMonitorProviderInstance.md)
 Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
 
 ### [Update-AzSapMonitor](Update-AzSapMonitor.md)

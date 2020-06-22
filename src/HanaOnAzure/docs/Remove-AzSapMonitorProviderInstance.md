@@ -1,11 +1,11 @@
 ---
 external help file:
 Module Name: Az.Hana
-online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/remove-azsapproviderinstance
+online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/remove-azsapmonitorproviderinstance
 schema: 2.0.0
 ---
 
-# Remove-AzSapProviderInstance
+# Remove-AzSapMonitorProviderInstance
 
 ## SYNOPSIS
 Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
@@ -14,15 +14,15 @@ Deletes a provider instance for the specified subscription, resource group, SapM
 
 ### Delete (Default)
 ```
-Remove-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
+Remove-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
  [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
 ### DeleteViaIdentity
 ```
-Remove-AzSapProviderInstance -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+Remove-AzSapMonitorProviderInstance -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>] [-AsJob]
+ [-NoWait] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

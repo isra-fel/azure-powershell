@@ -1,11 +1,11 @@
 ---
 external help file:
 Module Name: Az.Hana
-online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/get-azsapproviderinstance
+online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/get-azsapmonitorproviderinstance
 schema: 2.0.0
 ---
 
-# Get-AzSapProviderInstance
+# Get-AzSapMonitorProviderInstance
 
 ## SYNOPSIS
 Gets properties of a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
@@ -14,19 +14,20 @@ Gets properties of a provider instance for the specified subscription, resource 
 
 ### List (Default)
 ```
-Get-AzSapProviderInstance -ResourceGroupName <String> -SapMonitorName <String> [-SubscriptionId <String[]>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
+Get-AzSapMonitorProviderInstance -ResourceGroupName <String> -SapMonitorName <String>
+ [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### Get
 ```
-Get-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
+Get-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
  [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### GetViaIdentity
 ```
-Get-AzSapProviderInstance -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>] [<CommonParameters>]
+Get-AzSapMonitorProviderInstance -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
