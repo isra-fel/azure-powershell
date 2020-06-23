@@ -1,7 +1,7 @@
 ---
 external help file:
-Module Name: Az.Hana
-online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/new-azsapmonitor
+Module Name: Az.HanaOnAzure
+online version: https://docs.microsoft.com/en-us/powershell/module/az.hanaonazure/new-azsapmonitor
 schema: 2.0.0
 ---
 
@@ -278,7 +278,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.ISapMonitor
+### Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.ISapMonitor
 
 ## NOTES
 

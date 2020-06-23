@@ -28,55 +28,55 @@ PS C:\> {{ Add code here }}
 {{ Add output here }}
 
 .Outputs
-Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.IProviderInstance
+Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance
 .Link
 https://docs.microsoft.com/en-us/powershell/module/az.hana/new-azsapproviderinstance
 #>
 function New-AzSapProviderInstance {
-    [OutputType([Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.IProviderInstance])]
+    [OutputType([Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance])]
     [CmdletBinding(DefaultParameterSetName = 'CreateExpanded', PositionalBinding = $false, SupportsShouldProcess, ConfirmImpact = 'Medium')]
     param(
         [Parameter(Mandatory)]
         [Alias('ProviderInstanceName')]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Path')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Path')]
         [System.String]
         # Name of the provider instance.
         ${Name},
 
         [Parameter(Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Path')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Path')]
         [System.String]
         # Name of the resource group.
         ${ResourceGroupName},
 
         [Parameter(Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Path')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Path')]
         [System.String]
         # Name of the SAP monitor resource.
         ${SapMonitorName},
 
         [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Path')]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Runtime.DefaultInfo(Script = '(Get-AzContext).Subscription.Id')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Path')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Runtime.DefaultInfo(Script = '(Get-AzContext).Subscription.Id')]
         [System.String]
         # Subscription ID which uniquely identify Microsoft Azure subscription.
         # The subscription ID forms part of the URI for every service call.
         ${SubscriptionId},
 
         [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Body')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.Collections.Hashtable]
         # A JSON string containing metadata of the provider instance.
         ${Metadata},
 
         [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Body')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.String]
         # The type of provider instance.
         ${Type},
 
         [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Body')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.Collections.Hashtable]
         # A JSON string containing the properties of the provider instance.
         ${Property},
@@ -84,58 +84,58 @@ function New-AzSapProviderInstance {
         [Parameter()]
         [Alias('AzureRMContext', 'AzureCredential')]
         [ValidateNotNull()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Azure')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Azure')]
         [System.Management.Automation.PSObject]
         # The credentials, account, tenant, and subscription used for communication with Azure.
         ${DefaultProfile},
 
         [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
         [System.Management.Automation.SwitchParameter]
         # Run the command as a job
         ${AsJob},
 
         [Parameter(DontShow)]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
         [System.Management.Automation.SwitchParameter]
         # Wait for .NET debugger to attach
         ${Break},
 
         [Parameter(DontShow)]
         [ValidateNotNull()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Runtime.SendAsyncStep[]]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Runtime.SendAsyncStep[]]
         # SendAsync Pipeline Steps to be appended to the front of the pipeline
         ${HttpPipelineAppend},
 
         [Parameter(DontShow)]
         [ValidateNotNull()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Runtime.SendAsyncStep[]]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Runtime.SendAsyncStep[]]
         # SendAsync Pipeline Steps to be prepended to the front of the pipeline
         ${HttpPipelinePrepend},
 
         [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
         [System.Management.Automation.SwitchParameter]
         # Run the command asynchronously
         ${NoWait},
 
         [Parameter(DontShow)]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
         [System.Uri]
         # The URI for the proxy server to use
         ${Proxy},
 
         [Parameter(DontShow)]
         [ValidateNotNull()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
         [System.Management.Automation.PSCredential]
         # Credentials for a proxy server to use for the remote call
         ${ProxyCredential},
 
         [Parameter(DontShow)]
-        [Microsoft.Azure.PowerShell.Cmdlets.Hana.Category('Runtime')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Runtime')]
         [System.Management.Automation.SwitchParameter]
         # Use the default credentials for the proxy
         ${ProxyUseDefaultCredentials}

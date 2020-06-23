@@ -1,16 +1,16 @@
 ---
-Module Name: Az.Hana
-Module Guid: 00b42cd2-fc0c-48a7-8f13-dccf9ba752d6
-Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.hana
+Module Name: Az.HanaOnAzure
+Module Guid: 8dd81625-4557-439d-9676-6950dd853b00
+Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.hanaonazure
 Help Version: 1.0.0.0
 Locale: en-US
 ---
 
-# Az.Hana Module
+# Az.HanaOnAzure Module
 ## Description
-Microsoft Azure PowerShell: Hana cmdlets
+Microsoft Azure PowerShell: HanaOn cmdlets
 
-## Az.Hana Cmdlets
+## Az.HanaOnAzure Cmdlets
 ### [Get-AzSapMonitor](Get-AzSapMonitor.md)
 Gets properties of a SAP monitor for the specified subscription, resource group, and resource name.
 

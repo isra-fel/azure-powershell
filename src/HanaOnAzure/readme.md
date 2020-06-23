@@ -1,10 +1,10 @@
 <!-- region Generated -->
-# Az.Hana
-This directory contains the PowerShell module for the Hana service.
+# Az.HanaOnAzure
+This directory contains the PowerShell module for the HanaOn service.
 
 ---
 ## Status
-[![Az.Hana](https://img.shields.io/powershellgallery/v/Az.Hana.svg?style=flat-square&label=Az.Hana "Az.Hana")](https://www.powershellgallery.com/packages/Az.Hana/)
+[![Az.HanaOnAzure](https://img.shields.io/powershellgallery/v/Az.HanaOnAzure.svg?style=flat-square&label=Az.HanaOnAzure "Az.HanaOnAzure")](https://www.powershellgallery.com/packages/Az.HanaOnAzure/)
 
 ## Info
 - Modifiable: yes
@@ -23,7 +23,7 @@ This module was primarily generated via [AutoRest](https://github.com/Azure/auto
 AutoRest does not generate authentication code for the module. Authentication is handled via Az.Accounts by altering the HTTP payload before it is sent.
 
 ## Development
-For information on how to develop for `Az.Hana`, see [how-to.md](how-to.md).
+For information on how to develop for `Az.HanaOnAzure`, see [how-to.md](how-to.md).
 <!-- endregion -->
 
 ---
@@ -54,7 +54,10 @@ require:
 # For new RP, the version is 0.1.0
 module-version: 0.1.0
 # Normally, title is the service name
-title: Hana
+title: HanaOnAzure
+# Autorest will remove "Azure" in the generated module, resulting "Az.HanaOn"
+# A work-around is to specify "service-name", which is of higher priority when calc the module name
+service-name: HanaOnAzure
 subject-prefix: SapMonitor
 
 # If there are post APIs for some kinds of actions in the RP, you may need to

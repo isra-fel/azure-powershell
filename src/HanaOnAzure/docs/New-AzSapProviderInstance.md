@@ -1,6 +1,6 @@
 ---
 external help file:
-Module Name: Az.Hana
+Module Name: Az.HanaOnAzure
 online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/new-azsapproviderinstance
 schema: 2.0.0
 ---
@@ -232,7 +232,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.IProviderInstance
+### Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance
 
 ## NOTES
 

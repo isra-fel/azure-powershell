@@ -1,7 +1,7 @@
 ---
 external help file:
-Module Name: Az.Hana
-online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/get-azsapmonitorproviderinstance
+Module Name: Az.HanaOnAzure
+online version: https://docs.microsoft.com/en-us/powershell/module/az.hanaonazure/get-azsapmonitorproviderinstance
 schema: 2.0.0
 ---
 
@@ -26,7 +26,7 @@ Get-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -Sap
 
 ### GetViaIdentity
 ```
-Get-AzSapMonitorProviderInstance -InputObject <IHanaIdentity> [-DefaultProfile <PSObject>]
+Get-AzSapMonitorProviderInstance -InputObject <IHanaOnAzureIdentity> [-DefaultProfile <PSObject>]
  [<CommonParameters>]
 ```
 
@@ -75,7 +75,7 @@ Identity Parameter
 To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.IHanaIdentity
+Type: Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.IHanaOnAzureIdentity
 Parameter Sets: GetViaIdentity
 Aliases:
 
@@ -152,11 +152,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.IHanaIdentity
+### Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.IHanaOnAzureIdentity
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Hana.Models.Api20200207Preview.IProviderInstance
+### Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance
 
 ## NOTES
 
@@ -167,7 +167,7 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IHanaIdentity>: Identity Parameter
+INPUTOBJECT <IHanaOnAzureIdentity>: Identity Parameter
   - `[Id <String>]`: Resource identity path
   - `[ProviderInstanceName <String>]`: Name of the provider instance.
   - `[ResourceGroupName <String>]`: Name of the resource group.
