@@ -34,7 +34,7 @@ https://docs.microsoft.com/en-us/powershell/module/az.hana/new-azsapproviderinst
 #>
 function New-AzSapProviderInstance {
     [OutputType([Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance])]
-    [CmdletBinding(DefaultParameterSetName = 'CreateExpanded', PositionalBinding = $false, SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'ByString', PositionalBinding = $false, SupportsShouldProcess, ConfirmImpact = 'Medium')]
     param(
         [Parameter(Mandatory)]
         [Alias('ProviderInstanceName')]
@@ -69,17 +69,57 @@ function New-AzSapProviderInstance {
         # A JSON string containing metadata of the provider instance.
         ${Metadata},
 
-        [Parameter()]
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.String]
-        # The type of provider instance.
+        # The type of provider instance. Supported values are: "SapHana".
         ${Type},
 
-        [Parameter()]
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
-        [System.Collections.Hashtable]
-        # A JSON string containing the properties of the provider instance.
-        ${Property},
+        [System.String]
+        # The hostname of SAP HANA instance.
+        ${HanaHostname},
+
+        [Parameter(Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
+        [System.String]
+        # The database name of SAP HANA instance.
+        ${HanaDatabaseName},
+
+        [Parameter(Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
+        [System.String]
+        # The SQL port of the database of SAP HANA instance.
+        ${HanaDatabaseSqlPort},
+
+        [Parameter(Mandatory)]
+        [Alias('HanaDbUsername')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
+        [System.String]
+        # The username of the database of SAP HANA instance.
+        ${HanaDatabaseUsername},
+
+        [Parameter(ParameterSetName = 'ByString', Mandatory)]
+        [Alias('HanaDbPassword')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
+        [SecureString]
+        # The password of the database of SAP HANA instance.
+        ${HanaDatabasePassword},
+
+        [Parameter(ParameterSetName = 'ByKeyVault', Mandatory)]
+        [Alias('HanaDbPasswordKeyVaultUrl', 'KeyVaultUrl')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
+        [System.String]
+        # URL (DNS name) to the Key Vault secret that contains the HANA credentials.
+        ${HanaDatabasePasswordKeyVaultUrl},
+
+        [Parameter(ParameterSetName = 'ByKeyVault', Mandatory)]
+        [Alias('HanaDbPasswordSecretId', 'SecretId')]
+        [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
+        [System.String]
+        # Secret identifier to the Key Vault secret that contains the HANA credentials.
+        ${HanaDatabasePasswordSecretId},
 
         [Parameter()]
         [Alias('AzureRMContext', 'AzureCredential')]

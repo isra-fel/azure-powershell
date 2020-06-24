@@ -12,10 +12,22 @@ Creates a provider instance for the specified subscription, resource group, SapM
 
 ## SYNTAX
 
+### ByString (Default)
 ```
 New-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
- [-SubscriptionId <String>] [-Metadata <Hashtable>] [-Property <Hashtable>] [-Type <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
+ -HanaDatabaseName <String> -HanaDatabasePassword <SecureString> -HanaDatabaseSqlPort <String>
+ -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String> [-SubscriptionId <String>]
+ [-Metadata <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### ByKeyVault
+```
+New-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
+ -HanaDatabaseName <String> -HanaDatabasePasswordKeyVaultUrl <String> -HanaDatabasePasswordSecretId <String>
+ -HanaDatabaseSqlPort <String> -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String>
+ [-SubscriptionId <String>] [-Metadata <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm]
+ [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -73,6 +85,111 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -HanaDatabaseName
+The database name of SAP HANA instance.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HanaDatabasePassword
+The password of the database of SAP HANA instance.
+
+```yaml
+Type: System.Security.SecureString
+Parameter Sets: ByString
+Aliases: HanaDbPassword
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HanaDatabasePasswordKeyVaultUrl
+URL (DNS name) to the Key Vault secret that contains the HANA credentials.
+
+```yaml
+Type: System.String
+Parameter Sets: ByKeyVault
+Aliases: HanaDbPasswordKeyVaultUrl, KeyVaultUrl
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HanaDatabasePasswordSecretId
+Secret identifier to the Key Vault secret that contains the HANA credentials.
+
+```yaml
+Type: System.String
+Parameter Sets: ByKeyVault
+Aliases: HanaDbPasswordSecretId, SecretId
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HanaDatabaseSqlPort
+The SQL port of the database of SAP HANA instance.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HanaDatabaseUsername
+The username of the database of SAP HANA instance.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases: HanaDbUsername
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HanaHostname
+The hostname of SAP HANA instance.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Metadata
 A JSON string containing metadata of the provider instance.
 
@@ -108,21 +225,6 @@ Run the command asynchronously
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Property
-A JSON string containing the properties of the provider instance.
-
-```yaml
-Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -181,13 +283,14 @@ Accept wildcard characters: False
 
 ### -Type
 The type of provider instance.
+Supported values are: "SapHana".
 
 ```yaml
 Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

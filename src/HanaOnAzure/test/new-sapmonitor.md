@@ -1,27 +1,31 @@
 ## Create a VM
-See https://microsoft.sharepoint.com/:w:/t/AzureManagementExperience/Eajmg9KCQMdDp-f9tAbDSV0BscCBH0CHzdsUZyPrr9N2OA?e=IAtyum
-See https://developers.sap.com/tutorials/hxe-ms-azure-marketplace-getting-started.html#4284bae7-0fc9-4e74-aa4a-a04b2551d282
+~~See https://microsoft.sharepoint.com/:w:/t/AzureManagementExperience/Eajmg9KCQMdDp-f9tAbDSV0BscCBH0CHzdsUZyPrr9N2OA?e=IAtyum~~
 
-## Create a log analytic workspace
+~~See https://developers.sap.com/tutorials/hxe-ms-azure-marketplace-getting-started.html#4284bae7-0fc9-4e74-aa4a-a04b2551d282~~
 
-How to create a workspace by cmdlet?
+It's very difficult to deploy a HANA instance. Please use this one for testing:
 
-## Create a sap monitor workspace
-New-AzSapMonitor -Name yeming -ResourceGroupName yeminghana -Location southeastasia -EnableCustomerAnalytic -LogAnalyticsWorkspaceResourceId /subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.OperationalInsights/workspaces/yeminghana -LogAnalyticsWorkspaceId 0d877a81-36aa-4fb2-a88f-d2ee5c1d78da -LogAnalyticsWorkspaceSharedKey Vbl08OhtiISsF/4w5b74IBdWDVzz1/v5XEwKrVvBZaiog7aB4isAA2+4lsDvhtZZGblFl9SYO0Py2/t5JbCgNA==
+Subscription: 9e223dbe-3399-4e19-88eb-0975f02ac87f
+ResourceGroup: nancyc-hn1
+Location: westus2
 
-New-AzSapMonitor -Name yeming -ResourceGroupName yeminghana -Location southeastasia -EnableCustomerAnalytic -LogAnalyticsWorkspaceResourceId /subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.OperationalInsights/workspaces/yeminghana -LogAnalyticsWorkspaceId 0d877a81-36aa-4fb2-a88f-d2ee5c1d78da -LogAnalyticsWorkspaceSharedKey Vbl08OhtiISsF/4w5b74IBdWDVzz1/v5XEwKrVvBZaiog7aB4isAA2+4lsDvhtZZGblFl9SYO0Py2/t5JbCgNA== -MonitorSubnet "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.Network/virtualNetworks/yeminghana/subnets/default"
+## Create a log analytic workspace (Operational Insights workspace)
 
-New-AzSapMonitor -Name yeming -ResourceGroupName yeminghana -Location southeastasia -EnableCustomerAnalytic -MonitorSubnet "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.Network/virtualNetworks/yeminghana/subnets/default"
-OK
+```powershell
+New-AzOperationalInsightsWorkspace -ResourceGroupName nancyc-hn1 -Name yeminglaw -Location westus2
+```
 
-logAnalyticsWorkspaceSharedKey can be get by a cmdlet?
+## Create a sap monitor and a provider instance
 
-az sapmonitor create --resource-group yeminghana --subscription 9e223dbe-3399-4e19-88eb-0975f02ac87f --monitor-name yemingcli --region southeastasia --hana-subnet  "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.Network/virtualNetworks/yeminghana/subnets/default" --log-analytics-workspace-arm-id "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.OperationalInsights/workspaces/yeminghana" --debug
-OK
+```powershell
+New-AzSapMonitor -Name yemingmonitor -ResourceGroupName nancyc-hn1 -Location westus2 -EnableCustomerAnalytic -MonitorSubnet "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin" -LogAnalyticsWorkspaceSharedKey O5IXp1MjlFqACcRNRASv3SYwQTlw+wJyrZCaX230c3/8WyWpNHct84z0L/8F1NEfRsqqjIZh+yV9aOboZX6yAA== -LogAnalyticsWorkspaceId fdeceea9-46c7-424c-8d1e-808471a2ccf4 -LogAnalyticsWorkspaceResourceId "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw"
 
-New-AzSapMonitor -Name yemingmonitor -ResourceGroupName nancyc-hn1 -Location westus2 -EnableCustomerAnalytic -MonitorSubnet "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-db-a" -LogAnalyticsWorkspaceSharedKey O5IXp1MjlFqACcRNRASv3SYwQTlw+wJyrZCaX230c3/8WyWpNHct84z0L/8F1NEfRsqqjIZh+yV9aOboZX6yAA== -LogAnalyticsWorkspaceId fdeceea9-46c7-424c-8d1e-808471a2ccf4 -LogAnalyticsWorkspaceResourceId "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw"
-Fail
+New-AzSapMonitorProviderInstance -Name "yeminginstance" -ResourceGroupName "nancyc-hn1" -SapMonitorName "yemingmonitor" -PropertiesType "SapHana" -ProviderInstanceProperty '{"hanaHostname":"hdb1-0","hanaDbName":"SYSTEMDB","hanaDbSqlPort":30015,"hanaDbUsername":"SYSTEM","hanaDbPassword":"Manager1"}'
+```
 
+1. LogAnalyticsWorkspaceSharedKey can be get by `Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroupName nancyc-hn1 -Name yeminglaw` (use PrimarySharedKey)
+1. The subnet must be the subnet of the hana instance (you can navigate to the vm and see its subnet in networking properties)
 
-az sapmonitor create --resource-group nancyc-hn1 --subscription 9e223dbe-3399-4e19-88eb-0975f02ac87f --monitor-name yemingmonitor --region westus2 --hana-subnet  "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-db-a" --log-analytics-workspace-arm-id "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw" --debug --hana-db-password "Manager1" --hana-hostname "hdb1-0" --hana-db-name "SYSTEMDB" --hana-db-username "SYSTEM"
-Fail
+## Notes
+
+1. When writing docs, use `SAP` instead of `sap` or `Sap`; use `HANA` instead of `Hana` or `hana`.
