@@ -29,3 +29,18 @@ New-AzSapMonitorProviderInstance -Name "yeminginstance" -ResourceGroupName "nanc
 ## Notes
 
 1. When writing docs, use `SAP` instead of `sap` or `Sap`; use `HANA` instead of `Hana` or `hana`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)

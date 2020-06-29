@@ -32,9 +32,11 @@ Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProvid
 .Link
 https://docs.microsoft.com/en-us/powershell/module/az.hana/new-azsapproviderinstance
 #>
-function New-AzSapProviderInstance {
+function New-AzSapMonitorProviderInstance {
     [OutputType([Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance])]
     [CmdletBinding(DefaultParameterSetName = 'ByString', PositionalBinding = $false, SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'HanaDatabasePasswordKeyVaultUrl', Justification = 'Not a password')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'HanaDatabasePasswordSecretId', Justification = 'Not a password')]
     param(
         [Parameter(Mandatory)]
         [Alias('ProviderInstanceName')]
@@ -82,14 +84,16 @@ function New-AzSapProviderInstance {
         ${HanaHostname},
 
         [Parameter(Mandatory)]
+        [Alias('HanaDbName')]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.String]
         # The database name of SAP HANA instance.
         ${HanaDatabaseName},
 
         [Parameter(Mandatory)]
+        [Alias('HanaDbSqlPort')]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
-        [System.String]
+        [System.Int32]
         # The SQL port of the database of SAP HANA instance.
         ${HanaDatabaseSqlPort},
 
@@ -182,6 +186,27 @@ function New-AzSapProviderInstance {
     )
 
     process {
+        $null = $PSBoundParameters.Remove('HanaHostname')
+        $null = $PSBoundParameters.Remove('HanaDatabaseName')
+        $null = $PSBoundParameters.Remove('HanaDatabaseSqlPort')
+        $null = $PSBoundParameters.Remove('HanaDatabaseUsername')
+        $parameterSet = $PSCmdlet.ParameterSetName
+        switch ($parameterSet) {
+            'ByString' {
+                $null = $PSBoundParameters.Remove('HanaDatabasePassword')
+                $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
+                $property = @{
+                    hanaHostname   = $HanaHostname
+                    hanaDbName     = $HanaDatabaseName
+                    hanaDbSqlPort  = $HanaDatabaseSqlPort
+                    hanaDbUsername = $HanaDatabaseUsername
+                    hanaDbPassword = ConvertFrom-SecureString $HanaDatabasePassword -AsPlainText
+                }
+                $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))
+            }
+            'ByKeyVault' {  }
+        }
+        Az.HanaOnAzure.internal\New-AzSapMonitorProviderInstance @PSBoundParameters
     }
 
 }

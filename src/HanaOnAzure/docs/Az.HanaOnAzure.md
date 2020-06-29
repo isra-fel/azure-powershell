@@ -1,6 +1,6 @@
 ---
 Module Name: Az.HanaOnAzure
-Module Guid: e019ba41-335e-4451-bd58-c5129de4195d
+Module Guid: 3383804f-53ee-434a-b845-06e622cb8e3e
 Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.hanaonazure
 Help Version: 1.0.0.0
 Locale: en-US
@@ -20,7 +20,7 @@ Gets properties of a provider instance for the specified subscription, resource 
 ### [New-AzSapMonitor](New-AzSapMonitor.md)
 Creates a SAP monitor for the specified subscription, resource group, and resource name.
 
-### [New-AzSapProviderInstance](New-AzSapProviderInstance.md)
+### [New-AzSapMonitorProviderInstance](New-AzSapMonitorProviderInstance.md)
 Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
 
 ### [Remove-AzSapMonitor](Remove-AzSapMonitor.md)

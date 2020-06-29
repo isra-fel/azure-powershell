@@ -5,7 +5,7 @@ online version: https://docs.microsoft.com/en-us/powershell/module/az.hana/new-a
 schema: 2.0.0
 ---
 
-# New-AzSapProviderInstance
+# New-AzSapMonitorProviderInstance
 
 ## SYNOPSIS
 Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
@@ -14,8 +14,8 @@ Creates a provider instance for the specified subscription, resource group, SapM
 
 ### ByString (Default)
 ```
-New-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
- -HanaDatabaseName <String> -HanaDatabasePassword <SecureString> -HanaDatabaseSqlPort <String>
+New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
+ -HanaDatabaseName <String> -HanaDatabasePassword <SecureString> -HanaDatabaseSqlPort <Int32>
  -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String> [-SubscriptionId <String>]
  [-Metadata <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
@@ -23,9 +23,9 @@ New-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitor
 
 ### ByKeyVault
 ```
-New-AzSapProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
+New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
  -HanaDatabaseName <String> -HanaDatabasePasswordKeyVaultUrl <String> -HanaDatabasePasswordSecretId <String>
- -HanaDatabaseSqlPort <String> -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String>
+ -HanaDatabaseSqlPort <Int32> -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String>
  [-SubscriptionId <String>] [-Metadata <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm]
  [-WhatIf] [<CommonParameters>]
 ```
@@ -91,7 +91,7 @@ The database name of SAP HANA instance.
 ```yaml
 Type: System.String
 Parameter Sets: (All)
-Aliases:
+Aliases: HanaDbName
 
 Required: True
 Position: Named
@@ -149,9 +149,9 @@ Accept wildcard characters: False
 The SQL port of the database of SAP HANA instance.
 
 ```yaml
-Type: System.String
+Type: System.Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: HanaDbSqlPort
 
 Required: True
 Position: Named

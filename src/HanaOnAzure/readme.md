@@ -88,6 +88,11 @@ directive:
       parameter-name: MonitorSubnet
     set:
       parameter-name: MonitorSubnetResourceId
+  - where:
+      parameter-name: PropertiesType
+    set:
+      parameter-name: Type
+
   # Make location required
   # Fixme: when service team makes the change, remove this line
   - from: swagger-document
