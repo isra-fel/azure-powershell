@@ -90,7 +90,7 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-The Azure Region where the resource lives
+The geo-location where the resource lives
 
 ```yaml
 Type: System.String

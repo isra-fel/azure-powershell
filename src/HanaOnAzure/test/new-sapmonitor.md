@@ -26,6 +26,7 @@ New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginsta
 
 1. When writing docs, use `SAP` instead of `sap` or `Sap`; use `HANA` instead of `Hana` or `hana`.
 
+New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM
 
 
 
@@ -39,3 +40,4 @@ New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginsta
 
 
 
+New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId https://yemingtemp.vault.azure.net/secrets/yemingtemp/c9af859df2944edb97225eb65dd60499 -HanaDbPasswordKeyVaultUrl /subscriptions/c9cbd920-c00c-427c-852b-8aaf38badaeb/resourceGroups/yemingtemp/providers/Microsoft.KeyVault/vaults/yemingtemp

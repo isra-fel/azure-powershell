@@ -186,6 +186,8 @@ function New-AzSapMonitorProviderInstance {
     )
 
     process {
+        $hasAsJob = $PSBoundParameters.Remove('AsJob')
+
         $null = $PSBoundParameters.Remove('HanaHostname')
         $null = $PSBoundParameters.Remove('HanaDatabaseName')
         $null = $PSBoundParameters.Remove('HanaDatabaseSqlPort')
@@ -194,7 +196,6 @@ function New-AzSapMonitorProviderInstance {
         switch ($parameterSet) {
             'ByString' {
                 $null = $PSBoundParameters.Remove('HanaDatabasePassword')
-                $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
                 $property = @{
                     hanaHostname   = $HanaHostname
                     hanaDbName     = $HanaDatabaseName
@@ -202,11 +203,70 @@ function New-AzSapMonitorProviderInstance {
                     hanaDbUsername = $HanaDatabaseUsername
                     hanaDbPassword = ConvertFrom-SecureString $HanaDatabasePassword -AsPlainText
                 }
-                $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))
             }
-            'ByKeyVault' {  }
+            'ByKeyVault' {
+                # https://github.com/Azure/azure-hanaonazure-cli-extension/blob/master/azext_hanaonazure/custom.py#L312-L338
+                $null = $PSBoundParameters.Remove('Name')
+                $null = $PSBoundParameters.Remove('ResourceGroupName')
+                $null = $PSBoundParameters.Remove('SapMonitorName')
+                $null = $PSBoundParameters.Remove('Metadata')
+                $null = $PSBoundParameters.Remove('Type')
+                $null = $PSBoundParameters.Remove('HanaDatabasePasswordSecretId')
+                $null = $PSBoundParameters.Remove('HanaDatabasePasswordKeyVaultUrl')
+
+                $sapMonitor = Get-AzSapMonitor -ResourceGroupName $ResourceGroupName -Name $SapMonitorName @PSBoundParameters
+                $managedResourceGroupName = $sapMonitor.ManagedResourceGroupName
+                $sapMonitorId = $managedResourceGroupName.Split("-")[2]
+
+                $msiName = "sapmon-msi-$sapMonitorId"
+                $msi = Az.HanaOnAzure.internal\Get-AzUserAssignedIdentity -ResourceGroupName $managedResourceGroupName -ResourceName $msiName @PSBoundParameters
+
+                $HanaDatabasePasswordKeyVaultUrl -match "^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.KeyVault/vaults/(?<vaultName>[^/]+)$"
+                $vaultSubscriptionId = $Matches['subscriptionId']
+                $vaultResourceGroupName = $Matches['resourceGroupName']
+                $vaultName = $Matches['vaultName']
+
+                # Need to use vault's sub ID
+                $null = $PSBoundParameters.Remove('SubscriptionId')
+                $null = Az.HanaOnAzure.internal\Set-AzVaultAccessPolicy -OperationKind add -ResourceGroupName $vaultResourceGroupName -VaultName $vaultName -SubscriptionId $vaultSubscriptionId -AccessPolicy @{
+                    ObjectId         = $msi.PrincipalId
+                    TenantId         = (Get-AzContext).Tenant.Id
+                    PermissionSecret = 'get'
+                } @PSBoundParameters
+                $PSBoundParameters.Add('SubscriptionId', $SubscriptionId)
+
+                $property = @{
+                    hanaHostname              = $HanaHostname
+                    hanaDbName                = $HanaDatabaseName
+                    hanaDbSqlPort             = $HanaDatabaseSqlPort
+                    hanaDbUsername            = $HanaDatabaseUsername
+                    hanaDbPasswordKeyVaultUrl = $HanaDatabasePasswordSecretId
+                    keyVaultId                = $HanaDatabasePasswordKeyVaultUrl # key vualt id is keyvault resource id
+                    # keyVaultCredentialsMsiClientID = '09889110-8df8-45a0-8695-ce86d1046f49'
+                }
+            }
         }
+        $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
+        $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))
+        $PSBoundParameters.Add('Name', $Name)
+        $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
+        $PSBoundParameters.Add('SapMonitorName', $SapMonitorName)
+        $PSBoundParameters.Add('Type', $Type)
         Az.HanaOnAzure.internal\New-AzSapMonitorProviderInstance @PSBoundParameters
     }
-
 }
+
+# function Get-ExtraParameters {
+#     param (
+#         $boundParameters
+#     )
+#     @{
+#         DefaultProfile             = $boundParameters.DefaultProfile
+#         Break                      = $boundParameters.Break
+#         HttpPipelinePrepend        = $boundParameters.HttpPipelinePrepend
+#         NoWait                     = $boundParameters.NoWait
+#         Proxy                      = $boundParameters.Proxy
+#         ProxyCredential            = $boundParameters.ProxyCredential
+#         ProxyUseDefaultCredentials = $boundParameters.ProxyUseDefaultCredentials
+#     }
+# }

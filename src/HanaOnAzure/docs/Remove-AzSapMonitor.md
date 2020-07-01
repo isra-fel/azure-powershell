@@ -224,10 +224,15 @@ To create the parameters described below, construct a hash table containing the 
 
 INPUTOBJECT <IHanaOnAzureIdentity>: Identity Parameter
   - `[Id <String>]`: Resource identity path
+  - `[Location <String>]`: The location of the deleted vault.
+  - `[OperationKind <AccessPolicyUpdateKind?>]`: Name of the operation
   - `[ProviderInstanceName <String>]`: Name of the provider instance.
   - `[ResourceGroupName <String>]`: Name of the resource group.
+  - `[ResourceName <String>]`: The name of the identity resource.
   - `[SapMonitorName <String>]`: Name of the SAP monitor resource.
+  - `[Scope <String>]`: The resource provider scope of the resource. Parent resource being extended by Managed Identities.
   - `[SubscriptionId <String>]`: Subscription ID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  - `[VaultName <String>]`: Name of the vault
 
 ## RELATED LINKS
 

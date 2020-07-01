@@ -74,6 +74,8 @@ directive:
   # Remove the set-* cmdlet, update-* is enough
   - where:
       verb: Set
+      # But do not remove set-* from key vault, that is needed
+      subject: ^SapMonitor$|^ProviderInstance$|^HanaInstance$
     remove: true
   # Remove commands of Hana instance, which need to be reconsidered
   - where:
@@ -103,4 +105,20 @@ directive:
       verb: New
       subject: ProviderInstance
     hide: true
+```
+
+``` yaml
+# ManagedIdentity and KeyVault is required when creating provider instance
+require:
+  - $(this-folder)/../helpers/ManagedIdentity/readme.noprofile.md
+  - $(this-folder)/../helpers/KeyVault/readme.noprofile.md
+
+directive:
+  #  remove unneeded cmdlets
+  - where:
+      subject: ^VaultDeleted$|^Vault$|^VaultNameAvailability$
+    remove: true
+  - where:
+      subject: ^SystemAssignedIdentity$
+    remove: true
 ```
