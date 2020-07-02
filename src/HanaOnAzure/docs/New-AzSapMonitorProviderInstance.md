@@ -24,10 +24,10 @@ New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -Sap
 ### ByKeyVault
 ```
 New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
- -HanaDatabaseName <String> -HanaDatabasePasswordKeyVaultUrl <String> -HanaDatabasePasswordSecretId <String>
- -HanaDatabaseSqlPort <Int32> -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String>
- [-SubscriptionId <String>] [-Metadata <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm]
- [-WhatIf] [<CommonParameters>]
+ -HanaDatabaseName <String> -HanaDatabasePasswordKeyVaultResourceId <String>
+ -HanaDatabasePasswordSecretId <String> -HanaDatabaseSqlPort <Int32> -HanaDatabaseUsername <String>
+ -HanaHostname <String> -Type <String> [-SubscriptionId <String>] [-Metadata <Hashtable>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -115,13 +115,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -HanaDatabasePasswordKeyVaultUrl
-URL (DNS name) to the Key Vault secret that contains the HANA credentials.
+### -HanaDatabasePasswordKeyVaultResourceId
+Resource ID of the Key Vault that contains the HANA credentials.
 
 ```yaml
 Type: System.String
 Parameter Sets: ByKeyVault
-Aliases: HanaDbPasswordKeyVaultUrl, KeyVaultUrl
+Aliases: HanaDbPasswordKeyVaultId, KeyVaultId
 
 Required: True
 Position: Named

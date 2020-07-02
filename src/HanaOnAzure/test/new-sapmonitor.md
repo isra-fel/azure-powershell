@@ -14,9 +14,13 @@ New-AzOperationalInsightsWorkspace -ResourceGroupName nancyc-hn1 -Name yeminglaw
 ## Create a sap monitor and a provider instance
 
 ```powershell
-New-AzSapMonitor -Name yemingmonitor -ResourceGroupName nancyc-hn1 -Location westus2 -EnableCustomerAnalytic -MonitorSubnet "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin" -LogAnalyticsWorkspaceSharedKey O5IXp1MjlFqACcRNRASv3SYwQTlw+wJyrZCaX230c3/8WyWpNHct84z0L/8F1NEfRsqqjIZh+yV9aOboZX6yAA== -LogAnalyticsWorkspaceId fdeceea9-46c7-424c-8d1e-808471a2ccf4 -LogAnalyticsWorkspaceResourceId "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw"
+New-AzSapMonitor -Name yemingmonitortest -ResourceGroupName nancyc-hn1 -Location westus2 -EnableCustomerAnalytic -MonitorSubnet "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin" -LogAnalyticsWorkspaceSharedKey O5IXp1MjlFqACcRNRASv3SYwQTlw+wJyrZCaX230c3/8WyWpNHct84z0L/8F1NEfRsqqjIZh+yV9aOboZX6yAA== -LogAnalyticsWorkspaceId fdeceea9-46c7-424c-8d1e-808471a2ccf4 -LogAnalyticsWorkspaceResourceId "/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw"
 
+# new provider, plain password
 New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
+
+# new provider, password stored in key vault
+New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstancetest -SapMonitorName yemingmonitortest -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId https://yeminghana.vault.azure.net/secrets/psw/cb7e620d72c34d9e940ebdcf178e585b -HanaDatabasePasswordKeyVaultResourceId /subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.KeyVault/vaults/yeminghana
 ```
 
 1. LogAnalyticsWorkspaceSharedKey can be get by `Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroupName nancyc-hn1 -Name yeminglaw` (use PrimarySharedKey)
@@ -26,7 +30,6 @@ New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginsta
 
 1. When writing docs, use `SAP` instead of `sap` or `Sap`; use `HANA` instead of `Hana` or `hana`.
 
-New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM
 
 
 
@@ -40,4 +43,3 @@ New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginsta
 
 
 
-New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId https://yemingtemp.vault.azure.net/secrets/yemingtemp/c9af859df2944edb97225eb65dd60499 -HanaDbPasswordKeyVaultUrl /subscriptions/c9cbd920-c00c-427c-852b-8aaf38badaeb/resourceGroups/yemingtemp/providers/Microsoft.KeyVault/vaults/yemingtemp

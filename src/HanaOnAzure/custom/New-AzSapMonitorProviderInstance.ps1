@@ -35,7 +35,7 @@ https://docs.microsoft.com/en-us/powershell/module/az.hana/new-azsapproviderinst
 function New-AzSapMonitorProviderInstance {
     [OutputType([Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Models.Api20200207Preview.IProviderInstance])]
     [CmdletBinding(DefaultParameterSetName = 'ByString', PositionalBinding = $false, SupportsShouldProcess, ConfirmImpact = 'Medium')]
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'HanaDatabasePasswordKeyVaultUrl', Justification = 'Not a password')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'HanaDatabasePasswordKeyVaultResourceId', Justification = 'Not a password')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'HanaDatabasePasswordSecretId', Justification = 'Not a password')]
     param(
         [Parameter(Mandatory)]
@@ -112,11 +112,11 @@ function New-AzSapMonitorProviderInstance {
         ${HanaDatabasePassword},
 
         [Parameter(ParameterSetName = 'ByKeyVault', Mandatory)]
-        [Alias('HanaDbPasswordKeyVaultUrl', 'KeyVaultUrl')]
+        [Alias('HanaDbPasswordKeyVaultId', 'KeyVaultId')]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.String]
-        # URL (DNS name) to the Key Vault secret that contains the HANA credentials.
-        ${HanaDatabasePasswordKeyVaultUrl},
+        # Resource ID of the Key Vault that contains the HANA credentials.
+        ${HanaDatabasePasswordKeyVaultResourceId},
 
         [Parameter(ParameterSetName = 'ByKeyVault', Mandatory)]
         [Alias('HanaDbPasswordSecretId', 'SecretId')]
@@ -192,6 +192,9 @@ function New-AzSapMonitorProviderInstance {
         $null = $PSBoundParameters.Remove('HanaDatabaseName')
         $null = $PSBoundParameters.Remove('HanaDatabaseSqlPort')
         $null = $PSBoundParameters.Remove('HanaDatabaseUsername')
+        $null = $PSBoundParameters.Remove('WhatIf')
+        $null = $PSBoundParameters.Remove('Confirm')
+
         $parameterSet = $PSCmdlet.ParameterSetName
         switch ($parameterSet) {
             'ByString' {
@@ -205,6 +208,7 @@ function New-AzSapMonitorProviderInstance {
                 }
             }
             'ByKeyVault' {
+                # Referencing to CLI's implementation
                 # https://github.com/Azure/azure-hanaonazure-cli-extension/blob/master/azext_hanaonazure/custom.py#L312-L338
                 $null = $PSBoundParameters.Remove('Name')
                 $null = $PSBoundParameters.Remove('ResourceGroupName')
@@ -212,8 +216,9 @@ function New-AzSapMonitorProviderInstance {
                 $null = $PSBoundParameters.Remove('Metadata')
                 $null = $PSBoundParameters.Remove('Type')
                 $null = $PSBoundParameters.Remove('HanaDatabasePasswordSecretId')
-                $null = $PSBoundParameters.Remove('HanaDatabasePasswordKeyVaultUrl')
+                $null = $PSBoundParameters.Remove('HanaDatabasePasswordKeyVaultResourceId')
 
+                # 1. Get MSI
                 $sapMonitor = Get-AzSapMonitor -ResourceGroupName $ResourceGroupName -Name $SapMonitorName @PSBoundParameters
                 $managedResourceGroupName = $sapMonitor.ManagedResourceGroupName
                 $sapMonitorId = $managedResourceGroupName.Split("-")[2]
@@ -221,12 +226,13 @@ function New-AzSapMonitorProviderInstance {
                 $msiName = "sapmon-msi-$sapMonitorId"
                 $msi = Az.HanaOnAzure.internal\Get-AzUserAssignedIdentity -ResourceGroupName $managedResourceGroupName -ResourceName $msiName @PSBoundParameters
 
-                $HanaDatabasePasswordKeyVaultUrl -match "^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.KeyVault/vaults/(?<vaultName>[^/]+)$"
+                # 2. Grant key vault access to MSI
+                $null = $HanaDatabasePasswordKeyVaultResourceId -match "^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.KeyVault/vaults/(?<vaultName>[^/]+)$"
                 $vaultSubscriptionId = $Matches['subscriptionId']
                 $vaultResourceGroupName = $Matches['resourceGroupName']
                 $vaultName = $Matches['vaultName']
 
-                # Need to use vault's sub ID
+                # Need to use vault's sub ID, not the sub ID of this cmdlet
                 $null = $PSBoundParameters.Remove('SubscriptionId')
                 $null = Az.HanaOnAzure.internal\Set-AzVaultAccessPolicy -OperationKind add -ResourceGroupName $vaultResourceGroupName -VaultName $vaultName -SubscriptionId $vaultSubscriptionId -AccessPolicy @{
                     ObjectId         = $msi.PrincipalId
@@ -236,13 +242,13 @@ function New-AzSapMonitorProviderInstance {
                 $PSBoundParameters.Add('SubscriptionId', $SubscriptionId)
 
                 $property = @{
-                    hanaHostname              = $HanaHostname
-                    hanaDbName                = $HanaDatabaseName
-                    hanaDbSqlPort             = $HanaDatabaseSqlPort
-                    hanaDbUsername            = $HanaDatabaseUsername
-                    hanaDbPasswordKeyVaultUrl = $HanaDatabasePasswordSecretId
-                    keyVaultId                = $HanaDatabasePasswordKeyVaultUrl # key vualt id is keyvault resource id
-                    # keyVaultCredentialsMsiClientID = '09889110-8df8-45a0-8695-ce86d1046f49'
+                    hanaHostname                   = $HanaHostname
+                    hanaDbName                     = $HanaDatabaseName
+                    hanaDbSqlPort                  = $HanaDatabaseSqlPort
+                    hanaDbUsername                 = $HanaDatabaseUsername
+                    hanaDbPasswordKeyVaultUrl      = $HanaDatabasePasswordSecretId
+                    keyVaultId                     = $HanaDatabasePasswordKeyVaultResourceId # key vault id is keyvault resource id
+                    keyVaultCredentialsMsiClientID = $msi.ClientId # FIXME: this property is not needed in newer service backend, can we remove it?
                 }
             }
         }
@@ -252,21 +258,12 @@ function New-AzSapMonitorProviderInstance {
         $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
         $PSBoundParameters.Add('SapMonitorName', $SapMonitorName)
         $PSBoundParameters.Add('Type', $Type)
-        Az.HanaOnAzure.internal\New-AzSapMonitorProviderInstance @PSBoundParameters
+        if ($hasAsJob) {
+            $PSBoundParameters.Add('AsJob', $true)
+        }
+
+        if ($PSCmdlet.ShouldProcess("SAP monitor provider instance $Name", "Create")) {
+            Az.HanaOnAzure.internal\New-AzSapMonitorProviderInstance @PSBoundParameters
+        }
     }
 }
-
-# function Get-ExtraParameters {
-#     param (
-#         $boundParameters
-#     )
-#     @{
-#         DefaultProfile             = $boundParameters.DefaultProfile
-#         Break                      = $boundParameters.Break
-#         HttpPipelinePrepend        = $boundParameters.HttpPipelinePrepend
-#         NoWait                     = $boundParameters.NoWait
-#         Proxy                      = $boundParameters.Proxy
-#         ProxyCredential            = $boundParameters.ProxyCredential
-#         ProxyUseDefaultCredentials = $boundParameters.ProxyUseDefaultCredentials
-#     }
-# }

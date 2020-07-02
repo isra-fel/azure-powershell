@@ -150,7 +150,8 @@ Accept wildcard characters: False
 ```
 
 ### -MonitorSubnetResourceId
-The subnet which the SAP monitor will be deployed in
+The subnet which the SAP monitor will be deployed in.
+It should be the same subnet of HANA database.
 
 ```yaml
 Type: System.String

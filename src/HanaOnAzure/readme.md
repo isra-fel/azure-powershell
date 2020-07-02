@@ -95,6 +95,13 @@ directive:
     set:
       parameter-name: Type
 
+  # Update some parameter description
+  - where:
+      parameter-name: MonitorSubnetResourceId
+      subject: SapMonitor
+    set:
+      parameter-description: The subnet which the SAP monitor will be deployed in. It should be the same subnet of HANA database.
+
   # Make location required
   # Fixme: when service team makes the change, remove this line
   - from: swagger-document
