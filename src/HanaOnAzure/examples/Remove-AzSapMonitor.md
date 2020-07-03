@@ -1,18 +1,17 @@
-### Example 1: {{ Add title here }}
+### Example 1: Remove a SAP monitor by name
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> Remove-AzSapMonitor -ResourceGroupName nancyc-hn1 -Name ps-sapmonitor-t02
 
-{{ Add output here }}
 ```
 
-{{ Add description here }}
+This command removes a SAP monitor by name.
 
-### Example 2: {{ Add title here }}
+### Example 2: Remove a SAP monitor by object
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> $sap = Get-AzSapMonitor -ResourceGroupName nancyc-hn1 -Name ps-sapmonitor-t01
+PS C:\> Remove-AzSapMonitor -InputObject $sap
 
-{{ Add output here }}
 ```
 
-{{ Add description here }}
+This command removes a SAP monitor by object.
 

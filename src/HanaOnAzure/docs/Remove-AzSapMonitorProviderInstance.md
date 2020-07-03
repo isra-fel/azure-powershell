@@ -30,23 +30,22 @@ Deletes a provider instance for the specified subscription, resource group, SapM
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Remove instance of SAP monitor by name
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> Remove-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -SapMonitorName ps-spamonitor-t01 -Name ps-sapmonitorins-t02
 
-{{ Add output here }}
 ```
 
-{{ Add description here }}
+This command removes instance of SAP monitor by name.
 
-### Example 2: {{ Add title here }}
+### Example 2: Remove instance of SAP monitor by object
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> $sapIns = Get-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -SapMonitorName ps-spamonitor-t01 -Name ps-sapmonitorins-t01
+PS C:\> Remove-AzSapMonitorProviderInstance -InputObject $sapIns
 
-{{ Add output here }}
 ```
 
-{{ Add description here }}
+This command removes instance of SAP monitor by object.
 
 ## PARAMETERS
 

@@ -1,3 +1,8 @@
+$loadEnvPath = Join-Path $PSScriptRoot 'loadEnv.ps1'
+if (-Not (Test-Path -Path $loadEnvPath)) {
+    $loadEnvPath = Join-Path $PSScriptRoot '..\loadEnv.ps1'
+}
+. ($loadEnvPath)
 $TestRecordingFile = Join-Path $PSScriptRoot 'Update-AzSapMonitor.Recording.json'
 $currentPath = $PSScriptRoot
 while(-not $mockingPath) {
@@ -8,26 +13,13 @@ while(-not $mockingPath) {
 
 Describe 'Update-AzSapMonitor' {
     It 'UpdateExpanded' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        $sapMonitor = Update-AzSapMonitor -ResourceGroupName $env.resourceGroup -Name $env.sapMonitor01 -Tag @{'key'=1;'key2'=2; 'key3'=3}
+        $sapMonitor.Tag.Count | Should -Be 3
     }
 
-    It 'UpdateExpanded1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'Update1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'UpdateViaIdentityExpanded1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'UpdateViaIdentityExpanded' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'UpdateViaIdentity1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
+    It 'UpdateViaIdentity' {
+        $sapMonitor = Get-AzSapMonitor -ResourceGroupName $env.resourceGroup -Name $env.sapMonitor01 
+        $sapMonitor = Update-AzSapMonitor -InputObject $sapMonitor -Tag @{'key'=1;'key2'=2}
+        $sapMonitor.Tag.Count | Should -Be 2  
+        }
 }

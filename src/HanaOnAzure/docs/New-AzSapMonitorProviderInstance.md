@@ -35,23 +35,27 @@ Creates a provider instance for the specified subscription, resource group, SapM
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Create an instance of SAP monitor by string
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name ps-sapmonitorins-t01 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
 
-{{ Add output here }}
+Name                 Type
+----                 ----
+ps-sapmonitorins-t01 Microsoft.HanaOnAzure/sapMonitors/providerInstances
 ```
 
-{{ Add description here }}
+This command creates an instance of SAP monitor by string.
 
-### Example 2: {{ Add title here }}
+### Example 2: Create an instance of SAP monitor by key vault
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -SapMonitorName sapMonitor-vayh7q-test -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId https://kv-9gosjc-test.vault.azure.net/secrets/hanaPassword/bf516d1dfcc144138e5cf55114f3344b -HanaDatabasePasswordKeyVaultResourceId /subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/costmanagement-rg-8p50xe/providers/Microsoft.KeyVault/vaults/kv-9gosjc-test -Name sapins-kv-test
 
-{{ Add output here }}
+Name           Type
+----           ----
+sapins-kv-test Microsoft.HanaOnAzure/sapMonitors/providerInstances
 ```
 
-{{ Add description here }}
+This command creates an instance of SAP monitor by key vault.
 
 ## PARAMETERS
 

@@ -12,11 +12,16 @@ while(-not $mockingPath) {
 . ($mockingPath | Select-Object -First 1).FullName
 
 Describe 'Remove-AzSapMonitorProviderInstance' {
-    It 'Delete' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'Delete' {
+        Remove-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -SapMonitorName $env.sapMonitor01 -Name $env.sapIns01
+        $sapInsList = Get-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -SapMonitorName $env.sapMonitor01
+        $sapInsList.Name | Should -Not -Contain $env.sapIns01
     }
 
-    It 'DeleteViaIdentity' -skip {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+    It 'DeleteViaIdentity' {
+        $sapIns = Get-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -SapMonitorName $env.sapMonitor01 -Name $env.sapIns02
+        Remove-AzSapMonitorProviderInstance -InputObject $sapIns
+        $sapInsList = Get-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -SapMonitorName $env.sapMonitor01
+        $sapInsList.Name | Should -Not -Contain $env.sapIns02
     }
 }

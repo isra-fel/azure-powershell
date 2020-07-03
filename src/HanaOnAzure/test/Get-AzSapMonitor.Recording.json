@@ -1,0 +1,162 @@
+{
+  "Get-AzSapMonitor+[NoContext]+List+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/sapMonitors?api-version=2020-02-07-preview+1": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/sapMonitors?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "1" ],
+        "x-ms-client-request-id": [ "44129921-d6c9-4e85-99e3-a416fa0aa59a" ],
+        "CommandName": [ "Get-AzSapMonitor" ],
+        "FullCommandName": [ "Get-AzSapMonitor_List" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T074924Z:1a286469-b6fb-46e4-8313-852d0fd82e8c" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11997" ],
+        "x-ms-correlation-request-id": [ "1a286469-b6fb-46e4-8313-852d0fd82e8c" ],
+        "x-ms-request-id": [ "d8488ba5-286e-4110-85e8-ef199df0befe" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 07:49:23 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "3533" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"value\": [\n   {\n    \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test\",\n    \"location\": \"westus2\",\n    \"name\": \"sapMonitor-j1sm2o-test\",\n    \"tags\": {},\n    \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n    \"properties\": {\n     \"provisioningState\": \"Succeeded\",\n     \"managedResourceGroupName\": \"sapmon-rg-48537d0733dfc9\",\n     \"enableCustomerAnalytics\": false,\n     \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n     \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/costmanagement-rg-jeiysz/providers/microsoft.operationalinsights/workspaces/monitoringworkspace-wohtnd\",\n     \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n    }\n   },\n   {\n    \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-vayh7q-test\",\n    \"location\": \"westus2\",\n    \"name\": \"sapMonitor-vayh7q-test\",\n    \"tags\": {},\n    \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n    \"properties\": {\n     \"provisioningState\": \"Succeeded\",\n     \"managedResourceGroupName\": \"sapmon-rg-9eec93615bc403\",\n     \"enableCustomerAnalytics\": false,\n     \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n     \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/costmanagement-rg-dj6nwo/providers/microsoft.operationalinsights/workspaces/monitoringworkspace-tbmy5e\",\n     \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n    }\n   },\n   {\n    \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/yemingmonitor5\",\n    \"location\": \"westus2\",\n    \"name\": \"yemingmonitor5\",\n    \"tags\": {\n     \"a\": \"b\"\n    },\n    \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n    \"properties\": {\n     \"provisioningState\": \"Deleting\",\n     \"managedResourceGroupName\": \"sapmon-rg-7dc200167f3865\",\n     \"enableCustomerAnalytics\": false,\n     \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n     \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw\",\n     \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-db-a\"\n    }\n   },\n   {\n    \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/yemingmonitortest\",\n    \"location\": \"westus2\",\n    \"name\": \"yemingmonitortest\",\n    \"tags\": {},\n    \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n    \"properties\": {\n     \"provisioningState\": \"Succeeded\",\n     \"managedResourceGroupName\": \"sapmon-rg-31fb7355419438\",\n     \"enableCustomerAnalytics\": false,\n     \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n     \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.OperationalInsights/workspaces/yeminglaw\",\n     \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n    }\n   }\n  ]\n }"
+    }
+  },
+  "Get-AzSapMonitor+[NoContext]+Get+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test?api-version=2020-02-07-preview+1": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "2" ],
+        "x-ms-client-request-id": [ "85103026-bc52-435e-87b7-08650d067c86" ],
+        "CommandName": [ "Get-AzSapMonitor" ],
+        "FullCommandName": [ "Get-AzSapMonitor_Get" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T074924Z:bd9afaa1-ff43-4b24-820a-fd2a3cea8f8e" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11996" ],
+        "x-ms-correlation-request-id": [ "bd9afaa1-ff43-4b24-820a-fd2a3cea8f8e" ],
+        "x-ms-request-id": [ "76f0b85a-77e4-4200-be38-34d1263762a2" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 07:49:24 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "863" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test\",\n  \"location\": \"westus2\",\n  \"name\": \"sapMonitor-j1sm2o-test\",\n  \"tags\": {},\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n  \"properties\": {\n   \"provisioningState\": \"Succeeded\",\n   \"managedResourceGroupName\": \"sapmon-rg-48537d0733dfc9\",\n   \"enableCustomerAnalytics\": false,\n   \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n   \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/costmanagement-rg-jeiysz/providers/microsoft.operationalinsights/workspaces/monitoringworkspace-wohtnd\",\n   \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n  }\n }"
+    }
+  },
+  "Get-AzSapMonitor+[NoContext]+GetViaIdentity+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test?api-version=2020-02-07-preview+1": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "3" ],
+        "x-ms-client-request-id": [ "35e3e3f7-b87c-4548-9176-cecacf33631c" ],
+        "CommandName": [ "Get-AzSapMonitor" ],
+        "FullCommandName": [ "Get-AzSapMonitor_Get" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T074925Z:65b1db38-0d84-4311-9f85-7af5a46c5771" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11995" ],
+        "x-ms-correlation-request-id": [ "65b1db38-0d84-4311-9f85-7af5a46c5771" ],
+        "x-ms-request-id": [ "d370545c-a677-45f2-8ce7-b044548132aa" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 07:49:24 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "863" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test\",\n  \"location\": \"westus2\",\n  \"name\": \"sapMonitor-j1sm2o-test\",\n  \"tags\": {},\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n  \"properties\": {\n   \"provisioningState\": \"Succeeded\",\n   \"managedResourceGroupName\": \"sapmon-rg-48537d0733dfc9\",\n   \"enableCustomerAnalytics\": false,\n   \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n   \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/costmanagement-rg-jeiysz/providers/microsoft.operationalinsights/workspaces/monitoringworkspace-wohtnd\",\n   \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n  }\n }"
+    }
+  },
+  "Get-AzSapMonitor+[NoContext]+GetViaIdentity+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test?api-version=2020-02-07-preview+2": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4" ],
+        "x-ms-client-request-id": [ "169fd3a0-abb5-4739-bebf-2325c45dc4b5" ],
+        "CommandName": [ "Get-AzSapMonitor" ],
+        "FullCommandName": [ "Get-AzSapMonitor_GetViaIdentity" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T074925Z:673776ab-232c-4aae-b846-782ffecb3166" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11994" ],
+        "x-ms-correlation-request-id": [ "673776ab-232c-4aae-b846-782ffecb3166" ],
+        "x-ms-request-id": [ "38859be3-6d51-42bc-8c03-7121f60d3e51" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 07:49:24 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "863" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-j1sm2o-test\",\n  \"location\": \"westus2\",\n  \"name\": \"sapMonitor-j1sm2o-test\",\n  \"tags\": {},\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n  \"properties\": {\n   \"provisioningState\": \"Succeeded\",\n   \"managedResourceGroupName\": \"sapmon-rg-48537d0733dfc9\",\n   \"enableCustomerAnalytics\": false,\n   \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n   \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/costmanagement-rg-jeiysz/providers/microsoft.operationalinsights/workspaces/monitoringworkspace-wohtnd\",\n   \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n  }\n }"
+    }
+  }
+}

@@ -1,3 +1,8 @@
+$loadEnvPath = Join-Path $PSScriptRoot 'loadEnv.ps1'
+if (-Not (Test-Path -Path $loadEnvPath)) {
+    $loadEnvPath = Join-Path $PSScriptRoot '..\loadEnv.ps1'
+}
+. ($loadEnvPath)
 $TestRecordingFile = Join-Path $PSScriptRoot 'New-AzSapMonitor.Recording.json'
 $currentPath = $PSScriptRoot
 while(-not $mockingPath) {
@@ -8,22 +13,12 @@ while(-not $mockingPath) {
 
 Describe 'New-AzSapMonitor' {
     It 'CreateExpanded' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
+        $sapMonitor = New-AzSapMonitor -Name $env.sapMonitor02 -ResourceGroupName $env.resourceGroup -Location $env.location -EnableCustomerAnalytic `
+        -MonitorSubnet $env.MonitorSubnet `
+        -LogAnalyticsWorkspaceSharedKey $env.workspace02Key `
+        -LogAnalyticsWorkspaceId $env.workspace02Id `
+        -LogAnalyticsWorkspaceResourceId $env.workspaceResourceId02
 
-    It 'CreateExpanded1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'Create1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'CreateViaIdentityExpanded1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'CreateViaIdentity1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        $sapMonitor.ProvisioningState | Should -Be 'Succeeded'
     }
 }

@@ -1,3 +1,8 @@
+$loadEnvPath = Join-Path $PSScriptRoot 'loadEnv.ps1'
+if (-Not (Test-Path -Path $loadEnvPath)) {
+    $loadEnvPath = Join-Path $PSScriptRoot '..\loadEnv.ps1'
+}
+. ($loadEnvPath)
 $TestRecordingFile = Join-Path $PSScriptRoot 'Remove-AzSapMonitor.Recording.json'
 $currentPath = $PSScriptRoot
 while(-not $mockingPath) {
@@ -8,10 +13,20 @@ while(-not $mockingPath) {
 
 Describe 'Remove-AzSapMonitor' {
     It 'Delete' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        Remove-AzSapMonitor -Name $env.sapMonitor02 -ResourceGroupName $env.resourceGroup
+        $sapMonitorList = Get-AzSapMonitor
+        $sapMonitorList.Name | Should -Not -Contain $env.sapMonitor02
     }
 
     It 'DeleteViaIdentity' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        $sapMonitor = New-AzSapMonitor -Name $env.sapMonitor02 -ResourceGroupName $env.resourceGroup -Location $env.location -EnableCustomerAnalytic `
+        -MonitorSubnet $env.MonitorSubnet `
+        -LogAnalyticsWorkspaceSharedKey $env.workspace02Key `
+        -LogAnalyticsWorkspaceId $env.workspace02Id `
+        -LogAnalyticsWorkspaceResourceId $env.workspaceResourceId02
+        
+        Remove-AzSapMonitor -InputObject $sapMonitor
+        $sapMonitorList = Get-AzSapMonitor
+        $sapMonitorList.Name | Should -Not -Contain $env.sapMonitor02
     }
 }

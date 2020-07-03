@@ -1,3 +1,8 @@
+$loadEnvPath = Join-Path $PSScriptRoot 'loadEnv.ps1'
+if (-Not (Test-Path -Path $loadEnvPath)) {
+    $loadEnvPath = Join-Path $PSScriptRoot '..\loadEnv.ps1'
+}
+. ($loadEnvPath)
 $TestRecordingFile = Join-Path $PSScriptRoot 'Get-AzSapMonitor.Recording.json'
 $currentPath = $PSScriptRoot
 while(-not $mockingPath) {
@@ -8,26 +13,18 @@ while(-not $mockingPath) {
 
 Describe 'Get-AzSapMonitor' {
     It 'List' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'Get1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        $sapMonitorList = Get-AzSapMonitor
+        $sapMonitorList.Count | Should -BeGreaterOrEqual 1
     }
 
     It 'Get' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'List1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
-    }
-
-    It 'GetViaIdentity1' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        $sapMonitor = Get-AzSapMonitor -ResourceGroupName $env.resourceGroup -Name $env.sapMonitor01
+        $sapMonitor.Name | Should -Be $env.sapMonitor01
     }
 
     It 'GetViaIdentity' {
-        { throw [System.NotImplementedException] } | Should -Not -Throw
+        $sapMonitor = Get-AzSapMonitor -ResourceGroupName $env.resourceGroup -Name $env.sapMonitor01
+        $sapMonitor = Get-AzSapMonitor -InputObject $sapMonitor
+        $sapMonitor.Name | Should -Be $env.sapMonitor01
     }
 }

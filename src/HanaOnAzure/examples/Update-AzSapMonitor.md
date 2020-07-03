@@ -1,18 +1,23 @@
-### Example 1: {{ Add title here }}
+### Example 1: Update a SAP monitor by name
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> Update-AzSapMonitor -ResourceGroupName nancyc-hn1 -Name ps-spamonitor-t01 -Tag @{'key'=1;'key2'=2; 'key3'=3}
 
-{{ Add output here }}
+Location Name              Type
+-------- ----              ----
+westus2  ps-spamonitor-t01 Microsoft.HanaOnAzure/sapMonitors
 ```
 
-{{ Add description here }}
+This commands updates a SAP monitor by name.
 
-### Example 2: {{ Add title here }}
+### Example 2: Update a SAP monitor by object
 ```powershell
-PS C:\> {{ Add code here }}
+PS C:\> $sap = Get-AzSapMonitor -ResourceGroupName nancyc-hn1 -Name ps-sapmonitor-t01
+PS C:\> Update-AzSapMonitor -InputObject $sap -Tag @{'key'=1;'key2'=2; 'key3'=3}
 
-{{ Add output here }}
+Location Name              Type
+-------- ----              ----
+westus2  ps-sapmonitor-t01 Microsoft.HanaOnAzure/sapMonitors
 ```
 
-{{ Add description here }}
+This commands updates a SAP monitor by object.
 

@@ -1,0 +1,593 @@
+{
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test?api-version=2020-02-07-preview+1": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "1" ],
+        "x-ms-client-request-id": [ "37707817-8a82-40a1-9202-e4d73b222446" ],
+        "CommandName": [ "Get-AzSapMonitor" ],
+        "FullCommandName": [ "Get-AzSapMonitor_Get" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094711Z:ece95e00-1ff0-4c2c-a8de-683ef26cc913" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11999" ],
+        "x-ms-correlation-request-id": [ "ece95e00-1ff0-4c2c-a8de-683ef26cc913" ],
+        "x-ms-request-id": [ "52d61f8c-e2fd-474c-b519-bc0518f7efdb" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:47:11 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "863" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test\",\n  \"location\": \"westus2\",\n  \"name\": \"sapMonitor-xuk0b1-test\",\n  \"tags\": {},\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors\",\n  \"properties\": {\n   \"provisioningState\": \"Succeeded\",\n   \"managedResourceGroupName\": \"sapmon-rg-22e6271c5369eb\",\n   \"enableCustomerAnalytics\": false,\n   \"sapMonitorCollectorVersion\": \"v2.0-beta\",\n   \"logAnalyticsWorkspaceArmId\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/costmanagement-rg-jeiysz/providers/microsoft.operationalinsights/workspaces/monitoringworkspace-npk7fc\",\n   \"monitorSubnet\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.Network/virtualNetworks/vnet-sap/subnets/subnet-admin\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/sapmon-rg-22e6271c5369eb/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-22e6271c5369eb?api-version=2018-11-30+2": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/sapmon-rg-22e6271c5369eb/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-22e6271c5369eb?api-version=2018-11-30",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "2" ],
+        "x-ms-client-request-id": [ "71c587ca-25e5-495c-bd7a-e8338a8917ac" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\Get-AzUserAssignedIdentity" ],
+        "FullCommandName": [ "Get-AzUserAssignedIdentity_Get" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11998" ],
+        "x-ms-request-id": [ "29f11bf3-6874-4c67-8077-d555d8ed6c8d" ],
+        "x-ms-correlation-request-id": [ "29f11bf3-6874-4c67-8077-d555d8ed6c8d" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094713Z:29f11bf3-6874-4c67-8077-d555d8ed6c8d" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:47:13 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "504" ],
+        "Content-Type": [ "application/json; charset=utf-8" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\"id\":\"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourcegroups/sapmon-rg-22e6271c5369eb/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-22e6271c5369eb\",\"name\":\"sapmon-msi-22e6271c5369eb\",\"type\":\"Microsoft.ManagedIdentity/userAssignedIdentities\",\"location\":\"westus2\",\"tags\":{\"SapMonId\":\"22e6271c5369eb\"},\"properties\":{\"tenantId\":\"72f988bf-86f1-41af-91ab-2d7cd011db47\",\"principalId\":\"b0106050-cca2-4243-bd71-5544e007e94a\",\"clientId\":\"bd9c3a76-4415-4d75-aad1-b47c69ad74e6\"}}"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$PUT+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/costmanagement-rg-jeiysz/providers/Microsoft.KeyVault/vaults/kv-8ryuj7-test/accessPolicies/add?api-version=2016-10-01+3": {
+    "Request": {
+      "Method": "PUT",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/costmanagement-rg-jeiysz/providers/Microsoft.KeyVault/vaults/kv-8ryuj7-test/accessPolicies/add?api-version=2016-10-01",
+      "Content": "{\n  \"properties\": {\n    \"accessPolicies\": [\n      {\n        \"permissions\": {\n          \"secrets\": [ \"get\" ]\n        },\n        \"objectId\": \"b0106050-cca2-4243-bd71-5544e007e94a\",\n        \"tenantId\": \"72f988bf-86f1-41af-91ab-2d7cd011db47\"\n      }\n    ]\n  }\n}",
+      "Headers": {
+      },
+      "ContentHeaders": {
+        "Content-Type": [ "application/json" ],
+        "Content-Length": [ "257" ]
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "x-ms-keyvault-service-version": [ "1.1.0.282" ],
+        "x-ms-request-id": [ "15680907-1535-4546-9a1a-043768094cb4" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Server": [ "Microsoft-IIS/10.0" ],
+        "X-AspNet-Version": [ "4.0.30319" ],
+        "X-Powered-By": [ "ASP.NET" ],
+        "x-ms-ratelimit-remaining-subscription-writes": [ "1199" ],
+        "x-ms-correlation-request-id": [ "58527c12-90dd-4747-be6c-27a93a6f11e8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094716Z:58527c12-90dd-4747-be6c-27a93a6f11e8" ],
+        "Date": [ "Fri, 03 Jul 2020 09:47:16 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "387" ],
+        "Content-Type": [ "application/json; charset=utf-8" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\"id\":\"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/costmanagement-rg-jeiysz/providers/Microsoft.KeyVault/vaults/kv-8ryuj7-test/accessPolicies/\",\"type\":\"Microsoft.KeyVault/vaults/accessPolicies\",\"properties\":{\"accessPolicies\":[{\"tenantId\":\"72f988bf-86f1-41af-91ab-2d7cd011db47\",\"objectId\":\"b0106050-cca2-4243-bd71-5544e007e94a\",\"permissions\":{\"secrets\":[\"get\"]}}]}}"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$PUT+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m?api-version=2020-02-07-preview+4": {
+    "Request": {
+      "Method": "PUT",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m?api-version=2020-02-07-preview",
+      "Content": "{\n  \"properties\": {\n    \"type\": \"SapHana\",\n    \"metadata\": \"null\",\n    \"properties\": \"{\\n  \\\"hanaDbPasswordKeyVaultUrl\\\": \\\"https://kv-8ryuj7-test.vault.azure.net:443/secrets/hanaPassword/56006e1d6ba64c559f94df7b8ad6c0fc\\\",\\n  \\\"hanaDbName\\\": \\\"SYSTEMDB\\\",\\n  \\\"keyVaultId\\\": \\\"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/costmanagement-rg-jeiysz/providers/Microsoft.KeyVault/vaults/kv-8ryuj7-test\\\",\\n  \\\"hanaHostname\\\": \\\"hdb1-0\\\",\\n  \\\"hanaDbUsername\\\": \\\"SYSTEM\\\",\\n  \\\"keyVaultCredentialsMsiClientID\\\": \\\"bd9c3a76-4415-4d75-aad1-b47c69ad74e6\\\",\\n  \\\"hanaDbSqlPort\\\": 30015\\n}\"\n  }\n}",
+      "Headers": {
+      },
+      "ContentHeaders": {
+        "Content-Type": [ "application/json" ],
+        "Content-Length": [ "610" ]
+      }
+    },
+    "Response": {
+      "StatusCode": 201,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2020-02-07-preview" ],
+        "x-ms-ratelimit-remaining-subscription-writes": [ "1198" ],
+        "azure-asyncoperation": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2020-02-07-preview" ],
+        "x-ms-correlation-request-id": [ "6a015a55-972c-4a0a-9be2-16c88fe56c6c" ],
+        "x-ms-request-id": [ "e513c6e6-b786-44c0-97cf-24e04821d3af" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094716Z:6a015a55-972c-4a0a-9be2-16c88fe56c6c" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:47:16 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "693" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m\",\n  \"location\": \"\",\n  \"name\": \"sapInstance-o4k13m\",\n  \"tags\": null,\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors/providerInstances\",\n  \"properties\": {\n   \"type\": \"SapHana\",\n   \"properties\": \"{\\\"hanaHostname\\\":\\\"hdb1-0\\\",\\\"hanaDbName\\\":\\\"SYSTEMDB\\\",\\\"hanaDbSqlPort\\\":30015,\\\"hanaDbUsername\\\":\\\"SYSTEM\\\",\\\"hanaDbPasswordKeyVaultUrl\\\":\\\"https://kv-8ryuj7-test.vault.azure.net:443/secrets/hanaPassword/56006e1d6ba64c559f94df7b8ad6c0fc\\\"}\",\n   \"metadata\": \"null\",\n   \"provisioningState\": \"Accepted\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2020-02-07-preview+5": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11997" ],
+        "x-ms-correlation-request-id": [ "3abd3866-1841-4dee-864f-239447bffbd5" ],
+        "x-ms-request-id": [ "408822af-36f1-4c7a-abe0-da1002ec70d2" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094747Z:3abd3866-1841-4dee-864f-239447bffbd5" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:47:46 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+6": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11996" ],
+        "x-ms-correlation-request-id": [ "faa0aef9-09c0-4eaf-b204-b0c0039b3716" ],
+        "x-ms-request-id": [ "7cd5f0ab-b3ae-454e-a797-7f9fa06f0b9c" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094817Z:faa0aef9-09c0-4eaf-b204-b0c0039b3716" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:48:17 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+7": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11995" ],
+        "x-ms-correlation-request-id": [ "430861d1-d716-4c61-8b1b-d0afefcc2c72" ],
+        "x-ms-request-id": [ "1677f17c-2aeb-4df5-ad67-da913ee85770" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094847Z:430861d1-d716-4c61-8b1b-d0afefcc2c72" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:48:47 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+8": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11994" ],
+        "x-ms-correlation-request-id": [ "1aa0fa0a-1c18-4fb5-acf1-18db5bb15756" ],
+        "x-ms-request-id": [ "900dff78-9d6e-4de3-9c5f-fe9fc825c798" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094918Z:1aa0fa0a-1c18-4fb5-acf1-18db5bb15756" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:49:17 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+9": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8", "9" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11993" ],
+        "x-ms-correlation-request-id": [ "61b5611a-fb3c-4832-83e4-540c3389b073" ],
+        "x-ms-request-id": [ "d20eb4b7-ccea-41b9-9ea8-25c6141a9524" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T094948Z:61b5611a-fb3c-4832-83e4-540c3389b073" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:49:47 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+10": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8", "9", "10" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11992" ],
+        "x-ms-correlation-request-id": [ "1d75cd6e-47b8-4196-84a2-6a462e88dcfe" ],
+        "x-ms-request-id": [ "bac93a00-e341-4002-964c-0c14824432c9" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T095018Z:1d75cd6e-47b8-4196-84a2-6a462e88dcfe" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:50:17 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+11": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8", "9", "10", "11" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11991" ],
+        "x-ms-correlation-request-id": [ "ab516122-eaf3-49b5-8d1d-2fc50e289bde" ],
+        "x-ms-request-id": [ "91c724e9-3859-43b8-997d-1268125724c6" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T095048Z:ab516122-eaf3-49b5-8d1d-2fc50e289bde" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:50:48 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+12": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8", "9", "10", "11", "12" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 202,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Location": [ "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11990" ],
+        "x-ms-correlation-request-id": [ "4f3e8f5f-bba3-4ecc-8c66-e7546797588e" ],
+        "x-ms-request-id": [ "80452b00-257a-4f91-84d1-c01d1692cecf" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T095119Z:4f3e8f5f-bba3-4ecc-8c66-e7546797588e" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:51:18 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "176" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"InProgress\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"error\": {\n   \"code\": \"\",\n   \"message\": \"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview+13": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/providers/Microsoft.HanaOnAzure/locations/westus2/operationsStatus/e513c6e6-b786-44c0-97cf-24e04821d3af?api-version=2017-11-03-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8", "9", "10", "11", "12", "13" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "", "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T095149Z:3efdcd65-e9d8-46cd-99ae-6e419ec034bf" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11989" ],
+        "x-ms-correlation-request-id": [ "3efdcd65-e9d8-46cd-99ae-6e419ec034bf" ],
+        "x-ms-request-id": [ "6776bfdc-c7de-43e9-83b1-dfd25cb9d746" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:51:49 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "2076" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"name\": \"e513c6e6-b786-44c0-97cf-24e04821d3af\",\n  \"status\": \"Failed\",\n  \"startTime\": \"2020-07-03T09:47:16.5429886Z\",\n  \"endTime\": \"2020-07-03T09:51:21.5232736Z\",\n  \"error\": {\n   \"code\": \"HanaRPError\",\n   \"message\": \"Failed Monitor Deployment: Status 4; Error \\\\nINFO     initializing context\\\\nINFO     getting compute instance\\\\nDEBUG    computeInstance={\u0027location\u0027: \u0027westus2\u0027, \u0027name\u0027: \u0027sapmon-vm-22e6271c5369eb\u0027, \u0027offer\u0027: \u0027UbuntuServer\u0027, \u0027osType\u0027: \u0027Linux\u0027, \u0027placementGroupId\u0027: \u0027\u0027, \u0027platformFaultDomain\u0027: \u00270\u0027, \u0027platformUpdateDomain\u0027: \u00270\u0027, \u0027publisher\u0027: \u0027Canonical\u0027, \u0027resourceGroupName\u0027: \u0027sapmon-rg-22e6271c5369eb\u0027, \u0027sku\u0027: \u002716.04.0-LTS\u0027, \u0027subscriptionId\u0027: \u00279e223dbe-3399-4e19-88eb-0975f02ac87f\u0027, \u0027tags\u0027: \u0027SapMonId:22e6271c5369eb;SapMonMsiClientId:bd9c3a76-4415-4d75-aad1-b47c69ad74e6\u0027, \u0027version\u0027: \u002716.04.202006100\u0027, \u0027vmId\u0027: \u00273c638d94-2311-48cf-b675-ec49a779cee0\u0027, \u0027vmScaleSetName\u0027: \u0027\u0027, \u0027vmSize\u0027: \u0027Standard_B2ms\u0027, \u0027zone\u0027: \u0027\u0027}\\\\nINFO     getting auth token for resource=None\\\\nDEBUG    sapmonId=22e6271c5369eb\\\\nDEBUG    msiClientId=bd9c3a76-4415-4d75-aad1-b47c69ad74e6\\\\nINFO     adding storage queue log handler\\\\nINFO     initializing Storage Queue instance\\\\nINFO     getting access key for Storage Queue\\\\nINFO     creating customer metrics tracer object\\\\nINFO     initializing Storage Queue instance\\\\nINFO     getting access key for Storage Queue\\\\nINFO     initializing KeyVault sapmon-kv-22e6271c5369eb\\\\nINFO     checking if KeyVault sapmon-kv-22e6271c5369eb exists\\\\nINFO     KeyVault sapmon-kv-22e6271c5369eb exists\\\\nINFO     successfully initialized context\\\\nINFO     trying to add new provider instance (name=sapInstance-o4k13m, type=SapHana)\\\\nINFO     [SapHana/sapInstance-o4k13m] fetching HANA credentials from separate KeyVault\\\\nERROR    [SapHana/sapInstance-o4k13m] invalid URL format (\u0027NoneType\u0027 object has no attribute \u0027group\u0027)\\\\nCRITICAL could not instantiate SapHana (failed to parse properties of the provider instance)\\\\n\\\\\\\"\\\\r\\\\n\\\\r\\\\nMore information on troubleshooting is available at https://aka.ms/VMExtensionCSELinuxTroubleshoot \\\"\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m?api-version=2020-02-07-preview+14": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14" ],
+        "x-ms-client-request-id": [ "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f", "a65e2364-7e0d-4906-8571-804771a2dd5f" ],
+        "CommandName": [ "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance", "Az.HanaOnAzure.internal\\New-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded", "New-AzSapMonitorProviderInstance_CreateExpanded" ],
+        "ParameterSetName": [ "", "", "", "", "", "", "", "", "", "", "" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview", "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T095149Z:b9a593ce-91ba-478c-b142-6d07612fd307" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11988" ],
+        "x-ms-correlation-request-id": [ "b9a593ce-91ba-478c-b142-6d07612fd307" ],
+        "x-ms-request-id": [ "3557ac50-548b-418d-8048-452711269e3f" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:51:49 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "691" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m\",\n  \"location\": \"\",\n  \"name\": \"sapInstance-o4k13m\",\n  \"tags\": null,\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors/providerInstances\",\n  \"properties\": {\n   \"type\": \"SapHana\",\n   \"properties\": \"{\\\"hanaHostname\\\":\\\"hdb1-0\\\",\\\"hanaDbName\\\":\\\"SYSTEMDB\\\",\\\"hanaDbSqlPort\\\":30015,\\\"hanaDbUsername\\\":\\\"SYSTEM\\\",\\\"hanaDbPasswordKeyVaultUrl\\\":\\\"https://kv-8ryuj7-test.vault.azure.net:443/secrets/hanaPassword/56006e1d6ba64c559f94df7b8ad6c0fc\\\"}\",\n   \"metadata\": \"null\",\n   \"provisioningState\": \"Failed\"\n  }\n }"
+    }
+  },
+  "New-AzSapMonitorProviderInstance+[NoContext]+ByKeyVault+$GET+https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m?api-version=2020-02-07-preview+15": {
+    "Request": {
+      "Method": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m?api-version=2020-02-07-preview",
+      "Content": null,
+      "Headers": {
+        "x-ms-unique-id": [ "15" ],
+        "x-ms-client-request-id": [ "2421411a-eb86-48c3-b59b-1cf4a77fdab5" ],
+        "CommandName": [ "Get-AzSapMonitorProviderInstance" ],
+        "FullCommandName": [ "Get-AzSapMonitorProviderInstance_Get" ],
+        "ParameterSetName": [ "__AllParameterSets" ],
+        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "Authorization": [ "[Filtered]" ]
+      },
+      "ContentHeaders": {
+      }
+    },
+    "Response": {
+      "StatusCode": 200,
+      "Headers": {
+        "Cache-Control": [ "no-cache" ],
+        "Pragma": [ "no-cache" ],
+        "Vary": [ "Accept-Encoding" ],
+        "x-ms-routing-request-id": [ "SOUTHEASTASIA:20200703T095150Z:5b0ecc7d-9f35-45c1-b930-eb7f5c70a683" ],
+        "x-ms-ratelimit-remaining-subscription-reads": [ "11987" ],
+        "x-ms-correlation-request-id": [ "5b0ecc7d-9f35-45c1-b930-eb7f5c70a683" ],
+        "x-ms-request-id": [ "20dc75c4-9218-4eb5-aa00-4a685b59d5d5" ],
+        "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
+        "Server": [ "nginx/1.17.8" ],
+        "X-Content-Type-Options": [ "nosniff" ],
+        "Date": [ "Fri, 03 Jul 2020 09:51:50 GMT" ]
+      },
+      "ContentHeaders": {
+        "Content-Length": [ "691" ],
+        "Content-Type": [ "application/json" ],
+        "Expires": [ "-1" ]
+      },
+      "Content": "{\n  \"id\": \"/subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/nancyc-hn1/providers/Microsoft.HanaOnAzure/sapMonitors/sapMonitor-xuk0b1-test/providerInstances/sapInstance-o4k13m\",\n  \"location\": \"\",\n  \"name\": \"sapInstance-o4k13m\",\n  \"tags\": null,\n  \"type\": \"Microsoft.HanaOnAzure/sapMonitors/providerInstances\",\n  \"properties\": {\n   \"type\": \"SapHana\",\n   \"properties\": \"{\\\"hanaHostname\\\":\\\"hdb1-0\\\",\\\"hanaDbName\\\":\\\"SYSTEMDB\\\",\\\"hanaDbSqlPort\\\":30015,\\\"hanaDbUsername\\\":\\\"SYSTEM\\\",\\\"hanaDbPasswordKeyVaultUrl\\\":\\\"https://kv-8ryuj7-test.vault.azure.net:443/secrets/hanaPassword/56006e1d6ba64c559f94df7b8ad6c0fc\\\"}\",\n   \"metadata\": \"null\",\n   \"provisioningState\": \"Failed\"\n  }\n }"
+    }
+  }
+}
