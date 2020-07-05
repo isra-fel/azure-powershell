@@ -24,7 +24,7 @@ Creates a SAP monitor for the specified subscription, resource group, and resour
 
 ## EXAMPLES
 
-### Example 1: New SAP monitor
+### Example 1: New SAP monitor 
 ```powershell
 PS C:\> $workspace = New-AzOperationalInsightsWorkspace -ResourceGroupName nancyc-hn1 -Name sapmonitor-test  -Location westus2 -Sku "Standard"
 PS C:\> $workspace = Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroupName nancyc-hn1 -Name sapmonitor-test
