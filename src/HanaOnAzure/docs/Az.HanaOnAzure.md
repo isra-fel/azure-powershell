@@ -1,6 +1,6 @@
 ---
 Module Name: Az.HanaOnAzure
-Module Guid: 29610c07-d216-4a6c-bdd6-e10d314d680e
+Module Guid: 49e7ade5-54b0-409a-8a18-fedb9e2e5fc8
 Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.hanaonazure
 Help Version: 1.0.0.0
 Locale: en-US

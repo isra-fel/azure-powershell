@@ -75,7 +75,7 @@ function New-AzSapMonitorProviderInstance {
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.String]
         # The type of provider instance. Supported values are: "SapHana".
-        ${Type},
+        ${ProviderType},
 
         [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
@@ -242,6 +242,14 @@ function New-AzSapMonitorProviderInstance {
                 } @PSBoundParameters
                 $PSBoundParameters.Add('SubscriptionId', $SubscriptionId)
 
+                # Service accepts secret ID without port
+                # but (Get-AzKeyVaultSecret).Id contains port (":443")
+                # need to remove it
+                $vaultPort = ":443"
+                if ($HanaDatabasePasswordSecretId.Contains($vaultPort)) {
+                    $HanaDatabasePasswordSecretId = $HanaDatabasePasswordSecretId.Replace($vaultPort, "")
+                }
+
                 $property = @{
                     hanaHostname                   = $HanaHostname
                     hanaDbName                     = $HanaDatabaseName
@@ -256,7 +264,7 @@ function New-AzSapMonitorProviderInstance {
         $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
         $PSBoundParameters.Add('Name', $Name)
         $PSBoundParameters.Add('SapMonitorName', $SapMonitorName)
-        $PSBoundParameters.Add('Type', $Type)
+        $PSBoundParameters.Add('Type', $ProviderType)
         $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
 
         $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))

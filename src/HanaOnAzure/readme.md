@@ -112,9 +112,35 @@ directive:
       verb: New
       subject: ProviderInstance
     hide: true
+
+  # Rename property
+  - where:
+      model-name: ProviderInstance
+      property-name: PropertiesType
+    set:
+      property-name: InstanceType
+
+  # Table format
+  - where:
+      model-name: ProviderInstance
+    set:
+      format-table:
+        properties:
+          - Name
+          - InstanceType
+        labels:
+          InstanceType: Instance Type
+  - where:
+      model-name: SapMonitor
+    set:
+      format-table:
+        properties:
+          - Name
+          - Location
 ```
 
 ``` yaml
+# HELPERS
 # ManagedIdentity and KeyVault is required when creating provider instance
 require:
   - $(this-folder)/../helpers/ManagedIdentity/readme.noprofile.md
