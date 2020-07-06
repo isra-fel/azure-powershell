@@ -16,7 +16,7 @@ Creates a provider instance for the specified subscription, resource group, SapM
 ```
 New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
  -HanaDatabaseName <String> -HanaDatabasePassword <SecureString> -HanaDatabaseSqlPort <Int32>
- -HanaDatabaseUsername <String> -HanaHostname <String> -Type <String> [-SubscriptionId <String>]
+ -HanaDatabaseUsername <String> -HanaHostname <String> -ProviderType <String> [-SubscriptionId <String>]
  [-Metadata <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
@@ -26,7 +26,7 @@ New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -Sap
 New-AzSapMonitorProviderInstance -Name <String> -ResourceGroupName <String> -SapMonitorName <String>
  -HanaDatabaseName <String> -HanaDatabasePasswordKeyVaultResourceId <String>
  -HanaDatabasePasswordSecretId <String> -HanaDatabaseSqlPort <Int32> -HanaDatabaseUsername <String>
- -HanaHostname <String> -Type <String> [-SubscriptionId <String>] [-Metadata <Hashtable>]
+ -HanaHostname <String> -ProviderType <String> [-SubscriptionId <String>] [-Metadata <Hashtable>]
  [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
@@ -239,6 +239,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ProviderType
+The type of provider instance.
+Supported values are: "SapHana".
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 Name of the resource group.
 
@@ -281,22 +297,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-AzContext).Subscription.Id
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Type
-The type of provider instance.
-Supported values are: "SapHana".
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

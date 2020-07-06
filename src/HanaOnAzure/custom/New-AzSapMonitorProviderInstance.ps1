@@ -75,7 +75,7 @@ function New-AzSapMonitorProviderInstance {
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
         [System.String]
         # The type of provider instance. Supported values are: "SapHana".
-        ${Type},
+        ${ProviderType},
 
         [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.HanaOnAzure.Category('Body')]
@@ -186,14 +186,22 @@ function New-AzSapMonitorProviderInstance {
     )
 
     process {
-        $hasAsJob = $PSBoundParameters.Remove('AsJob')
+        $null = $PSBoundParameters.Remove('ResourceGroupName')
+        $null = $PSBoundParameters.Remove('Name')
+        $null = $PSBoundParameters.Remove('SapMonitorName')
+        $null = $PSBoundParameters.Remove('Type')
+        $null = $PSBoundParameters.Remove('Metadata')
 
         $null = $PSBoundParameters.Remove('HanaHostname')
         $null = $PSBoundParameters.Remove('HanaDatabaseName')
         $null = $PSBoundParameters.Remove('HanaDatabaseSqlPort')
         $null = $PSBoundParameters.Remove('HanaDatabaseUsername')
-        $null = $PSBoundParameters.Remove('WhatIf')
+        $null = $PSBoundParameters.Remove('HanaDatabasePasswordSecretId')
+        $null = $PSBoundParameters.Remove('HanaDatabasePasswordKeyVaultResourceId')
+
         $null = $PSBoundParameters.Remove('Confirm')
+        $null = $PSBoundParameters.Remove('WhatIf')
+        $hasAsJob = $PSBoundParameters.Remove('AsJob')
 
         $parameterSet = $PSCmdlet.ParameterSetName
         switch ($parameterSet) {
@@ -210,13 +218,6 @@ function New-AzSapMonitorProviderInstance {
             'ByKeyVault' {
                 # Referencing to CLI's implementation
                 # https://github.com/Azure/azure-hanaonazure-cli-extension/blob/master/azext_hanaonazure/custom.py#L312-L338
-                $null = $PSBoundParameters.Remove('Name')
-                $null = $PSBoundParameters.Remove('ResourceGroupName')
-                $null = $PSBoundParameters.Remove('SapMonitorName')
-                $null = $PSBoundParameters.Remove('Metadata')
-                $null = $PSBoundParameters.Remove('Type')
-                $null = $PSBoundParameters.Remove('HanaDatabasePasswordSecretId')
-                $null = $PSBoundParameters.Remove('HanaDatabasePasswordKeyVaultResourceId')
 
                 # 1. Get MSI
                 $sapMonitor = Get-AzSapMonitor -ResourceGroupName $ResourceGroupName -Name $SapMonitorName @PSBoundParameters
@@ -241,6 +242,14 @@ function New-AzSapMonitorProviderInstance {
                 } @PSBoundParameters
                 $PSBoundParameters.Add('SubscriptionId', $SubscriptionId)
 
+                # Service accepts secret ID without port
+                # but (Get-AzKeyVaultSecret).Id contains port (":443")
+                # need to remove it
+                $vaultPort = ":443"
+                if ($HanaDatabasePasswordSecretId.Contains($vaultPort)) {
+                    $HanaDatabasePasswordSecretId = $HanaDatabasePasswordSecretId.Replace($vaultPort, "")
+                }
+
                 $property = @{
                     hanaHostname                   = $HanaHostname
                     hanaDbName                     = $HanaDatabaseName
@@ -252,12 +261,14 @@ function New-AzSapMonitorProviderInstance {
                 }
             }
         }
-        $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
-        $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))
-        $PSBoundParameters.Add('Name', $Name)
         $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
+        $PSBoundParameters.Add('Name', $Name)
         $PSBoundParameters.Add('SapMonitorName', $SapMonitorName)
-        $PSBoundParameters.Add('Type', $Type)
+        $PSBoundParameters.Add('Type', $ProviderType)
+        $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
+
+        $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))
+
         if ($hasAsJob) {
             $PSBoundParameters.Add('AsJob', $true)
         }
