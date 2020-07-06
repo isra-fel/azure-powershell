@@ -21,10 +21,10 @@ New-AzSapMonitor -Name ps-spamonitor-t01 -ResourceGroupName nancyc-hn1 -Location
 # new provider, plain password
 New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstance2 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
 
-New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name ps-sapmonitorins-t01 -SapMonitorName yemingmonitor -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
+New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name ps-sapmonitorins-t04 -SapMonitorName yemingmonitortest -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
 
 # new provider, password stored in key vault
-New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name yeminginstancetest -SapMonitorName yemingmonitortest -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId https://yeminghana.vault.azure.net/secrets/psw/cb7e620d72c34d9e940ebdcf178e585b -HanaDatabasePasswordKeyVaultResourceId /subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.KeyVault/vaults/yeminghana
+New-AzSapMonitorProviderInstance -ResourceGroupName nancyc-hn1 -Name keyvalue-test -SapMonitorName yemingmonitortest -Type SapHana -HanaHostname 'hdb1-0' -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId https://yeminghana.vault.azure.net/secrets/psw/cb7e620d72c34d9e940ebdcf178e585b -HanaDatabasePasswordKeyVaultResourceId /subscriptions/9e223dbe-3399-4e19-88eb-0975f02ac87f/resourceGroups/yeminghana/providers/Microsoft.KeyVault/vaults/yeminghana
 ```
 
 1. LogAnalyticsWorkspaceSharedKey can be get by `Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroupName nancyc-hn1 -Name yeminglaw` (use PrimarySharedKey)

@@ -12,16 +12,16 @@ while(-not $mockingPath) {
 . ($mockingPath | Select-Object -First 1).FullName
 
 Describe 'New-AzSapMonitorProviderInstance' {
-    It 'CreateExpandedByString' -skip {
+    It 'CreateExpandedByString' {
         $hostName = 'hdb1-0'
-        $sapIns = New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns01 -SapMonitorName $env.sapMonitor02 -Type SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
+        $sapIns = New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns03 -SapMonitorName $env.sapMonitor02 -ProviderType SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
         $sapIns.ProvisioningState | Should -Be 'Succeeded'
     }
     It 'ByKeyVault' {
         $hostName = 'hdb1-0'
-        New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns02 -SapMonitorName $env.sapMonitor02 -Type SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId $env.hanaDbPasswordSecretId -HanaDatabasePasswordKeyVaultResourceId $env.hanaDbPasswordKvResourceId  -AsJob | Wait-Job
-        $sapIns = Get-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -SapMonitorName $env.sapMonitor02 -Name $env.sapIns02
-        $sapIns.Name | Should -Be $env.sapIns02
+        New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns04 -SapMonitorName $env.sapMonitor02 -ProviderType SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId $env.hanaDbPasswordSecretId -HanaDatabasePasswordKeyVaultResourceId $env.hanaDbPasswordKvResourceId  -AsJob | Wait-Job
+        $sapIns = Get-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns04 -SapMonitorName $env.sapMonitor02
+        $sapIns.ProvisioningState | Should -Be 'Succeeded'
     }
 
 }

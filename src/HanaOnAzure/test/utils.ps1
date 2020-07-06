@@ -71,9 +71,8 @@ function setupEnv() {
 
     Write-Host -ForegroundColor Green 'create SAP instance for test...'
     $hostName = 'hdb1-0'
-    #New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns01 -SapMonitorName $env.sapMonitor01 -Type SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
-    New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns01 -SapMonitorName $env.sapMonitor01 -Type SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId $env.hanaDbPasswordSecretId -HanaDatabasePasswordKeyVaultResourceId $env.hanaDbPasswordKvResourceId
-    New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns02 -SapMonitorName $env.sapMonitor01 -Type SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId $env.hanaDbPasswordSecretId -HanaDatabasePasswordKeyVaultResourceId $env.hanaDbPasswordKvResourceId
+    New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns01 -SapMonitorName $env.sapMonitor01 -ProviderType SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePassword (ConvertTo-SecureString "Manager1" -AsPlainText -Force)
+    New-AzSapMonitorProviderInstance -ResourceGroupName $env.resourceGroup -Name $env.sapIns02 -SapMonitorName $env.sapMonitor01 -ProviderType SapHana -HanaHostname $hostName -HanaDatabaseName 'SYSTEMDB' -HanaDatabaseSqlPort 30015 -HanaDatabaseUsername SYSTEM -HanaDatabasePasswordSecretId $env.hanaDbPasswordSecretId -HanaDatabasePasswordKeyVaultResourceId $env.hanaDbPasswordKvResourceId
     Write-Host -ForegroundColor Green 'The SAP instance created successfully'
 
     $envFile = 'env.json'
