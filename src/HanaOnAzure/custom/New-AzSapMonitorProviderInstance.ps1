@@ -189,7 +189,7 @@ function New-AzSapMonitorProviderInstance {
         $null = $PSBoundParameters.Remove('ResourceGroupName')
         $null = $PSBoundParameters.Remove('Name')
         $null = $PSBoundParameters.Remove('SapMonitorName')
-        $null = $PSBoundParameters.Remove('Type')
+        $null = $PSBoundParameters.Remove('ProviderType')
         $null = $PSBoundParameters.Remove('Metadata')
 
         $null = $PSBoundParameters.Remove('HanaHostname')
@@ -264,7 +264,7 @@ function New-AzSapMonitorProviderInstance {
         $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
         $PSBoundParameters.Add('Name', $Name)
         $PSBoundParameters.Add('SapMonitorName', $SapMonitorName)
-        $PSBoundParameters.Add('Type', $ProviderType)
+        $PSBoundParameters.Add('ProviderType', $ProviderType)
         $PSBoundParameters.Add('Metadata', ($Metadata | ConvertTo-Json))
 
         $PSBoundParameters.Add('ProviderInstanceProperty', ($property | ConvertTo-Json))
