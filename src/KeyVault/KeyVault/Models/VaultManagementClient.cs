@@ -44,9 +44,9 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
         public readonly string VaultsResourceType = "Microsoft.KeyVault/vaults";
         public readonly string ManagedHsmResourceType = "Microsoft.KeyVault/managedHSMs";
 
-        public VaultManagementClient(IAzureContext context)
+        public VaultManagementClient(IArmClientFactory armClientFactory)
         {
-            KeyVaultManagementClient = AzureSession.Instance.ClientFactory.CreateArmClient<KeyVaultManagementClient>(context, AzureEnvironment.Endpoint.ResourceManager);
+            KeyVaultManagementClient = armClientFactory.CreateArmClient<KeyVaultManagementClient>();
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
                     throw new ArgumentException("parameters.TenantId");
                 if (!string.IsNullOrWhiteSpace(parameters.SkuName))
                 {
-                    if (Enum.TryParse(parameters.SkuName, true, out SkuName skuName)) 
+                    if (Enum.TryParse(parameters.SkuName, true, out SkuName skuName))
                     {
                         properties.Sku = new Sku(skuName);
                     }
@@ -252,7 +252,7 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
                 && updatedPurgeProtectionSwitch.Value)
                 properties.EnablePurgeProtection = updatedPurgeProtectionSwitch;
 
-            // Update EnableRbacAuthorization when specified, otherwise stay current value 
+            // Update EnableRbacAuthorization when specified, otherwise stay current value
             properties.EnableRbacAuthorization = updatedRbacAuthorization;
 
             properties.AccessPolicies = (updatedPolicies == null) ?
@@ -502,7 +502,7 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
                 ListManagedHsmsByResourceGroup(resourceGroupName, adClient);
         }
 
-        private List<PSManagedHsm> ListManagedHsmsByResourceGroup(string resourceGroupName, ActiveDirectoryClient adClient = null) 
+        private List<PSManagedHsm> ListManagedHsmsByResourceGroup(string resourceGroupName, ActiveDirectoryClient adClient = null)
         {
             List<PSManagedHsm> managedHsms = new List<PSManagedHsm>(); ;
             IPage<ManagedHsm> response = KeyVaultManagementClient.ManagedHsms.ListByResourceGroupAsync(resourceGroupName).GetAwaiter().GetResult();

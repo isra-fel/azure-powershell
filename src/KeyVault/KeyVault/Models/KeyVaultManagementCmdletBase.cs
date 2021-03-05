@@ -35,10 +35,34 @@ using KeyPerms = Microsoft.Azure.Management.KeyVault.Models.KeyPermissions;
 using PSKeyVaultProperties = Microsoft.Azure.Commands.KeyVault.Properties;
 using SecretPerms = Microsoft.Azure.Management.KeyVault.Models.SecretPermissions;
 using StoragePerms = Microsoft.Azure.Management.KeyVault.Models.StoragePermissions;
+using Microsoft.Rest;
+using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.KeyVault
 {
-    public class KeyVaultManagementCmdletBase : AzureRMCmdlet
+    public interface IArmClientFactory
+    {
+        TClient CreateArmClient<TClient>() where TClient : ServiceClient<TClient>;
+    }
+
+
+    public class AzureRMCmdletExtended : AzureRMCmdlet, IArmClientFactory
+    {
+        [Parameter()]
+        public string SubscriptionId { get; set; }
+        public TClient CreateArmClient<TClient>() where TClient : ServiceClient<TClient>
+        {
+            var client = AzureSession.Instance.ClientFactory.CreateArmClient<TClient>(DefaultContext, AzureEnvironment.Endpoint.ResourceManager);
+            var subscriptionId = typeof(TClient).GetProperty("SubscriptionId");
+            if (subscriptionId != null && SubscriptionId != null)
+            {
+                subscriptionId.SetValue(client, SubscriptionId);
+            }
+            return client;
+        }
+    }
+
+    public class KeyVaultManagementCmdletBase : AzureRMCmdletExtended
     {
 
         private VaultManagementClient _keyVaultManagementClient;
@@ -47,7 +71,7 @@ namespace Microsoft.Azure.Commands.KeyVault
         {
             get
             {
-                return _keyVaultManagementClient ?? (_keyVaultManagementClient = new VaultManagementClient(DefaultContext));
+                return _keyVaultManagementClient ?? (_keyVaultManagementClient = new VaultManagementClient(this));
             }
 
             set { _keyVaultManagementClient = value; }
@@ -62,7 +86,7 @@ namespace Microsoft.Azure.Commands.KeyVault
                 if (_activeDirectoryClient != null) return _activeDirectoryClient;
 
                 _dataServiceCredential = new DataServiceCredential(AzureSession.Instance.AuthenticationFactory, DefaultProfile.DefaultContext, AzureEnvironment.Endpoint.Graph);
-// TODO: Remove IfDef
+                // TODO: Remove IfDef
 #if NETSTANDARD
                 try
                 {
@@ -88,7 +112,7 @@ namespace Microsoft.Azure.Commands.KeyVault
         {
             get
             {
-                return _resourceClient ?? (_resourceClient = AzureSession.Instance.ClientFactory.CreateArmClient<ResourceManagementClient>(DefaultContext, AzureEnvironment.Endpoint.ResourceManager));
+                return _resourceClient ?? (_resourceClient = CreateArmClient<ResourceManagementClient>());
             }
 
             set { _resourceClient = value; }
@@ -180,11 +204,11 @@ namespace Microsoft.Azure.Commands.KeyVault
             return new GenericPageEnumerable<GenericResource>(() => armClient.ResourceGroups.ListResources(resourceGroupName, filter), armClient.ResourceGroups.ListResourcesNext, first, skip).Select(r => new PSKeyVaultIdentityItem(r));
         }
 
-        protected string GetResourceGroupName(string name, bool isHsm=false)
+        protected string GetResourceGroupName(string name, bool isHsm = false)
         {
             var resourcesByName = ResourceClient.FilterResources(new FilterResourcesOptions
             {
-                ResourceType = isHsm? KeyVaultManagementClient.ManagedHsmResourceType:KeyVaultManagementClient.VaultsResourceType
+                ResourceType = isHsm ? KeyVaultManagementClient.ManagedHsmResourceType : KeyVaultManagementClient.VaultsResourceType
             });
 
             string rg = null;
@@ -210,7 +234,7 @@ namespace Microsoft.Azure.Commands.KeyVault
         //
         // An alternate implementation that checks for the vault name globally would be to construct a vault
         // URL with the given name and attempt checking DNS entries for it.
-        protected bool VaultExistsInCurrentSubscription(string name, bool isHsm=false)
+        protected bool VaultExistsInCurrentSubscription(string name, bool isHsm = false)
         {
             return GetResourceGroupName(name, isHsm) != null;
         }
@@ -257,7 +281,7 @@ namespace Microsoft.Azure.Commands.KeyVault
         private string GetObjectIdByUpn(string upn)
         {
             if (string.IsNullOrWhiteSpace(upn)) return null;
-// TODO: Remove IfDef
+            // TODO: Remove IfDef
 #if NETSTANDARD
             var user = ActiveDirectoryClient.FilterUsers(new ADObjectFilterOptions { UPN = upn }).SingleOrDefault();
 #else
@@ -267,7 +291,7 @@ namespace Microsoft.Azure.Commands.KeyVault
             string objId = null;
             if (user != null)
             {
-// TODO: Remove IfDef
+                // TODO: Remove IfDef
 #if NETSTANDARD
                 objId = user.Id.ToString();
 #else
@@ -281,7 +305,7 @@ namespace Microsoft.Azure.Commands.KeyVault
         {
             if (string.IsNullOrWhiteSpace(spn)) return null;
 
-// TODO: Remove IfDef
+            // TODO: Remove IfDef
 #if NETSTANDARD
             var odataQuery = new Rest.Azure.OData.ODataQuery<Graph.RBAC.Version1_6.Models.ServicePrincipal>(s => s.ServicePrincipalNames.Contains(spn));
             var servicePrincipal = ActiveDirectoryClient.FilterServicePrincipals(odataQuery).SingleOrDefault();
@@ -301,7 +325,7 @@ namespace Microsoft.Azure.Commands.KeyVault
             if (DefaultProfile.DefaultContext.Environment.OnPremise || string.IsNullOrWhiteSpace(email)) return null;
 
             string objId = null;
-// TODO: Remove IfDef
+            // TODO: Remove IfDef
 #if NETSTANDARD
             var users = ActiveDirectoryClient.FilterUsers(new ADObjectFilterOptions { Mail = email });
             if (users != null)
@@ -322,7 +346,7 @@ namespace Microsoft.Azure.Commands.KeyVault
             return objId;
         }
 
-// TODO: Remove IfDef code
+        // TODO: Remove IfDef code
 #if !NETSTANDARD
         private Expression<Func<IUser, bool>> FilterByEmail(string email)
         {
