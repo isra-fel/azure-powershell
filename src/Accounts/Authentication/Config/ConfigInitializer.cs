@@ -204,6 +204,12 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Config
                 true,
                 AzurePSDataCollectionProfile.EnvironmentVariableName,
                 new[] { AppliesTo.Az }));
+            configManager.RegisterConfig(new SimpleTypedConfig<string>(
+                "SecretManagementVault",
+                "Name of vault to get secrets.",
+                string.Empty,
+                null,
+                new[] { AppliesTo.Az }));
 
             // configs with their own types
             // configManager.RegisterConfig(new EnableInterceptSurveyConfig()); // todo: uncomment after improvements are made to survey
