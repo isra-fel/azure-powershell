@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Commands.Profile
                     Mandatory = true, HelpMessage = "Service Principal Secret")]
         [Parameter(ParameterSetName = UserWithCredentialParameterSet,
                     Mandatory = true, HelpMessage = "Username/Password Credential")]
-        public PSCredential Credential { get; set; }
+        public VaultCredential Credential { get; set; }
 
         [Parameter(ParameterSetName = ServicePrincipalCertificateParameterSet,
                     Mandatory = true, HelpMessage = "Certificate Hash (Thumbprint)")]
@@ -390,8 +390,9 @@ namespace Microsoft.Azure.Commands.Profile
             SecureString password = null;
             if (Credential != null)
             {
-                azureAccount.Id = Credential.UserName;
-                password = Credential.Password;
+                var psCredential = (PSCredential)Credential;
+                azureAccount.Id = psCredential.UserName;
+                password = psCredential.Password;
             }
 
             if (UseDeviceAuthentication.IsPresent)

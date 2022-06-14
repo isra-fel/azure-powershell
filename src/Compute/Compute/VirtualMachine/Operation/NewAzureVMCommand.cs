@@ -145,7 +145,7 @@ namespace Microsoft.Azure.Commands.Compute
         public string Name { get; set; }
 
         [Parameter(ParameterSetName = SimpleParameterSet, Mandatory = true)]
-        public PSCredential Credential { get; set; }
+        public VaultCredential Credential { get; set; }
 
         [Parameter(
             ParameterSetName = SimpleParameterSet,
@@ -548,7 +548,7 @@ namespace Microsoft.Azure.Commands.Compute
                 List<SshPublicKey> sshPublicKeyList = null;
                 if (!String.IsNullOrEmpty(_cmdlet.SshKeyName))
                 {
-                    SshPublicKey sshPublicKey = _cmdlet.createPublicKeyObject(_cmdlet.Credential.UserName);
+                    SshPublicKey sshPublicKey = _cmdlet.createPublicKeyObject(((PSCredential)(_cmdlet.Credential)).UserName);
                     sshPublicKeyList = new List<SshPublicKey>()
                     {
                         sshPublicKey
@@ -574,9 +574,9 @@ namespace Microsoft.Azure.Commands.Compute
                         name: _cmdlet.Name,
                         networkInterface: networkInterface,
                         imageAndOsType: ImageAndOsType,
-                        adminUsername: _cmdlet.Credential.UserName,
+                        adminUsername: ((PSCredential)(_cmdlet.Credential)).UserName,
                         adminPassword:
-                            new NetworkCredential(string.Empty, _cmdlet.Credential.Password).Password,
+                            new NetworkCredential(string.Empty, ((PSCredential)(_cmdlet.Credential)).Password).Password,
                         size: _cmdlet.Size,
                         availabilitySet: availabilitySet,
                         dataDisks: _cmdlet.DataDiskSizeInGb,
@@ -659,7 +659,7 @@ namespace Microsoft.Azure.Commands.Compute
 
             var parameters = new Parameters(this, client, resourceClient);
 
-            // Information message if the default Size value is used. 
+            // Information message if the default Size value is used.
             if (!this.IsParameterBound(c => c.Size))
             {
                 WriteInformation("No Size value has been provided. The VM will be created with the default size Standard_D2s_v3.", new string[] { "PSHOST" });
@@ -757,7 +757,7 @@ namespace Microsoft.Azure.Commands.Compute
                 psResult.FullyQualifiedDomainName = fqdn;
                 var connectionString = parameters.ImageAndOsType.GetConnectionString(
                     fqdn,
-                    Credential?.UserName);
+                    ((PSCredential)Credential)?.UserName);
                 asyncCmdlet.WriteVerbose(
                     Resources.VirtualMachineUseConnectionString,
                     connectionString);
@@ -903,7 +903,7 @@ namespace Microsoft.Azure.Commands.Compute
 
         /// <summary>
         /// Heres whats happening here :
-        /// If "SystemAssignedIdentity" and "UserAssignedIdentity" are both present we set the type of identity to be SystemAssignedUsrAssigned and set the user 
+        /// If "SystemAssignedIdentity" and "UserAssignedIdentity" are both present we set the type of identity to be SystemAssignedUsrAssigned and set the user
         /// defined identity in the VM identity object.
         /// If only "SystemAssignedIdentity" is present, we just set the type of the Identity to "SystemAssigned" and no identity ids are set as its created by Azure
         /// If only "UserAssignedIdentity" is present, we set the type of the Identity to be "UserAssigned" and set the Identity in the VM identity object.
@@ -1038,7 +1038,7 @@ namespace Microsoft.Azure.Commands.Compute
 
             var storagePrimaryEndpointBlob = CreateStandardStorageAccount(storageClient);
             return storagePrimaryEndpointBlob;
-            
+
         }
 
         private string GetStorageAccountNameFromStorageProfile()
@@ -1176,7 +1176,7 @@ namespace Microsoft.Azure.Commands.Compute
                 }
                 catch (Rest.Azure.CloudException)
                 {
-                    //create key 
+                    //create key
                     SshPublicKeyResource sshkey = new SshPublicKeyResource();
                     sshkey.Location = this.Location != null ? this.Location : "eastus";
                     SshPublicKey = this.ComputeClient.ComputeManagementClient.SshPublicKeys.Create(this.ResourceGroupName, this.SshKeyName, sshkey);
