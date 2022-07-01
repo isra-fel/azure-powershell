@@ -145,6 +145,7 @@ namespace Microsoft.Azure.Commands.Compute
         public string Name { get; set; }
 
         [Parameter(ParameterSetName = SimpleParameterSet, Mandatory = true)]
+        [VaultCredentialNameCompleterAttribute]
         public VaultCredential Credential { get; set; }
 
         [Parameter(
