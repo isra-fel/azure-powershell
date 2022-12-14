@@ -15,7 +15,8 @@ Updates the configs of Azure PowerShell.
 ```
 Update-AzConfig [-AppliesTo <String>] [-Scope <ConfigScope>] [-DefaultProfile <IAzureContextContainer>]
  [-WhatIf] [-Confirm] [-DefaultSubscriptionForLogin <String>] [-DisplayBreakingChangeWarning <Boolean>]
- [-DisplaySurveyMessage <Boolean>] [-EnableDataCollection <Boolean>] [<CommonParameters>]
+ [-DisplaySurveyMessage <Boolean>] [-EnableDataCollection <Boolean>] [-EnableLoginByWam <Boolean>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -168,6 +169,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -EnableLoginByWam
+When enabled, Web Account Manager (WAM) will be the default interactive login experience when on a supported platform, otherwise it falls back to opening a browser.
+
+```yaml
+Type: System.Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -Scope
 Determines the scope of config changes, for example, whether changes apply only to the current process, or to all sessions started by this user.
 By default it is CurrentUser.
@@ -176,7 +192,7 @@ By default it is CurrentUser.
 Type: Microsoft.Azure.PowerShell.Common.Config.ConfigScope
 Parameter Sets: (All)
 Aliases:
-Accepted values: CurrentUser, Process
+Accepted values: CurrentUser, Process, Default, Environment
 
 Required: False
 Position: Named

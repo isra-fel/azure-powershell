@@ -22,7 +22,8 @@ Clear-AzConfig [-Force] [-PassThru] [-AppliesTo <String>] [-Scope <ConfigScope>]
 ```
 Clear-AzConfig [-PassThru] [-AppliesTo <String>] [-Scope <ConfigScope>]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [-DefaultSubscriptionForLogin]
- [-DisplayBreakingChangeWarning] [-DisplaySurveyMessage] [-EnableDataCollection] [<CommonParameters>]
+ [-DisplayBreakingChangeWarning] [-DisplaySurveyMessage] [-EnableDataCollection] [-EnableLoginByWam]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -145,6 +146,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnableLoginByWam
+When enabled, Web Account Manager (WAM) will be the default interactive login experience when on a supported platform, otherwise it falls back to opening a browser.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: ClearByKey
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Force
 Do not ask for confirmation when clearing all configs.
 
@@ -183,7 +199,7 @@ By default it is CurrentUser.
 Type: Microsoft.Azure.PowerShell.Common.Config.ConfigScope
 Parameter Sets: (All)
 Aliases:
-Accepted values: CurrentUser, Process
+Accepted values: CurrentUser, Process, Default, Environment
 
 Required: False
 Position: Named

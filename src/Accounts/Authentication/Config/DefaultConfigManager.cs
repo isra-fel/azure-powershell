@@ -232,6 +232,8 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Config
 
             WriteDebug($"[ConfigManager] Updated [{options.Key}] to [{options.Value}]. Scope = [{options.Scope}], AppliesTo = [{options.AppliesTo}]");
 
+            definition.AfterApply(options.Value);
+
             return new ConfigData(definition, options.Value, options.Scope, options.AppliesTo);
         }
 

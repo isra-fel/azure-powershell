@@ -189,6 +189,31 @@ namespace Microsoft.Azure.Authentication.Test.Config
             Assert.Throws<AzPSArgumentException>(() => icm.UpdateConfig(new UpdateConfigOptions(key, true, ConfigScope.CurrentUser) { AppliesTo = "Az.Accounts" }));
         }
 
+        [Fact]
+        [Trait(TestTraits.AcceptanceType, TestTraits.CheckIn)]
+        public void ShouldCallApplyThenAfterApply()
+        {
+            int callsToApply = 0, callsToAfterApply = 0;
+            var mock = new Mock<ConfigDefinition>();
+            mock.Setup(c => c.Key).Returns("key");
+            mock.Setup(c => c.CanApplyTo).Returns(new[] { AppliesTo.Az });
+            mock.Setup(c => c.Apply(It.IsAny<bool>())).Callback((object v) =>
+            {
+                ++callsToApply;
+                Assert.Equal(1, callsToApply);
+                Assert.Equal(0, callsToAfterApply);
+            });
+            mock.Setup(c => c.AfterApply(It.IsAny<bool>())).Callback((object v) =>
+            {
+                ++callsToAfterApply;
+                Assert.Equal(1, callsToApply);
+                Assert.Equal(1, callsToAfterApply);
+            });
+            var config = mock.Object;
+            var icm = GetConfigManager(config);
+            icm.UpdateConfig(config.Key, true, ConfigScope.CurrentUser);
+        }
+
         internal class ConfigWithSideEffect : TypedConfig<bool>
         {
             private readonly Action<bool> _sideEffect;

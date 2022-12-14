@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -309,6 +309,15 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
         public static string HelpMessageOfEnableInterceptSurvey {
             get {
                 return ResourceManager.GetString("HelpMessageOfEnableInterceptSurvey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When enabled, Web Account Manager (WAM) will be the default interactive login experience when on a supported platform, otherwise it falls back to opening a browser..
+        /// </summary>
+        public static string HelpMessageOfEnableWamLogin {
+            get {
+                return ResourceManager.GetString("HelpMessageOfEnableWamLogin", resourceCulture);
             }
         }
         
@@ -651,6 +660,15 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
         public static string SuccessfullyLaunchedBrowser {
             get {
                 return ResourceManager.GetString("SuccessfullyLaunchedBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You may need to login again after updating &quot;{0}&quot;..
+        /// </summary>
+        public static string SwitchLoginMethodWarning {
+            get {
+                return ResourceManager.GetString("SwitchLoginMethodWarning", resourceCulture);
             }
         }
         

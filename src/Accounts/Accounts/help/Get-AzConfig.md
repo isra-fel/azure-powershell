@@ -15,7 +15,7 @@ Gets the configs of Azure PowerShell.
 ```
 Get-AzConfig [-AppliesTo <String>] [-Scope <ConfigScope>] [-DefaultProfile <IAzureContextContainer>]
  [-DefaultSubscriptionForLogin] [-DisplayBreakingChangeWarning] [-DisplaySurveyMessage] [-EnableDataCollection]
- [<CommonParameters>]
+ [-EnableLoginByWam] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -144,6 +144,21 @@ Accept wildcard characters: False
 ### -EnableDataCollection
 When enabled, Azure PowerShell cmdlets send telemetry data to Microsoft to improve the customer experience.
 For more information, see our privacy statement: https://aka.ms/privacy
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableLoginByWam
+When enabled, Web Account Manager (WAM) will be the default interactive login experience when on a supported platform, otherwise it falls back to opening a browser.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

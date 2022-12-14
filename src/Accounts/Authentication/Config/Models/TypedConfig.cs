@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Config
         }
 
         /// <summary>
-        /// Performs side effects before applying the config.
+        /// Performs side effects *before* applying the config.
         /// </summary>
         /// <param name="value">The value to be applied to this typed config.</param>
         /// <remarks>
@@ -59,10 +59,31 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Config
 
         /// <summary>
         /// Generic version of <see cref="Apply(object)"/>.
-        /// Override in child classes to perform side effects before applying the config value.
+        /// Override in child classes to perform side effects *before* applying the config value.
         /// </summary>
         /// <param name="value">The value to be applied to this typed config, cast to the correct type.</param>
         protected virtual void ApplyTyped(TValue value) { }
+
+        /// <summary>
+        /// Performs side effects *after* applying the config.
+        /// </summary>
+        /// <param name="value">The applied value.</param>
+        /// <remarks>
+        /// This method is sealed.
+        /// Derived types should override <see cref="AfterApplyTyped(TValue)"/>.
+        /// </remarks>
+        public sealed override void AfterApply(object value)
+        {
+            base.AfterApply(value);
+            AfterApplyTyped((TValue)value);
+        }
+
+        /// <summary>
+        /// Generic version of <see cref="AfterApply(object)"/>.
+        /// Override in child classes to perform side effects *after* applying the config value.
+        /// </summary>
+        /// <param name="value">The applied value, cast to the correct type.</param>
+        protected virtual void AfterApplyTyped(TValue value) { }
 
         public override Type ValueType => typeof(TValue);
     }

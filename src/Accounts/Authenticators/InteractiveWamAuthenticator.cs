@@ -13,10 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,23 +28,15 @@ using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 namespace Microsoft.Azure.PowerShell.Authenticators
 {
     /// <summary>
-    /// Authenticator for user interactive authentication using browser.
+    /// Authenticator for user interactive authentication using WAM (web account manager).
     /// </summary>
-    public class InteractiveUserAuthenticator : DelegatingAuthenticator
+    public class InteractiveWamAuthenticator : InteractiveUserAuthenticator
     {
-        // possible ports for adfs: [8405, 8408)
-        // worked with stack team to pre-configure this in their deployment
-        protected const int AdfsPortStart = 8405;
-        protected const int AdfsPortEnd = 8408;
-        // possible ports for aad: [8400, 9000)
-        protected const int AadPortStart = 8400;
-        protected const int AadPortEnd = 9000;
-
         public override Task<IAccessToken> Authenticate(AuthenticationParameters parameters, CancellationToken cancellationToken)
         {
             var interactiveParameters = parameters as InteractiveParameters;
             var onPremise = interactiveParameters.Environment.OnPremise;
-            //null instead of "organizations" should be passed to Azure.Identity to support MSA account 
+            //null instead of "organizations" should be passed to Azure.Identity to support MSA account
             var tenantId = onPremise ? AdfsTenant :
                 (string.Equals(parameters.TenantId, OrganizationsTenant, StringComparison.OrdinalIgnoreCase) ? null : parameters.TenantId);
             var tokenCacheProvider = interactiveParameters.TokenCacheProvider;
@@ -59,18 +47,21 @@ namespace Microsoft.Azure.PowerShell.Authenticators
             var requestContext = new TokenRequestContext(scopes);
             var authority = interactiveParameters.Environment.ActiveDirectoryAuthority;
 
-            var options = new InteractiveBrowserCredentialOptions()
+            var options = new InteractiveBrowserCredentialBrokerOptions(WindowHandleUtilities.GetConsoleOrTerminalWindow())
             {
                 ClientId = clientId,
                 TenantId = tenantId,
                 TokenCachePersistenceOptions = tokenCacheProvider.GetTokenCachePersistenceOptions(),
                 AuthorityHost = new Uri(authority),
+                // MSAL doesn't rely on redirect URI from user input,
+                // it always calculate it as "ms-appx-web://microsoft.aad.brokerplugin/{clientId}",
+                // so the below RedirectUri is not for WAM, but for browser fallback.
                 RedirectUri = GetReplyUrl(onPremise, interactiveParameters),
-                LoginHint = interactiveParameters.UserId,
+                LoginHint = interactiveParameters.UserId
             };
             var browserCredential = new InteractiveBrowserCredential(options);
 
-            TracingAdapter.Information($"{DateTime.Now:T} - [InteractiveUserAuthenticator] Calling InteractiveBrowserCredential.AuthenticateAsync with TenantId:'{options.TenantId}', Scopes:'{string.Join(",", scopes)}', AuthorityHost:'{options.AuthorityHost}', RedirectUri:'{options.RedirectUri}'");
+            TracingAdapter.Information($"{DateTime.Now:T} - [InteractiveWamAuthenticator] Calling InteractiveBrowserCredential.AuthenticateAsync with TenantId:'{options.TenantId}', Scopes:'{string.Join(",", scopes)}', AuthorityHost:'{options.AuthorityHost}', RedirectUri:'{options.RedirectUri}'");
             var authTask = browserCredential.AuthenticateAsync(requestContext, cancellationToken);
 
             return MsalAccessToken.GetAccessTokenAsync(
@@ -78,45 +69,6 @@ namespace Microsoft.Azure.PowerShell.Authenticators
                 browserCredential,
                 requestContext,
                 cancellationToken);
-        }
-
-        protected Uri GetReplyUrl(bool onPremise, InteractiveParameters interactiveParameters)
-        {
-            var port = GetReplyUrlPort(onPremise, interactiveParameters);
-            return new Uri($"http://localhost:{port}");
-        }
-
-        private int GetReplyUrlPort(bool onPremise, InteractiveParameters interactiveParameters)
-        {
-            int portStart = onPremise ? AdfsPortStart : AadPortStart;
-            int portEnd = onPremise ? AdfsPortEnd : AadPortEnd;
-
-            int port = portStart;
-            TcpListener listener = null;
-
-            do
-            {
-                try
-                {
-                    listener = new TcpListener(IPAddress.Loopback, port);
-                    listener.Start();
-                    listener.Stop();
-                    return port;
-                }
-                catch (Exception ex)
-                {
-                    interactiveParameters.PromptAction(string.Format("Port {0} is taken with exception '{1}'; trying to connect to the next port.", port, ex.Message));
-                    listener?.Stop();
-                }
-            }
-            while (++port < portEnd);
-
-            throw new Exception("Cannot find an open port.");
-        }
-
-        public override bool CanAuthenticate(AuthenticationParameters parameters)
-        {
-            return (parameters as InteractiveParameters) != null;
         }
     }
 }

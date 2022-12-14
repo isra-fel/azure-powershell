@@ -11,8 +11,9 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-
 using Microsoft.Azure.Commands.Common.Authentication;
+using Microsoft.Azure.Commands.Shared.Config;
+using Microsoft.Azure.PowerShell.Common.Config;
 
 namespace Microsoft.Azure.PowerShell.Authenticators
 {
@@ -26,7 +27,16 @@ namespace Microsoft.Azure.PowerShell.Authenticators
         public void Reset()
         {
             Authenticator = null;
-            AppendAuthenticator(() => { return new InteractiveUserAuthenticator(); });
+            bool enableLoginByWam = AzureSession.Instance.TryGetComponent<IConfigManager>(nameof(IConfigManager), out var configManager)
+                && configManager.GetConfigValue<bool>(ConfigKeys.EnableLoginByWam);
+            if (enableLoginByWam)
+            {
+                AppendAuthenticator(() => { return new InteractiveWamAuthenticator(); });
+            }
+            else
+            {
+                AppendAuthenticator(() => { return new InteractiveUserAuthenticator(); });
+            }
             AppendAuthenticator(() => { return new DeviceCodeAuthenticator(); });
             AppendAuthenticator(() => { return new UsernamePasswordAuthenticator(); });
             AppendAuthenticator(() => { return new ServicePrincipalAuthenticator(); });
