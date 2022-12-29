@@ -24,6 +24,7 @@ using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Azure.Identity;
 using Microsoft.Azure.PowerShell.Common.Config;
 using Microsoft.Azure.Commands.Shared.Config;
+using Hyak.Common;
 
 namespace Microsoft.Azure.PowerShell.Authenticators
 {
@@ -58,11 +59,16 @@ namespace Microsoft.Azure.PowerShell.Authenticators
 
         private static SharedTokenCacheCredentialOptions GetTokenCredentialOptions(SilentParameters silentParameters, string tenantId, string authority, PowerShellTokenCacheProvider tokenCacheProvider)
         {
-            SharedTokenCacheCredentialOptions options =
+            SharedTokenCacheCredentialOptions options;
+            if (
                 AzureSession.Instance.TryGetComponent<IConfigManager>(nameof(IConfigManager), out var config)
                 && config.GetConfigValue<bool>(ConfigKeys.EnableLoginByWam)
-                ? new SharedTokenCacheCredentialBrokerOptions(tokenCacheProvider.GetTokenCachePersistenceOptions())
-                : new SharedTokenCacheCredentialOptions(tokenCacheProvider.GetTokenCachePersistenceOptions());
+                )
+            {
+                options = new SharedTokenCacheCredentialBrokerOptions(tokenCacheProvider.GetTokenCachePersistenceOptions());
+                TracingAdapter.Information("Using SharedTokenCacheCredentialBrokerOptions");
+            }
+            else { options = new SharedTokenCacheCredentialOptions(tokenCacheProvider.GetTokenCachePersistenceOptions()); TracingAdapter.Information("Using SharedTokenCacheCredentialOptions"); }
             options.EnableGuestTenantAuthentication = true;
             options.ClientId = AuthenticationHelpers.PowerShellClientId;
             options.Username = silentParameters.UserId;

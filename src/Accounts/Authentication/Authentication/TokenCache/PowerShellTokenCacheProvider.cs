@@ -163,7 +163,7 @@ namespace Microsoft.Azure.Commands.Common.Authentication
 
         protected abstract void RegisterCache(IPublicClientApplication client);
 
-        public virtual IPublicClientApplication CreatePublicClient(string authority = null)
+        public virtual IPublicClientApplication CreatePublicClient(string authority = null, WindowsBrokerOptions brokerOptions = null)
         {
             var builder = PublicClientApplicationBuilder.Create(PowerShellClientId).WithBrokerPreview();
 
@@ -171,8 +171,14 @@ namespace Microsoft.Azure.Commands.Common.Authentication
             {
                 builder.WithAuthority(authority);
             }
+            if (brokerOptions != null)
+            {
+                builder.WithWindowsBrokerOptions(brokerOptions);
+            }
             var client = builder.Build();
+            TracingAdapter.Information($"Building PublicClientApplication with broker options. Authority: [{authority}].");
             RegisterCache(client);
+            TracingAdapter.Information($"Cache registered to PublicClientApplication with broker options. Authority: [{authority}].");
             return client;
         }
 

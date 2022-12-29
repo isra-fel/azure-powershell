@@ -230,6 +230,9 @@ namespace Microsoft.Azure.Commands.Profile
         [ValidateNotNullOrEmpty]
         public string FederatedToken { get; set; }
 
+        [Parameter(ParameterSetName = UserParameterSet, Mandatory = false, HelpMessage = "todo")]
+        public SwitchParameter AsCurrentUser { get; set; }
+
         protected override IAzureContext DefaultContext
         {
             get
@@ -287,6 +290,8 @@ namespace Microsoft.Azure.Commands.Profile
 
         private event EventHandler<StreamEventArgs> _writeWarningEvent;
         private event EventHandler<StreamEventArgs> _originalWriteWarning;
+
+        private IAuthenticatorBuilder _previousAuthenticatorBuilder = null;
 
         private void WriteWarningSender(object sender, StreamEventArgs args)
         {
@@ -354,6 +359,10 @@ namespace Microsoft.Azure.Commands.Profile
                     if(!string.IsNullOrEmpty(AccountId))
                     {
                         azureAccount.SetProperty("LoginHint", AccountId);
+                    }
+                    if (AsCurrentUser)
+                    {
+                        SetUpCurrentUserAuthenticator();
                     }
                     break;
                 case AccessTokenParameterSet:
@@ -553,6 +562,26 @@ namespace Microsoft.Azure.Commands.Profile
                        }
                    }
                });
+            }
+        }
+
+        private void SetUpCurrentUserAuthenticator()
+        {
+            AzureSession.Instance.TryGetComponent(AuthenticatorBuilder.AuthenticatorBuilderKey, out _previousAuthenticatorBuilder);
+            if (!(_previousAuthenticatorBuilder is CurrentUserAuthenticatorBuilder))
+            {
+                var currentUserBuilder = new CurrentUserAuthenticatorBuilder();
+                AzureSession.Instance.RegisterComponent<IAuthenticatorBuilder>(AuthenticatorBuilder.AuthenticatorBuilderKey, () => currentUserBuilder, overwrite: true);
+            }
+        }
+
+        private void TearDownCurrentUserAuthenticator()
+        {
+            if (_previousAuthenticatorBuilder != null)
+            {
+                WriteDebug("Tearing down current user authenticator");
+                AzureSession.Instance.RegisterComponent(AuthenticatorBuilder.AuthenticatorBuilderKey, () => _previousAuthenticatorBuilder, overwrite: true);
+                _previousAuthenticatorBuilder = null;
             }
         }
 
@@ -774,6 +803,10 @@ namespace Microsoft.Azure.Commands.Profile
             // unregister the thread-safe write warning, because it won't work out of this cmdlet
             AzureSession.Instance.UnregisterComponent<EventHandler<StreamEventArgs>>(WriteWarningKey);
             AzureSession.Instance.RegisterComponent(WriteWarningKey, () => _originalWriteWarning);
+            if (AsCurrentUser)
+            {
+                TearDownCurrentUserAuthenticator();
+            }
         }
     }
 }
