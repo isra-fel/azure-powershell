@@ -47,7 +47,7 @@ namespace Microsoft.Azure.PowerShell.AssemblyLoading
                 CreateAssembly("netcoreapp3.1", "Microsoft.Identity.Client.Extensions.Msal", "2.23.0.0").WithPowerShellCore(),
 
                 CreateAssembly("netstandard2.0", "Azure.Identity", "1.6.1.0"),
-                CreateAssembly("netstandard2.0", "Azure.Identity.BrokeredAuthentication", "1.0.0.0"),
+                //CreateAssembly("netstandard2.0", "Azure.Identity.BrokeredAuthentication", "1.0.0.0"),
                 CreateAssembly("netstandard2.0", "Microsoft.Bcl.AsyncInterfaces", "1.0.0.0"),
                 CreateAssembly("netstandard2.0", "Microsoft.Identity.Client.Broker", "4.49.1.0"),
                 CreateAssembly("netstandard2.0", "Microsoft.Identity.Client.NativeInterop", "0.13.3.0"),

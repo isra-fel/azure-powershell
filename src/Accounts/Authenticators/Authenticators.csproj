@@ -26,6 +26,12 @@
     <ProjectReference Include="..\Authentication\Authentication.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Azure.Identity.BrokeredAuthentication">
+      <HintPath>..\..\..\..\azure-sdk-for-net\artifacts\bin\Azure.Identity.BrokeredAuthentication\Debug\netstandard2.0\Azure.Identity.BrokeredAuthentication.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory).., build.proj))\src\Az.Post.props" />
 
 </Project>

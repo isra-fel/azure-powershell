@@ -37,19 +37,18 @@ namespace Microsoft.Azure.PowerShell.Authenticators
             var interactiveParameters = parameters as InteractiveWamParameters;
             var onPremise = interactiveParameters.Environment.OnPremise;
             //null instead of "organizations" should be passed to Azure.Identity to support MSA account
-            var tenantId = onPremise ? AdfsTenant :
-                (string.Equals(parameters.TenantId, OrganizationsTenant, StringComparison.OrdinalIgnoreCase) ? null : parameters.TenantId);
+            var tenantId = onPremise ? AdfsTenant : parameters.TenantId;
             var tokenCacheProvider = interactiveParameters.TokenCacheProvider;
             var resource = interactiveParameters.Environment.GetEndpoint(interactiveParameters.ResourceId) ?? interactiveParameters.ResourceId;
             var scopes = AuthenticationHelpers.GetScope(onPremise, resource);
-            var clientId = Constants.PowerShellClientId;
+            //var clientId = Constants.PowerShellClientId;
 
             var requestContext = new TokenRequestContext(scopes);
             var authority = interactiveParameters.Environment.ActiveDirectoryAuthority;
 
-            var options = new InteractiveBrowserCredentialBrokerOptions(WindowHandleUtilities.GetConsoleOrTerminalWindow())
+            var options = new InteractiveBrowserCredentialBrokerOptions(WindowHandleUtilities.GetConsoleOrTerminalWindow(), msaPassThrough: true)
             {
-                ClientId = clientId,
+                ClientId = Constants.PowerShellClientId,
                 TenantId = tenantId,
                 TokenCachePersistenceOptions = tokenCacheProvider.GetTokenCachePersistenceOptions(),
                 AuthorityHost = new Uri(authority),
