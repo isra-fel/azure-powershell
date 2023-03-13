@@ -146,7 +146,7 @@ namespace Microsoft.Azure.Commands.Profile.Utilities
                 }
                 else if (TryGetModuleOfCommand(args.CommandName, out string moduleName))
                 {
-                    WriteWarning(string.Format(Resources.CommandNotFoundModuleNotInstalled, args.CommandName, moduleName));
+                    HandleModuleNotInstalled(args, moduleName);
                 }
                 else if (EnableFuzzyString && TryGetFuzzyStringSuggestions(args.CommandName, out IEnumerable<string> suggestions))
                 {
@@ -159,10 +159,28 @@ namespace Microsoft.Azure.Commands.Profile.Utilities
                 if (isHelpful && !HaveAskedForFeedback)
                 {
                     HaveAskedForFeedback = true;
-                    WriteWarning("The intelligent recommendation feature is in preview. Help us improve it by sharing your experience: https://go.microsoft.com/fwlink/?linkid=2202436");
+                    //WriteWarning("The intelligent recommendation feature is in preview. Help us improve it by sharing your experience: https://go.microsoft.com/fwlink/?linkid=2202436");
                 }
             }
             args.StopSearch = false;
+        }
+
+        private static void HandleModuleNotInstalled(CommandLookupEventArgs args, string moduleName)
+        {
+            WriteWarning(string.Format(Resources.CommandNotFoundModuleNotInstalled, args.CommandName, moduleName));
+            // todo: check install script
+            var installScript = $"Install-Module -Name {moduleName} -Repository PSGallery -Scope CurrentUser";
+            // todo: yes for once / yes for all? config?
+            Cii.InvokeScript($@"
+$yes = [System.Management.Automation.Host.ChoiceDescription]::new('&Yes');
+$no = [System.Management.Automation.Host.ChoiceDescription]::new('&No');
+$choice = $Host.UI.PromptForChoice('Confirm', 'Would you like Azure PowerShell to install ""{moduleName}"" module for you by ""{installScript}""?', @($yes, $no), 0);
+switch ($choice) {{
+    0 {{ {installScript}; Write-Host 'The missing module has been successfully installed. Please retry again.'; }}
+    1 {{ }}
+    Default {{ }}
+}}
+            ");
         }
 
         private static bool IsAzOrAzureRMCmdlet(string commandName)

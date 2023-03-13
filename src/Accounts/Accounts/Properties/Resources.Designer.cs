@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.Profile.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -376,7 +376,7 @@ namespace Microsoft.Azure.Commands.Profile.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The command {0} is part of Azure PowerShell module &quot;{1}&quot; and it is not installed. Run &quot;Install-Module {1}&quot; to install it..
+        ///   Looks up a localized string similar to The command {0} is part of Azure PowerShell module &quot;{1}&quot; and it is not installed..
         /// </summary>
         internal static string CommandNotFoundModuleNotInstalled {
             get {
