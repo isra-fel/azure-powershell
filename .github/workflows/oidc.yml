@@ -24,22 +24,14 @@ jobs:
         run: |
           Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
           Install-Module -Name Az.Accounts
+          Install-Module -Name Az.Resources
           Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
         shell: pwsh
 
       - name: "Test length of token"
         run: |
-          Write-Host "Attempt 1"
-          $now = Get-Date -AsUTC
-          Write-Host "Now: $now"
-          $token = Get-AzAccessToken
-          Write-Host "Expires: $($token.ExpiresOn.DateTime)"
-
-          Start-Sleep -Seconds 10
-
-          Write-Host "Attempt 2"
-          $now = Get-Date -AsUTC
-          Write-Host "Now: $now"
-          $token = Get-AzAccessToken
-          Write-Host "Expires: $($token.ExpiresOn.DateTime)"
+          for ($i = 0; $i -lt 5; $i++) {
+              Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+              Start-Sleep -Milliseconds (5*60)
+          }
         shell: pwsh

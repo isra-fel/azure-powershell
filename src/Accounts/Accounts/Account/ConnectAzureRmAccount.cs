@@ -491,68 +491,68 @@ namespace Microsoft.Azure.Commands.Profile
                 }
 
                 SetContextWithOverwritePrompt((localProfile, profileClient, name) =>
-               {
-                   bool shouldPopulateContextList = true;
-                   if (this.IsParameterBound(c => c.SkipContextPopulation))
-                   {
-                       shouldPopulateContextList = false;
-                   }
+                {
+                    bool shouldPopulateContextList = true;
+                    if (this.IsParameterBound(c => c.SkipContextPopulation))
+                    {
+                        shouldPopulateContextList = false;
+                    }
 
-                   profileClient.WarningLog = (message) => _tasks.Enqueue(new Task(() => this.WriteWarning(message)));
-                   profileClient.DebugLog = (message) => _tasks.Enqueue(new Task(() => this.WriteDebugWithTimestamp(message)));
-                   var task = new Task<AzureRmProfile>( () => profileClient.Login(
-                        azureAccount,
-                        _environment,
-                        Tenant,
-                        subscriptionId,
-                        subscriptionName,
-                        password,
-                        SkipValidation,
-                        WriteWarningEvent, //Could not use WriteWarning directly because it may be in worker thread
-                        name,
-                        shouldPopulateContextList,
-                        MaxContextPopulation,
-                        resourceId));
-                   task.Start();
-                   while (!task.IsCompleted)
-                   {
-                       HandleActions();
-                       Thread.Yield();
-                   }
+                    profileClient.WarningLog = (message) => _tasks.Enqueue(new Task(() => this.WriteWarning(message)));
+                    profileClient.DebugLog = (message) => _tasks.Enqueue(new Task(() => this.WriteDebugWithTimestamp(message)));
+                    var task = new Task<AzureRmProfile>( () => profileClient.Login(
+                            azureAccount,
+                            _environment,
+                            Tenant,
+                            subscriptionId,
+                            subscriptionName,
+                            password,
+                            SkipValidation,
+                            WriteWarningEvent, //Could not use WriteWarning directly because it may be in worker thread
+                            name,
+                            shouldPopulateContextList,
+                            MaxContextPopulation,
+                            resourceId));
+                    task.Start();
+                    while (!task.IsCompleted)
+                    {
+                        HandleActions();
+                        Thread.Yield();
+                    }
 
-                   HandleActions();
+                    HandleActions();
 
-                   try
-                   {
-                       //Must not use task.Result as it wraps inner exception into AggregateException
-                       var result = (PSAzureProfile)task.GetAwaiter().GetResult();
-                       WriteObject(result);
-                   }
-                   catch (AuthenticationFailedException ex)
-                   {
-                       string message = string.Empty;
-                       if (IsUnableToOpenWebPageError(ex))
-                       {
-                           WriteWarning(Resources.InteractiveAuthNotSupported);
-                           WriteDebug(ex.ToString());
-                       }
-                       else if (TryParseUnknownAuthenticationException(ex, out message))
-                       {
-                           WriteDebug(ex.ToString());
-                           throw ex.WithAdditionalMessage(message);
-                       }
-                       else
-                       {
-                           if (IsUsingInteractiveAuthentication())
-                           {
-                               //Display only if user is using Interactive auth
-                               WriteWarning(Resources.SuggestToUseDeviceCodeAuth);
-                           }
-                           WriteDebug(ex.ToString());
-                           throw;
-                       }
-                   }
-               });
+                    try
+                    {
+                        //Must not use task.Result as it wraps inner exception into AggregateException
+                        var result = (PSAzureProfile)task.GetAwaiter().GetResult();
+                        WriteObject(result);
+                    }
+                    catch (AuthenticationFailedException ex)
+                    {
+                        string message = string.Empty;
+                        if (IsUnableToOpenWebPageError(ex))
+                        {
+                            WriteWarning(Resources.InteractiveAuthNotSupported);
+                            WriteDebug(ex.ToString());
+                        }
+                        else if (TryParseUnknownAuthenticationException(ex, out message))
+                        {
+                            WriteDebug(ex.ToString());
+                            throw ex.WithAdditionalMessage(message);
+                        }
+                        else
+                        {
+                            if (IsUsingInteractiveAuthentication())
+                            {
+                                //Display only if user is using Interactive auth
+                                WriteWarning(Resources.SuggestToUseDeviceCodeAuth);
+                            }
+                            WriteDebug(ex.ToString());
+                            throw;
+                        }
+                    }
+                });
             }
         }
 

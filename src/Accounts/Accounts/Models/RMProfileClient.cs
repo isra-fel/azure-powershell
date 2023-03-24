@@ -128,9 +128,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common
             IAzureTenant newTenant = null;
             string promptBehavior =
                 (password == null &&
-                 account.Type != AzureAccount.AccountType.AccessToken &&
-                 account.Type != AzureAccount.AccountType.ManagedService &&
-                 !account.IsPropertySet(AzureAccount.Property.CertificateThumbprint))
+                    account.Type != AzureAccount.AccountType.AccessToken &&
+                    account.Type != AzureAccount.AccountType.ManagedService &&
+                    !account.IsPropertySet(AzureAccount.Property.CertificateThumbprint))
                 ? ShowDialog.Always : ShowDialog.Never;
 
             SubscritpionClientCandidates.Reset();
@@ -463,12 +463,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common
             // Consider subscription in Home tenant first, exclude duplicate subscriptions by id.
             foreach(IAzureSubscription subscription in subscriptions)
             {
-                if (subscription is PSAzureSubscription && subscription.GetTenant() != null 
+                if (subscription is PSAzureSubscription && subscription.GetTenant() != null
                     && subscription.GetHomeTenant().Equals(subscription.GetTenant()) && existedSubscriptionIds.Add(subscription.GetId()))
                 {
                     subscriptionList.Add(subscription);
                 }
-                
+
             }
             // Consider other subscriptions.
             foreach (IAzureSubscription subscription in subscriptions)
