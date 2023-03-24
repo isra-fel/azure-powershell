@@ -1,4 +1,4 @@
-name: Test tokens - SP (fort)
+name: Test OIDC flow
 on:
   workflow_dispatch:
 
