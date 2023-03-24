@@ -20,17 +20,25 @@ jobs:
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - name: "Install Az modules"
-        run: |
-          Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
-          Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
-          Install-Module -Name Az.Accounts
-          Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
-        shell: pwsh
+      # - name: "Install Az modules"
+      #   run: |
+      #     Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
+      #     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+      #     Install-Module -Name Az.Accounts
+      #     Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
+      #   shell: pwsh
 
       - name: "Test length of token"
         run: |
-          Write-Host "Attempt ${{ matrix.number }}"
+          Write-Host "Attempt 1"
+          $now = Get-Date -AsUTC
+          Write-Host "Now: $now"
+          $token = Get-AzAccessToken
+          Write-Host "Expires: $($token.ExpiresOn.DateTime)"
+
+          Start-Sleep -Seconds 10
+
+          Write-Host "Attempt 2"
           $now = Get-Date -AsUTC
           Write-Host "Now: $now"
           $token = Get-AzAccessToken
