@@ -30,8 +30,8 @@ jobs:
 
       - name: "Test length of token"
         run: |
-          for ($i = 0; $i -lt 10; $i++) {
+          for ($i = 0; $i -lt 20; $i++) {
               Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-              Start-Sleep -Seconds (5*60)
+              Start-Sleep -Seconds (10*60)
           }
         shell: pwsh
