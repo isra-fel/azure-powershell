@@ -27,11 +27,15 @@ jobs:
           Install-Module -Name Az.Resources
           Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
         shell: pwsh
-
+  loop:
+    runs-on: ubuntu-latest
+    environment: Azure-SP
+    strategy:
+        matrix:
+          number: [1, 2, 3, 4, 5, 6, 7]
+    steps:
       - name: "Test length of token"
         run: |
-          for ($i = 0; $i -lt 20; $i++) {
-              Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-              Start-Sleep -Seconds (10*60)
-          }
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (2*60)
         shell: pwsh
