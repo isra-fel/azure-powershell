@@ -19,14 +19,6 @@ jobs:
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
           enable-AzPSSession: true
-
-      - name: "Install Az modules"
-        run: |
-          Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
-          Install-Module -Name Az.Accounts
-          Install-Module -Name Az.Resources
-          Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
-        shell: pwsh
   loop:
     runs-on: ubuntu-latest
     environment: Azure-SP
@@ -34,6 +26,13 @@ jobs:
         matrix:
           number: [1, 2, 3, 4, 5, 6, 7]
     steps:
+      - name: "Install Az modules"
+        run: |
+          Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+          Install-Module -Name Az.Accounts
+          Install-Module -Name Az.Resources
+          Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
+        shell: pwsh
       - name: "Test length of token"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
