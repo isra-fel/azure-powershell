@@ -27,38 +27,38 @@ jobs:
           Install-Module -Name Az.Resources
           Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
         shell: pwsh
-      - name: "Test length of token: 1"
+      - name: "Get resource group: 1"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
-      - name: "Test length of token: 2"
+      - name: "Get resource group: 2"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
-      - name: "Test length of token: 3"
+      - name: "Get resource group: 3"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
-      - name: "Test length of token: 4"
+      - name: "Get resource group: 4"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
-      - name: "Test length of token: 5"
+      - name: "Get resource group: 5"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
-      - name: "Test length of token: 6"
+      - name: "Get resource group: 6"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
-      - name: "Test length of token: 7"
+      - name: "Get resource group: 7"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (2*60)
+          Start-Sleep -Seconds (10*60)
         shell: pwsh
