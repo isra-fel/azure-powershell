@@ -74,6 +74,9 @@ if (Get-Module %AZORAZURERM%.profile -ErrorAction Ignore)
         "If you are running in Azure Automation, take care that none of your runbooks import both Az and AzureRM modules. More information can be found here: https://aka.ms/azps-migration-guide.")
 }
 
+$preloadPath = (Join-Path $PSScriptRoot -ChildPath "ModuleAlcAssemblies")
+Preload-Assembly -AssemblyDirectory $preloadPath
+
 %IMPORTED-DEPENDENCIES%
 
 if (Test-Path -Path "$PSScriptRoot\PostImportScripts" -ErrorAction Ignore)
