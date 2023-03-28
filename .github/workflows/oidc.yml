@@ -30,35 +30,35 @@ jobs:
       - name: "Get resource group: 1"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          Start-Sleep -Seconds (20*60)
         shell: pwsh
       - name: "Get resource group: 2"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          Start-Sleep -Seconds (20*60)
         shell: pwsh
       - name: "Get resource group: 3"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          Start-Sleep -Seconds (20*60)
         shell: pwsh
       - name: "Get resource group: 4"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          Start-Sleep -Seconds (20*60)
         shell: pwsh
       - name: "Get resource group: 5"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          Start-Sleep -Seconds (20*60)
         shell: pwsh
       - name: "Get resource group: 6"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          Start-Sleep -Seconds (20*60)
         shell: pwsh
       - name: "Get resource group: 7"
         run: |
           Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
-          Start-Sleep -Seconds (10*60)
+          # Start-Sleep -Seconds (20*60)
         shell: pwsh
