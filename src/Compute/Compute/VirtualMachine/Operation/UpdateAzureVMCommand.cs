@@ -76,6 +76,7 @@ namespace Microsoft.Azure.Commands.Compute
             Mandatory = false,
             ParameterSetName = ExplicitIdentityParameterSet,
             ValueFromPipelineByPropertyName = false)]
+        [ValidateNotNullOrEmpty]
         public string[] IdentityId { get; set; }
 
         [Parameter(
@@ -107,14 +108,64 @@ namespace Microsoft.Azure.Commands.Compute
             HelpMessage = "The Id of Host")]
         public string HostId { get; set; }
 
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Id of the capacity reservation Group that is used to allocate.")]
+        [ResourceIdCompleter("Microsoft.Compute/capacityReservationGroups")]
+        public string CapacityReservationGroupId { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Run cmdlet in the background")]
         public SwitchParameter AsJob { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Starts the operation and returns immediately, before the operation is completed. In order to determine if the operation has successfully been completed, use some other mechanism.")]
         public SwitchParameter NoWait { get; set; }
+        
+        [Parameter(
+            Mandatory = false,
+            ParameterSetName = ResourceGroupNameParameterSet,
+            HelpMessage = "UserData for the VM, which will be Base64 encoded. Customer should not pass any secrets in here.",
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            Mandatory = false,
+            ParameterSetName = IdParameterSet,
+            HelpMessage = "UserData for the VM, which will be Base64 encoded. Customer should not pass any secrets in here.",
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            Mandatory = false,
+            ParameterSetName = ExplicitIdentityParameterSet,
+            HelpMessage = "UserData for the VM, which will be Base64 encoded. Customer should not pass any secrets in here.",
+            ValueFromPipelineByPropertyName = true)]
+        public string UserData { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The flag that enables or disables hibernation capability on the VM.")]
+        public SwitchParameter HibernationEnabled { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Specifies the number of vCPUs available for the VM. When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://learn.microsoft.com/en-us/rest/api/compute/resource-skus/list).")]
+        public int vCPUCountAvailable { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Specifies the vCPU to physical core ratio. When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://learn.microsoft.com/en-us/rest/api/compute/resource-skus/list). Setting this property to 1 also means that hyper-threading is disabled.")]
+        public int vCPUCountPerCore { get; set; }
 
         public override void ExecuteCmdlet()
         {
+            if (this.IsParameterBound(c => c.UserData))
+            {
+                if (!ValidateBase64EncodedString.ValidateStringIsBase64Encoded(this.UserData))
+                {
+                    this.UserData = ValidateBase64EncodedString.EncodeStringToBase64(this.UserData);
+                    this.WriteInformation(ValidateBase64EncodedString.UserDataEncodeNotification, new string[] { "PSHOST" });
+                }
+            }
+
             base.ExecuteCmdlet();
 
             if (this.ParameterSetName.Equals(IdParameterSet))
@@ -126,6 +177,7 @@ namespace Microsoft.Azure.Commands.Compute
             {
                 ExecuteClientAction(() =>
                 {
+                            
                     var parameters = new VirtualMachine
                     {
                         DiagnosticsProfile = this.VM.DiagnosticsProfile,
@@ -138,6 +190,7 @@ namespace Microsoft.Azure.Commands.Compute
                         Plan = this.VM.Plan,
                         AvailabilitySet = this.VM.AvailabilitySetReference,
                         Location = this.VM.Location,
+                        ExtendedLocation = this.VM.ExtendedLocation,
                         LicenseType = this.VM.LicenseType,
                         Tags = this.Tag != null ? this.Tag.ToDictionary() : this.VM.Tags,
                         Identity = ComputeAutoMapperProfile.Mapper.Map<VirtualMachineIdentity>(this.VM.Identity),
@@ -151,7 +204,12 @@ namespace Microsoft.Azure.Commands.Compute
                         VirtualMachineScaleSet = this.VM.VirtualMachineScaleSet,
                         AdditionalCapabilities = this.VM.AdditionalCapabilities,
                         EvictionPolicy = this.VM.EvictionPolicy,
-                        Priority = this.VM.Priority
+                        Priority = this.VM.Priority,
+                        CapacityReservation = this.VM.CapacityReservation,
+                        ApplicationProfile = ComputeAutoMapperProfile.Mapper.Map<ApplicationProfile>(this.VM.ApplicationProfile),
+                        UserData = this.IsParameterBound(c => c.UserData)
+                            ? this.UserData
+                            : this.VM.UserData
                     };
 
                     if (parameters.Host != null && string.IsNullOrWhiteSpace(parameters.Host.Id))
@@ -177,11 +235,11 @@ namespace Microsoft.Azure.Commands.Compute
 
                         }
 
-                        parameters.Identity.UserAssignedIdentities = new Dictionary<string, VirtualMachineIdentityUserAssignedIdentitiesValue>();
+                        parameters.Identity.UserAssignedIdentities = new Dictionary<string, UserAssignedIdentitiesValue>();
 
                         foreach (var id in this.IdentityId)
                         {
-                            parameters.Identity.UserAssignedIdentities.Add(id, new VirtualMachineIdentityUserAssignedIdentitiesValue());
+                            parameters.Identity.UserAssignedIdentities.Add(id, new UserAssignedIdentitiesValue());
                         }
                     }
 
@@ -207,6 +265,15 @@ namespace Microsoft.Azure.Commands.Compute
                         parameters.AdditionalCapabilities.UltraSSDEnabled = this.UltraSSDEnabled;
                     }
 
+                    if (this.IsParameterBound(c => c.HibernationEnabled))
+                    {
+                        if (parameters.AdditionalCapabilities == null)
+                        {
+                            parameters.AdditionalCapabilities = new AdditionalCapabilities();
+                        }
+                        parameters.AdditionalCapabilities.HibernationEnabled = this.HibernationEnabled;
+                    }
+
                     if (this.IsParameterBound(c => c.MaxPrice))
                     {
                         if (parameters.BillingProfile == null)
@@ -223,6 +290,46 @@ namespace Microsoft.Azure.Commands.Compute
                             parameters.SecurityProfile = new SecurityProfile();
                         }
                         parameters.SecurityProfile.EncryptionAtHost = this.EncryptionAtHost;
+                    }
+
+                    if (this.IsParameterBound(c => c.CapacityReservationGroupId))
+                    {
+                        if (parameters.CapacityReservation == null)
+                        {
+                            parameters.CapacityReservation = new CapacityReservationProfile();
+                        }
+                        parameters.CapacityReservation.CapacityReservationGroup = new SubResource(CapacityReservationGroupId);
+                    }
+
+                    if (parameters.StorageProfile != null && parameters.StorageProfile.ImageReference != null && parameters.StorageProfile.ImageReference.Id != null)
+                    {
+                        parameters.StorageProfile.ImageReference.Id = null;
+                    }
+
+                    if (this.IsParameterBound(c => c.vCPUCountPerCore))
+                    {
+                        if (parameters.HardwareProfile == null)
+                        {
+                            parameters.HardwareProfile = new HardwareProfile();
+                        }
+                        if (parameters.HardwareProfile.VmSizeProperties == null)
+                        {
+                            parameters.HardwareProfile.VmSizeProperties = new VMSizeProperties();
+                        }
+                        parameters.HardwareProfile.VmSizeProperties.VCPUsPerCore = this.vCPUCountPerCore;
+                    }
+
+                    if (this.IsParameterBound(c => c.vCPUCountAvailable))
+                    {
+                        if (parameters.HardwareProfile == null)
+                        {
+                            parameters.HardwareProfile = new HardwareProfile();
+                        }
+                        if (parameters.HardwareProfile.VmSizeProperties == null)
+                        {
+                            parameters.HardwareProfile.VmSizeProperties = new VMSizeProperties();
+                        }
+                        parameters.HardwareProfile.VmSizeProperties.VCPUsAvailable = this.vCPUCountAvailable;
                     }
 
                     if (NoWait.IsPresent)

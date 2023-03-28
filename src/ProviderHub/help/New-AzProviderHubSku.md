@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.ProviderHub
-online version: https://docs.microsoft.com/powershell/module/az.providerhub/new-azproviderhubsku
+online version: https://learn.microsoft.com/powershell/module/az.providerhub/new-azproviderhubsku
 schema: 2.0.0
 ---
 
@@ -14,8 +14,8 @@ Creates or updates the resource type skus in the given resource type.
 
 ```
 New-AzProviderHubSku -ProviderNamespace <String> -ResourceType <String> -Sku <String>
- -SkuSetting <ISkuSetting[]> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ -SkuSetting <ISkuSetting[]> [-SubscriptionId <String>] [-ProvisioningState <ProvisioningState>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,8 +25,10 @@ Creates or updates the resource type skus in the given resource type.
 
 ### Example 1: Create/Update a resource SKU definition.
 ```powershell
-PS C:\> New-AzProviderHubSku -ProviderNamespace "Microsoft.Contoso" -ResourceType "Employees" -Sku "default" -SkuSetting @{Name = "freeSku"; Tier = "Tier1"; Kind = "Standard"}
+New-AzProviderHubSku -ProviderNamespace "Microsoft.Contoso" -ResourceType "testResourceType" -Sku "default" -SkuSetting @{Name = "freeSku"; Tier = "Tier1"; Kind = "Standard"}
+```
 
+```output
 Name      Type
 ----      ----
 default   Microsoft.ProviderHub/providerRegistrations/skus
@@ -34,16 +36,18 @@ default   Microsoft.ProviderHub/providerRegistrations/skus
 
 Create/Update a resource SKU definition.
 
-### Example 2: Create/Update a resource SKU definition.
+### Example 2: Create/Update a nested resource type SKU definition.
 ```powershell
-PS C:\> New-AzProviderHubSku -ProviderNamespace "Microsoft.Contoso" -ResourceType "Employees" -Sku "default" -SkuSetting @{Name = "freeSku"; Tier = "Tier1"; Kind = "Standard"}
+New-AzProviderHubSku -ProviderNamespace "Microsoft.Contoso" -ResourceType "testResourceType/nestedResourceType" -Sku "default" -SkuSetting @{Name = "freeSku"; Tier = "Tier1"; Kind = "Standard"}
+```
 
+```output
 Name      Type
 ----      ----
 default   Microsoft.ProviderHub/providerRegistrations/skus
 ```
 
-Create/Update a resource SKU definition.
+Create/Update a nested resource type SKU definition.
 
 ## PARAMETERS
 
@@ -71,6 +75,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProvisioningState
+.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Support.ProvisioningState
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

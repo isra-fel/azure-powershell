@@ -30,7 +30,7 @@ PS C:\> {{ Add code here }}
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IOperationResult
 .Link
-https://docs.microsoft.com/powershell/module/az.confluent/get-azconfluentorganizationoperation
+https://learn.microsoft.com/powershell/module/az.confluent/get-azconfluentorganizationoperation
 #>
 function Get-AzConfluentOrganizationOperation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IOperationResult])]
@@ -94,6 +94,7 @@ begin {
         $mapping = @{
             List = 'Az.Confluent.private\Get-AzConfluentOrganizationOperation_List';
         }
+
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

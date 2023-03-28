@@ -20,8 +20,17 @@ Gets the default rollout details.
 Gets the default rollout details.
 .Example
 PS C:\> Get-AzProviderHubDefaultRollout -ProviderNamespace "Microsoft.Contoso"
+
+Name                      Type
+----                      ----
+defaultRollout2021w10     Microsoft.ProviderHub/providerRegistrations/defaultRollouts
+defaultRollout2021w11     Microsoft.ProviderHub/providerRegistrations/defaultRollouts
 .Example
 PS C:\> Get-AzProviderHubDefaultRollout -ProviderNamespace "Microsoft.Contoso" -RolloutName "defaultRollout2021w10"
+
+Name                      Type
+----                      ----
+defaultRollout2021w10     Microsoft.ProviderHub/providerRegistrations/defaultRollouts
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.IProviderHubIdentity
@@ -44,7 +53,7 @@ INPUTOBJECT <IProviderHubIdentity>: Identity Parameter
   [Sku <String>]: The SKU.
   [SubscriptionId <String>]: The ID of the target subscription.
 .Link
-https://docs.microsoft.com/powershell/module/az.providerhub/get-azproviderhubdefaultrollout
+https://learn.microsoft.com/powershell/module/az.providerhub/get-azproviderhubdefaultrollout
 #>
 function Get-AzProviderHubDefaultRollout {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.Api20201120.IDefaultRollout])]
@@ -141,6 +150,8 @@ begin {
         if (('Get', 'List') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

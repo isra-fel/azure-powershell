@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.DataProtection
-online version: https://docs.microsoft.com/powershell/module/az.dataprotection/get-azdataprotectionjob
+online version: https://learn.microsoft.com/powershell/module/az.dataprotection/get-azdataprotectionjob
 schema: 2.0.0
 ---
 
@@ -37,8 +37,10 @@ Gets a job with id in a backup vault
 
 ### Example 1: Get All backup Jobs in a backup vault
 ```powershell
-PS C:\> Get-AzDataProtectionjob -SubscriptionId "xxxx-xxx-xxx" -ResourceGroupName sarath-rg -VaultName sarath-vault
+Get-AzDataProtectionJob -SubscriptionId "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -ResourceGroupName sarath-rg -VaultName sarath-vault
+```
 
+```output
 Name                                 Type
 ----                                 ----
 a6a4879d-f914-4174-b129-0e27da8a4fb0 Microsoft.DataProtection/backupVaults/backupJobs
@@ -53,8 +55,10 @@ This command gets all the backup jobs in a given backup vault.
 
 ### Example 2: Get a single Job 
 ```powershell
-PS C:\> Get-AzDataProtectionjob -SubscriptionId "xxxx-xxx-xxx" -ResourceGroupName sarath-rg -VaultName sarath-vault -Id 4abaea8c-f53a-4bb1-9963-59f96b597165
+Get-AzDataProtectionJob -SubscriptionId "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -ResourceGroupName sarath-rg -VaultName sarath-vault -Id 4abaea8c-f53a-4bb1-9963-59f96b597165
+```
 
+```output
 Name                                 Type
 ----                                 ----
 4abaea8c-f53a-4bb1-9963-59f96b597165 Microsoft.DataProtection/backupVaults/backupJobs
@@ -65,7 +69,8 @@ This command returns a single job entity with given Id.
 ## PARAMETERS
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -113,7 +118,8 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-The name of the resource group where the backup vault is present.
+The name of the resource group.
+The name is case insensitive.
 
 ```yaml
 Type: System.String
@@ -128,7 +134,8 @@ Accept wildcard characters: False
 ```
 
 ### -SubscriptionId
-The subscription Id.
+The ID of the target subscription.
+The value must be an UUID.
 
 ```yaml
 Type: System.String[]
@@ -166,7 +173,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models.Api202101.IAzureBackupJobResource
+### Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models.Api202301.IAzureBackupJobResource
 
 ## NOTES
 
@@ -177,17 +184,18 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IDataProtectionIdentity>: Identity Parameter
-  - `[BackupInstance <String>]`: 
-  - `[BackupInstanceName <String>]`: The name of the backup instance
+`INPUTOBJECT <IDataProtectionIdentity>`: Identity Parameter
+  - `[BackupInstanceName <String>]`: The name of the backup instance.
   - `[BackupPolicyName <String>]`: 
   - `[Id <String>]`: Resource identity path
   - `[JobId <String>]`: The Job ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
   - `[Location <String>]`: The location in which uniqueness will be verified.
   - `[OperationId <String>]`: 
   - `[RecoveryPointId <String>]`: 
-  - `[ResourceGroupName <String>]`: The name of the resource group where the backup vault is present.
-  - `[SubscriptionId <String>]`: The subscription Id.
+  - `[RequestName <String>]`: 
+  - `[ResourceGroupName <String>]`: The name of the resource group. The name is case insensitive.
+  - `[ResourceGuardsName <String>]`: The name of ResourceGuard
+  - `[SubscriptionId <String>]`: The ID of the target subscription. The value must be an UUID.
   - `[VaultName <String>]`: The name of the backup vault.
 
 ## RELATED LINKS

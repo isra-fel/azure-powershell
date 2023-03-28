@@ -28,11 +28,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Support
         {
             if (global::System.String.IsNullOrEmpty(wordToComplete) || "Standard".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
             {
-                yield return new global::System.Management.Automation.CompletionResult("Standard", "Standard", global::System.Management.Automation.CompletionResultType.ParameterValue, "Standard");
+                yield return new global::System.Management.Automation.CompletionResult("'Standard'", "Standard", global::System.Management.Automation.CompletionResultType.ParameterValue, "Standard");
             }
             if (global::System.String.IsNullOrEmpty(wordToComplete) || "Dedicated".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
             {
-                yield return new global::System.Management.Automation.CompletionResult("Dedicated", "Dedicated", global::System.Management.Automation.CompletionResultType.ParameterValue, "Dedicated");
+                yield return new global::System.Management.Automation.CompletionResult("'Dedicated'", "Dedicated", global::System.Management.Automation.CompletionResultType.ParameterValue, "Dedicated");
+            }
+            if (global::System.String.IsNullOrEmpty(wordToComplete) || "Confidential".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                yield return new global::System.Management.Automation.CompletionResult("'Confidential'", "Confidential", global::System.Management.Automation.CompletionResultType.ParameterValue, "Confidential");
             }
         }
     }

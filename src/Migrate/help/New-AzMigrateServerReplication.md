@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Migrate
-online version: https://docs.microsoft.com/powershell/module/az.migrate/new-azmigrateserverreplication
+online version: https://learn.microsoft.com/powershell/module/az.migrate/new-azmigrateserverreplication
 schema: 2.0.0
 ---
 
@@ -16,40 +16,53 @@ Starts replication for the specified server.
 ```
 New-AzMigrateServerReplication -DiskType <String> -LicenseType <String> -MachineId <String> -OSDiskID <String>
  -TargetNetworkId <String> -TargetResourceGroupId <String> -TargetSubnetName <String> -TargetVMName <String>
- [-DiskEncryptionSetID <String>] [-PerformAutoResync <String>] [-SubscriptionId <String>]
+ [-DiskEncryptionSetID <String>] [-DiskTag <IVMwareCbtEnableMigrationInputTargetDiskTags>]
+ [-NicTag <IVMwareCbtEnableMigrationInputTargetNicTags>] [-PerformAutoResync <String>]
+ [-SqlServerLicenseType <String>] [-SubscriptionId <String>] [-Tag <Hashtable>]
  [-TargetAvailabilitySet <String>] [-TargetAvailabilityZone <String>]
- [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-VMWarerunasaccountID <String>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
+ [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-TestNetworkId <String>]
+ [-TestSubnetName <String>] [-VMTag <IVMwareCbtEnableMigrationInputTargetVmtags>]
+ [-VMWarerunasaccountID <String>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### ByIdPowerUser
 ```
 New-AzMigrateServerReplication -DiskToInclude <IVMwareCbtDiskInput[]> -LicenseType <String>
  -MachineId <String> -TargetNetworkId <String> -TargetResourceGroupId <String> -TargetSubnetName <String>
- -TargetVMName <String> [-PerformAutoResync <String>] [-SubscriptionId <String>]
+ -TargetVMName <String> [-DiskTag <IVMwareCbtEnableMigrationInputTargetDiskTags>]
+ [-NicTag <IVMwareCbtEnableMigrationInputTargetNicTags>] [-PerformAutoResync <String>]
+ [-SqlServerLicenseType <String>] [-SubscriptionId <String>] [-Tag <Hashtable>]
  [-TargetAvailabilitySet <String>] [-TargetAvailabilityZone <String>]
- [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-VMWarerunasaccountID <String>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
+ [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-TestNetworkId <String>]
+ [-TestSubnetName <String>] [-VMTag <IVMwareCbtEnableMigrationInputTargetVmtags>]
+ [-VMWarerunasaccountID <String>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### ByInputObjectDefaultUser
 ```
 New-AzMigrateServerReplication -DiskType <String> -InputObject <IVMwareMachine> -LicenseType <String>
  -OSDiskID <String> -TargetNetworkId <String> -TargetResourceGroupId <String> -TargetSubnetName <String>
- -TargetVMName <String> [-DiskEncryptionSetID <String>] [-PerformAutoResync <String>]
- [-SubscriptionId <String>] [-TargetAvailabilitySet <String>] [-TargetAvailabilityZone <String>]
- [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-VMWarerunasaccountID <String>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
+ -TargetVMName <String> [-DiskEncryptionSetID <String>]
+ [-DiskTag <IVMwareCbtEnableMigrationInputTargetDiskTags>]
+ [-NicTag <IVMwareCbtEnableMigrationInputTargetNicTags>] [-PerformAutoResync <String>]
+ [-SqlServerLicenseType <String>] [-SubscriptionId <String>] [-Tag <Hashtable>]
+ [-TargetAvailabilitySet <String>] [-TargetAvailabilityZone <String>]
+ [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-TestNetworkId <String>]
+ [-TestSubnetName <String>] [-VMTag <IVMwareCbtEnableMigrationInputTargetVmtags>]
+ [-VMWarerunasaccountID <String>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### ByInputObjectPowerUser
 ```
 New-AzMigrateServerReplication -DiskToInclude <IVMwareCbtDiskInput[]> -InputObject <IVMwareMachine>
  -LicenseType <String> -TargetNetworkId <String> -TargetResourceGroupId <String> -TargetSubnetName <String>
- -TargetVMName <String> [-PerformAutoResync <String>] [-SubscriptionId <String>]
+ -TargetVMName <String> [-DiskTag <IVMwareCbtEnableMigrationInputTargetDiskTags>]
+ [-NicTag <IVMwareCbtEnableMigrationInputTargetNicTags>] [-PerformAutoResync <String>]
+ [-SqlServerLicenseType <String>] [-SubscriptionId <String>] [-Tag <Hashtable>]
  [-TargetAvailabilitySet <String>] [-TargetAvailabilityZone <String>]
- [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-VMWarerunasaccountID <String>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
+ [-TargetBootDiagnosticsStorageAccount <String>] [-TargetVMSize <String>] [-TestNetworkId <String>]
+ [-TestSubnetName <String>] [-VMTag <IVMwareCbtEnableMigrationInputTargetVmtags>]
+ [-VMWarerunasaccountID <String>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -59,8 +72,10 @@ The New-AzMigrateServerReplication cmdlet starts the replication for a particula
 
 ### Example 1: When there is only OS disk
 ```powershell
-PS C:\> New-AzMigrateServerReplication -MachineId "/subscriptions/xxx-xxx-xxx4/resourceGroups/azmigratepwshtestasr13072020/providers/Microsoft.OffAzure/VMwareSites/AzMigratePWSHTc8d1site/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_50063baa-9806-d6d6-7e09-c0ae87309b4f" -LicenseType NoLicenseType -TargetResourceGroupId "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG" -TargetNetworkId  "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG/providers/Microsoft.Network/virtualNetworks/AzMigrateTargetNetwork" -TargetSubnetName default -TargetVMName "prsadhu-TestVM" -DiskType "Standard_LRS" -OSDiskID "6000C299-343d-7bcd-c05e-a94bd63316dd"
+New-AzMigrateServerReplication -MachineId "/subscriptions/xxx-xxx-xxx4/resourceGroups/azmigratepwshtestasr13072020/providers/Microsoft.OffAzure/VMwareSites/AzMigratePWSHTc8d1site/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_50063baa-9806-d6d6-7e09-c0ae87309b4f" -LicenseType NoLicenseType -TargetResourceGroupId "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG" -TargetNetworkId  "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG/providers/Microsoft.Network/virtualNetworks/AzMigrateTargetNetwork" -TargetSubnetName default -TargetVMName "prsadhu-TestVM" -DiskType "Standard_LRS" -OSDiskID "6000C299-343d-7bcd-c05e-a94bd63316dd"
+```
 
+```output
 ActivityId                       : 68af14b4-46ae-48d1-b3e9-cdcffb9e8a93 ActivityId: 74d1a396-1d37-4264-8a5b-b727aaef0171
 AllowedAction                    : {}
 CustomDetailAffectedObjectDetail : Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.JobDetailsAffectedObjectDetails
@@ -87,12 +102,14 @@ This is for the scenario, when there is only one single disk that has to be prot
 
 ### Example 2: When there are multiple disks
 ```powershell
-PS C:\> $OSDisk = New-AzMigrateDiskMapping -DiskID '6000C299-343d-7bcd-c05e-a94bd63316dd' -DiskType 'Standard_LRS' -IsOSDisk 'true'
-PS C:\> $DataDisk = New-AzMigrateDiskMapping -DiskID '7000C299-343d-7bcd-c05e-a94bd63316dd' -DiskType 'Standard_LRS' -IsOSDisk 'false'
-PS C:\> $DisksToInclude += $OSDisk
-PS C:\> $DisksToInclude += $DataDisk
-PS C:\> New-AzMigrateServerReplication -MachineId "/subscriptions/xxx-xxx-xxx/resourceGroups/azmigratepwshtestasr13072020/providers/Microsoft.OffAzure/VMwareSites/AzMigratePWSHTc8d1site/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_50063baa-9806-d6d6-7e09-c0ae87309b4f" -LicenseType NoLicenseType -TargetResourceGroupId "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG" -TargetNetworkId  "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG/providers/Microsoft.Network/virtualNetworks/AzMigrateTargetNetwork" -TargetSubnetName default -TargetVMName "prsadhu-TestVM" -DiskToInclude $DisksToInclude -PerformAutoResync true
+$OSDisk = New-AzMigrateDiskMapping -DiskID '6000C299-343d-7bcd-c05e-a94bd63316dd' -DiskType 'Standard_LRS' -IsOSDisk 'true'
+$DataDisk = New-AzMigrateDiskMapping -DiskID '7000C299-343d-7bcd-c05e-a94bd63316dd' -DiskType 'Standard_LRS' -IsOSDisk 'false'
+$DisksToInclude += $OSDisk
+$DisksToInclude += $DataDisk
+New-AzMigrateServerReplication -MachineId "/subscriptions/xxx-xxx-xxx/resourceGroups/azmigratepwshtestasr13072020/providers/Microsoft.OffAzure/VMwareSites/AzMigratePWSHTc8d1site/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_50063baa-9806-d6d6-7e09-c0ae87309b4f" -LicenseType NoLicenseType -TargetResourceGroupId "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG" -TargetNetworkId  "/subscriptions/xxx-xxx-xxx/resourceGroups/AzMigratePWSHtargetRG/providers/Microsoft.Network/virtualNetworks/AzMigrateTargetNetwork" -TargetSubnetName default -TargetVMName "prsadhu-TestVM" -DiskToInclude $DisksToInclude -PerformAutoResync true
+```
 
+```output
 ActivityId                       : 68af14b4-46ae-48d1-b3e9-cdcffb9e8a93 ActivityId: 74d1a396-1d37-4264-8a5b-b727aaef0171
 AllowedAction                    : {}
 CustomDetailAffectedObjectDetail : Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.JobDetailsAffectedObjectDetails
@@ -149,12 +166,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DiskTag
+Specifies the tag to be used for disk creation.
+To construct, see NOTES section for DISKTAG properties and create a hash table.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IVMwareCbtEnableMigrationInputTargetDiskTags
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DiskToInclude
 Specifies the disks on the source server to be included for replication.
 To construct, see NOTES section for DISKTOINCLUDE properties and create a hash table.
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IVMwareCbtDiskInput[]
+Type: Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IVMwareCbtDiskInput[]
 Parameter Sets: ByIdPowerUser, ByInputObjectPowerUser
 Aliases:
 
@@ -227,6 +260,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -NicTag
+Specifies the tag to be used for NIC creation.
+To construct, see NOTES section for NICTAG properties and create a hash table.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IVMwareCbtEnableMigrationInputTargetNicTags
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -OSDiskID
 Specifies the Operating System disk for the source server to be migrated.
 
@@ -257,6 +306,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SqlServerLicenseType
+Specifies if Azure Hybrid benefit for SQL Server is applicable for the server to be migrated.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SubscriptionId
 Azure Subscription ID.
 
@@ -268,6 +332,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-AzContext).Subscription.Id
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tag
+Specifies the tag to be used for Resource creation.
+
+```yaml
+Type: System.Collections.Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -348,7 +427,7 @@ Accept wildcard characters: False
 ```
 
 ### -TargetSubnetName
-Specifies the Subnet name within the destination Virtual Netowk to which the server needs to be migrated.
+Specifies the Subnet name within the destination Virtual Network to which the server needs to be migrated.
 
 ```yaml
 Type: System.String
@@ -392,6 +471,52 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -TestNetworkId
+Specifies the Virtual Network id within the destination Azure subscription to which the server needs to be test migrated.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TestSubnetName
+Specifies the Subnet name within the destination Virtual Network to which the server needs to be test migrated.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -VMTag
+Specifies the tag to be used for VM creation.
+To construct, see NOTES section for VMTAG properties and create a hash table.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IVMwareCbtEnableMigrationInputTargetVmtags
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -VMWarerunasaccountID
 Account id.
 
@@ -414,7 +539,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IJob
+### Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IJob
 
 ## NOTES
 
@@ -425,7 +550,10 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-DISKTOINCLUDE <IVMwareCbtDiskInput[]>: Specifies the disks on the source server to be included for replication.
+`DISKTAG <IVMwareCbtEnableMigrationInputTargetDiskTags>`: Specifies the tag to be used for disk creation.
+  - `[(Any) <String>]`: This indicates any property can be added to this object.
+
+`DISKTOINCLUDE <IVMwareCbtDiskInput[]>`: Specifies the disks on the source server to be included for replication.
   - `DiskId <String>`: The disk Id.
   - `IsOSDisk <String>`: A value indicating whether the disk is the OS disk.
   - `LogStorageAccountId <String>`: The log storage account ARM Id.
@@ -433,8 +561,14 @@ DISKTOINCLUDE <IVMwareCbtDiskInput[]>: Specifies the disks on the source server 
   - `[DiskEncryptionSetId <String>]`: The DiskEncryptionSet ARM Id.
   - `[DiskType <DiskAccountType?>]`: The disk type.
 
-INPUTOBJECT <IVMwareMachine>: Specifies the discovered server to be migrated. The server object can be retrieved using the Get-AzMigrateServer cmdlet.
+`INPUTOBJECT <IVMwareMachine>`: Specifies the discovered server to be migrated. The server object can be retrieved using the Get-AzMigrateServer cmdlet.
   - `[GuestOSDetailOstype <String>]`: Type of the operating system.
+
+`NICTAG <IVMwareCbtEnableMigrationInputTargetNicTags>`: Specifies the tag to be used for NIC creation.
+  - `[(Any) <String>]`: This indicates any property can be added to this object.
+
+`VMTAG <IVMwareCbtEnableMigrationInputTargetVmtags>`: Specifies the tag to be used for VM creation.
+  - `[(Any) <String>]`: This indicates any property can be added to this object.
 
 ## RELATED LINKS
 

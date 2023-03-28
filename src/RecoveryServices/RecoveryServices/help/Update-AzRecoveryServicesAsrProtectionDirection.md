@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/powershell/module/az.recoveryservices/update-azrecoveryservicesasrprotectiondirection
+online version: https://learn.microsoft.com/powershell/module/az.recoveryservices/update-azrecoveryservicesasrprotectiondirection
 schema: 2.0.0
 ---
 
@@ -74,9 +74,10 @@ Update-AzRecoveryServicesAsrProtectionDirection [-AzureToAzure]
  [-RecoveryAzureStorageAccountId <String>] -ReplicationProtectedItem <ASRReplicationProtectedItem>
  [-RecoveryResourceGroupId <String>] [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilitySetId <String>]
  [-RecoveryProximityPlacementGroupId <String>] [-RecoveryVirtualMachineScaleSetId <String>]
- [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
- [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryCapacityReservationGroupId <String>] [-RecoveryBootDiagStorageAccountId <String>]
+ [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
+ [-KeyEncryptionVaultId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### AzureToAzureWithMultipleStorageAccount
@@ -87,9 +88,10 @@ Update-AzRecoveryServicesAsrProtectionDirection [-AzureToAzure]
  -ReplicationProtectedItem <ASRReplicationProtectedItem> [-RecoveryResourceGroupId <String>]
  [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilitySetId <String>]
  [-RecoveryProximityPlacementGroupId <String>] [-RecoveryVirtualMachineScaleSetId <String>]
- [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
- [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryCapacityReservationGroupId <String>] [-RecoveryBootDiagStorageAccountId <String>]
+ [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
+ [-KeyEncryptionVaultId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ByRPObject
@@ -110,33 +112,33 @@ The **Update-AzRecoveryServicesAsrProtectionDirection** cmdlet updates the repli
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -RecoveryPlan $RP -Direction PrimaryToRecovery
+```powershell
+$currentJob = Update-AzRecoveryServicesAsrProtectionDirection -RecoveryPlan $RP -Direction PrimaryToRecovery
 ```
 
 Start the update direction operation for the specified recovery plan and returns the ASR job object used to track the operation.
 
 ### Example 2
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping -LogStorageAccountId $cacheStorageId `
+```powershell
+$currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping -LogStorageAccountId $cacheStorageId `
  -ReplicationProtectedItem $rpi
 ```
 
 Start the update direction operation for the specified replication protected item in target azure region defined by protection container mapping and using cache storage (in same region as VM).
 
 ### Example 3
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping `
+```powershell
+$currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping `
  -AzureToAzureDiskReplicationConfiguration $disk1,$disk2 -ReplicationProtectedItem  $rpi
 ```
 
 Start the update direction operation for the specified replication protected item in target azure region defined by protection container mapping and provided disk replication configuration.
 
 ### Example 4
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping `
+```powershell
+$currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping `
  -AzureToAzureDiskReplicationConfiguration $disk1,$disk2 -ReplicationProtectedItem  $rpi `
- -DiskEncryptionVaultId  $DiskEncryptionVaultId -DiskEncryptionSecertUrl $DiskEncryptionSecertUrl `
+ -DiskEncryptionVaultId  $DiskEncryptionVaultId -DiskEncryptionSecretUrl $DiskEncryptionSecertUrl `
  -KeyEncryptionVaultId $KeyEncryptionVaultId  -KeyEncryptionKeyUrl $KeyEncryptionKeyUrl
 ```
 
@@ -144,16 +146,16 @@ PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAz
 Start the update direction operation for the specified encrypted replication protected item in target azure region defined by protection container mapping and provided disk replication configuration.
 
 ### Example 5
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping -LogStorageAccountId $cacheStorageId `
+```powershell
+$currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping -LogStorageAccountId $cacheStorageId `
  -ReplicationProtectedItem $rpi -RecoveryProximityPlacementGroupId $ppg
 ```
 
 Start the update direction operation for the specified replication protected item in target azure region defined by protection container mapping and using cache storage (in same region as VM) and proximity placement group.
 
 ### Example 6
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping -LogStorageAccountId $cacheStorageId `
+```powershell
+$currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAzure -ProtectionContainerMapping $B2ApcmMapping -LogStorageAccountId $cacheStorageId `
  -ReplicationProtectedItem $rpi -RecoveryVirtualMachineScaleSetId $vmss
 ```
 
@@ -523,6 +525,21 @@ Accept wildcard characters: False
 
 ### -RecoveryBootDiagStorageAccountId
 Specifies the storage account for boot diagnostics for recovery azure VM.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RecoveryCapacityReservationGroupId
+Specify the capacity reservation group Id to be used by the failover VM in target recovery region.
 
 ```yaml
 Type: System.String

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
-online version: https://docs.microsoft.com/powershell/module/az.keyvault/get-azkeyvaultroledefinition
+online version: https://learn.microsoft.com/powershell/module/az.keyvault/get-azkeyvaultroledefinition
 schema: 2.0.0
 ---
 
@@ -18,6 +18,12 @@ Get-AzKeyVaultRoleDefinition [-HsmName] <String> [-Scope <String>] [-DefaultProf
  [<CommonParameters>]
 ```
 
+### CustomOnly
+```
+Get-AzKeyVaultRoleDefinition [-HsmName] <String> [-Scope <String>] [-Custom]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
 ### ByName
 ```
 Get-AzKeyVaultRoleDefinition [-HsmName] <String> [-Scope <String>] -RoleDefinitionName <String>
@@ -31,8 +37,10 @@ List role definitions of a given managed HSM at a given scope.
 
 ### Example 1
 ```powershell
-PS C:\> Get-AzKeyVaultRoleDefinition -HsmName myHsm -Scope "/keys"
+Get-AzKeyVaultRoleDefinition -HsmName myHsm -Scope "/keys"
+```
 
+```output
 RoleName                              Description Permissions
 --------                              ----------- -----------
 Managed HSM Administrator                         1 permission(s)
@@ -47,35 +55,48 @@ Managed HSM Backup                                1 permission(s)
 The example lists all the roles at "/keys" scope.
 
 ### Example 2
+<!-- Skip: Output cannot be splitted from code -->
 ```powershell
-PS C:\> $backupRole = Get-AzKeyVaultRoleDefinition -HsmName myHsm -RoleDefinitionName "managed hsm backup"
+$backupRole = Get-AzKeyVaultRoleDefinition -HsmName myHsm -RoleDefinitionName "Managed HSM Backup User"
 
-PS C:\> $backupRole.Permissions
+$backupRole.Permissions
 
-AllowedActions DeniedActions AllowedDataActions DeniedDataActions
--------------- ------------- ------------------ -----------------
-0 action(s)    0 action(s)   3 action(s)        0 action(s)
+Actions     NotActions  DataActions NotDataActions
+-------     ----------  ----------- --------------
+0 action(s) 0 action(s) 3 action(s) 0 action(s)
 
-PS C:\> $backupRole.Permissions.AllowedDataActions
+$backupRole.Permissions.DataActions
 
 Microsoft.KeyVault/managedHsm/backup/start/action
 Microsoft.KeyVault/managedHsm/backup/status/action
 Microsoft.KeyVault/managedHsm/keys/backup/action
-
-RoleName                              Description Permissions
---------                              ----------- -----------
-Managed HSM Administrator                         1 permission(s)
-Managed HSM Crypto Officer                        1 permission(s)
-Managed HSM Crypto User                           1 permission(s)
-Managed HSM Policy Administrator                  1 permission(s)
-Managed HSM Crypto Auditor                        1 permission(s)
-Managed HSM Crypto Service Encryption             1 permission(s)
-Managed HSM Backup                                1 permission(s)
 ```
 
 The example gets the "Managed HSM Backup" role and inspects its permissions.
 
+### Example 3
+```powershell
+Get-AzKeyVaultRoleDefinition -HsmName myHsm -Custom
+```
+
+This example lists all the custom role definitions belong to "myHsm".
+
 ## PARAMETERS
+
+### -Custom
+If specified, only displays the custom created roles in the directory.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: CustomOnly
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.

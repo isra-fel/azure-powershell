@@ -21,6 +21,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         VaultLocation,
     }
 
+    public enum ResourceGuardParams
+    {
+        Token,
+        IsMUAOperation,
+    }
+
     public enum ContainerParams
     {
         Vault,
@@ -46,7 +52,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         KeyFileDownloadLocation,
         FileDownloadLocation,
         RestorePointQueryType,
-        TargetZone
+        TargetZone,
+        SourceTier,
+        TargetTier,
+        IsReadyForMove,
+        RehydrateDuration,
+        RehydratePriority,
+        Tier
     }
 
     public enum RestoreBackupItemParams
@@ -64,7 +76,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         RestoreOnlyOSDisk,
         RestoreAsUnmanagedDisks,
         DiskEncryptionSetId,
-        RestoreAsManagedDisk
+        RestoreAsManagedDisk,
+        UseSystemAssignedIdentity,
+        UserAssignedIdentityId,
+        RestoreType,
+        TargetVMName,
+        TargetVNetName,
+        TargetVNetResourceGroup,
+        TargetSubnetName,
+        TargetSubscriptionId
     }
 
     public enum RestoreFSBackupItemParams
@@ -108,7 +128,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         ProtectionPolicy,
         ResourceGroupName,
         ResourceName,
-        FixForInconsistentItems
+        FixForInconsistentItems,
+        ScheduleRunFrequency,
+        PolicySubType,
+        ExistingPolicy,
+        TieringPolicy,
+        IsSmartTieringEnabled
     }
 
     public enum ItemParams

@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/new-azkustocluster
+online version: https://learn.microsoft.com/powershell/module/az.kusto/new-azkustocluster
 schema: 2.0.0
 ---
 
@@ -14,15 +14,18 @@ Create or update a Kusto cluster.
 
 ```
 New-AzKustoCluster -Name <String> -ResourceGroupName <String> -Location <String> -SkuName <AzureSkuName>
- -SkuTier <AzureSkuTier> [-SubscriptionId <String>] [-EnableDiskEncryption] [-EnableDoubleEncryption]
- [-EnablePurge] [-EnableStreamingIngest] [-EngineType <EngineType>] [-IdentityType <IdentityType>]
- [-IdentityUserAssignedIdentity <Hashtable>] [-KeyVaultPropertyKeyName <String>]
- [-KeyVaultPropertyKeyVaultUri <String>] [-KeyVaultPropertyKeyVersion <String>]
- [-KeyVaultPropertyUserIdentity <String>] [-LanguageExtensionValue <ILanguageExtension[]>]
- [-OptimizedAutoscaleIsEnabled] [-OptimizedAutoscaleMaximum <Int32>] [-OptimizedAutoscaleMinimum <Int32>]
- [-OptimizedAutoscaleVersion <Int32>] [-SkuCapacity <Int32>] [-Tag <Hashtable>]
- [-TrustedExternalTenant <ITrustedExternalTenant[]>]
- [-VirtualNetworkConfigurationDataManagementPublicIPId <String>]
+ -SkuTier <AzureSkuTier> [-SubscriptionId <String>] [-IfMatch <String>] [-IfNoneMatch <String>]
+ [-AcceptedAudience <IAcceptedAudiences[]>] [-AllowedFqdnList <String[]>] [-AllowedIPRangeList <String[]>]
+ [-EnableAutoStop] [-EnableDiskEncryption] [-EnableDoubleEncryption] [-EnablePurge] [-EnableStreamingIngest]
+ [-EngineType <EngineType>] [-IdentityType <IdentityType>] [-IdentityUserAssignedIdentity <Hashtable>]
+ [-KeyVaultPropertyKeyName <String>] [-KeyVaultPropertyKeyVaultUri <String>]
+ [-KeyVaultPropertyKeyVersion <String>] [-KeyVaultPropertyUserIdentity <String>]
+ [-LanguageExtensionValue <ILanguageExtension[]>] [-OptimizedAutoscaleIsEnabled]
+ [-OptimizedAutoscaleMaximum <Int32>] [-OptimizedAutoscaleMinimum <Int32>]
+ [-OptimizedAutoscaleVersion <Int32>] [-PublicIPType <PublicIPType>]
+ [-PublicNetworkAccess <PublicNetworkAccess>] [-RestrictOutboundNetworkAccess <ClusterNetworkAccessFlag>]
+ [-SkuCapacity <Int32>] [-Tag <Hashtable>] [-TrustedExternalTenant <ITrustedExternalTenant[]>]
+ [-VirtualClusterGraduationProperty <String>] [-VirtualNetworkConfigurationDataManagementPublicIPId <String>]
  [-VirtualNetworkConfigurationEnginePublicIPId <String>] [-VirtualNetworkConfigurationSubnetId <String>]
  [-Zone <String[]>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
@@ -34,8 +37,10 @@ Create or update a Kusto cluster.
 
 ### Example 1: Create a new Kusto cluster
 ```powershell
-PS C:\> New-AzKustoCluster -ResourceGroupName testrg -Name testnewkustocluster -Location 'East US' -SkuName Standard_D11_v2 -SkuTier Standard -EnableDoubleEncryption true -EngineType 'V2'
+New-AzKustoCluster -ResourceGroupName testrg -Name testnewkustocluster -Location 'East US' -SkuName Standard_D11_v2 -SkuTier Standard -EnableDoubleEncryption -EngineType 'V2'
+```
 
+```output
 Location Name                Type                     Zone
 -------- ----                ----                     ----
 East US  testnewkustocluster Microsoft.Kusto/Clusters
@@ -44,6 +49,52 @@ East US  testnewkustocluster Microsoft.Kusto/Clusters
 The above command creates a new Kusto cluster named "testnewkustocluster" in the resource group "testrg".
 
 ## PARAMETERS
+
+### -AcceptedAudience
+The cluster's accepted audiences.
+To construct, see NOTES section for ACCEPTEDAUDIENCE properties and create a hash table.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.IAcceptedAudiences[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AllowedFqdnList
+List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AllowedIPRangeList
+The list of ips in the format of CIDR allowed to connect to the cluster.
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -AsJob
 Run the command as a job
@@ -61,12 +112,28 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
 Parameter Sets: (All)
 Aliases: AzureRMContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableAutoStop
+A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days).
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -183,6 +250,39 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IfMatch
+The ETag of the cluster.
+Omit this value to always overwrite the current cluster.
+Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IfNoneMatch
+Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster.
+Other values will result in a 412 Pre-condition Failed response.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -KeyVaultPropertyKeyName
 The name of the key vault key.
 
@@ -248,7 +348,7 @@ The list of language extensions.
 To construct, see NOTES section for LANGUAGEEXTENSIONVALUE properties and create a hash table.
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.ILanguageExtension[]
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.ILanguageExtension[]
 Parameter Sets: (All)
 Aliases:
 
@@ -364,6 +464,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PublicIPType
+Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6)
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.PublicIPType
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PublicNetworkAccess
+Public network access to the cluster is enabled by default.
+When disabled, only private endpoint connection to the cluster is allowed
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.PublicNetworkAccess
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 The name of the resource group containing the Kusto cluster.
 
@@ -373,6 +504,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RestrictOutboundNetworkAccess
+Whether or not to restrict outbound network access.
+Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.ClusterNetworkAccessFlag
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -460,7 +607,22 @@ The cluster's external tenants.
 To construct, see NOTES section for TRUSTEDEXTERNALTENANT properties and create a hash table.
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.ITrustedExternalTenant[]
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.ITrustedExternalTenant[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -VirtualClusterGraduationProperty
+Virtual Cluster graduation properties
+
+```yaml
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -569,7 +731,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.ICluster
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.ICluster
 
 ## NOTES
 
@@ -580,10 +742,14 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-LANGUAGEEXTENSIONVALUE <ILanguageExtension[]>: The list of language extensions.
+`ACCEPTEDAUDIENCE <IAcceptedAudiences[]>`: The cluster's accepted audiences.
+  - `[Value <String>]`: GUID or valid URL representing an accepted audience.
+
+`LANGUAGEEXTENSIONVALUE <ILanguageExtension[]>`: The list of language extensions.
+  - `[ImageName <LanguageExtensionImageName?>]`: The language extension image name.
   - `[Name <LanguageExtensionName?>]`: The language extension name.
 
-TRUSTEDEXTERNALTENANT <ITrustedExternalTenant[]>: The cluster's external tenants.
+`TRUSTEDEXTERNALTENANT <ITrustedExternalTenant[]>`: The cluster's external tenants.
   - `[Value <String>]`: GUID representing an external tenant.
 
 ## RELATED LINKS

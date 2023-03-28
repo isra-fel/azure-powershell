@@ -1,83 +1,85 @@
 variables:
-  WindowsName: windows
-  WindowsImage: vs2017-win2016
+  WindowsName: windows 
+  WindowsAgentPoolName: pool-windows-2019
+  WindowsAgentPoolVMImage: ''
   LinuxName: linux
-  LinuxImage: ubuntu-18.04
+  LinuxAgentPoolName: pool-ubuntu-2004
+  LinuxAgentPoolVMImage: ''
   MacOSName: macOS
-  MacOSImage: macOS-10.14
-  TestFramework: netcoreapp2.1
+  MacOSAgentPoolName: 'Azure Pipelines'
+  MacOSAgentPoolVMImage: macOS-11
+  TestFramework: netcoreapp3.1
   TestTarget: Test
   Configuration: Debug
   DebugLocalBuildTasks: true
+  IsGenerateBased: $[eq(variables['system.pullRequest.targetBranch'], 'generation')]
+  BuildTimeoutInMinutes: 120
+  AnalysisTimeoutInMinutes: 120
+  TestTimeoutInMinutes: 180
+  BuildAzPredictor: false
+  EnableTestCoverage: true
+  TestCoverageLocation: $(Build.SourcesDirectory)/artifacts
+  PowerShellPlatform: PowerShell Core
+
+trigger: none
+
+pr:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - Azs-tzl
 
 jobs:
 - job: Build
   displayName: Build
   condition: succeeded()
-  strategy:
-    matrix:
-      windows:
-        OSName: ${{ variables.WindowsName }}
-        ImageName: ${{ variables.WindowsImage }}
-      # linux:
-      #   OSName: ${{ variables.LinuxName }}
-      #   ImageName: ${{ variables.LinuxImage }}
-      macOS:	
-        OSName: ${{ variables.MacOSName }}	
-        ImageName: ${{ variables.MacOSImage }}
-  pool:
-    vmImage: $(ImageName)
+  timeoutInMinutes: ${{ variables.BuildTimeoutInMinutes }}
+  pool: pool-windows-2019
 
   steps:
   - template: util/build-steps.yml
     parameters:
-      osName: $(OSName)
-      testFramework: ${{ variables.TestFramework }}
       configuration: ${{ variables.Configuration }}
+      testFramework: ${{ variables.TestFramework }}
+      powerShellPlatform: ${{ variables.PowerShellPlatform }}
 
 - job: Analyze
   displayName: Analyze
   dependsOn: Build
   condition: succeeded()
-  timeoutInMinutes: 90
-  strategy:
-    matrix:
-      windows:
-        OSName: ${{ variables.WindowsName }}
-        ImageName: ${{ variables.WindowsImage }}
-      # linux:
-      #   OSName: ${{ variables.LinuxName }}
-      #   ImageName: ${{ variables.LinuxImage }}
-      macOS:	
-        OSName: ${{ variables.MacOSName }}	
-        ImageName: ${{ variables.MacOSImage }}
-  pool:
-    vmImage: $(ImageName)
+  timeoutInMinutes: ${{ variables.AnalysisTimeoutInMinutes }}
+  pool: pool-windows-2019
 
   steps:
   - template: util/analyze-steps.yml
     parameters:
-      osName: $(OSName)
       configuration: ${{ variables.Configuration }}
+      testFramework: ${{ variables.TestFramework }}
+      powerShellPlatform: ${{ variables.PowerShellPlatform }}
 
 - job: Test
   displayName: Test
   dependsOn: Build
   condition: succeeded()
-  timeoutInMinutes: 180
+  timeoutInMinutes: ${{ variables.TestTimeoutInMinutes }}
   strategy:
     matrix:
       windows:
         OSName: ${{ variables.WindowsName }}
-        ImageName: ${{ variables.WindowsImage }}
-      # linux:
-      #   OSName: ${{ variables.LinuxName }}
-      #   ImageName: ${{ variables.LinuxImage }}
-      macOS:	
-        OSName: ${{ variables.MacOSName }}	
-        ImageName: ${{ variables.MacOSImage }}
+        agentPoolName: ${{ variables.WindowsAgentPoolName }}
+        agentPoolVMImage: ${{ variables.WindowsAgentPoolVMImage }}
+      linux:
+        OSName: ${{ variables.LinuxName }}
+        agentPoolName: ${{ variables.LinuxAgentPoolName }}
+        agentPoolVMImage: ${{ variables.LinuxAgentPoolVMImage }}
+      macOS:
+        OSName: ${{ variables.MacOSName }}
+        agentPoolName: ${{ variables.MacOSAgentPoolName }}
+        agentPoolVMImage: ${{ variables.MacOSAgentPoolVMImage }}
   pool:
-    vmImage: $(ImageName)
+    name: $(agentPoolName)
+    vmImage: $(agentPoolVMImage)
 
   steps:
   - template: util/test-steps.yml
@@ -86,3 +88,4 @@ jobs:
       testFramework: ${{ variables.TestFramework }}
       testTarget: ${{ variables.TestTarget }}
       configuration: ${{ variables.Configuration }}
+      powerShellPlatform: ${{ variables.PowerShellPlatform }}

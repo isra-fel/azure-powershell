@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.EventHub.dll-Help.xml
 Module Name: Az.EventHub
-online version: https://docs.microsoft.com/powershell/module/az.eventhub/get-azeventhubnamespace
+online version: https://learn.microsoft.com/powershell/module/az.eventhub/get-azeventhubnamespace
 schema: 2.0.0
 ---
 
@@ -25,9 +25,11 @@ If the namespace name is not provided, a list of namespaces is returned.
 ## EXAMPLES
 
 ### Example 1
+```powershell
+Get-AzEventHubNamespace -ResourceGroupName MyResourceGroupName -NamespaceName MyNamespaceName
 ```
-PS C:\> Get-AzEventHubNamespace -ResourceGroupName MyResourceGroupName -NamespaceName MyNamespaceName
 
+```output
 Name                   : MyNamespaceName
 Id                     : /subscriptions/{subscriptionId}/resourceGroups/Default-EventHub-WestCentralUS/providers/Microsoft.EventHub/namespaces/MyNamespaceName
 ResourceGroupName      : Default-EventHub-WestCentralUS
@@ -95,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

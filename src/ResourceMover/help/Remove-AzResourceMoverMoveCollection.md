@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.ResourceMover
-online version: https://docs.microsoft.com/powershell/module/az.resourcemover/remove-azresourcemovermovecollection
+online version: https://learn.microsoft.com/powershell/module/az.resourcemover/remove-azresourcemovermovecollection
 schema: 2.0.0
 ---
 
@@ -24,8 +24,10 @@ Deletes a move collection.
 
 ### Example 1: Remove the Move Collection.
 ```powershell
-PS C:\> Remove-AzResourceMoverMoveCollection -ResourceGroupName "RG-MoveCollection-demoRMS" -MoveCollectionName "PS-centralus-westcentralus-demoRMS"
+Remove-AzResourceMoverMoveCollection -ResourceGroupName "RG-MoveCollection-demoRMS" -MoveCollectionName "PS-centralus-westcentralus-demoRMS"
+```
 
+```output
 AdditionalInfo : 
 Code           : 
 Detail         : 
@@ -186,7 +188,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.ResourceMover.Models.Api202101.IOperationStatus
+### Microsoft.Azure.PowerShell.Cmdlets.ResourceMover.Models.Api20210801.IOperationStatus
 
 ## NOTES
 

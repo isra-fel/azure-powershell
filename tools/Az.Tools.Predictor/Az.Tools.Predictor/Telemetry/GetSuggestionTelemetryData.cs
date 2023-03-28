@@ -14,6 +14,7 @@
 
 using System;
 using System.Management.Automation.Language;
+using System.Management.Automation.Subsystem.Prediction;
 
 namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Telemetry
 {
@@ -22,24 +23,49 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Telemetry
     /// </summary>
     public sealed class GetSuggestionTelemetryData : ITelemetryData
     {
+        /// <summary>
+        /// The telemetry property name for "isCancelled".
+        /// </summary>
+        public const string PropertyNameIsCancelled = "IsCancelled";
+
+        /// <summary>
+        /// The telemetry property name for "Found".
+        /// </summary>
+        public const string PropertyNameFound = "Found";
+
+        /// <summary>
+        /// The telemetry property name for "Prediction".
+        /// </summary>
+        public const string PropertyNamePrediction = "Prediction";
+
+        /// <summary>
+        /// The telemetry property name for "SuggestionSessionId".
+        /// </summary>
+        public const string PropertyNameSuggestionSessionId = "SuggestionSessionId";
+
+        /// <summary>
+        /// The telemetry property name fo "userInput".
+        /// </summary>
+        public const string PropertyNameUserInput = "UserInput";
+
+        /// <inheritdoc/>
+        public PredictionClient Client { get; init; }
+
         /// <inheritdoc/>
         string ITelemetryData.CommandId { get; set; }
 
         /// <inheritdoc/>
         string ITelemetryData.RequestId { get; set; }
 
-        /// <inheritdoc/>
-        string ITelemetryData.SessionId { get; set; }
-
-        /// <summary>
-        /// Gets the id of the client that makes the calls.
-        /// </summary>
-        public string ClientId { get; init; }
-
         /// <summary>
         /// Gets the user input.
         /// </summary>
         public Ast UserInput { get; }
+
+        /// <summary>
+        /// Gets whether the command in <see cref="UserInput" /> is supported or not.
+        /// </summary>
+        public bool IsSupported { get; }
 
         /// <summary>
         /// Gets the suggestions to return to the user.
@@ -67,17 +93,19 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Telemetry
         /// <summary>
         /// Creates a new instance of <see cref="GetSuggestionTelemetryData"/>.
         /// </summary>
-        /// <param name="clientId">The client id that makes the call.</param>
+        /// <param name="client">The client that makes the call.</param>
         /// <param name="suggestionSessionId">The suggestion session id.</param>
         /// <param name="userInput">The user input that the <paramref name="suggestion"/> is for.</param>
+        /// <param name="isSupported">Indicates whether the command from <paramref name="userInput" /> is supported or not.</param>
         /// <param name="suggestion">The suggestions returned for the <paramref name="userInput"/>.</param>
         /// <param name="isCancellationRequested">Indicates if the cancellation has been requested.</param>
         /// <param name="exception">The exception that is thrown if there is an error.</param>
-        public GetSuggestionTelemetryData(string clientId, uint suggestionSessionId, Ast userInput, CommandLineSuggestion suggestion, bool isCancellationRequested, Exception exception)
+        public GetSuggestionTelemetryData(PredictionClient client, uint suggestionSessionId, Ast userInput, bool isSupported, CommandLineSuggestion suggestion, bool isCancellationRequested, Exception exception)
         {
-            ClientId = clientId;
+            Client = client;
             SuggestionSessionId = suggestionSessionId;
             UserInput = userInput;
+            IsSupported = isSupported;
             Suggestion = suggestion;
             IsCancellationRequested = isCancellationRequested;
             Exception = exception;

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Aks.dll-Help.xml
 Module Name: Az.Aks
-online version: https://docs.microsoft.com/powershell/module/az.aks/set-azaksclustercredential
+online version: https://learn.microsoft.com/powershell/module/az.aks/set-azaksclustercredential
 schema: 2.0.0
 ---
 
@@ -16,20 +16,22 @@ Reset the ServicePrincipal of an existing AKS cluster.
 ```
 Set-AzAksClusterCredential [-ResourceGroupName] <String> [-Name] <String>
  -ServicePrincipalIdAndSecret <PSCredential> [-PassThru] [-AsJob] [-Force]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [-SubscriptionId <String>]
+ [<CommonParameters>]
 ```
 
 ### InputObjectParameterSet
 ```
 Set-AzAksClusterCredential -InputObject <PSKubernetesCluster> -ServicePrincipalIdAndSecret <PSCredential>
  [-PassThru] [-AsJob] [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-SubscriptionId <String>] [<CommonParameters>]
 ```
 
 ### IdParameterSet
 ```
 Set-AzAksClusterCredential [-Id] <String> -ServicePrincipalIdAndSecret <PSCredential> [-PassThru] [-AsJob]
- [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [-SubscriptionId <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,9 +41,9 @@ Reset the ServicePrincipal of an existing AKS cluster.
 
 ### Example 1
 ```powershell
-PS C:\> $SecPasswd = ConvertTo-SecureString $password -AsPlainText -Force
-PS C:\> $Credential = $(New-Object System.Management.Automation.PSCredential ('6f277dd3-e481-4518-8aab-35c31662bad9', $SecPasswd))
-PS C:\> Set-AzAksClusterCredential -ResourceGroupName $ResourceGroupName -Name $Name -ServicePrincipalIdAndSecret $Credential -force
+$SecPasswd = ConvertTo-SecureString $password -AsPlainText -Force
+$Credential = $(New-Object System.Management.Automation.PSCredential ('6f277dd3-e481-4518-8aab-35c31662bad9', $SecPasswd))
+Set-AzAksClusterCredential -ResourceGroupName $ResourceGroupName -Name $Name -ServicePrincipalIdAndSecret $Credential -force
 ```
 
 Set the service principal of a existing kubernetes cluster with resource group name and cluster name.
@@ -180,6 +182,23 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SubscriptionId
+The ID of the subscription.
+By default, cmdlets are executed in the subscription that is set in the current context. If the user specifies another subscription, the current cmdlet is executed in the subscription specified by the user.
+Overriding subscriptions only take effect during the lifecycle of the current cmdlet. It does not change the subscription in the context, and does not affect subsequent cmdlets.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

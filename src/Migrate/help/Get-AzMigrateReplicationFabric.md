@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Migrate
-online version: https://docs.microsoft.com/powershell/module/az.migrate/get-azmigratereplicationfabric
+online version: https://learn.microsoft.com/powershell/module/az.migrate/get-azmigratereplicationfabric
 schema: 2.0.0
 ---
 
@@ -21,7 +21,7 @@ Get-AzMigrateReplicationFabric -ResourceGroupName <String> -ResourceName <String
 ### Get
 ```
 Get-AzMigrateReplicationFabric -FabricName <String> -ResourceGroupName <String> -ResourceName <String>
- [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
+ [-SubscriptionId <String[]>] [-Filter <String>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,8 +31,10 @@ Gets the details of an Azure Site Recovery fabric.
 
 ### Example 1: Get all fabrics by resource group and vault name
 ```powershell
-PS C:\> PS Get-AzMigrateReplicationFabric -ResourceGroupName azmigratepwshtestasr13072020 -ResourceName AzMigrateTestProjectPWSH02aarsvault -FabricName AzMigratePWSHTc8d1replicationfabric
+Get-AzMigrateReplicationFabric -ResourceGroupName azmigratepwshtestasr13072020 -ResourceName AzMigrateTestProjectPWSH02aarsvault -FabricName AzMigratePWSHTc8d1replicationfabric
+```
 
+```output
 BcdrState                                 : Valid
 CustomDetailInstanceType                  : VMwareV2
 EncryptionDetailKekCertExpiryDate         :
@@ -57,8 +59,10 @@ Get all fabrics in resource group and vault
 
 ### Example 2: Get fabric by resource group, vault name and fabric name
 ```powershell
-PS C:\> Get-AzMigrateReplicationFabric -ResourceGroupName azmigratepwshtestasr13072020 -ResourceName AzMigrateTestProjectPWSH02aarsvault
+Get-AzMigrateReplicationFabric -ResourceGroupName azmigratepwshtestasr13072020 -ResourceName AzMigrateTestProjectPWSH02aarsvault
+```
 
+```output
 BcdrState                                 : Valid
 CustomDetailInstanceType                  : VMwareV2
 EncryptionDetailKekCertExpiryDate         :
@@ -107,6 +111,21 @@ Parameter Sets: Get
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Filter
+OData filter options.
+
+```yaml
+Type: System.String
+Parameter Sets: Get
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -165,7 +184,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric
+### Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric
 
 ## NOTES
 

@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/new-azkustoattacheddatabaseconfiguration
+online version: https://learn.microsoft.com/powershell/module/az.kusto/new-azkustoattacheddatabaseconfiguration
 schema: 2.0.0
 ---
 
@@ -15,7 +15,15 @@ Creates or updates an attached database configuration.
 ```
 New-AzKustoAttachedDatabaseConfiguration -ClusterName <String> -Name <String> -ResourceGroupName <String>
  [-SubscriptionId <String>] [-ClusterResourceId <String>] [-DatabaseName <String>]
+ [-DatabaseNameOverride <String>] [-DatabaseNamePrefix <String>]
  [-DefaultPrincipalsModificationKind <DefaultPrincipalsModificationKind>] [-Location <String>]
+ [-TableLevelSharingPropertyExternalTablesToExclude <String[]>]
+ [-TableLevelSharingPropertyExternalTablesToInclude <String[]>]
+ [-TableLevelSharingPropertyFunctionsToExclude <String[]>]
+ [-TableLevelSharingPropertyFunctionsToInclude <String[]>]
+ [-TableLevelSharingPropertyMaterializedViewsToExclude <String[]>]
+ [-TableLevelSharingPropertyMaterializedViewsToInclude <String[]>]
+ [-TableLevelSharingPropertyTablesToExclude <String[]>] [-TableLevelSharingPropertyTablesToInclude <String[]>]
  [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
@@ -26,8 +34,10 @@ Creates or updates an attached database configuration.
 
 ### Example 1: Create a new AttachedDatabaseConfiguration
 ```powershell
-PS C:\> New-AzKustoAttachedDatabaseConfiguration -ResourceGroupName "testrg" -ClusterName "testnewkustoclusterf" -Name "myfollowerconfiguration" -Location "East US" -ClusterResourceId "/subscriptions/$subscriptionId/resourcegroups/testrg/providers/Microsoft.Kusto/Clusters/testnewkustocluster" -DatabaseName "mykustodatabase" -DefaultPrincipalsModificationKind "Union"
+New-AzKustoAttachedDatabaseConfiguration -ResourceGroupName "testrg" -ClusterName "testnewkustoclusterf" -Name "myfollowerconfiguration" -Location "East US" -ClusterResourceId "/subscriptions/$subscriptionId/resourcegroups/testrg/providers/Microsoft.Kusto/Clusters/testnewkustocluster" -DatabaseName "mykustodatabase" -DefaultPrincipalsModificationKind "Union"
+```
 
+```output
 Name                                 Type                                                    Location
 ----                                 ----                                                    --------
 testnewkustoclusterf/myfollowerconfiguration Microsoft.Kusto/Clusters/AttachedDatabaseConfigurations East US
@@ -98,6 +108,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DatabaseNameOverride
+Overrides the original database name.
+Relevant only when attaching to a specific database.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DatabaseNamePrefix
+Adds a prefix to the attached databases name.
+When following an entire cluster, that prefix would be added to all of the databases original names from leader cluster.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultPrincipalsModificationKind
 The default principals modification kind
 
@@ -114,7 +156,8 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -204,6 +247,126 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -TableLevelSharingPropertyExternalTablesToExclude
+List of external tables to exclude from the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyExternalTablesToInclude
+List of external tables to include in the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyFunctionsToExclude
+List of functions to exclude from the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyFunctionsToInclude
+List of functions to include in the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyMaterializedViewsToExclude
+List of materialized views to exclude from the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyMaterializedViewsToInclude
+List of materialized views to include in the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyTablesToExclude
+List of tables to exclude from the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableLevelSharingPropertyTablesToInclude
+List of tables to include in the follower database
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
@@ -242,7 +405,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.IAttachedDatabaseConfiguration
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.IAttachedDatabaseConfiguration
 
 ## NOTES
 

@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.DesktopVirtualization
-online version: https://docs.microsoft.com/powershell/module/az.desktopvirtualization/get-azwvdstartmenuitem
+online version: https://learn.microsoft.com/powershell/module/az.desktopvirtualization/get-azwvdstartmenuitem
 schema: 2.0.0
 ---
 
@@ -24,8 +24,10 @@ List start menu items in the given application group.
 
 ### Example 2: List Windows Virtual Desktop Start Menu Items
 ```powershell
-PS C:\> Get-AzWvdStartMenuItem -ResourceGroupName ResourceGroupName -ApplicationGroupName ApplicationGroupName
+Get-AzWvdStartMenuItem -ResourceGroupName ResourceGroupName -ApplicationGroupName ApplicationGroupName
+```
 
+```output
 Name                                                Type
 ----                                                ----
 ApplicationGroupName/Character Map                  Microsoft.DesktopVirtualization/applicationgroups/startmenuitems
@@ -106,7 +108,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IStartMenuItem
+### Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IStartMenuItem
 
 ## NOTES
 

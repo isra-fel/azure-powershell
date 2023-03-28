@@ -18,6 +18,120 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+
+## Version 6.3.0
+* Supported using managed disks for replication for HyperV to Azure provider in Azure Site Recovery
+
+## Version 6.2.0
+* Added support for enable/disable Public Network Access and PrivateEndpoints
+* Added support for Immutable Vaults
+* Added support for RetainRecoveryPointsAsPerPolicy in Disable-AzRecoveryServicesBackupProtection cmdlet. Now user can suspend backups and retain RPs as per policy
+* Added List Recovery Point expiry time
+* Added RecoveryServices, RecoveryServices.Backup, RecoveryServices.Backup.CrossRegionRestore management SDK
+* Added support for non-UTC time zones with standard policy for workloadType IaasVM, MSSql, AzureFiles
+
+## Version 6.1.2
+* Added support for passing DiskEncryptionSetId for Cross region restore
+* Fixed the pagination bug in `Get-AzRecoveryServicesAsrProtectableItem` for the V2ARCM scenario.
+* Fixed `IncludeDiskId` property for `New-ASRReplicationProtectedItem` cmdlet of H2A
+
+## Version 6.1.1
+* Upgraded AutoMapper to Microsoft.Azure.PowerShell.AutoMapper 6.2.2 with fix [#18721]
+
+## Version 6.1.0
+* Added support for cross zonal restore for ZRS vaults for non-ZonePinned VM
+* Fixed bug with Update-AzRecoveryServicesAsrProtectionContainerMapping
+* Added new scenarios: EZ-to-AZ, EZ-to-AZ, EZ-to-EZ
+* Removed `VmName` from non A2A scenarios of `New-AzRecoveryServicesAsrReplicationProtectedItem` as it is not applicable
+
+## Version 6.0.0
+* [Breaking Change] Added fix for Enable-AzRecoveryServicesBackupProtection cmdlet. Resolved the null reference issue by making policy a mandatory parameter.
+* [Breaking Change] Removed status filter from Get-AzRecoveryServicesBackupContainer command
+* Added SubTasks Duration for IaasVM job
+
+## Version 5.6.1
+* Removed AFEC feature check for Archive smart tiering
+
+## Version 5.6.0
+* Added support for Archive smart tiering for AzureVM and MSSQL workloads.
+
+## Version 5.5.0
+* Fixed GetAzRecoveryServicesVaultSettingsFile cmdlet used for downloading vault credential file.
+* Fixed issue in Disable-AzRecoveryServicesBackupProtection cmdlet.
+* Fixed issue in Enable-AzRecoveryServicesBackupProtection cmdlet.
+* Fixed output container in re-registration scenario for Register-AzRecoveryServicesBackupContainer cmdlet.
+* Added support for Enabling/Disabling the azure monitor and classic alerts for recovery services vault.
+
+## Version 5.4.1
+* Fixed delay in long running operations [#18567]
+
+## Version 5.4.0
+* Added support for Multi-user authorization using Resource Guard for recovery services vault.
+* Added support for cross subscription restore for recovery services vault, modified storage account to be fetched from target subscription.
+
+## Version 5.3.1
+* Added support for multiple backups per day (hourly) Enhanced policy for workloadType AzureVM.
+
+## Version 5.3.0
+* Added support for Trusted VM backup and Enhanced policy for WorkloadType AzureVM.
+* Added support for disabling hybrid backup security features in `Set-AzRecoveryServicesVaultProperty` cmdlet. The feature can be re-enabled by setting `DisableHybridBackupSecurityFeature` flag to $false.
+
+## Version 5.2.0
+* Azure Backup added support for "Create new virtual machine" and "Replace existing virtual machine" experience for Managed VMs in Restore-AzRecoveryServicesBackupItem cmdlet. To perform a VM restore to AlternateLocation use TargetVMName, TargetVNetName, TargetVNetResourceGroup, TargetSubnetName parameters. To perform a restore to a VM in OriginalLocation, do not provide TargetResourceGroupName and RestoreAsUnmanagedDisks parameters, refer examples for more details.
+
+## Version 5.1.0
+* Reverted the configure backup per policy limit for VMs from 1000 to 100. This limit was previously relaxed but as Azure portal has a limit of 100 VMs per policy, we are reverting this limit.
+* Added support for multiple backups per day for FileShares.
+* Segregated some of the CRR and non-CRR flows based on the SDK update.
+* Add EdgeZone parameter to Azure Site recovery service cmdlet `New-AzRecoveryServicesAsrRecoveryPlan`
+
+## Version 5.0.0
+* Azure Backup updated validate sets for supported BackupManagementType in `Get-AzRecoveryServicesBackupItem`, `Get-AzRecoveryServicesBackupContainer`, Get-AzRecoveryServicesBackupJob cmdlets.
+* Azure Backup added support for SAPHanaDatabase for `Disable-AzRecoveryServicesBackupProtection`, `Unregister-AzRecoveryServicesBackupContainer`, `Get-AzRecoveryServicesBackupItem`, `Get-AzRecoveryServicesBackupContainer` cmdlets.
+* Breaking Change: `Get-AzRecoveryServicesBackupJob`, `Get-AzRecoveryServicesBackupContainer` and `Get-AzRecoveryServicesBackupItem` commands will only support `BackupManagementType MAB` instead of `MARS`.
+* Azure Site Recovery support for capacity reservation for Azure to Azure provider.
+
+## Version 4.8.0
+* Azure Backup fixed issues with StorageConfig
+* Azure Backup added NodesList and AutoProtectionPolicy to Get-AzRecoveryServicesBackupProtectableItem Cmdlets.
+* Azure Backup fixed GetItemsForContainerParamSet to support fetching the MAB backup item.
+* Azure Backup fixed Get-AzRecoveryServicesBackupContainer to support BackupManagementType MAB instead of MARS.
+* Added breaking change warning: `Get-AzRecoveryServicesBackupJob`, `Get-AzRecoveryServicesBackupContainer` and `Get-AzRecoveryServicesBackupProtectableItem` commands will only support `BackupManagementType MAB` instead of `MARS` alias, changes will take effect from upcoming breaking release.
+* Added support for ZRS disk type for Azure to Azure replication.
+* Added Availability zone information in replicated protected item response for Azure to Azure replication.
+
+## Version 4.7.0
+* Azure Site Recovery bug fixes for VMware to Azure Reprotect, Update policy and Disable scenarios.
+* Azure Backup added the support for UserAssigned MSI in RecoveryServices Vault.
+
+## Version 4.6.0
+* Azure Site Recovery multi appliance support for VMware to Azure disaster recovery scenarios using RCM as the control plane.
+* Azure Backup fixed targetPhysicalPath issue with SQL CRR
+* Azure Backup fixed disable protection for SQL workload
+* Azure Backup resolved bug in setting CMK properties in latest release
+* Azure Backup removed special characters from register-azrecoveryservicesbackupcontainer command help text
+
+## Version 4.5.0
+* Added MSI based restore for managed virtual machines.
+
+## Version 4.4.0
+* Added Archive for V1 vaults.
+* Added ProtectedItemsCount in Get-AzRecoveryServicesBackupProtectionPolicy.
+* Azure site recovery bug fix for azure to azure in update vm properties.
+
+## Version 4.3.0
+* Fixed Disable SQL AG AutoProtection.
+
+## Version 4.2.0
+* Added cross tenant DS Move.
+* Removed restriction to fetch recovery points only for a 30 days time range.
+* Enabled CRR for new regions.
+
+## Version 4.1.0
+* Fixed security issue with SQL restore, this is a necessary breaking change. TargetContainer becomes mandatory for Alternate Location Restore.
+* Removed Set-AzRecoveryServicesBackupProperties cmdlet alias, Set-AzRecoveryServicesBackupProperty is supported.
+* Removed Get-AzRecoveryServicesBackupJobDetails cmdlet alias, Get-AzRecoveryServicesBackupJobDetail is supported.
+* Added support for cross subscription DS Move.
 * Azure Site Recovery support for VMware to Azure disaster recovery scenarios using RCM as the control plane.
 
 ## Version 3.6.0

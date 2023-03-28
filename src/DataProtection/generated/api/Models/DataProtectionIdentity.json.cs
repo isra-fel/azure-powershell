@@ -19,7 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models
         partial void AfterFromJson(Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonObject json);
 
         /// <summary>
-        /// <c>AfterToJson</c> will be called after the json erialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonObject"
+        /// <c>AfterToJson</c> will be called after the json serialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonObject"
         /// /> before it is returned. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -29,7 +29,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models
         /// <summary>
         /// <c>BeforeFromJson</c> will be called before the json deserialization has commenced, allowing complete customization of
         /// the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name= "returnNow" />
+        /// output parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="json">The JsonNode that should be deserialized into this object.</param>
@@ -41,7 +42,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models
         /// <summary>
         /// <c>BeforeToJson</c> will be called before the json serialization has commenced, allowing complete customization of the
         /// object before it is serialized.
-        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -70,8 +72,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models
             {_backupPolicyName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("backupPolicyName"), out var __jsonBackupPolicyName) ? (string)__jsonBackupPolicyName : (string)BackupPolicyName;}
             {_backupInstanceName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("backupInstanceName"), out var __jsonBackupInstanceName) ? (string)__jsonBackupInstanceName : (string)BackupInstanceName;}
             {_recoveryPointId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("recoveryPointId"), out var __jsonRecoveryPointId) ? (string)__jsonRecoveryPointId : (string)RecoveryPointId;}
-            {_backupInstance = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("backupInstances"), out var __jsonBackupInstances) ? (string)__jsonBackupInstances : (string)BackupInstance;}
             {_jobId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("jobId"), out var __jsonJobId) ? (string)__jsonJobId : (string)JobId;}
+            {_resourceGuardsName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("resourceGuardsName"), out var __jsonResourceGuardsName) ? (string)__jsonResourceGuardsName : (string)ResourceGuardsName;}
+            {_requestName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("requestName"), out var __jsonRequestName) ? (string)__jsonRequestName : (string)RequestName;}
             {_id = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString>("id"), out var __jsonId) ? (string)__jsonId : (string)Id;}
             AfterFromJson(json);
         }
@@ -115,8 +118,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Models
             AddIf( null != (((object)this._backupPolicyName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._backupPolicyName.ToString()) : null, "backupPolicyName" ,container.Add );
             AddIf( null != (((object)this._backupInstanceName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._backupInstanceName.ToString()) : null, "backupInstanceName" ,container.Add );
             AddIf( null != (((object)this._recoveryPointId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._recoveryPointId.ToString()) : null, "recoveryPointId" ,container.Add );
-            AddIf( null != (((object)this._backupInstance)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._backupInstance.ToString()) : null, "backupInstances" ,container.Add );
             AddIf( null != (((object)this._jobId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._jobId.ToString()) : null, "jobId" ,container.Add );
+            AddIf( null != (((object)this._resourceGuardsName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._resourceGuardsName.ToString()) : null, "resourceGuardsName" ,container.Add );
+            AddIf( null != (((object)this._requestName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._requestName.ToString()) : null, "requestName" ,container.Add );
             AddIf( null != (((object)this._id)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.DataProtection.Runtime.Json.JsonString(this._id.ToString()) : null, "id" ,container.Add );
             AfterToJson(ref container);
             return container;

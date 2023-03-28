@@ -30,7 +30,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models
         /// <summary>
         /// <c>BeforeDeserializeDictionary</c> will be called before the deserialization has commenced, allowing complete customization
         /// of the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="content">The global::System.Collections.IDictionary content that should be used.</param>
@@ -42,7 +43,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models
         /// <summary>
         /// <c>BeforeDeserializePSObject</c> will be called before the deserialization has commenced, allowing complete customization
         /// of the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="content">The global::System.Management.Automation.PSObject content that should be used.</param>
@@ -50,6 +52,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models
         /// instantly.</param>
 
         partial void BeforeDeserializePSObject(global::System.Management.Automation.PSObject content, ref bool returnNow);
+
+        /// <summary>
+        /// <c>OverrideToString</c> will be called if it is implemented. Implement this method in a partial class to enable this behavior
+        /// </summary>
+        /// <param name="stringResult">/// instance serialized to a string, normally it is a Json</param>
+        /// <param name="returnNow">/// set returnNow to true if you provide a customized OverrideToString function</param>
+
+        partial void OverrideToString(ref string stringResult, ref bool returnNow);
 
         /// <summary>
         /// Deserializes a <see cref="global::System.Collections.IDictionary" /> into a new instance of <see cref="Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.ConnectedKubernetesIdentity"
@@ -65,10 +75,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models
                 return;
             }
             // actually deserialize
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
+            if (content.Contains("SubscriptionId"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
+            }
+            if (content.Contains("ResourceGroupName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ClusterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName, global::System.Convert.ToString);
+            }
+            if (content.Contains("Id"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id, global::System.Convert.ToString);
+            }
             AfterDeserializeDictionary(content);
         }
 
@@ -86,10 +108,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models
                 return;
             }
             // actually deserialize
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
+            if (content.Contains("SubscriptionId"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
+            }
+            if (content.Contains("ResourceGroupName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ClusterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).ClusterName, global::System.Convert.ToString);
+            }
+            if (content.Contains("Id"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentityInternal)this).Id, global::System.Convert.ToString);
+            }
             AfterDeserializePSObject(content);
         }
 
@@ -125,13 +159,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models
         /// Creates a new instance of <see cref="ConnectedKubernetesIdentity" />, deserializing the content from a json string.
         /// </summary>
         /// <param name="jsonText">a string containing a JSON serialized instance of this model.</param>
-        /// <returns>an instance of the <see cref="className" /> model class.</returns>
+        /// <returns>an instance of the <see cref="ConnectedKubernetesIdentity" /> model class.</returns>
         public static Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Models.IConnectedKubernetesIdentity FromJsonString(string jsonText) => FromJson(Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Runtime.Json.JsonNode.Parse(jsonText));
 
         /// <summary>Serializes this instance to a json string.</summary>
 
         /// <returns>a <see cref="System.String" /> containing this model serialized to JSON text.</returns>
         public string ToJsonString() => ToJson(null, Microsoft.Azure.PowerShell.Cmdlets.ConnectedKubernetes.Runtime.SerializationMode.IncludeAll)?.ToString();
+
+        public override string ToString()
+        {
+            var returnNow = false;
+            var result = global::System.String.Empty;
+            OverrideToString(ref result, ref returnNow);
+            if (returnNow)
+            {
+                return result;
+            }
+            return ToJsonString();
+        }
     }
     [System.ComponentModel.TypeConverter(typeof(ConnectedKubernetesIdentityTypeConverter))]
     public partial interface IConnectedKubernetesIdentity

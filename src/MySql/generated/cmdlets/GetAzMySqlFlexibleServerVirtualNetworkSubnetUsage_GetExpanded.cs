@@ -6,14 +6,15 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
 {
     using static Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Extensions;
+    using System;
 
     /// <summary>Get virtual network subnet usage for a given vNet resource id.</summary>
     /// <remarks>
-    /// [OpenAPI] Get=>POST:"/subscriptions/{subscriptionId}/providers/Microsoft.DBForMySql/locations/{locationName}/checkVirtualNetworkSubnetUsage"
+    /// [OpenAPI] Get=>POST:"/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/checkVirtualNetworkSubnetUsage"
     /// </remarks>
     [global::Microsoft.Azure.PowerShell.Cmdlets.MySql.InternalExport]
     [global::System.Management.Automation.Cmdlet(global::System.Management.Automation.VerbsCommon.Get, @"AzMySqlFlexibleServerVirtualNetworkSubnetUsage_GetExpanded", SupportsShouldProcess = true)]
-    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IDelegatedSubnetUsage))]
+    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IDelegatedSubnetUsage))]
     [global::Microsoft.Azure.PowerShell.Cmdlets.MySql.Description(@"Get virtual network subnet usage for a given vNet resource id.")]
     [global::Microsoft.Azure.PowerShell.Cmdlets.MySql.Generated]
     public partial class GetAzMySqlFlexibleServerVirtualNetworkSubnetUsage_GetExpanded : global::System.Management.Automation.PSCmdlet,
@@ -32,6 +33,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
         /// The <see cref="global::System.Threading.CancellationTokenSource" /> for this operation.
         /// </summary>
         private global::System.Threading.CancellationTokenSource _cancellationTokenSource = new global::System.Threading.CancellationTokenSource();
+
+        /// <summary>Virtual network subnet usage parameter</summary>
+        private Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageParameter _parametersBody = new Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.VirtualNetworkSubnetUsageParameter();
 
         /// <summary>Wait for .NET debugger to attach</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Wait for .NET debugger to attach")]
@@ -80,18 +84,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
         public string LocationName { get => this._locationName; set => this._locationName = value; }
 
         /// <summary>
-        /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
+        /// <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
         global::System.Action Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
 
-        /// <summary><see cref="IEventListener" /> cancellation token.</summary>
+        /// <summary><see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener" /> cancellation token.</summary>
         global::System.Threading.CancellationToken Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener.Token => _cancellationTokenSource.Token;
-
-        /// <summary>Backing field for <see cref="ParametersBody" /> property.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IVirtualNetworkSubnetUsageParameter _parametersBody= new Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.VirtualNetworkSubnetUsageParameter();
-
-        /// <summary>Virtual network subnet usage parameter</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IVirtualNetworkSubnetUsageParameter ParametersBody { get => this._parametersBody; set => this._parametersBody = value; }
 
         /// <summary>
         /// The instance of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.HttpPipeline" /> that the remote call will use.
@@ -139,39 +137,44 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
         Required = false,
         ReadOnly = false,
         Description = @"Virtual network resource id.",
-        SerializedName = @"virtualNetworkArmResourceId",
+        SerializedName = @"virtualNetworkResourceId",
         PossibleTypes = new [] { typeof(string) })]
-        public string VirtualNetworkArmResourceId { get => ParametersBody.VirtualNetworkArmResourceId ?? null; set => ParametersBody.VirtualNetworkArmResourceId = value; }
+        public string VirtualNetworkResourceId { get => _parametersBody.VirtualNetworkResourceId ?? null; set => _parametersBody.VirtualNetworkResourceId = value; }
 
         /// <summary>
         /// <c>overrideOnDefault</c> will be called before the regular onDefault has been processed, allowing customization of what
         /// happens on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.ICloudErrorAutoGenerated"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated">Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onDefault method should be processed, or if the method should
         /// return immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.ICloudErrorAutoGenerated> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// <c>overrideOnOk</c> will be called before the regular onOk has been processed, allowing customization of what happens
         /// on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IVirtualNetworkSubnetUsageResult"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageResult">Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageResult</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onOk method should be processed, or if the method should return
         /// immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IVirtualNetworkSubnetUsageResult> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageResult> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// (overrides the default BeginProcessing method in global::System.Management.Automation.PSCmdlet)
         /// </summary>
         protected override void BeginProcessing()
         {
+            var telemetryId = Microsoft.Azure.PowerShell.Cmdlets.MySql.Module.Instance.GetTelemetryId.Invoke();
+            if (telemetryId != "" && telemetryId != "internal")
+            {
+                __correlationId = telemetryId;
+            }
             Module.Instance.SetProxyConfiguration(Proxy, ProxyCredential, ProxyUseDefaultCredentials);
             if (Break)
             {
@@ -183,7 +186,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
         /// <summary>Performs clean-up after the command execution</summary>
         protected override void EndProcessing()
         {
-            ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.CmdletEndProcessing).Wait(); if( ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+
         }
 
         /// <summary>
@@ -225,7 +228,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
                     case Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.Information:
                     {
                         var data = messageData();
-                        WriteInformation(data, new[] { data.Message });
+                        WriteInformation(data.Message, new string[]{});
                         return ;
                     }
                     case Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.Debug:
@@ -294,7 +297,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
         {
             using( NoSynchronizationContext )
             {
-                await ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.CmdletProcessRecordAsyncStart); if( ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.CmdletGetPipeline); if( ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 Pipeline = Microsoft.Azure.PowerShell.Cmdlets.MySql.Module.Instance.CreatePipeline(InvocationInformation, __correlationId, __processRecordId, this.ParameterSetName);
                 if (null != HttpPipelinePrepend)
@@ -311,13 +313,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
                     foreach( var SubscriptionId in this.SubscriptionId )
                     {
                         await ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.CmdletBeforeAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                        await this.Client.FlexibleServerVirtualNetworkSubnetUsageGet(SubscriptionId, LocationName, ParametersBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.FlexibleServerVirtualNetworkSubnetUsageGet(SubscriptionId, LocationName, _parametersBody, onOk, onDefault, this, Pipeline);
                         await ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.Events.CmdletAfterAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                     }
                 }
                 catch (Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.UndeclaredResponseException urexception)
                 {
-                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  SubscriptionId=SubscriptionId,LocationName=LocationName,body=ParametersBody})
+                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  SubscriptionId=SubscriptionId,LocationName=LocationName,body=_parametersBody})
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(urexception.Message) { RecommendedAction = urexception.Action }
                     });
@@ -340,12 +342,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
         /// a delegate that is called when the remote service returns default (any response code not handled elsewhere).
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.ICloudErrorAutoGenerated"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated">Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.ICloudErrorAutoGenerated> response)
+        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated> response)
         {
             using( NoSynchronizationContext )
             {
@@ -362,15 +364,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
                 if ((null == code || null == message))
                 {
                     // Unrecognized Response. Create an error record based on what we have.
-                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.ICloudErrorAutoGenerated>(responseMessage, await response);
-                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, LocationName=LocationName, body=ParametersBody })
+                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.MySql.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.ICloudErrorAutoGenerated>(responseMessage, await response);
+                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, LocationName=LocationName, body=_parametersBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(ex.Message) { RecommendedAction = ex.Action }
                     });
                 }
                 else
                 {
-                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, LocationName=LocationName, body=ParametersBody })
+                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, LocationName=LocationName, body=_parametersBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(message) { RecommendedAction = global::System.String.Empty }
                     });
@@ -380,12 +382,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IVirtualNetworkSubnetUsageResult"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageResult">Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageResult</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20200701Preview.IVirtualNetworkSubnetUsageResult> response)
+        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20210501.IVirtualNetworkSubnetUsageResult> response)
         {
             using( NoSynchronizationContext )
             {

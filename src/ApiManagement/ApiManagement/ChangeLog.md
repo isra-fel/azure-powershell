@@ -19,6 +19,56 @@
 -->
 ## Upcoming Release
 
+## Version 4.0.2
+* Updated description of ResourceId param 'New-AzApiManagementBackend' and 'Set-AzApiManagementBackend' cmdlet [#16868]
+* Fixed Path mandatory bug 'Import-AzureApiManagementApi' cmdlet [#17991]
+
+## Version 4.0.1
+* Upgraded AutoMapper to Microsoft.Azure.PowerShell.AutoMapper 6.2.2 with fix [#18721]
+
+## Version 4.0.0
+* [Breaking Change] Changed the type of parameter `Sku` from Enum to String in `Add-AzApiManagementRegion`, `New-AzApiManagement` and `Update-AzApiManagementRegion`.
+
+## Version 3.0.1
+* Supported GraphQL Specification Format
+
+## Version 3.0.0
+
+* [Breaking change] Replaced parameter `Sample` by `Examples` in `New-AzApiManagementOperation` and `Set-AzApiManagementOperation`
+* Updated APIM .Net SDK version to 8.0.0 / Api Version 2021-08-01
+
+## Version 2.3.2
+* Added warning message for upcoming breaking change.
+
+## Version 2.3.1
+* Fixed a bug in `Get-AzApiManagementTenantGitAccess` cmdlet.
+
+## Version 2.3.0
+* Added new `Sync-AzApiManagementKeyVaultSecret` cmdlet.
+* Added new `New-AzApiManagementKeyVaultObject` cmdlet.
+* Added new optional [-useFromLocation] parameter to the `Get-ApiManagementCache` `New-ApiManagementCache``Update-ApiManagementCache` cmdlet.
+
+* Updated cmdlet **New-AzApiManagement** to manage ApiManagement service 
+    - Added support for the new `Isolated` SKU
+    - Added support for managing Availability Zones using `Zone` property
+    - Added support for Disabling Gateway in a Region using `DisableGateway` property
+    - Added support for managing the minimum Api Version to allow for Control Plane using `MinimalControlPlaneApiVersion` property.
+
+* Updated cmdlet **New-AzApiManagementRegion** to manage ApiManagement service     
+    - Added support for managing Availability Zones using `Zone` property
+    - Added support for Disabling Gateway in a Region using `DisableGateway` property
+
+* Updated cmdlet **Add-AzApiManagementRegion** to manage ApiManagement service     
+    - Added support for managing Availability Zones using `Zone` property
+    - Added support for Disabling Gateway in a Region using `DisableGateway` property
+
+* Updated cmdlet **Update-AzApiManagementRegion** to manage ApiManagement service     
+    - Added support for managing Availability Zones using `Zone` property
+    - Added support for Disabling Gateway in a Region using `DisableGateway` property
+
+* Updated cmdlet **New-AzApiManagementCustomHostnameConfiguration** to manage Custom Hostname Configuration
+    - Added support for specifying `IdentityClientId` to provide Managed Identity User Assigned ClientId to use with KeyVault
+
 ## Version 2.2.0
 * [Breaking change] `New-AzApiManagementProduct` by default has no subscription limit.
 

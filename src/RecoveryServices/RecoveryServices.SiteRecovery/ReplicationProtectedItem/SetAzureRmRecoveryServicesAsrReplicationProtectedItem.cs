@@ -176,7 +176,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [ValidateNotNull]
         public IDictionary<string, string> RecoveryNicTag { get; set; }
 
-        // <summary>
+        /// <summary>
         ///     Gets or sets the resource ID of the availability zone to failover this virtual machine to.
         /// </summary>
         [Parameter]
@@ -193,6 +193,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter]
         public string RecoveryVirtualMachineScaleSetId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the capacity reservation group Id for replication protected item after failover.
+        /// </summary>
+        [Parameter]
+        public string RecoveryCapacityReservationGroupId { get; set; }
 
         /// <summary>
         ///     Gets or sets the availability set for replication protected item after failover.
@@ -347,6 +353,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     this.IsParameterBound(c => c.RecoveryAvailabilityZone) &&
                     this.IsParameterBound(c => c.RecoveryProximityPlacementGroupId) &&
                     this.IsParameterBound(c => c.RecoveryVirtualMachineScaleSetId) &&
+                    this.IsParameterBound(c => c.RecoveryCapacityReservationGroupId) &&
                     string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
                     string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                     string.IsNullOrEmpty(this.LicenseType) &&
@@ -403,6 +410,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var availabilitySetId = this.RecoveryAvailabilitySet;
                 var proximityPlacementGroupId = this.RecoveryProximityPlacementGroupId;
                 var virtualMachineScaleSetId = this.RecoveryVirtualMachineScaleSetId;
+                var capacityReservationGroupId = this.RecoveryCapacityReservationGroupId;
                 var availabilityZone = this.RecoveryAvailabilityZone;
                 var primaryNic = this.PrimaryNic;
                 var diskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap;
@@ -676,6 +684,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         ? this.RecoveryVirtualMachineScaleSetId
                         : providerSpecificDetails.RecoveryVirtualMachineScaleSetId;
 
+                    capacityReservationGroupId = this.IsParameterBound(c => c.RecoveryCapacityReservationGroupId)
+                        ? this.RecoveryCapacityReservationGroupId
+                        : providerSpecificDetails.RecoveryCapacityReservationGroupId;
+
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
                             Utilities.GetMemberName(() => this.RecoveryCloudServiceId)))
                     {
@@ -704,21 +716,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     List<A2AVmManagedDiskUpdateDetails> managedDiskUpdateDetails = null;
 
                     // ManagedDisk case
-                    if (this.AzureToAzureUpdateReplicationConfiguration == null && providerSpecificDetails.ProtectedManagedDisks != null)
-                    {
-                        managedDiskUpdateDetails = new List<A2AVmManagedDiskUpdateDetails>();
-                        foreach (var managedDisk in providerSpecificDetails.ProtectedManagedDisks)
-                        {
-                            managedDiskUpdateDetails.Add(
-                                new A2AVmManagedDiskUpdateDetails(
-                                    managedDisk.DiskId,
-                                    managedDisk.RecoveryTargetDiskAccountType,
-                                    managedDisk.RecoveryReplicaDiskAccountType,
-                                    failoverDiskName: managedDisk.FailoverDiskName,
-                                    tfoDiskName: managedDisk.TfoDiskName));
-                        }
-                    }
-                    else if (this.AzureToAzureUpdateReplicationConfiguration != null && this.AzureToAzureUpdateReplicationConfiguration[0].IsManagedDisk)
+                    if (this.AzureToAzureUpdateReplicationConfiguration != null && this.AzureToAzureUpdateReplicationConfiguration[0].IsManagedDisk)
                     {
                         managedDiskUpdateDetails = new List<A2AVmManagedDiskUpdateDetails>();
                         foreach (var managedDisk in this.AzureToAzureUpdateReplicationConfiguration)
@@ -744,6 +742,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                         RecoveryProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId,
                         RecoveryVirtualMachineScaleSetId = this.RecoveryVirtualMachineScaleSetId,
+                        RecoveryCapacityReservationGroupId = this.RecoveryCapacityReservationGroupId,
                         RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
                         ManagedDiskUpdateDetails = managedDiskUpdateDetails,
                         TfoAzureVMName = this.TfoAzureVMName,

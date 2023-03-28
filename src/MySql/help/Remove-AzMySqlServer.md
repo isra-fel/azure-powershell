@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.MySql
-online version: https://docs.microsoft.com/powershell/module/az.mysql/remove-azmysqlserver
+online version: https://learn.microsoft.com/powershell/module/az.mysql/remove-azmysqlserver
 schema: 2.0.0
 ---
 
@@ -31,17 +31,15 @@ Deletes a server.
 
 ### Example 1: Remove MySql server by resourceGroup and server name
 ```powershell
-PS C:\> Remove-AzMySqlServer -ResourceGroupName PowershellMySqlTest -Name mysql-test
-
+Remove-AzMySqlServer -ResourceGroupName PowershellMySqlTest -Name mysql-test
 ```
 
 This cmdlet removes MySql server by resourceGroup and server name.
 
 ### Example 2: Remove MySql server by identity
 ```powershell
-PS C:\> $ID = "/subscriptions/<SubscriptionId>/resourceGroups/PowershellMySqlTest/providers/Microsoft.DBforMySQL/servers/mysql-test"
-PS C:\> Remove-AzMySqlServer -InputObject $ID
- 
+$ID = "/subscriptions/<SubscriptionId>/resourceGroups/PowershellMySqlTest/providers/Microsoft.DBforMySQL/servers/mysql-test"
+Remove-AzMySqlServer -InputObject $ID
 ```
 
 These cmdlets remove MySql server by identity.
@@ -221,12 +219,12 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IMySqlIdentity>: Identity Parameter
+`INPUTOBJECT <IMySqlIdentity>`: Identity Parameter
+  - `[BackupName <String>]`: The name of the backup.
   - `[ConfigurationName <String>]`: The name of the server configuration.
   - `[DatabaseName <String>]`: The name of the database.
   - `[FirewallRuleName <String>]`: The name of the server firewall rule.
   - `[Id <String>]`: Resource identity path
-  - `[KeyName <String>]`: The name of the server key.
   - `[LocationName <String>]`: The name of the location.
   - `[ResourceGroupName <String>]`: The name of the resource group. The name is case insensitive.
   - `[SecurityAlertPolicyName <SecurityAlertPolicyName?>]`: The name of the security alert policy.

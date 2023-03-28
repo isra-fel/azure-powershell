@@ -56,11 +56,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         AzureVM = 1,
 
         /// <summary>
-        /// Represents the Microsoft Azure Recovery Services agent.
-        /// </summary>
-        MARS,
-
-        /// <summary>
         /// Represents the Service Center Data Protection Manager agent.
         /// </summary>
         SCDPM,
@@ -72,7 +67,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         AzureSQL,
 
         /// <summary>
-        /// Represents Azure File Storage. https://docs.microsoft.com/en-in/azure/storage/files/storage-files-introduction
+        /// Represents Azure File Storage. https://learn.microsoft.com/en-in/azure/storage/files/storage-files-introduction
         /// </summary>
         AzureStorage,
 
@@ -87,7 +82,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         MAB,
 
         /// <summary>
-        /// represents that the BackupManagementType is Not Applicable.
+        /// Represents that the BackupManagementType is Not Applicable.
         /// </summary>
         NA
     }  
@@ -103,6 +98,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         VaultStandardRehydrated,
         SnapshotAndVaultStandard,
         SnapshotAndVaultArchive
+    }
+
+    /// <summary>
+    /// Tier mode for automatic tiering of Recovery points
+    /// </summary>
+    public enum TieringMode
+    {
+        TierRecommended = 1,
+        TierAllEligible, 
+        DoNotTier
     }
 
     /// <summary>
@@ -133,7 +138,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         AzureSQLDatabase,
 
         /// <summary>
-        /// Represents Azure File https://docs.microsoft.com/en-in/azure/storage/files/storage-files-introduction
+        /// Represents Azure File https://learn.microsoft.com/en-in/azure/storage/files/storage-files-introduction
         /// </summary>
         AzureFiles,
 
@@ -141,7 +146,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         /// Represents MSSQL in Azure VM.
         /// </summary>
         MSSQL,
-        FileFolder
+
+        /// <summary>
+        /// Represents MARS agent.
+        /// </summary>
+        FileFolder,
+
+        /// <summary>
+        /// Represents SAPHANA in Azure VM.
+        /// </summary>
+        SAPHanaDatabase
     }
 
     /// <summary>
@@ -185,6 +199,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         /// Represents the registered state of the container with the recovery services vault.
         /// </summary>
         Registered = 1,
+        NotRegistered = 2,
     }
 
     /// <summary>
@@ -259,7 +274,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
         /// <summary>
         /// Protection was disabled
         /// </summary>
-        ProtectionStopped
+        ProtectionStopped,
+
+        /// <summary>
+        /// Stop backup with retain data as per policy
+        /// </summary>
+        BackupsSuspended
     }
 
     #region policy
@@ -294,6 +314,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
     {
         Daily = 1,
         Weekly = 2,
+        Hourly = 3
     }
 
     /// <summary>
@@ -314,6 +335,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models
     {
         Daily = 1,
         Weekly = 2
+    }
+
+    /// <summary>
+    /// Represents the type of the policy
+    /// </summary>
+    public enum PSPolicyType
+    {
+        Standard = 1,
+        Enhanced = 2
     }
 
     #endregion

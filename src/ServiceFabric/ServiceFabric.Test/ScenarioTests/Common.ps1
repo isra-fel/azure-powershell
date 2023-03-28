@@ -185,7 +185,7 @@ function WaitForClusterReadyState($clusterName, $resourceGroupName, $timeoutInSe
         }
 
         Write-Host "Cluster state: $($cluster.ClusterState). Waiting for Ready state before continuing."
-        Start-Sleep -Seconds 15
+        Start-TestSleep -Seconds 15
     }
 
     Write-Error "WaitForClusterReadyState timed out"
@@ -216,7 +216,7 @@ function WaitForManagedClusterReadyState($clusterName, $resourceGroupName, $time
         }
 
         Write-Host "Cluster state: $($cluster.ClusterState). Waiting for Ready state before continuing."
-        Start-Sleep -Seconds 15
+        Start-TestSleep -Seconds 15
     }
 
     Write-Error "WaitForClusterReadyState timed out"
@@ -243,7 +243,7 @@ function WaitForAllJob($timeoutInSeconds = 1200)
             return $false
 		}
 
-        Start-Sleep -Seconds 15
+        Start-TestSleep -Seconds 15
     } while ((Get-Date) -lt $timeoutTime)
 
     Write-Error "WaitForJob timed out"
@@ -295,6 +295,40 @@ function Assert-EndsWith
   }
 
   return $true
+}
+
+###################
+#
+# Verify that the properties of the object are equal taking into account a list of exceptions
+#
+#    param [object]   $expected       : The expected object
+#    param [object]   $actual         : The actual object
+#    param [string[]] $except         : The list of property names that don't need to be equal
+#    param [string]   $message        : The message to return if the actual string does not end with the suffix
+####################
+function Assert-AreEqualObjectPropertiesExcept
+{
+    param([object] $expected, [object] $actual, [string[]] $except, [string] $message)
+    
+    $properties = $expected | Get-Member -MemberType "Property" | Select -ExpandProperty Name
+    
+    foreach ($exception in $except) {
+        $properties = $properties | Where-Object { $_ -ne $exception }
+    }
+
+    $diff = Compare-Object $expected $actual -Property $properties
+
+    if ($diff -ne $null)
+    {
+        if (!$message)
+        {
+            $message = "Assert failed because the objects don't match. Expected: " + $diff[0] + " Actual: " + $diff[1]
+        }
+
+        throw $message
+    }
+
+    return $true
 }
 
 # Application functions

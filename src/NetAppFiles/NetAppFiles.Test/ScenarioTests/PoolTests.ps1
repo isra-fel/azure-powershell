@@ -30,7 +30,7 @@ function Test-PoolCrud
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tags @{Owner = 'b-aubald'}
 
         # create account
         $retrievedAcc = New-AzNetAppFilesAccount -ResourceGroupName $resourceGroup -Location $resourceLocation -AccountName $accName 
@@ -126,7 +126,7 @@ function Test-PoolPipelines
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tags @{Owner = 'b-aubald'}
 
         # create pool by piping from account
         New-AnfAccount -ResourceGroupName $resourceGroup -Location $resourceLocation -Name $accName | New-AnfPool -Name $poolName1 -PoolSize $poolSize -ServiceLevel $serviceLevel
@@ -143,7 +143,7 @@ function Test-PoolPipelines
 
         # delete a pool by piping from account
         Get-AnfAccount -ResourceGroupName $resourceGroup -Name $accName | Remove-AnfPool -Name $poolName1 
-        Start-Sleep -Seconds 20.0
+        Start-TestSleep -Seconds 20
         
         # recreate two pools
         New-AnfPool -ResourceGroupName $resourceGroup -Location $resourceLocation -AccountName $accName -Name $PoolName1 -PoolSize $poolSize -ServiceLevel $serviceLevel

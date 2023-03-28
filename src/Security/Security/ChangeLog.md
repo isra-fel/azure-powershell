@@ -20,6 +20,32 @@
 
 ## Upcoming Release
 
+## Version 1.4.0
+* Updated Alerts cmdlets:
+    `Get-AzSecurityAlert`
+    `Set-AzSecurityAlert`
+* Moving Security Contacts to be based on the latest API version '2020-01-01-preview' with backward compatibility support
+## Version 1.3.0
+* Added new cmdlet: `Get-AzSecuritySolution`
+* Added Alerts Suppression Rules to cmdlets:
+    `Get-AlertsSuppressionRule`
+    `Remove-AlertsSuppressionRule`
+    `Set-AlertsSuppressionRule`
+    `New-AzAlertsSuppressionRuleScope`
+
+## Version 1.3.0
+* Added new cmdlets for security  SecuritySolutionsReferenceData API
+
+## Version 1.2.0
+* Added new cmdlets for security Automations API
+
+## Version 1.1.1
+* Updated Security .NET SDK package reference to version 3.0.0
+
+## Version 1.0.0
+* General availability of `Az.Security` module
+* Changed the name of `Get-AzRegulatoryComplainceAssessment` to `Get-AzRegulatoryComplianceAssessment` to fix typo
+
 ## Version 0.11.0
 * Fix typo in printing SQL vulnerability assessment scan results
 

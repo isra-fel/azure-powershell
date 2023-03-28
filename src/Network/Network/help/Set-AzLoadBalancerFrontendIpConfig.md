@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
 ms.assetid: C23BEF37-D472-43EC-90AA-F8742247ABA2
-online version: https://docs.microsoft.com/powershell/module/az.network/set-azloadbalancerfrontendipconfig
+online version: https://learn.microsoft.com/powershell/module/az.network/set-azloadbalancerfrontendipconfig
 schema: 2.0.0
 ---
 
@@ -55,6 +55,13 @@ Set-AzLoadBalancerFrontendIpConfig -LoadBalancer <PSLoadBalancer> -Name <String>
  [<CommonParameters>]
 ```
 
+### SetByResourceGatewayLoadBalancerId
+```
+Set-AzLoadBalancerFrontendIpConfig -LoadBalancer <PSLoadBalancer> -Name <String> [-Zone <String[]>]
+ -PublicIpAddress <PSPublicIpAddress> [-GatewayLoadBalancerId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Set-AzLoadBalancerFrontendIpConfig** cmdlet updates a front-end IP configuration for a load balancer.
 
@@ -62,17 +69,25 @@ The **Set-AzLoadBalancerFrontendIpConfig** cmdlet updates a front-end IP configu
 
 ### Example 1: Modify the front-end IP configuration of a load balancer
 ```powershell
-PS C:\> $Subnet = Get-AzVirtualNetwork -Name "MyVnet" -ResourceGroupName "MyResourceGroup" | Get-AzVirtualNetworkSubnetConfig -Name "Subnet"
-PS C:\> $slb = Get-AzLoadBalancer -Name "MyLoadBalancer" -ResourceGroupName "MyResourceGroup"
-PS C:\> $slb | Add-AzLoadBalancerFrontendIpConfig -Name "NewFrontend" -Subnet $Subnet
-PS C:\> $slb | Set-AzLoadBalancerFrontendIpConfig -Name "NewFrontend" -Subnet $Subnet
-PS C:\> $slb | Set-AzLoadBalancer
+$Subnet = Get-AzVirtualNetwork -Name "MyVnet" -ResourceGroupName "MyResourceGroup" | Get-AzVirtualNetworkSubnetConfig -Name "Subnet"
+$slb = Get-AzLoadBalancer -Name "MyLoadBalancer" -ResourceGroupName "MyResourceGroup"
+$slb | Add-AzLoadBalancerFrontendIpConfig -Name "NewFrontend" -Subnet $Subnet
+$slb | Set-AzLoadBalancerFrontendIpConfig -Name "NewFrontend" -Subnet $Subnet
+$slb | Set-AzLoadBalancer
 ```
-
 The first command gets the virtual subnet named Subnet, and then stores it in the $Subnet variable.
 The second command gets the associated load balancer named MyLoadBalancer, and then stores it in the $slb variable.
 The third command uses the pipeline operator to pass the load balancer in $slb to Add-AzLoadBalancerFrontendIpConfig, which creates a front-end IP configuration named NewFrontend for $slb.
 The fourth command passes the load balancer in $slb to **Set-AzLoadBalancerFrontendIpConfig**, which saves and updates the front-end IP configuration.
+
+### Example 2: Modify the front-end IP configuration of a load balancer with Gateway Load Balancer
+```powershell
+$slb1 = Get-AzLoadBalancer -Name "MyLoadBalancer1" -ResourceGroupName "MyResourceGroup"
+$feip = Get-AzLoadBalancerFrontendIpConfig -Name "MyFrontEnd" -LoadBalancer $slb1
+$slb2 = Get-AzLoadBalancer -Name "MyLoadBalancer1" -ResourceGroupName "MyResourceGroup"
+$slb2 | Set-AzLoadBalancerFrontendIpConfig -Name "NewFrontend" -PublicIpAddress $publicIp -GatewayLoadBalancerId $feip.Id
+$slb2 | Set-AzLoadBalancer
+```
 
 ## PARAMETERS
 
@@ -104,6 +119,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -GatewayLoadBalancerId
+Specifies the ID of the Gateway Load Balancer Provider Frontend Ip Configuration.
+
+```yaml
+Type: System.String
+Parameter Sets: SetByResourceGatewayLoadBalancer
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -323,5 +353,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [New-AzLoadBalancerFrontendIpConfig](./New-AzLoadBalancerFrontendIpConfig.md)
 
 [Remove-AzLoadBalancerFrontendIpConfig](./Remove-AzLoadBalancerFrontendIpConfig.md)
-
-

@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
 {
     /// <summary>
     /// Revert was renamed Restore here due to list of approved verbs violation 
-    /// https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7
+    /// https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7
     /// </summary>
     [Cmdlet(
         "Restore",
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
 
         [Parameter(
             Mandatory = false,
-            HelpMessage = "Return whether the specified volume was successfully restored/reverted")]
+            HelpMessage = "Return whether the specified volume was successfully reverted")]
         public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
@@ -145,7 +145,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
                 PoolName = NameParts[1];
             }
 
-            if (ShouldProcess(Name, string.Format(PowerShell.Cmdlets.NetAppFiles.Properties.Resources.RemoveResourceMessage, ResourceGroupName)))
+            if (ShouldProcess(Name, string.Format(PowerShell.Cmdlets.NetAppFiles.Properties.Resources.RevertVolumeMessage, Name)))
             {
                 var volumeRevertBody = new VolumeRevert() { SnapshotId = SnapshotId };
                 AzureNetAppFilesManagementClient.Volumes.Revert(ResourceGroupName, AccountName, PoolName, Name, volumeRevertBody);

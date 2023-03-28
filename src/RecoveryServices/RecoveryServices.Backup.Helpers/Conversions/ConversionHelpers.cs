@@ -17,6 +17,7 @@ using Microsoft.Azure.Commands.RecoveryServices.Backup.Properties;
 using System;
 using System.Collections.Generic;
 using ServiceClientModel = Microsoft.Azure.Management.RecoveryServices.Backup.Models;
+using CrrModel = Microsoft.Azure.Management.RecoveryServices.Backup.CrossRegionRestore.Models;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
 {
@@ -148,34 +149,63 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                 return null;
             }
 
-            if (((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).SchedulePolicy.GetType() !=
-                                                                        typeof(ServiceClientModel.SimpleSchedulePolicy))
+            Type schedulePolicyType = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).SchedulePolicy.GetType();            
+            if (schedulePolicyType != typeof(ServiceClientModel.SimpleSchedulePolicy) && schedulePolicyType != typeof(ServiceClientModel.SimpleSchedulePolicyV2))
             {
-                Logger.Instance.WriteDebug("Unknown SchedulePolicy object received: " +
-                           ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).SchedulePolicy.GetType());
+                Logger.Instance.WriteDebug("Unknown SchedulePolicy object received: " + schedulePolicyType);                           
                 Logger.Instance.WriteWarning(Resources.UpdateToNewAzurePowershellWarning);
                 return null;
             }
-
+            
             policyModel = new AzureVmPolicy();
             AzureVmPolicy iaasPolicyModel = policyModel as AzureVmPolicy;
             iaasPolicyModel.WorkloadType = WorkloadType.AzureVM;
             iaasPolicyModel.BackupManagementType = BackupManagementType.AzureVM;
             iaasPolicyModel.SnapshotRetentionInDays = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.
                 Properties).InstantRpRetentionRangeInDays;
+
+            string policyType = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).PolicyType;
+            iaasPolicyModel.PolicySubType = (policyType != null && policyType.ToLower().Contains("v2")) ? PSPolicyType.Enhanced : PSPolicyType.Standard;
             iaasPolicyModel.ProtectedItemsCount = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.
                 Properties).ProtectedItemsCount;
             iaasPolicyModel.RetentionPolicy = PolicyHelpers.GetPSLongTermRetentionPolicy((ServiceClientModel.LongTermRetentionPolicy)
                                               ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).RetentionPolicy,
                                               ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TimeZone,
                                               backupManagementType);
-            iaasPolicyModel.SchedulePolicy = PolicyHelpers.GetPSSimpleSchedulePolicy((ServiceClientModel.SimpleSchedulePolicy)
+            
+            if (schedulePolicyType == typeof(ServiceClientModel.SimpleSchedulePolicyV2))
+            {
+                iaasPolicyModel.SchedulePolicy = PolicyHelpers.GetPSSimpleSchedulePolicyV2((ServiceClientModel.SimpleSchedulePolicyV2)
                                              ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).SchedulePolicy,
                                              ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TimeZone);
+            }
+            else
+            {
+                iaasPolicyModel.SchedulePolicy = PolicyHelpers.GetPSSimpleSchedulePolicy((ServiceClientModel.SimpleSchedulePolicy)
+                                             ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).SchedulePolicy,
+                                             ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TimeZone);
+            }
+            
             iaasPolicyModel.AzureBackupRGName = 
                 ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).InstantRPDetails.AzureBackupRGNamePrefix;
             iaasPolicyModel.AzureBackupRGNameSuffix = 
                 ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).InstantRPDetails.AzureBackupRGNameSuffix;
+
+            // fetch the smart tiering details          
+            if (((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TieringPolicy != null &&
+                ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TieringPolicy.ContainsKey(ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()))
+            {
+                iaasPolicyModel.TieringPolicy = new TieringPolicy();
+
+                string tieringMode = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TieringPolicy[ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()].TieringMode;
+
+                iaasPolicyModel.TieringPolicy.TieringMode = (tieringMode == "TierRecommended") ? TieringMode.TierRecommended : ((tieringMode == "TierAfter") ? TieringMode.TierAllEligible : ((tieringMode == "DoNotTier") ? TieringMode.DoNotTier : 0));
+
+                iaasPolicyModel.TieringPolicy.TierAfterDuration = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TieringPolicy[ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()].Duration;
+
+                iaasPolicyModel.TieringPolicy.TierAfterDurationType = ((ServiceClientModel.AzureIaaSVMProtectionPolicy)serviceClientResponse.Properties).TieringPolicy[ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()].DurationType;
+            }
+
             return policyModel;
         }
 
@@ -237,7 +267,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                 return null;
             }
 
-
             policyModel = new AzureFileSharePolicy();
             AzureFileSharePolicy fileSharePolicyModel = policyModel as AzureFileSharePolicy;
             fileSharePolicyModel.WorkloadType = WorkloadType.AzureFiles;
@@ -249,6 +278,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                 PolicyHelpers.GetPSSimpleSchedulePolicy((ServiceClientModel.SimpleSchedulePolicy)
                  ((ServiceClientModel.AzureFileShareProtectionPolicy)serviceClientResponse.Properties).SchedulePolicy,
                  ((ServiceClientModel.AzureFileShareProtectionPolicy)serviceClientResponse.Properties).TimeZone);
+            fileSharePolicyModel.ProtectedItemsCount = ((ServiceClientModel.AzureFileShareProtectionPolicy)serviceClientResponse.
+                Properties).ProtectedItemsCount;            
             return policyModel;
         }
 
@@ -277,7 +308,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                             policy.RetentionPolicy.GetType());
                         Logger.Instance.WriteWarning(Resources.UpdateToNewAzurePowershellWarning);
                         return null;
-                    }
+                    }                    
                 }
                 else if (string.Compare(policy.PolicyType, "Differential") == 0)
                 {
@@ -329,6 +360,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
             azureVmWorkloadPolicyModel.IsLogBackupEnabled = false;
             GetPSSubProtectionPolicy(azureVmWorkloadPolicyModel, serviceClientResponse,
                 ((ServiceClientModel.AzureVmWorkloadProtectionPolicy)serviceClientResponse.Properties).Settings.TimeZone);
+            azureVmWorkloadPolicyModel.ProtectedItemsCount = ((ServiceClientModel.AzureVmWorkloadProtectionPolicy)serviceClientResponse.
+                Properties).ProtectedItemsCount;
+                        
             return policyModel;
         }
 
@@ -356,7 +390,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
             }
             else if (serviceClientResponse.Properties.GetType() ==
                 typeof(ServiceClientModel.AzureFileShareProtectionPolicy))
-            {
+            {   
                 policyModel = GetPolicyModelForAzureFileShare(serviceClientResponse, policyModel);
             }
             else if (serviceClientResponse.Properties.GetType() ==
@@ -374,8 +408,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                 return null;
             }
 
-            policyModel.Name = serviceClientResponse.Name;
-            policyModel.Id = serviceClientResponse.Id;
+            if (policyModel != null)
+            {
+                policyModel.Name = serviceClientResponse.Name;
+                policyModel.Id = serviceClientResponse.Id;
+            }
+            else
+            {
+                Logger.Instance.WriteWarning("couldn't fetch policy model for one of the listed policies, skipping");
+            }
 
             return policyModel;
         }
@@ -440,19 +481,67 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                     itemModel = GetAzureFileShareItemModel(protectedItem);
                 }
 
-                if (protectedItem.Properties.GetType() ==
+                if (protectedItem.Properties.GetType() == 
                     typeof(ServiceClientModel.AzureVmWorkloadSQLDatabaseProtectedItem))
                 {
                     itemModel = GetAzureVmWorkloadItemModel(protectedItem);
                 }
 
-                if(protectedItem.Properties.GetType() ==
+                if (protectedItem.Properties.GetType() == 
+                    typeof(ServiceClientModel.AzureVmWorkloadSAPHanaDatabaseProtectedItem))
+                {
+                    itemModel = GetAzureVmWorkloadSAPHanaItemModel(protectedItem);
+                }
+
+                if (protectedItem.Properties.GetType() ==
                     typeof(ServiceClientModel.MabFileFolderProtectedItem))
                 {
                     itemModel = GetMabItemModel(protectedItem);
                 }
             }
 
+            return itemModel;
+        }
+
+        /// <summary>
+        /// Helper function to convert ps backup item from service response.
+        /// </summary>
+        public static ItemBase GetItemModelCrr(CrrModel.ProtectedItemResource protectedItem)
+        {
+            ItemBase itemModel = null;
+
+            if (protectedItem != null &&
+                protectedItem.Properties != null)
+            {
+                if (protectedItem.Properties.GetType().IsSubclassOf(typeof(CrrModel.AzureIaaSVMProtectedItem)))
+                {
+                    itemModel = GetAzureVmItemModelCrr(protectedItem);
+                }
+
+                /*if (protectedItem.Properties.GetType() ==
+                    typeof(CrrModel.AzureFileshareProtectedItem))
+                {
+                    itemModel = GetAzureFileShareItemModel(protectedItem);
+                }*/
+
+                if (protectedItem.Properties.GetType() ==
+                    typeof(CrrModel.AzureVmWorkloadSQLDatabaseProtectedItem))
+                {
+                    itemModel = GetAzureVmWorkloadItemModelCrr(protectedItem);
+                }
+
+                if (protectedItem.Properties.GetType() ==
+                    typeof(CrrModel.AzureVmWorkloadSAPHanaDatabaseProtectedItem))
+                {
+                    itemModel = GetAzureVmWorkloadSAPHanaItemModelCrr(protectedItem);
+                }
+
+                /*if (protectedItem.Properties.GetType() ==
+                    typeof(CrrModel.MabFileFolderProtectedItem))
+                {
+                    itemModel = GetMabItemModel(protectedItem);
+                }*/
+            }
             return itemModel;
         }
 
@@ -477,6 +566,81 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                 containerUri,
                 ContainerType.AzureVMAppContainer,
                 policyName);
+            return itemModel;
+        }
+
+        private static ItemBase GetAzureVmWorkloadItemModelCrr(CrrModel.ProtectedItemResource protectedItem)
+        {
+            ItemBase itemModel;
+            string policyName = null;
+            string policyId = ((CrrModel.AzureVmWorkloadSQLDatabaseProtectedItem)protectedItem.Properties).PolicyId;
+            if (!string.IsNullOrEmpty(policyId))
+            {
+                Dictionary<UriEnums, string> keyValueDict = HelperUtils.ParseUri(policyId);
+                policyName = HelperUtils.GetPolicyNameFromPolicyId(keyValueDict, policyId);
+            }
+
+            string containerUri = HelperUtils.GetContainerUri(
+                HelperUtils.ParseUri(protectedItem.Id),
+                protectedItem.Id);
+            itemModel = new AzureWorkloadSQLDatabaseProtectedItem(
+                protectedItem,
+                containerUri,
+                ContainerType.AzureVMAppContainer,
+                policyName);
+            return itemModel;
+        }
+
+
+        private static ItemBase GetAzureVmWorkloadSAPHanaItemModel(ServiceClientModel.ProtectedItemResource protectedItem)
+        {
+            ItemBase itemModel;
+            string policyName = null;
+            // can try changing it to AzureVmWorkloadProtectedItem
+            string policyId = ((ServiceClientModel.AzureVmWorkloadSAPHanaDatabaseProtectedItem)protectedItem.Properties).PolicyId;
+            if (!string.IsNullOrEmpty(policyId))
+            {
+                Dictionary<UriEnums, string> keyValueDict = HelperUtils.ParseUri(policyId);
+                policyName = HelperUtils.GetPolicyNameFromPolicyId(keyValueDict, policyId);
+            }
+
+            string containerUri = HelperUtils.GetContainerUri(
+                HelperUtils.ParseUri(protectedItem.Id),
+                protectedItem.Id);            
+
+            itemModel = new AzureWorkloadSAPHanaDatabaseProtectedItem(
+                protectedItem,
+                containerUri,
+                ContainerType.AzureVMAppContainer,
+                policyName);            
+
+            return itemModel;
+        }
+
+        private static ItemBase GetAzureVmWorkloadSAPHanaItemModelCrr(CrrModel.ProtectedItemResource protectedItem)
+        {
+            ItemBase itemModel;
+            string policyName = null;
+
+            // can also be type-casted to AzureVmWorkloadProtectedItem
+            string policyId = ((CrrModel.AzureVmWorkloadSAPHanaDatabaseProtectedItem)protectedItem.Properties).PolicyId;
+            
+            if (!string.IsNullOrEmpty(policyId))
+            {
+                Dictionary<UriEnums, string> keyValueDict = HelperUtils.ParseUri(policyId);
+                policyName = HelperUtils.GetPolicyNameFromPolicyId(keyValueDict, policyId);
+            }
+
+            string containerUri = HelperUtils.GetContainerUri(
+                HelperUtils.ParseUri(protectedItem.Id),
+                protectedItem.Id);
+
+            itemModel = new AzureWorkloadSAPHanaDatabaseProtectedItem(
+                protectedItem,
+                containerUri,
+                ContainerType.AzureVMAppContainer,
+                policyName);
+
             return itemModel;
         }
 
@@ -568,6 +732,31 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
             return itemModel;
         }
 
+        private static ItemBase GetAzureVmItemModelCrr(CrrModel.ProtectedItemResource protectedItem)
+        {
+            ItemBase itemModel;
+            string policyName = null;
+            string policyId = ((CrrModel.AzureIaaSVMProtectedItem)protectedItem.Properties).PolicyId;
+            if (!string.IsNullOrEmpty(policyId))
+            {
+                Dictionary<UriEnums, string> keyValueDict =
+                HelperUtils.ParseUri(policyId);
+                policyName = HelperUtils.GetPolicyNameFromPolicyId(keyValueDict, policyId);
+            }
+
+            string containerUri = HelperUtils.GetContainerUri(
+                HelperUtils.ParseUri(protectedItem.Id),
+                protectedItem.Id);
+
+            itemModel = new AzureVmItem(
+                protectedItem,
+                IdUtils.GetNameFromUri(containerUri),
+                ContainerType.AzureVM,
+                policyName);
+
+            return itemModel;
+        }
+
         /// <summary>
         /// Helper function to convert ps protectable item from service response.
         /// </summary>
@@ -612,9 +801,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
 
             foreach (var protectedItem in protectedItems)
             {
-                itemModels.Add(GetItemModel(protectedItem));
+                itemModels.Add(GetItemModel(protectedItem));                
             }
 
+            return itemModels;
+        }
+
+        /// <summary>
+        /// Helper function to convert ps item list from service response.
+        /// </summary>
+        public static List<ItemBase> GetItemModelListCrr(IEnumerable<CrrModel.ProtectedItemResource> protectedItems)
+        {
+            List<ItemBase> itemModels = new List<ItemBase>();
+            foreach (var protectedItem in protectedItems)
+            {
+                itemModels.Add(GetItemModelCrr(protectedItem));
+            }    
             return itemModels;
         }
 
@@ -633,6 +835,21 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                     azureVmWorkloadPolicyModel.FullBackupRetentionPolicy = PolicyHelpers.GetPSLongTermRetentionPolicy(
                         (ServiceClientModel.LongTermRetentionPolicy)subProtectionPolicy.RetentionPolicy,
                         ((ServiceClientModel.AzureVmWorkloadProtectionPolicy)serviceClientResponse.Properties).Settings.TimeZone);
+
+                    // fetch the smart tiering details            
+                    if (subProtectionPolicy.TieringPolicy != null &&
+                        subProtectionPolicy.TieringPolicy.ContainsKey(ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()))
+                    {
+                        azureVmWorkloadPolicyModel.FullBackupTieringPolicy = new TieringPolicy();
+
+                        string tieringMode = subProtectionPolicy.TieringPolicy[ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()].TieringMode;
+
+                        azureVmWorkloadPolicyModel.FullBackupTieringPolicy.TieringMode = (tieringMode == "TierRecommended") ? TieringMode.TierRecommended : ((tieringMode == "TierAfter") ? TieringMode.TierAllEligible : ((tieringMode == "DoNotTier") ? TieringMode.DoNotTier : 0));
+
+                        azureVmWorkloadPolicyModel.FullBackupTieringPolicy.TierAfterDuration = subProtectionPolicy.TieringPolicy[ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()].Duration;
+
+                        azureVmWorkloadPolicyModel.FullBackupTieringPolicy.TierAfterDurationType = subProtectionPolicy.TieringPolicy[ServiceClientModel.RecoveryPointTierType.ArchivedRP.ToString()].DurationType;
+                    }
                 }
                 else if (string.Compare(subProtectionPolicy.PolicyType, "Differential") == 0)
                 {
@@ -646,6 +863,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
                 }
                 else if (string.Compare(subProtectionPolicy.PolicyType, "Log") == 0)
                 {
+                    // timeZone paased as input but not used in below method calls
                     azureVmWorkloadPolicyModel.LogBackupSchedulePolicy = PolicyHelpers.GetPSLogSchedulePolicy((ServiceClientModel.LogSchedulePolicy)
                     subProtectionPolicy.SchedulePolicy,
                     ((ServiceClientModel.AzureVmWorkloadProtectionPolicy)serviceClientResponse.Properties).Settings.TimeZone);
@@ -665,7 +883,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Helpers
             List<ProtectableItemBase> itemModels = new List<ProtectableItemBase>();
 
             foreach (var protectableItem in protectableItems)
-            {
+            {                
                 itemModels.Add(GetProtectableItemModel(protectableItem));
             }
 

@@ -16,7 +16,7 @@
 	.SYNOPSIS
 	Tests create and update a database with read scale option
 #>
-function Test-CreateUpdateDatabaseReadScale ($serverVersion = "12.0", $location = "Southeast Asia")
+function Test-CreateUpdateDatabaseReadScale ($serverVersion = "12.0", $location = "West Europe")
 {
 	# Setup
 	$rg = Create-ResourceGroupForTest
@@ -44,7 +44,7 @@ function Test-CreateUpdateDatabaseReadScale ($serverVersion = "12.0", $location 
 	.SYNOPSIS
 	Tests Getting a database read scale option
 #>
-function Test-GetDatabaseReadScale ($serverVersion = "12.0", $location = "Southeast Asia")
+function Test-GetDatabaseReadScale ($serverVersion = "12.0", $location = "West Europe")
 {
 	# Setup
 	$rg = Create-ResourceGroupForTest
@@ -59,6 +59,11 @@ function Test-GetDatabaseReadScale ($serverVersion = "12.0", $location = "Southe
 	{
 		$db1 = Get-AzSqlDatabase -ResourceGroupName $server.ResourceGroupname -ServerName $server.ServerName -DatabaseName $db.DatabaseName
 		Assert-AreEqual Enabled $db1.ReadScale
+
+		# Alter database without specifying read scale value, it should remain enabled
+		$db2 = Set-AzSqlDatabase -ResourceGroupName $db.ResourceGroupName -ServerName $db.ServerName -DatabaseName $db.DatabaseName `
+			-RequestedServiceObjectiveName P2
+		Assert-AreEqual Enabled $db2.ReadScale
 
 		# Alter read scale properties, Premium ignores HighAvailabilityReplicaCount
 		$db2 = Set-AzSqlDatabase -ResourceGroupName $db.ResourceGroupName -ServerName $db.ServerName -DatabaseName $db.DatabaseName `
@@ -76,7 +81,7 @@ function Test-GetDatabaseReadScale ($serverVersion = "12.0", $location = "Southe
 	.SYNOPSIS
 	Tests database HighAvailabilityReplicaCount option
 #>
-function Test-DatabaseReadReplicaCount ($serverVersion = "12.0", $location = "Southeast Asia")
+function Test-DatabaseReadReplicaCount ($serverVersion = "12.0", $location = "West Europe")
 {
 	# Setup
 	$rg = Create-ResourceGroupForTest

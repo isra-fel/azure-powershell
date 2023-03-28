@@ -10,8 +10,10 @@
     <RootNamespace>$(LegacyAssemblyPrefix)$(PsModuleName)</RootNamespace>
   </PropertyGroup>
 
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory).., build.proj))\src\Az.Post.props" />
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.Management.ServiceBus" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Azure.Management.ServiceBus" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

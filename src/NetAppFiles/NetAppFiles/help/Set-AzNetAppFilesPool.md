@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.NetAppFiles.dll-Help.xml
 Module Name: Az.NetAppFiles
-online version: https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilespool
+online version: https://learn.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilespool
 schema: 2.0.0
 ---
 
@@ -15,20 +15,20 @@ Updates an Azure NetApp Files (ANF) Capacity Pool with the new data set.
 ### ByFieldsParameterSet (Default)
 ```
 Set-AzNetAppFilesPool -ResourceGroupName <String> -Location <String> -AccountName <String> -Name <String>
- -PoolSize <Int64> -ServiceLevel <String> [-QosType <String>] [-Tag <Hashtable>]
+ -PoolSize <Int64> -ServiceLevel <String> [-QosType <String>] [-CoolAccess] [-Tag <Hashtable>]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByParentObjectParameterSet
 ```
-Set-AzNetAppFilesPool -Name <String> -PoolSize <Int64> -ServiceLevel <String> [-QosType <String>]
+Set-AzNetAppFilesPool -Name <String> -PoolSize <Int64> -ServiceLevel <String> [-QosType <String>] [-CoolAccess]
  [-Tag <Hashtable>] -AccountObject <PSNetAppFilesAccount> [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
 ### ByResourceIdParameterSet
 ```
-Set-AzNetAppFilesPool -Name <String> -PoolSize <Int64> -ServiceLevel <String> [-QosType <String>]
+Set-AzNetAppFilesPool -Name <String> -PoolSize <Int64> -ServiceLevel <String> [-QosType <String>] [-CoolAccess]
  [-Tag <Hashtable>] -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
@@ -40,7 +40,7 @@ The **Set-AzNetAppFilesPool** cmdlet modifies an ANF Capacity Pool.
 
 ### Example 1
 ```powershell
-PS C:\>Set-AzNetAppFilesPool -ResourceGroupName "MyRG" -AccountName "MyAnfAccount" -Name "MyAnfPool" -l "westus2" -PoolSize 4398046511104 -ServiceLevel "Premium" -QosType "Auto"
+Set-AzNetAppFilesPool -ResourceGroupName "MyRG" -AccountName "MyAnfAccount" -Name "MyAnfPool" -Location "westus2" -PoolSize 4398046511104 -ServiceLevel "Premium" -QosType "Auto"
 ```
 
 This command updates the new ANF pool "MyAnfPool" within the account "MyAnfAccount".
@@ -74,6 +74,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -CoolAccess
+If enabled (true) the pool can contain cool Access enabled volumes.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -260,3 +275,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[New-AzNetAppFilesPool](./New-AzNetAppFilesPool.md)
+[Get-AzNetAppFilesPool](./Get-AzNetAppFilesPool.md)
+[Remove-AzNetAppFilesPool](./Remove-AzNetAppFilesPool.md)
+[Update-AzNetAppFilesPool](./Update-AzNetAppFilesPool.md)

@@ -18,12 +18,19 @@ using System.Management.Automation;
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Commands.Sql.ManagedInstance.Model;
+using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
+using System;
 
 namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
 {
     /// <summary>
     /// Defines the Get-AzSqlInstance cmdlet
     /// </summary>
+    [CmdletOutputBreakingChange(
+        deprecatedCmdletOutputTypeName: typeof(AzureSqlManagedInstanceModel),
+        deprecateByVersion: "4.0.0",
+        DeprecatedOutputProperties = new String[] { "BackupStorageRedundancy" },
+        NewOutputProperties = new String[] { "CurrentBackupStorageRedundancy", "RequestedBackupStorageRedundancy" })]
     [Cmdlet(VerbsCommon.Remove, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "SqlInstance",
         DefaultParameterSetName = RemoveByNameAndResourceGroupParameterSet,
         SupportsShouldProcess = true),
@@ -92,6 +99,12 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         /// </summary>
         [Parameter(HelpMessage = "Skip confirmation message for performing the action")]
         public SwitchParameter Force { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether or not to run this cmdlet in the background as a job
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "Run cmdlet in the background")]
+        public SwitchParameter AsJob { get; set; }
 
         /// <summary>
         /// Gets the entity to delete

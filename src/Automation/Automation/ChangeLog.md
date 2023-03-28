@@ -19,6 +19,45 @@
 -->
 ## Upcoming Release
 
+## Version 1.9.1
+* Fixed bug: Runbooks Name Pattern failures. 
+
+## Version 1.9.0
+* Updated Example: Start-AzAutomationRunbook should pass ordered dictionary for parameters [#20408]
+
+## Version 1.8.0
+* Added cmdlets for Hybrid Runbook Worker group management
+  * `Remove-AzAutomationHybridRunbookWorker`
+  * `Remove-AzAutomationHybridRunbookWorkerGroup`
+  * `Set-AzAutomationHybridRunbookWorkerGroup`
+  * `Get-AzAutomationHybridRunbookWorker`
+  * `Get-AzAutomationHybridRunbookWorkerGroup`
+  * `Move-AzAutomationHybridRunbookWorker`
+  * `New-AzAutomationHybridRunbookWorker`
+  * `New-AzAutomationHybridRunbookWorkerGroup`
+
+## Version 1.7.4
+* Fixed bug: Export-AzAutomationRunbook no longer adds extra '\' to file names [#11101]
+* Fixed bug: Get-AzAutomationDscCompilationJobOutput returns complete summaries [#12322]
+* Fixed bug: Get-AzAutomationDscNode [#10404]
+* Fixed bug: Get-AzAutomationJob fails for some jobIds
+
+## Version *
+* Added logic of returning error if insufficient user permissions are there for `GetAgentRegistrationInfo`
+
+## Version 1.7.3
+* `New-AzAutomationSchedule` allows defnining StartTime with offsets.
+*  Fixed bug: updated 'Set-AzAutomationModule' to use PUT call while updating modules with specific versions   [#12552]
+
+## Version 1.7.2
+* Fixed example in reference doc for `Remove-AzAutomationHybridWorkerGroup`
+
+## Version 1.7.1
+* Fixed bug: Add Schedule name validation in New-AzAutomationSchedule
+
+## Version 1.7.1
+* Fixed bug: Closing in input file handle in Import-AzAutomationRunbook
+
 ## Version 1.7.0
 * Added support for User Assigned Identities and PublicNetworkAccess flag
 

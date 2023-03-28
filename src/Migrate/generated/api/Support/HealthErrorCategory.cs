@@ -10,7 +10,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support
     public partial struct HealthErrorCategory :
         System.IEquatable<HealthErrorCategory>
     {
-        public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory AgentAutoUpdate = @"AgentAutoUpdate";
+        public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory AgentAutoUpdateArtifactDeleted = @"AgentAutoUpdateArtifactDeleted";
+
+        public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory AgentAutoUpdateInfra = @"AgentAutoUpdateInfra";
+
+        public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory AgentAutoUpdateRunAsAccount = @"AgentAutoUpdateRunAsAccount";
+
+        public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory AgentAutoUpdateRunAsAccountExpired = @"AgentAutoUpdateRunAsAccountExpired";
+
+        public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory AgentAutoUpdateRunAsAccountExpiry = @"AgentAutoUpdateRunAsAccountExpiry";
 
         public static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory Configuration = @"Configuration";
 
@@ -57,7 +65,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support
             return this._value.GetHashCode();
         }
 
-        /// <summary>Creates an instance of the <see cref="HealthErrorCategory" Enum class./></summary>
+        /// <summary>Creates an instance of the <see cref="HealthErrorCategory"/> Enum class.</summary>
         /// <param name="underlyingValue">the value to create an instance for.</param>
         private HealthErrorCategory(string underlyingValue)
         {
@@ -88,8 +96,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support
         }
 
         /// <summary>Overriding != operator for enum HealthErrorCategory</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are not equal to the same value</returns>
         public static bool operator !=(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory e1, Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory e2)
         {
@@ -97,8 +105,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support
         }
 
         /// <summary>Overriding == operator for enum HealthErrorCategory</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are equal to the same value</returns>
         public static bool operator ==(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory e1, Microsoft.Azure.PowerShell.Cmdlets.Migrate.Support.HealthErrorCategory e2)
         {

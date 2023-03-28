@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
-online version: https://docs.microsoft.com/powershell/module/az.resources/new-azmanagementgroupdeployment
+online version: https://learn.microsoft.com/powershell/module/az.resources/new-azmanagementgroupdeployment
 schema: 2.0.0
 ---
 
@@ -16,144 +16,144 @@ Create a deployment at a management group
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateFile <String>
- [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateObjectAndParameterObject
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterObject <Hashtable>
- -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterObject <Hashtable> -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateFileAndParameterObject
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterObject <Hashtable>
- -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterObject <Hashtable> -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateUriAndParameterObject
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterObject <Hashtable>
- -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterObject <Hashtable> -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateSpecResourceIdAndParamsObject
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterObject <Hashtable>
- -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterObject <Hashtable> -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateObjectAndParameterFile
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterFile <String>
- -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterFile <String> -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateFileAndParameterFile
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterFile <String>
- -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterFile <String> -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateUriAndParameterFile
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterFile <String>
- -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterFile <String> -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateSpecResourceIdAndParams
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterFile <String>
- -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterFile <String> -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateObjectAndParameterUri
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterUri <String>
- -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterUri <String> -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateFileAndParameterUri
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterUri <String>
- -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterUri <String> -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateUriAndParameterUri
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterUri <String>
- -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterUri <String> -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateSpecResourceIdAndParamsUri
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateParameterUri <String>
- -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateParameterUri <String> -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateObjectWithNoParameters
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateObject <Hashtable>
- [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateUriWithNoParameters
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateUri <String>
- [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByTemplateSpecResourceId
 ```
 New-AzManagementGroupDeployment [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>] [-WhatIfResultFormat <WhatIfResultFormat>]
- [-WhatIfExcludeChangeType <String[]>] [-AsJob] [-QueryString <String>] -TemplateSpecId <String>
- [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob] [-QueryString <String>]
+ -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -177,16 +177,16 @@ To add resources at tenant scope, use the **New-AzTenantDeployment** which creat
 ## EXAMPLES
 
 ### Example 1: Use a custom template and parameter file to create a deployment
-```
-PS C:\> New-AzManagementGroupDeployment -ManagementGroupId "myMG" -Location "West US" -TemplateFile "D:\Azure\Templates\OrgSetup.json" -TemplateParameterFile "D:\Azure\Templates\OrgParms.json" -Tag @{"key1"="value1"; "key2"="value2";}
+```powershell
+New-AzManagementGroupDeployment -ManagementGroupId "myMG" -Location "West US" -TemplateFile "D:\Azure\Templates\OrgSetup.json" -TemplateParameterFile "D:\Azure\Templates\OrgParms.json" -Tag @{"key1"="value1"; "key2"="value2";}
 ```
 
 This command creates a new deployment at the management group "myMG" by using a custom template and a template file on disk, with defined tags parameter.
 The command uses the *TemplateFile* parameter to specify the template and the *TemplateParameterFile* parameter to specify a file that contains parameters and parameter values.
 
 ### Example 2: Deploy a template stored in a non public storage account using a uri and SAS token
-```
-PS C:\> New-AzManagementGroupDeployment -ManagementGroupId "myMG" -Location "West US" -TemplateUri "https://example.com/example.json" -QueryString "foo"
+```powershell
+New-AzManagementGroupDeployment -ManagementGroupId "myMG" -Location "West US" -TemplateUri "https://example.com/example.json" -QueryString "foo"
 ```
 
 This command creates a new deployment using the template in TemplateUri which is not public and requires a token parameter to access which would be provided using the QueryString parameter.
@@ -194,10 +194,10 @@ Running this command effectively accesses the template using the url `https://ex
 This can be used if you want to use a template in a storage account by providing the SAS token as the QueryString
 
 ### Example 3: Use a custom template object and parameter file to create a deployment
-```
-PS C:\> $TemplateFileText = [System.IO.File]::ReadAllText("D:\Azure\Templates\OrgSetup.json")
-PS C:\> $TemplateObject = ConvertFrom-Json $TemplateFileText -AsHashtable
-PS C:\> New-AzManagementGroupDeployment -ManagementGroupId "myMG" -Location "West US" -TemplateObject $TemplateObject -TemplateParameterFile "D:\Azure\Templates\OrgParams.json"
+```powershell
+$TemplateFileText = [System.IO.File]::ReadAllText("D:\Azure\Templates\OrgSetup.json")
+$TemplateObject = ConvertFrom-Json $TemplateFileText -AsHashtable
+New-AzManagementGroupDeployment -ManagementGroupId "myMG" -Location "West US" -TemplateObject $TemplateObject -TemplateParameterFile "D:\Azure\Templates\OrgParams.json"
 ```
 
 This command creates a new deployment at the management group "myMG" by using a custom template and a template file on disk that has been converted to an in-memory hashtable.
@@ -298,6 +298,21 @@ Accept wildcard characters: False
 
 ### -Pre
 When set, indicates that the cmdlet should use pre-release API versions when automatically determining which version to use.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProceedIfNoChange
+Do not ask for confirmation if there is no changes in the What-If result. Applicable when the -Confirm switch is set.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

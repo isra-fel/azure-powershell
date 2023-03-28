@@ -28,7 +28,7 @@ eastus   confluentorg-02-pwsh Microsoft.Confluent/organizations
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IOrganizationResource
 .Link
-https://docs.microsoft.com/powershell/module/az.confluent/new-azconfluentorganization
+https://learn.microsoft.com/powershell/module/az.confluent/new-azconfluentorganization
 #>
 function New-AzConfluentOrganization {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IOrganizationResource])]
@@ -83,13 +83,6 @@ param(
     [System.String]
     # Publisher Id
     ${OfferDetailPublisherId},
-
-    [Parameter()]
-    [ArgumentCompleter([Microsoft.Azure.PowerShell.Cmdlets.Confluent.Support.SaaSOfferStatus])]
-    [Microsoft.Azure.PowerShell.Cmdlets.Confluent.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.Confluent.Support.SaaSOfferStatus]
-    # SaaS Offer Status
-    ${OfferDetailStatus},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.Confluent.Category('Body')]
@@ -195,6 +188,8 @@ begin {
         if (('CreateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.Confluent.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

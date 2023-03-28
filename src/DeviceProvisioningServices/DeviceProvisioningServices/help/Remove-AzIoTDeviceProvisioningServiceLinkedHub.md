@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DeviceProvisioningServices.dll-Help.xml
 Module Name: Az.DeviceProvisioningServices
-online version: https://docs.microsoft.com/powershell/module/az.deviceprovisioningservices/remove-aziotdeviceprovisioningservicelinkedhub
+online version: https://learn.microsoft.com/powershell/module/az.deviceprovisioningservices/remove-aziotdeviceprovisioningservicelinkedhub
 schema: 2.0.0
 ---
 
@@ -32,22 +32,24 @@ Remove-AzIoTDeviceProvisioningServiceLinkedHub [-ResourceId] <String> [-LinkedHu
 ```
 
 ## DESCRIPTION
-For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/azure/iot-dps/about-iot-dps.
+For an introduction to Azure IoT Hub Device Provisioning Service, see https://learn.microsoft.com/azure/iot-dps/about-iot-dps.
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+Remove-AzIoTDeviceProvisioningServiceLinkedHub -ResourceGroupName "myresourcegroup" -Name "myiotdps" -LinkedHubName "myiothub" -PassThru
 ```
-PS C:\> Remove-AzIoTDeviceProvisioningServiceLinkedHub -ResourceGroupName "myresourcegroup" -Name "myiotdps" -LinkedHubName "myiothub" -PassThru
 
+```output
 True
 ```
 
 Delete linked IoT hub "myiothub" in an Azure IoT Hub device provisioning service.
 
 ### Example 2
-```
-PS C:\> Get-AzIoTDpsHub -ResourceGroupName "myresourcegroup" -Name "myiotdps" -LinkedHubName "myiothub" | Remove-AzIoTDpsHub
+```powershell
+Get-AzIoTDeviceProvisioningServiceLinkedHub -ResourceGroupName "myresourcegroup" -Name "myiotdps" -LinkedHubName "myiothub" | Remove-AzIoTDeviceProvisioningServiceLinkedHub
 ```
 
 Delete linked IoT hub "myiothub" in an Azure IoT Hub device provisioning service using pipeline.

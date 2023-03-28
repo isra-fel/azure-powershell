@@ -13,22 +13,18 @@
 # ----------------------------------------------------------------------------------
 
 function Test-ServerTrustGroup()
-{
-	$stgName = "stg-test"
-	$location = "West Europe"
+{	
+	$params = Get-DefaultManagedInstanceParameters
+	$stgName = "stg-ps-test"
+	$location = $params.location
 	
 	# Setup
-	$rg = Create-ResourceGroupForTest $location
-	$vnetName = "cl_initial"
-	$subnetName = "Cool" 
-
-	# Setup VNET
-	$virtualNetwork1 = CreateAndGetVirtualNetworkForManagedInstance $vnetName $subnetName $location $rg.ResourceGroupName
-	$subnetId = $virtualNetwork1.Subnets.where({ $_.Name -eq $subnetName })[0].Id
+	$rg = Create-ResourceGroupForTest
 
 	# Setup Managed Instances
-	$managedInstance1 = Create-ManagedInstanceForTest $rg $subnetId
-	$managedInstance2 = Create-ManagedInstanceForTest $rg $subnetId
+	$managedInstance1 = Create-ManagedInstanceForTest $rg
+	$managedInstance2 = Create-ManagedInstanceForTest $rg
+	$managedInstance3 = Create-ManagedInstanceForTest $rg
 
 	try
 	{
@@ -42,7 +38,7 @@ function Test-ServerTrustGroup()
 		Assert-Null $serverTrustGroup "Server Trust Group with name $stgName exists."
 
 		# Create new Server Trust Group
-		$serverTrustGroup = New-AzSqlServerTrustGroup -ResourceGroupName $rg.ResourceGroupName -Location $location -Name $stgName -GroupMember $managedInstance1,$managedInstance2 -TrustScope GlobalTransactions
+		$serverTrustGroup = Set-AzSqlServerTrustGroup -ResourceGroupName $rg.ResourceGroupName -Location $location -Name $stgName -GroupMember $managedInstance1,$managedInstance2,$managedInstance3 -TrustScope GlobalTransactions
 		Assert-NotNull $serverTrustGroup "Server Trust Group is not created."
 
 		# Get specified Server Trust Group
@@ -50,7 +46,7 @@ function Test-ServerTrustGroup()
 		Assert-NotNull $serverTrustGroup "Server Trust Group $stgName does not exist."
 		Assert-AreEqual $serverTrustGroup.Name $stgName "Got unexpected name."
 		Assert-AreEqual $serverTrustGroup.TrustScope.Count 1 "Got unexpected trust scope."
-		Assert-AreEqual $serverTrustGroup.GroupMember.Count 2 "Got unexpected number of group members."
+		Assert-AreEqual $serverTrustGroup.GroupMember.Count 3 "Got unexpected number of group members."
 
 		# Get Server Trust Group in specified locaiton
 		$serverTrustGroups = Get-AzSqlServerTrustGroup -ResourceGroupName $rg.ResourceGroupName -Location $location
@@ -61,6 +57,10 @@ function Test-ServerTrustGroup()
 		$serverTrustGroups = Get-AzSqlServerTrustGroup -ResourceGroupName $rg.ResourceGroupName -InstanceName $managedInstance1.ManagedInstanceName
 		Assert-NotNull $serverTrustGroups
 		Assert-AreEqual $serverTrustGroups.Count 1 "Unexpected number of Server Trust Groups for instance. ($($serverTrustGroup.Count))."
+
+		# Update Server Trust Group
+		$serverTrustGroup = Set-AzSqlServerTrustGroup -ResourceGroupName $rg.ResourceGroupName -Location $location -Name $stgName -GroupMember $managedInstance1,$managedInstance2 -TrustScope GlobalTransactions
+		Assert-NotNull $serverTrustGroup "Server Trust Group is not created."
 
 		# Remove Server Trust Group
 		Remove-AzSqlServerTrustGroup -ResourceGroupName $rg.ResourceGroupName -Location $location -Name $stgName
@@ -87,4 +87,3 @@ function Test-ServerTrustGroup()
 		Remove-ResourceGroupForTest $rg
 	}
 }
-

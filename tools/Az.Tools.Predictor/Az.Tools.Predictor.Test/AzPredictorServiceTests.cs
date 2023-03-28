@@ -13,11 +13,12 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.PowerShell.Tools.AzPredictor.Test.Mocks;
+using Microsoft.Azure.PowerShell.Tools.AzPredictor.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation.Language;
-using System.Management.Automation.Subsystem;
+using System.Management.Automation.Subsystem.Prediction;
 using System.Threading;
 using Xunit;
 
@@ -27,17 +28,17 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
     /// Tests for <see cref="AzPredictorService"/>
     /// </summary>
     [Collection("Model collection")]
-    public class AzPredictorServiceTests
+    public sealed class AzPredictorServiceTests : IDisposable
     {
         private class PredictiveSuggestionComparer : EqualityComparer<PredictiveSuggestion>
         {
             public override bool Equals(PredictiveSuggestion first, PredictiveSuggestion second)
             {
-                if ((first == null) && (second == null))
+                if ((first is null) && (second is null))
                 {
                     return true;
                 }
-                else if ((first == null) || (second == null))
+                else if ((first is null) || (second is null))
                 {
                     return false;
                 }
@@ -59,6 +60,9 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         private readonly AzPredictorService _noFallbackPredictorService;
         private readonly AzPredictorService _noCommandBasedPredictorService;
         private readonly AzPredictorService _noPredictorService;
+        private readonly AzContext _azContext;
+
+        private MockPowerShellRuntime _powerShellRuntime;
 
         /// <summary>
         /// Constructs a new instance of <see cref="AzPredictorServiceTests"/>
@@ -67,15 +71,27 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         public AzPredictorServiceTests(ModelFixture fixture)
         {
             this._fixture = fixture;
+            _powerShellRuntime = new MockPowerShellRuntime();
+            _azContext = new AzContext(_powerShellRuntime);
             var startHistory = $"{AzPredictorConstants.CommandPlaceholder}{AzPredictorConstants.CommandConcatenator}{AzPredictorConstants.CommandPlaceholder}";
-            this._commandBasedPredictor = new CommandLinePredictor(this._fixture.PredictionCollection[startHistory], null);
-            this._fallbackPredictor = new CommandLinePredictor(this._fixture.CommandCollection, null);
+            this._commandBasedPredictor = new CommandLinePredictor(this._fixture.PredictionCollection[startHistory], null, null, _azContext);
+            this._fallbackPredictor = new CommandLinePredictor(this._fixture.CommandCollection, null, null, _azContext);
 
-            this._service = new MockAzPredictorService(startHistory, this._fixture.PredictionCollection[startHistory], this._fixture.CommandCollection);
+            this._service = new MockAzPredictorService(startHistory, this._fixture.PredictionCollection[startHistory], this._fixture.CommandCollection, _azContext);
 
-            this._noFallbackPredictorService = new MockAzPredictorService(startHistory, this._fixture.PredictionCollection[startHistory], null);
-            this._noCommandBasedPredictorService = new MockAzPredictorService(null, null, this._fixture.CommandCollection);
-            this._noPredictorService = new MockAzPredictorService(null, null, null);
+            this._noFallbackPredictorService = new MockAzPredictorService(startHistory, this._fixture.PredictionCollection[startHistory], null, _azContext);
+            this._noCommandBasedPredictorService = new MockAzPredictorService(null, null, this._fixture.CommandCollection, _azContext);
+            this._noPredictorService = new MockAzPredictorService(null, null, null, null);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (_powerShellRuntime is not null)
+            {
+                _powerShellRuntime.Dispose();
+                _powerShellRuntime = null;
+            }
         }
 
         /// <summary>
@@ -84,7 +100,7 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         [Fact]
         public void VerifyParameterValues()
         {
-            var predictionContext = PredictionContext.Create("Get-AzContext");
+            var predictionContext = PredictionContext.Create("Set-Content");
 
             Action actual = () => this._service.GetSuggestion(null, 1, 1, CancellationToken.None);
             Assert.Throws<ArgumentNullException>(actual);
@@ -100,19 +116,20 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         /// Verifies that the prediction comes from the command based list, not the fallback list.
         /// </summary>
         [Theory]
-        [InlineData("CONNECT-AZACCOUNT")]
-        [InlineData("set-azstorageaccount ")]
-        [InlineData("Get-AzResourceG")]
-        [InlineData("Get-AzStorageAcco")]
-        [InlineData("Get-AzKeyVault -VaultName")]
-        [InlineData("GET-AZSTORAGEACCOUNTKEY -NAME ")]
-        [InlineData("new-azresourcegroup -name hello")]
+        [InlineData("SET-CONTENT")]
+        [InlineData("get-logproperties ")]
+        [InlineData("Clear-C")]
+        [InlineData("compare-")]
+        [InlineData("Clear-Variable -Name")]
+        [InlineData("CLEAR-CONTENT -PATH test")]
+        [InlineData("Clear-content -path test")]
+        [InlineData("clear-content ./Test.log")]
         public void VerifyUsingCommandBasedPredictor(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
             var commandAst = predictionContext.RelatedAsts.OfType<CommandAst>().LastOrDefault();
             var commandName = commandAst?.GetCommandName();
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var expected = this._commandBasedPredictor.GetSuggestion(commandName,
@@ -148,14 +165,14 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         /// Verifies that when no prediction is in the command based list, we'll use the fallback list.
         /// </summary>
         [Theory]
-        [InlineData("New-AzApiManagementContext -ResourceGroupName hello -Serv")]
-        [InlineData("Get-AzAlert -TimeRange '1h' -Incl")]
+        [InlineData("Set-Variable -Name desc -Value ")]
+        [InlineData("remove-ite")]
         public void VerifyUsingFallbackPredictor(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
             var commandAst = predictionContext.RelatedAsts.OfType<CommandAst>().LastOrDefault();
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var expected = this._fallbackPredictor.GetSuggestion(commandName,
@@ -192,10 +209,13 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         /// </summary>
         [Theory]
         [InlineData(AzPredictorConstants.CommandPlaceholder)]
+        [InlineData("Get-Help")]
         [InlineData("Get-ChildItem")]
-        [InlineData("new-azresourcegroup -NoExistingParam")]
-        [InlineData("get-azaccount ")]
-        [InlineData("NEW-AZCONTEXT")]
+        [InlineData("Remove-Item -NoExistingParam")]
+        [InlineData("get-childitem ")]
+        [InlineData("NEW-CHILDITEM ")]
+        [InlineData("git status")]
+        [InlineData("get-item name")]
         public void VerifyNoPrediction(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
@@ -209,34 +229,18 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
             Assert.Equal(0, actual.Count);
 
             actual = this._noPredictorService.GetSuggestion(predictionContext, 1, 1, CancellationToken.None);
-            Assert.Null(actual);
+            Assert.Empty(actual.PredictiveSuggestions);
         }
 
         /// <summary>
         /// Verify that it returns null when we cannot parse the user input.
         /// </summary>
         [Theory]
-        [InlineData("git status")]
+        [InlineData("Remove-Item -Name A $Location")]
         public void VerifyFailToParseUserInput(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
-            var actual = this._service.GetSuggestion(predictionContext, 1, 1, CancellationToken.None);
-            Assert.Null(actual);
-        }
-
-        /// <summary>
-        /// Verify when we cannot parse the user input correctly.
-        /// </summary>
-        /// <remarks>
-        /// When we can parse them correctly, please move the InlineData to the corresponding test methods.
-        /// </remarks>
-        [Theory]
-        [InlineData("Get-AzContext Name")]
-        public void VerifyMalFormattedCommandLine(string userInput)
-        {
-            var predictionContext = PredictionContext.Create(userInput);
-            Action actual = () => this._service.GetSuggestion(predictionContext, 1, 1, CancellationToken.None);
-            _ = Assert.Throws<InvalidOperationException>(actual);
+            Assert.Throws<CommandLineException>(() => _service.GetSuggestion(predictionContext, 1, 1, CancellationToken.None));
         }
     }
 }

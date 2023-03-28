@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.ProviderHub
-online version: https://docs.microsoft.com/powershell/module/az.providerhub/new-azproviderhubresourcetyperegistration
+online version: https://learn.microsoft.com/powershell/module/az.providerhub/new-azproviderhubresourcetyperegistration
 schema: 2.0.0
 ---
 
@@ -44,8 +44,10 @@ Creates or updates a resource type.
 
 ### Example 1: Create/Update a resource type registration.
 ```powershell
-PS C:\> New-AzProviderHubResourceTypeRegistration -ProviderNamespace "Microsoft.Contoso" -ResourceType "testResourceType" -RoutingType "Default" -Regionality "Regional" -Endpoint @{ApiVersion = "2021-01-01-preview"; Location = "West US 2", "East US 2 EUAP"; RequiredFeature = "Microsoft.Contoso/SampleApp" } -SwaggerSpecification @{ApiVersion = "2021-01-01-preview"; SwaggerSpecFolderUri = "https://github.com/Azure/azure-rest-api-specs-pr/blob/RPSaaSMaster/specification/rpsaas/resource-manager/Microsoft.Contoso/" } -EnableAsyncOperation
+New-AzProviderHubResourceTypeRegistration -ProviderNamespace "Microsoft.Contoso" -ResourceType "testResourceType" -RoutingType "Default" -Regionality "Regional" -Endpoint @{ApiVersion = "2021-01-01-preview"; Location = "West US 2", "East US 2 EUAP"; RequiredFeature = "Microsoft.Contoso/SampleApp" } -SwaggerSpecification @{ApiVersion = "2021-01-01-preview"; SwaggerSpecFolderUri = "https://github.com/Azure/azure-rest-api-specs-pr/blob/RPSaaSMaster/specification/rpsaas/resource-manager/Microsoft.Contoso/" } -EnableAsyncOperation
+```
 
+```output
 Name                  Type
 ----                  ----
 testResourceType      Microsoft.ProviderHub/providerRegistrations/resourceTypeRegistrations
@@ -53,16 +55,18 @@ testResourceType      Microsoft.ProviderHub/providerRegistrations/resourceTypeRe
 
 Create/Update a resource type registration.
 
-### Example 2: Create/Update a resource type registration.
+### Example 2: Create/Update a nested resource type registration.
 ```powershell
-PS C:\> New-AzProviderHubResourceTypeRegistration -ProviderNamespace "Microsoft.Contoso" -ResourceType "testResourceType" -RoutingType "Default" -Regionality "Regional" -Endpoint @{ApiVersion = "2021-01-01-preview"; Location = "West US 2", "East US 2 EUAP"; RequiredFeature = "Microsoft.Contoso/SampleApp" } -SwaggerSpecification @{ApiVersion = "2021-01-01-preview"; SwaggerSpecFolderUri = "https://github.com/Azure/azure-rest-api-specs-pr/blob/RPSaaSMaster/specification/rpsaas/resource-manager/Microsoft.Contoso/" } -EnableAsyncOperation
-
-Name                  Type
-----                  ----
-testResourceType      Microsoft.ProviderHub/providerRegistrations/resourceTypeRegistrations
+New-AzProviderHubResourceTypeRegistration -ProviderNamespace "Microsoft.Contoso" -ResourceType "testResourceType/nestedResourceType" -RoutingType "Default" -Regionality "Global" -Endpoint @{ApiVersion = "2021-01-01-preview"; Location = ""; RequiredFeature = "Microsoft.Contoso/SampleApp" } -SwaggerSpecification @{ApiVersion = "2021-01-01-preview"; SwaggerSpecFolderUri = "https://github.com/Azure/azure-rest-api-specs-pr/blob/RPSaaSMaster/specification/rpsaas/resource-manager/Microsoft.Contoso/" }
 ```
 
-Create/Update a resource type registration.
+```output
+Name                                     Type
+----                                     ----
+testResourceType/nestedResourceType      Microsoft.ProviderHub/providerRegistrations/resourceTypeRegistrations
+```
+
+Create/Update a nested resource type registration.
 
 ## PARAMETERS
 

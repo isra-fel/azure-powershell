@@ -268,7 +268,7 @@ namespace Microsoft.Azure.Commands.Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The User/Application doesn&apos;t have sufficient AAD graph permissions to perform the operation..
+        ///   Looks up a localized string similar to The User/Application doesn&apos;t have sufficient Microsoft Graph permissions to perform the operation..
         /// </summary>
         internal static string InSufficientGraphPermission {
             get {
@@ -970,6 +970,16 @@ namespace Microsoft.Azure.Commands.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The role assignment creation operation failed with the error: &apos;{0}&apos;
+        ///This means the role assignment was not able to be created. Please assign a role manually with help of the Service Principal Id.
+        /// </summary>
+        internal static string ServicePrincipalRoleAssignmentCreationFailed {
+            get {
+                return ResourceManager.GetString("ServicePrincipalRoleAssignmentCreationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service principal with display name &apos;{0}&apos; does not exist..
         /// </summary>
         internal static string ServicePrincipalWithDisplayNameDoesntExist {
@@ -1011,6 +1021,15 @@ namespace Microsoft.Azure.Commands.Resources.Properties {
         internal static string SubscriptionWithTheSpecifiedNameNotFount {
             get {
                 return ResourceManager.GetString("SubscriptionWithTheSpecifiedNameNotFount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Succesfully removed role assignment for AD object &apos;{0}&apos; on scope &apos;{1}&apos; with role definition &apos;{2}&apos;.
+        /// </summary>
+        internal static string SuccessfullRARemove {
+            get {
+                return ResourceManager.GetString("SuccessfullRARemove", resourceCulture);
             }
         }
         

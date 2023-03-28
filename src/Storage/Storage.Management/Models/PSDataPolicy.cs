@@ -149,6 +149,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
     {
         public string[] PrefixMatch { get; set; }
         public string[] BlobTypes { get; set; }
+        public PSTagFilter[] BlobIndexMatch { get; set; }
 
         public PSManagementPolicyRuleFilter()
         { }
@@ -157,6 +158,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
         {
             this.PrefixMatch = StringListToArray(filter.PrefixMatch);
             this.BlobTypes = StringListToArray(filter.BlobTypes);
+            this.BlobIndexMatch = PSTagFilter.ParsePSTagFilterArray(filter.BlobIndexMatch);
         }
         public ManagementPolicyFilter ParseManagementPolicyFilter()
         {
@@ -164,6 +166,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
             {
                 PrefixMatch = StringArrayToList(this.PrefixMatch),
                 BlobTypes = StringArrayToList(this.BlobTypes),
+                BlobIndexMatch = PSTagFilter.ParseTagFilterList(this.BlobIndexMatch)
             };
         }
 
@@ -179,9 +182,81 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
     }
 
     /// <summary>
-    /// Wrapper of SDK type ManagementPolicyAction
+    /// Wrapper of SDK type TagFilter
     /// </summary>
-    public class PSManagementPolicyActionGroup
+    public class PSTagFilter
+    {
+        //     Gets or sets this is the filter tag name, it can have 1 - 128 characters
+        public string Name { get; set; }
+
+        //     Gets or sets this is the comparison operator which is used for object comparison and filtering.
+        //     Only == (equality operator) is currently supported
+        public string Op { get; set; }
+
+        //     Gets or sets this is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
+        public string Value { get; set; }
+
+        public PSTagFilter()
+        {
+        }
+
+        public PSTagFilter(string name, string op, string value)
+        {
+            Name = name;
+            Op = op;
+            Value = value;
+        }
+
+        public PSTagFilter(TagFilter tagFilter)
+        {
+            Name = tagFilter.Name;
+            Op = tagFilter.Op;
+            Value = tagFilter.Value;
+        }
+
+        public TagFilter ParseTagFilter()
+        {
+            return new TagFilter()
+            {
+                Name = this.Name,
+                Op = this.Op,
+                Value = this.Value,
+            };
+        }
+
+        public static PSTagFilter[] ParsePSTagFilterArray(IList<TagFilter> tagFilterList)
+        {
+            if (tagFilterList is null)
+            {
+                return null;
+            }
+            List<PSTagFilter> psTagFilterList = new List<PSTagFilter>();
+            foreach (TagFilter filter in tagFilterList)
+            {
+                psTagFilterList.Add(new PSTagFilter(filter));
+            }
+            return psTagFilterList.ToArray();
+        }
+
+        public static IList<TagFilter> ParseTagFilterList(PSTagFilter[] psTagFilterArray)
+        {
+            if (psTagFilterArray is null)
+            {
+                return null;
+            }
+            List<TagFilter> tagFilterList = new List<TagFilter>();
+            foreach (PSTagFilter filter in psTagFilterArray)
+            {
+                tagFilterList.Add(filter.ParseTagFilter());
+            }
+            return tagFilterList;
+        }
+    }
+
+        /// <summary>
+        /// Wrapper of SDK type ManagementPolicyAction
+        /// </summary>
+        public class PSManagementPolicyActionGroup
     {
         public PSManagementPolicyBaseBlob BaseBlob { get; set; }
         public PSManagementPolicySnapShot Snapshot { get; set; }
@@ -215,6 +290,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
         public PSDateAfterModification TierToCool { get; set; }
         public PSDateAfterModification TierToArchive { get; set; }
         public PSDateAfterModification Delete { get; set; }
+        public bool? EnableAutoTierToHotFromCool { get; set; }
 
         public PSManagementPolicyBaseBlob()
         { }
@@ -224,6 +300,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
             this.TierToCool = blobAction.TierToCool is null ? null : new PSDateAfterModification(blobAction.TierToCool);
             this.TierToArchive = blobAction.TierToArchive is null ? null : new PSDateAfterModification(blobAction.TierToArchive);
             this.Delete = blobAction.Delete is null ? null : new PSDateAfterModification(blobAction.Delete);
+            this.EnableAutoTierToHotFromCool = blobAction.EnableAutoTierToHotFromCool;
         }
         public ManagementPolicyBaseBlob ParseManagementPolicyBaseBlob()
         {
@@ -231,7 +308,8 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
             {
                 TierToCool = this.TierToCool is null ? null : this.TierToCool.ParseDateAfterModification(),
                 TierToArchive = this.TierToArchive is null ? null : this.TierToArchive.ParseDateAfterModification(),
-                Delete = this.Delete is null ? null : this.Delete.ParseDateAfterModification()
+                Delete = this.Delete is null ? null : this.Delete.ParseDateAfterModification(),
+                EnableAutoTierToHotFromCool = this.EnableAutoTierToHotFromCool
             };
         }
     }
@@ -300,26 +378,87 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
     public class PSDateAfterModification
     {
         public int? DaysAfterModificationGreaterThan { get; set; }
+        public int? DaysAfterLastAccessTimeGreaterThan { get; set; }
+        public int? DaysAfterCreationGreaterThan { get; set; }
+        public int? DaysAfterLastTierChangeGreaterThan { get; set; }
 
         public PSDateAfterModification()
         {
             this.DaysAfterModificationGreaterThan = null;
+            this.DaysAfterLastAccessTimeGreaterThan = null;
         }
 
         public PSDateAfterModification(int daysAfterModificationGreaterThan)
         {
             this.DaysAfterModificationGreaterThan = daysAfterModificationGreaterThan;
+            this.DaysAfterLastAccessTimeGreaterThan = null;
+        }
+
+        public PSDateAfterModification(int? daysAfterModificationGreaterThan, int? daysAfterLastAccessTimeGreaterThan)
+        {
+            this.DaysAfterModificationGreaterThan = daysAfterModificationGreaterThan;
+            this.DaysAfterLastAccessTimeGreaterThan = daysAfterLastAccessTimeGreaterThan;
+        }
+
+        public PSDateAfterModification(int? daysAfterModificationGreaterThan, int? daysAfterLastAccessTimeGreaterThan, int? DaysAfterLastTierChangeGreaterThan)
+        {
+            this.DaysAfterModificationGreaterThan = daysAfterModificationGreaterThan;
+            this.DaysAfterLastAccessTimeGreaterThan = daysAfterLastAccessTimeGreaterThan;
+            this.DaysAfterLastTierChangeGreaterThan = DaysAfterLastTierChangeGreaterThan;
+        }
+
+        public PSDateAfterModification(int? daysAfterModificationGreaterThan, int? daysAfterLastAccessTimeGreaterThan, int? DaysAfterLastTierChangeGreaterThan, int? DaysAfterCreationGreaterThan)
+        {
+            this.DaysAfterModificationGreaterThan = daysAfterModificationGreaterThan;
+            this.DaysAfterLastAccessTimeGreaterThan = daysAfterLastAccessTimeGreaterThan;
+            this.DaysAfterLastTierChangeGreaterThan = DaysAfterLastTierChangeGreaterThan;
+            this.DaysAfterCreationGreaterThan = DaysAfterCreationGreaterThan;
         }
 
         public PSDateAfterModification(DateAfterModification data)
         {
-            this.DaysAfterModificationGreaterThan = Convert.ToInt32(data.DaysAfterModificationGreaterThan);
+            if (data.DaysAfterModificationGreaterThan is null)
+            {
+                this.DaysAfterModificationGreaterThan = null;
+            }
+            else
+            {
+                this.DaysAfterModificationGreaterThan = Convert.ToInt32(data.DaysAfterModificationGreaterThan);
+            }
+            if (data.DaysAfterLastAccessTimeGreaterThan is null)
+            {
+                this.DaysAfterLastAccessTimeGreaterThan = null;
+            }
+            else
+            {
+                this.DaysAfterLastAccessTimeGreaterThan = Convert.ToInt32(data.DaysAfterLastAccessTimeGreaterThan);
+            }
+            if (data.DaysAfterLastTierChangeGreaterThan is null)
+            {
+                this.DaysAfterLastTierChangeGreaterThan = null;
+            }
+            else
+            {
+                this.DaysAfterLastTierChangeGreaterThan = Convert.ToInt32(data.DaysAfterLastTierChangeGreaterThan);
+            }
+            if (data.DaysAfterCreationGreaterThan is null)
+            {
+                this.DaysAfterCreationGreaterThan = null;
+            }
+            else
+            {
+                this.DaysAfterCreationGreaterThan = Convert.ToInt32(data.DaysAfterCreationGreaterThan);
+            }
         }
         public DateAfterModification ParseDateAfterModification()
         {
-            return this.DaysAfterModificationGreaterThan is null? new DateAfterModification() : new DateAfterModification(this.DaysAfterModificationGreaterThan.Value);
+            return new DateAfterModification(this.DaysAfterModificationGreaterThan, 
+                this.DaysAfterLastAccessTimeGreaterThan, 
+                this.DaysAfterLastTierChangeGreaterThan, 
+                this.DaysAfterCreationGreaterThan);
         }
     }
+
 
     /// <summary>
     /// Wrapper of SDK type DateAfterCreation
@@ -327,6 +466,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
     public class PSDateAfterCreation
     {
         public int DaysAfterCreationGreaterThan { get; set; }
+        public int? DaysAfterLastTierChangeGreaterThan { get; set; }
 
         public PSDateAfterCreation()
         {
@@ -338,13 +478,27 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
             this.DaysAfterCreationGreaterThan = daysAfterCreationGreaterThan;
         }
 
+        public PSDateAfterCreation(int daysAfterCreationGreaterThan, int? DaysAfterLastTierChangeGreaterThan)
+        {
+            this.DaysAfterCreationGreaterThan = daysAfterCreationGreaterThan;
+            this.DaysAfterLastTierChangeGreaterThan = DaysAfterLastTierChangeGreaterThan;
+        }
+
         public PSDateAfterCreation(DateAfterCreation data)
         {
             this.DaysAfterCreationGreaterThan = Convert.ToInt32(data.DaysAfterCreationGreaterThan);
+            if (data.DaysAfterLastTierChangeGreaterThan is null)
+            {
+                this.DaysAfterLastTierChangeGreaterThan = null;
+            }
+            else
+            {
+                this.DaysAfterLastTierChangeGreaterThan = Convert.ToInt32(data.DaysAfterLastTierChangeGreaterThan);
+            }
         }
         public DateAfterCreation ParseDateAfterCreation()
         {
-            return new DateAfterCreation(this.DaysAfterCreationGreaterThan);
+            return new DateAfterCreation(this.DaysAfterCreationGreaterThan, this.DaysAfterLastTierChangeGreaterThan);
         }
     }
 

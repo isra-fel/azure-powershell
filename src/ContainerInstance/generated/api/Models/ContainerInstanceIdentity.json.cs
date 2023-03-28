@@ -19,7 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models
         partial void AfterFromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonObject json);
 
         /// <summary>
-        /// <c>AfterToJson</c> will be called after the json erialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonObject"
+        /// <c>AfterToJson</c> will be called after the json serialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonObject"
         /// /> before it is returned. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -29,7 +29,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models
         /// <summary>
         /// <c>BeforeFromJson</c> will be called before the json deserialization has commenced, allowing complete customization of
         /// the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name= "returnNow" />
+        /// output parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="json">The JsonNode that should be deserialized into this object.</param>
@@ -41,7 +42,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models
         /// <summary>
         /// <c>BeforeToJson</c> will be called before the json serialization has commenced, allowing complete customization of the
         /// object before it is serialized.
-        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -67,6 +69,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models
             {_containerGroupName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("containerGroupName"), out var __jsonContainerGroupName) ? (string)__jsonContainerGroupName : (string)ContainerGroupName;}
             {_location = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("location"), out var __jsonLocation) ? (string)__jsonLocation : (string)Location;}
             {_containerName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("containerName"), out var __jsonContainerName) ? (string)__jsonContainerName : (string)ContainerName;}
+            {_virtualNetworkName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("virtualNetworkName"), out var __jsonVirtualNetworkName) ? (string)__jsonVirtualNetworkName : (string)VirtualNetworkName;}
+            {_subnetName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("subnetName"), out var __jsonSubnetName) ? (string)__jsonSubnetName : (string)SubnetName;}
             {_id = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("id"), out var __jsonId) ? (string)__jsonId : (string)Id;}
             AfterFromJson(json);
         }
@@ -107,6 +111,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models
             AddIf( null != (((object)this._containerGroupName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString(this._containerGroupName.ToString()) : null, "containerGroupName" ,container.Add );
             AddIf( null != (((object)this._location)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString(this._location.ToString()) : null, "location" ,container.Add );
             AddIf( null != (((object)this._containerName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString(this._containerName.ToString()) : null, "containerName" ,container.Add );
+            AddIf( null != (((object)this._virtualNetworkName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString(this._virtualNetworkName.ToString()) : null, "virtualNetworkName" ,container.Add );
+            AddIf( null != (((object)this._subnetName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString(this._subnetName.ToString()) : null, "subnetName" ,container.Add );
             AddIf( null != (((object)this._id)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString(this._id.ToString()) : null, "id" ,container.Add );
             AfterToJson(ref container);
             return container;

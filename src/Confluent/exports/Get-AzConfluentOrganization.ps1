@@ -68,7 +68,7 @@ INPUTOBJECT <IConfluentIdentity>: Identity Parameter
   [ResourceGroupName <String>]: Resource group name
   [SubscriptionId <String>]: Microsoft Azure subscription id
 .Link
-https://docs.microsoft.com/powershell/module/az.confluent/get-azconfluentorganization
+https://learn.microsoft.com/powershell/module/az.confluent/get-azconfluentorganization
 #>
 function Get-AzConfluentOrganization {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IOrganizationResource])]
@@ -168,6 +168,8 @@ begin {
         if (('Get', 'List', 'List1') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.Confluent.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

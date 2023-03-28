@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
 {
     using static Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Extensions;
+    using System;
 
     /// <summary>Update an MSIX Package.</summary>
     /// <remarks>
     /// [OpenAPI] Update=>PATCH:"/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}"
     /// </remarks>
     [global::System.Management.Automation.Cmdlet(global::System.Management.Automation.VerbsData.Update, @"AzWvdMsixPackage_UpdateViaIdentityExpanded", SupportsShouldProcess = true)]
-    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackage))]
+    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage))]
     [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Description(@"Update an  MSIX Package.")]
     [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Generated]
     public partial class UpdateAzWvdMsixPackage_UpdateViaIdentityExpanded : global::System.Management.Automation.PSCmdlet,
@@ -31,6 +32,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// The <see cref="global::System.Threading.CancellationTokenSource" /> for this operation.
         /// </summary>
         private global::System.Threading.CancellationTokenSource _cancellationTokenSource = new global::System.Threading.CancellationTokenSource();
+
+        /// <summary>MSIX Package properties that can be patched.</summary>
+        private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackagePatch _msixPackageBody = new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.MsixPackagePatch();
 
         /// <summary>Wait for .NET debugger to attach</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Wait for .NET debugger to attach")]
@@ -58,7 +62,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         Description = @"Display name for MSIX Package.",
         SerializedName = @"displayName",
         PossibleTypes = new [] { typeof(string) })]
-        public string DisplayName { get => MsixPackageBody.DisplayName ?? null; set => MsixPackageBody.DisplayName = value; }
+        public string DisplayName { get => _msixPackageBody.DisplayName ?? null; set => _msixPackageBody.DisplayName = value; }
 
         /// <summary>SendAsync Pipeline Steps to be appended to the front of the pipeline</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "SendAsync Pipeline Steps to be appended to the front of the pipeline")]
@@ -92,7 +96,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         Description = @"Set a version of the package to be active across hostpool. ",
         SerializedName = @"isActive",
         PossibleTypes = new [] { typeof(global::System.Management.Automation.SwitchParameter) })]
-        public global::System.Management.Automation.SwitchParameter IsActive { get => MsixPackageBody.IsActive ?? default(global::System.Management.Automation.SwitchParameter); set => MsixPackageBody.IsActive = value; }
+        public global::System.Management.Automation.SwitchParameter IsActive { get => _msixPackageBody.IsActive ?? default(global::System.Management.Automation.SwitchParameter); set => _msixPackageBody.IsActive = value; }
 
         /// <summary>Set Registration mode. Regular or Delayed.</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "Set Registration mode. Regular or Delayed.")]
@@ -103,21 +107,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         Description = @"Set Registration mode. Regular or Delayed.",
         SerializedName = @"isRegularRegistration",
         PossibleTypes = new [] { typeof(global::System.Management.Automation.SwitchParameter) })]
-        public global::System.Management.Automation.SwitchParameter IsRegularRegistration { get => MsixPackageBody.IsRegularRegistration ?? default(global::System.Management.Automation.SwitchParameter); set => MsixPackageBody.IsRegularRegistration = value; }
+        public global::System.Management.Automation.SwitchParameter IsRegularRegistration { get => _msixPackageBody.IsRegularRegistration ?? default(global::System.Management.Automation.SwitchParameter); set => _msixPackageBody.IsRegularRegistration = value; }
 
         /// <summary>
-        /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
+        /// <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
         global::System.Action Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
 
-        /// <summary><see cref="IEventListener" /> cancellation token.</summary>
+        /// <summary><see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener" /> cancellation token.</summary>
         global::System.Threading.CancellationToken Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener.Token => _cancellationTokenSource.Token;
-
-        /// <summary>Backing field for <see cref="MsixPackageBody" /> property.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackagePatch _msixPackageBody= new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.MsixPackagePatch();
-
-        /// <summary>MSIX Package properties that can be patched.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackagePatch MsixPackageBody { get => this._msixPackageBody; set => this._msixPackageBody = value; }
 
         /// <summary>
         /// The instance of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.HttpPipeline" /> that the remote call will use.
@@ -145,30 +143,35 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// happens on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onDefault method should be processed, or if the method should
         /// return immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// <c>overrideOnOk</c> will be called before the regular onOk has been processed, allowing customization of what happens
         /// on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackage"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onOk method should be processed, or if the method should return
         /// immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackage> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// (overrides the default BeginProcessing method in global::System.Management.Automation.PSCmdlet)
         /// </summary>
         protected override void BeginProcessing()
         {
+            var telemetryId = Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Module.Instance.GetTelemetryId.Invoke();
+            if (telemetryId != "" && telemetryId != "internal")
+            {
+                __correlationId = telemetryId;
+            }
             Module.Instance.SetProxyConfiguration(Proxy, ProxyCredential, ProxyUseDefaultCredentials);
             if (Break)
             {
@@ -180,7 +183,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// <summary>Performs clean-up after the command execution</summary>
         protected override void EndProcessing()
         {
-            ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletEndProcessing).Wait(); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+
         }
 
         /// <summary>Handles/Dispatches events during the call to the REST service.</summary>
@@ -214,7 +217,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                     case Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.Information:
                     {
                         var data = messageData();
-                        WriteInformation(data, new[] { data.Message });
+                        WriteInformation(data.Message, new string[]{});
                         return ;
                     }
                     case Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.Debug:
@@ -283,7 +286,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         {
             using( NoSynchronizationContext )
             {
-                await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletProcessRecordAsyncStart); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletGetPipeline); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 Pipeline = Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Module.Instance.CreatePipeline(InvocationInformation, __correlationId, __processRecordId, this.ParameterSetName);
                 if (null != HttpPipelinePrepend)
@@ -300,7 +302,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                     await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletBeforeAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                     if (InputObject?.Id != null)
                     {
-                        await this.Client.MsixPackagesUpdateViaIdentity(InputObject.Id, MsixPackageBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.MsixPackagesUpdateViaIdentity(InputObject.Id, _msixPackageBody, onOk, onDefault, this, Pipeline);
                     }
                     else
                     {
@@ -321,13 +323,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                         {
                             ThrowTerminatingError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception("InputObject has null value for InputObject.MsixPackageFullName"),string.Empty, global::System.Management.Automation.ErrorCategory.InvalidArgument, InputObject) );
                         }
-                        await this.Client.MsixPackagesUpdate(InputObject.SubscriptionId ?? null, InputObject.ResourceGroupName ?? null, InputObject.HostPoolName ?? null, InputObject.MsixPackageFullName ?? null, MsixPackageBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.MsixPackagesUpdate(InputObject.SubscriptionId ?? null, InputObject.ResourceGroupName ?? null, InputObject.HostPoolName ?? null, InputObject.MsixPackageFullName ?? null, _msixPackageBody, onOk, onDefault, this, Pipeline);
                     }
                     await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletAfterAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 }
                 catch (Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.UndeclaredResponseException urexception)
                 {
-                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  body=MsixPackageBody})
+                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  body=_msixPackageBody})
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(urexception.Message) { RecommendedAction = urexception.Action }
                     });
@@ -358,12 +360,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// a delegate that is called when the remote service returns default (any response code not handled elsewhere).
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError> response)
+        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError> response)
         {
             using( NoSynchronizationContext )
             {
@@ -380,15 +382,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                 if ((null == code || null == message))
                 {
                     // Unrecognized Response. Create an error record based on what we have.
-                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError>(responseMessage, await response);
-                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=MsixPackageBody })
+                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError>(responseMessage, await response);
+                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=_msixPackageBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(ex.Message) { RecommendedAction = ex.Action }
                     });
                 }
                 else
                 {
-                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=MsixPackageBody })
+                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=_msixPackageBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(message) { RecommendedAction = global::System.String.Empty }
                     });
@@ -398,12 +400,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackage"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackage> response)
+        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage> response)
         {
             using( NoSynchronizationContext )
             {
@@ -415,7 +417,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                     return ;
                 }
                 // onOk - response for 200 / application/json
-                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IMsixPackage
+                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IMsixPackage
                 WriteObject((await response));
             }
         }

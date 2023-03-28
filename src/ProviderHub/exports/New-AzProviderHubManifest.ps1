@@ -20,8 +20,16 @@ Generates the manifest for the given provider.
 Generates the manifest for the given provider.
 .Example
 PS C:\> New-AzProviderHubManifest -ProviderNamespace "Microsoft.Contoso"
+
+Namespace         ProviderType     ProviderVersion RequiredFeature
+---------         ------------     --------------- ---------------
+Microsoft.Contoso Internal, Hidden 2.0
 .Example
 PS C:\> New-AzProviderHubManifest -ProviderNamespace "Microsoft.Contoso"
+
+Namespace         ProviderType     ProviderVersion RequiredFeature
+---------         ------------     --------------- ---------------
+Microsoft.Contoso Internal, Hidden 2.0
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.IProviderHubIdentity
@@ -44,7 +52,7 @@ INPUTOBJECT <IProviderHubIdentity>: Identity Parameter
   [Sku <String>]: The SKU.
   [SubscriptionId <String>]: The ID of the target subscription.
 .Link
-https://docs.microsoft.com/powershell/module/az.providerhub/new-azproviderhubmanifest
+https://learn.microsoft.com/powershell/module/az.providerhub/new-azproviderhubmanifest
 #>
 function New-AzProviderHubManifest {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.Api20201120.IResourceProviderManifest])]
@@ -132,6 +140,8 @@ begin {
         if (('Generate') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

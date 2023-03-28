@@ -27,13 +27,18 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
     /// Search-AzGraph cmdlet
     /// </summary>
     /// <seealso cref="Microsoft.Azure.Commands.ResourceGraph.Utilities.ResourceGraphBaseCmdlet" />
-    [Cmdlet(VerbsCommon.Search, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "Graph", DefaultParameterSetName = "SubscriptionScopedQuery"), OutputType(typeof(PSResourceGraphResponse))]
+    [Cmdlet(VerbsCommon.Search, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "Graph", DefaultParameterSetName = "SubscriptionScopedQuery"), OutputType(typeof(PSResourceGraphResponse<PSObject>))]
     public class SearchAzureRmGraph : ResourceGraphBaseCmdlet
     {
         /// <summary>
         /// Subscription scoped query parameter set.
         /// </summary>
         public const string SubscriptionParameterSet = "SubscriptionScopedQuery";
+
+        /// <summary>
+        /// Management group scoped query parameter set.
+        /// </summary>
+        public const string ManagementGroupParameterSet = "ManagementGroupScopedQuery";
 
         /// <summary>
         /// Tenant scoped query parameter set.
@@ -58,7 +63,7 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
         /// <summary>
         /// Gets or sets the query.
         /// </summary>s
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Resource Graph query")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Resource Graph query")]
         [AllowEmptyString]
         public string Query
         {
@@ -69,7 +74,7 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
         /// <summary>
         /// Gets or sets the subscriptions.
         /// </summary>
-        [Parameter(Mandatory = false, ParameterSetName = SubscriptionParameterSet, HelpMessage = "Subscription(s) to run query against")]
+        [Parameter(Mandatory = false, ParameterSetName = SubscriptionParameterSet, HelpMessage = "Subscription(s) to run query against. Cannot be used together with -ManagementGroup or -UseTenantScope parameters.")]
         public string[] Subscription
         {
             get;
@@ -79,7 +84,7 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
         /// <summary>
         /// Gets or sets the management groups.
         /// </summary>
-        [Parameter(Mandatory = false, ParameterSetName = TenantParameterSet, HelpMessage = "Management group(s) to run query against")]
+        [Parameter(Mandatory = true, ParameterSetName = ManagementGroupParameterSet, HelpMessage = "Management group(s) to run query against. Cannot be used together with -Subscription or -UseTenantScope parameters.")]
         public string[] ManagementGroup
         {
             get;
@@ -89,8 +94,20 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
         /// <summary>
         /// Gets or sets if query should succeed with partial scopes when total number of scopes exceeds the number allowed on server side.
         /// </summary>
-        [Parameter(Mandatory = false, ParameterSetName = TenantParameterSet,
+        [Parameter(Mandatory = true, ParameterSetName = TenantParameterSet,
+            HelpMessage = "Run query across all available subscriptions in the current tenant. Cannot be used together with -Subscription or -ManagementGroup parameters.")]
+        public SwitchParameter UseTenantScope
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets if query should succeed with partial scopes when total number of scopes exceeds the number allowed on server side.
+        /// </summary>
+        [Parameter(Mandatory = false, ParameterSetName = ManagementGroupParameterSet, 
             HelpMessage = "Indicates if query should succeed when only partial number of subscription underneath can be processed by server")]
+        [Parameter(ParameterSetName = TenantParameterSet)]
         public SwitchParameter AllowPartialScope
         {
             get;
@@ -148,9 +165,9 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
             }
 
             IList<string> subscriptions = null;
-            if (managementGroups == null)
+            if (!this.UseTenantScope.IsPresent && managementGroups == null)
             {
-                subscriptions = this.GetSubscriptions().ToList();
+                subscriptions = this.GetSubscriptions()?.ToList();
                 if (subscriptions != null && subscriptions.Count > SubscriptionLimit)
                 {
                     subscriptions = subscriptions.Take(SubscriptionLimit).ToList();
@@ -160,7 +177,7 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
                 }
             }
 
-            var psResourceGraphResponse = new PSResourceGraphResponse();
+            var psResourceGraphResponse = new PSResourceGraphResponse<PSObject>();
             QueryResponse response = null;
 
             var resultTruncated = false;
@@ -262,7 +279,7 @@ namespace Microsoft.Azure.Commands.ResourceGraph.Cmdlets
             }
 
             var accountSubscriptions = this.DefaultContext.Account.GetSubscriptions();
-            if (accountSubscriptions.Length > 0)
+            if (accountSubscriptions?.Length > 0)
             {
                 return accountSubscriptions;
             }

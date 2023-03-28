@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.NetAppFiles.dll-Help.xml
 Module Name: Az.NetAppFiles
-online version: https://docs.microsoft.com/powershell/module/az.netappfiles/remove-aznetappfilesbackup
+online version: https://learn.microsoft.com/powershell/module/az.netappfiles/remove-aznetappfilesbackup
 schema: 2.0.0
 ---
 
@@ -27,8 +27,8 @@ Remove-AzNetAppFilesBackup -ResourceGroupName <String> -AccountName <String> -Ac
 
 ### ByParentObjectParameterSet
 ```
-Remove-AzNetAppFilesBackup -Name <String> -AccountBackupName <String> -VolumeObject <PSNetAppFilesVolume>
- [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-AzNetAppFilesBackup -Name <String> -VolumeObject <PSNetAppFilesVolume> [-PassThru]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByResourceIdParameterSet
@@ -50,17 +50,18 @@ The **Remove-AzNetAppFilesBackup** cmdlet deletes an ANF account.
 
 ### Example 1
 ```powershell
-PS C:\> Remove-AzNetAppFilesBackup -ResourceGroupName "MyRG" -AccountName "MyAccount" -PoolName "MyPool" -VolumeName "MyVolume" -Name "MyBackup"
+Remove-AzNetAppFilesBackup -ResourceGroupName "MyRG" -AccountName "MyAccount" -PoolName "MyPool" -VolumeName "MyVolume" -Name "MyBackup"
 ```
 
 This command deletes the new ANF backup with a the name "MyBackup" for volume "MyVolume".
 
 ### Example 2
 ```powershell
-PS C:\> Remove-AzNetAppFilesBackup -ResourceGroupName "MyRG" -AccountName "MyAccount" -AccountBackupName "MyBackup"
+Remove-AzNetAppFilesBackup -ResourceGroupName "MyRG" -AccountName "MyAccount" -AccountBackupName "MyBackup"
 ```
 
 This command deletes the new ANF backup with a the name "MyBackup" for account "MyAccount".
+
 ## PARAMETERS
 
 ### -AccountBackupName
@@ -68,7 +69,7 @@ The name of the ANF backup
 
 ```yaml
 Type: System.String
-Parameter Sets: ByAccountBackupFieldsParameterSet, ByParentObjectParameterSet
+Parameter Sets: ByAccountBackupFieldsParameterSet
 Aliases:
 
 Required: True
@@ -289,3 +290,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[New-AzNetAppFilesBackup](./New-AzNetAppFilesBackup.md)
+[Get-AzNetAppFilesBackup](./Get-AzNetAppFilesBackup.md)
+[Update-AzNetAppFilesBackup](./Update-AzNetAppFilesBackup.md)
+[Get-AzNetAppFilesBackupPolicy](./Get-AzNetAppFilesBackupPolicy.md)
+[New-AzNetAppFilesBackupPolicy](./New-AzNetAppFilesBackupPolicy.md)
+[Update-AzNetAppFilesBackupPolicy](./Update-AzNetAppFilesBackupPolicy.md)
+[Remove-AzNetAppFilesBackupPolicy](./Remove-AzNetAppFilesBackupPolicy.md)
+[Get-AzNetAppFilesVolume](./Get-AzNetAppFilesVolume.md)
+[New-AzNetAppFilesVolume](./New-AzNetAppFilesVolume.md)
+[Update-AzNetAppFilesVolume](./Update-AzNetAppFilesVolume.md)
+[Remove-AzNetAppFilesVolume](./Remove-AzNetAppFilesVolume.md)

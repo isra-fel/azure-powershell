@@ -30,6 +30,7 @@ namespace Microsoft.Azure.Commands.Network
 {
     [GenericBreakingChange("Default behaviour of Zone will be changed", OldWay = "Sku = Standard means the Standard Public IP is zone-redundant.",
         NewWay = "Sku = Standard and Zone = {} means the Standard Public IP has no zones. If you want to create a zone-redundant Public IP address, please specify all the zones in the region. For example, Zone = ['1', '2', '3'].")]
+    [GenericBreakingChange("It is recommended to use parameter '-Sku Standard' to create new IP address. Please note that it will become the default behavior for IP address creation in the future.")]
     [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "PublicIpAddress", SupportsShouldProcess = true),OutputType(typeof(PSPublicIpAddress))]
     public class NewAzurePublicIpAddressCommand : PublicIpAddressBaseCmdlet
     {
@@ -60,6 +61,12 @@ namespace Microsoft.Azure.Commands.Network
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the extended location.")]
+        public string EdgeZone { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The public IP Sku name.")]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
@@ -69,14 +76,14 @@ namespace Microsoft.Azure.Commands.Network
         public string Sku { get; set; }
 
         [Parameter(
-    Mandatory = false,
-    ValueFromPipelineByPropertyName = true,
-    HelpMessage = "The public IP Sku tier.")]
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The public IP Sku tier.")]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
-    MNM.PublicIPAddressSkuTier.Regional,
-    MNM.PublicIPAddressSkuTier.Global,
-    IgnoreCase = true)]
+            MNM.PublicIPAddressSkuTier.Regional,
+            MNM.PublicIPAddressSkuTier.Global,
+            IgnoreCase = true)]
         public string Tier { get; set; }
 
         [Parameter(
@@ -122,6 +129,25 @@ namespace Microsoft.Azure.Commands.Network
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The DdosProtectionMode to use for Public IP address")]
+        [ValidateSet(
+            MNM.DdosSettingsProtectionMode.VirtualNetworkInherited,
+            MNM.DdosSettingsProtectionMode.Enabled,
+            MNM.DdosSettingsProtectionMode.Disabled,
+            IgnoreCase = true)]
+        [ValidateNotNullOrEmpty]
+        public string DdosProtectionMode { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The DdosProtectionPlan id to attach to the Public IP address")]
+        [ValidateNotNullOrEmpty]
+        public string DdosProtectionPlanId { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Reverse FQDN.")]
         public string ReverseFqdn { get; set; }
 
@@ -135,7 +161,13 @@ namespace Microsoft.Azure.Commands.Network
             Mandatory = false,
             HelpMessage = "A list of availability zones denoting the IP allocated for the resource needs to come from.",
             ValueFromPipelineByPropertyName = true)]
-            public string[] Zone { get; set; }
+        public string[] Zone { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Target ip Address for BYOIP PublicIpAddress.",
+            ValueFromPipelineByPropertyName = true)]
+        public string IpAddress { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -177,6 +209,12 @@ namespace Microsoft.Azure.Commands.Network
             publicIp.PublicIpAddressVersion = this.IpAddressVersion;
             publicIp.Zones = this.Zone?.ToList();
             publicIp.PublicIpPrefix = this.PublicIpPrefix;
+            publicIp.IpAddress = this.IpAddress;
+
+            if (!string.IsNullOrEmpty(this.EdgeZone))
+            {
+                publicIp.ExtendedLocation = new PSExtendedLocation(this.EdgeZone);
+            }
 
             if (!string.IsNullOrEmpty(this.Sku))
             {
@@ -184,7 +222,18 @@ namespace Microsoft.Azure.Commands.Network
                 publicIp.Sku.Name = this.Sku;
             }
 
-            if (!string.IsNullOrEmpty(this.Tier))
+            if (!string.IsNullOrEmpty(this.DdosProtectionMode))
+            {
+                publicIp.DdosSettings = new PSDdosSettings();
+                publicIp.DdosSettings.ProtectionMode = this.DdosProtectionMode;
+
+                if (!string.IsNullOrEmpty(DdosProtectionPlanId))
+                {
+                    publicIp.DdosSettings.DdosProtectionPlan = new PSResourceId { Id = DdosProtectionPlanId };
+                }
+            }
+
+                if (!string.IsNullOrEmpty(this.Tier))
             {
                 if(publicIp.Sku == null)
                 {

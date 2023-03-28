@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
 {
     using static Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Extensions;
+    using System;
 
     /// <summary>Gets the details of an Azure Site Recovery fabric.</summary>
     /// <remarks>
-    /// [OpenAPI] Get=>GET:"/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
+    /// [OpenAPI] Get=>GET:"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}"
     /// </remarks>
     [global::System.Management.Automation.Cmdlet(global::System.Management.Automation.VerbsCommon.Get, @"AzMigrateReplicationFabric_Get")]
-    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric))]
+    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric))]
     [global::Microsoft.Azure.PowerShell.Cmdlets.Migrate.Description(@"Gets the details of an Azure Site Recovery fabric.")]
     [global::Microsoft.Azure.PowerShell.Cmdlets.Migrate.Generated]
     public partial class GetAzMigrateReplicationFabric_Get : global::System.Management.Automation.PSCmdlet,
@@ -63,6 +64,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
         [global::Microsoft.Azure.PowerShell.Cmdlets.Migrate.Category(global::Microsoft.Azure.PowerShell.Cmdlets.Migrate.ParameterCategory.Path)]
         public string FabricName { get => this._fabricName; set => this._fabricName = value; }
 
+        /// <summary>Backing field for <see cref="Filter" /> property.</summary>
+        private string _filter;
+
+        /// <summary>OData filter options.</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "OData filter options.")]
+        [Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"OData filter options.",
+        SerializedName = @"$filter",
+        PossibleTypes = new [] { typeof(string) })]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.Migrate.Category(global::Microsoft.Azure.PowerShell.Cmdlets.Migrate.ParameterCategory.Query)]
+        public string Filter { get => this._filter; set => this._filter = value; }
+
         /// <summary>SendAsync Pipeline Steps to be appended to the front of the pipeline</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "SendAsync Pipeline Steps to be appended to the front of the pipeline")]
         [global::System.Management.Automation.ValidateNotNull]
@@ -79,11 +94,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
         public global::System.Management.Automation.InvocationInfo InvocationInformation { get => __invocationInfo = __invocationInfo ?? this.MyInvocation ; set { __invocationInfo = value; } }
 
         /// <summary>
-        /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
+        /// <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
         global::System.Action Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
 
-        /// <summary><see cref="IEventListener" /> cancellation token.</summary>
+        /// <summary><see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener" /> cancellation token.</summary>
         global::System.Threading.CancellationToken Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener.Token => _cancellationTokenSource.Token;
 
         /// <summary>
@@ -158,18 +173,23 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
         /// on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric">Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onOk method should be processed, or if the method should return
         /// immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// (overrides the default BeginProcessing method in global::System.Management.Automation.PSCmdlet)
         /// </summary>
         protected override void BeginProcessing()
         {
+            var telemetryId = Microsoft.Azure.PowerShell.Cmdlets.Migrate.Module.Instance.GetTelemetryId.Invoke();
+            if (telemetryId != "" && telemetryId != "internal")
+            {
+                __correlationId = telemetryId;
+            }
             Module.Instance.SetProxyConfiguration(Proxy, ProxyCredential, ProxyUseDefaultCredentials);
             if (Break)
             {
@@ -181,7 +201,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
         /// <summary>Performs clean-up after the command execution</summary>
         protected override void EndProcessing()
         {
-            ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.CmdletEndProcessing).Wait(); if( ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+
         }
 
         /// <summary>
@@ -223,7 +243,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
                     case Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.Information:
                     {
                         var data = messageData();
-                        WriteInformation(data, new[] { data.Message });
+                        WriteInformation(data.Message, new string[]{});
                         return ;
                     }
                     case Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.Debug:
@@ -289,7 +309,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
         {
             using( NoSynchronizationContext )
             {
-                await ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.CmdletProcessRecordAsyncStart); if( ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.CmdletGetPipeline); if( ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 Pipeline = Microsoft.Azure.PowerShell.Cmdlets.Migrate.Module.Instance.CreatePipeline(InvocationInformation, __correlationId, __processRecordId, this.ParameterSetName);
                 if (null != HttpPipelinePrepend)
@@ -306,13 +325,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
                     foreach( var SubscriptionId in this.SubscriptionId )
                     {
                         await ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.CmdletBeforeAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                        await this.Client.ReplicationFabricsGet(ResourceName, ResourceGroupName, SubscriptionId, FabricName, onOk, this, Pipeline);
+                        await this.Client.ReplicationFabricsGet(ResourceName, ResourceGroupName, SubscriptionId, FabricName, this.InvocationInformation.BoundParameters.ContainsKey("Filter") ? Filter : null, onOk, this, Pipeline);
                         await ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Events.CmdletAfterAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                     }
                 }
                 catch (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.UndeclaredResponseException urexception)
                 {
-                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  ResourceName=ResourceName,ResourceGroupName=ResourceGroupName,SubscriptionId=SubscriptionId,FabricName=FabricName})
+                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  ResourceName=ResourceName,ResourceGroupName=ResourceGroupName,SubscriptionId=SubscriptionId,FabricName=FabricName,Filter=this.InvocationInformation.BoundParameters.ContainsKey("Filter") ? Filter : null})
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(urexception.Message) { RecommendedAction = urexception.Action }
                     });
@@ -333,12 +352,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric">Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric> response)
+        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric> response)
         {
             using( NoSynchronizationContext )
             {
@@ -350,7 +369,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Cmdlets
                     return ;
                 }
                 // onOk - response for 200 / application/json
-                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20180110.IFabric
+                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models.Api20220501.IFabric
                 WriteObject((await response));
             }
         }

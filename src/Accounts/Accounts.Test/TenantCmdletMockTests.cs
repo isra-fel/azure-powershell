@@ -18,6 +18,7 @@ using Microsoft.Azure.Commands.Common.Authentication.Models;
 using Microsoft.Azure.Commands.Profile;
 using Microsoft.Azure.Commands.Profile.Models;
 using Microsoft.Azure.Commands.ScenarioTest;
+using Microsoft.Azure.Commands.TestFx.Mocks;
 using Microsoft.Azure.ServiceManagement.Common.Models;
 using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
@@ -116,7 +117,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                         {
                             { "DisplayName", "Microsoft" },
                             { "TenantCategory", "Home" },
-                            { "Domains", "test0.com,test1.com,test2.microsoft.com,test3.microsoft.com" }
+                            { "Domains", "test0.com,test1.com,test2.microsoft.com,test3.microsoft.com" },
+                            { "TenantType", "AAD"},
+                            { "DefaultDomain", "test0.com,test1.com" }
                         }
                     });
                     result.Add(new AzureTenant()
@@ -142,6 +145,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             Assert.Equal(cmdlet.TenantId, ((PSAzureTenant)OutputPipeline.First()).Id.ToString());
             Assert.Equal("Home", ((PSAzureTenant)OutputPipeline.First()).TenantCategory);
             Assert.Equal(4, ((PSAzureTenant)OutputPipeline.First()).Domains.Length);
+            Assert.Equal("AAD", ((PSAzureTenant)OutputPipeline.First()).TenantType);
+            Assert.Equal("test0.com,test1.com", ((PSAzureTenant)OutputPipeline.First()).DefaultDomain);
         }
 
         [Fact]
@@ -162,7 +167,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                         {
                             { "DisplayName", "Microsoft" },
                             { "TenantCategory", "Home" },
-                            { "Domains", "test0.com,test1.com,test2.microsoft.com," + cmdlet.TenantId }
+                            { "Domains", "test0.com,test1.com,test2.microsoft.com," + cmdlet.TenantId },
+                            { "TenantBrandingLogoUrl", "https://secure.fakesite.com/xxxxx-yyyy/logintenantbranding/0/bannerlogo?ts=0000000000" }
                         }
                     });
                     result.Add(new AzureTenant()
@@ -190,6 +196,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             var domains = ((PSAzureTenant)OutputPipeline.First()).Domains;
             Assert.Equal(4, domains.Length);
             Assert.True(Array.Exists(domains, t => t.Equals(cmdlet.TenantId, StringComparison.OrdinalIgnoreCase)));
+            Assert.Equal("https://secure.fakesite.com/xxxxx-yyyy/logintenantbranding/0/bannerlogo?ts=0000000000", ((PSAzureTenant)OutputPipeline.First()).TenantBrandingLogoUrl);
         }
 
         [Fact]
@@ -219,7 +226,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                         {
                             { "DisplayName", "Macrohard" },
                             { "TenantCategory", "Home" },
-                            { "Domains", "test.macrohard.com" }
+                            { "Domains", "test.macrohard.com" },
+                            { "CountryCode", "US" }
                         }
                     });
                     return result;
@@ -242,6 +250,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             Assert.Equal(defaultContext.Tenant.Id, tenantB.Id.ToString());
             Assert.Equal("Home", tenantB.TenantCategory);
             Assert.Single(tenantB.Domains);
+            Assert.Equal("US", tenantB.CountryCode);
         }
     }
 }

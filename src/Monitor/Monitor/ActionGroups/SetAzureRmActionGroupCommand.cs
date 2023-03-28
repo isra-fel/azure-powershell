@@ -81,13 +81,22 @@ namespace Microsoft.Azure.Commands.Insights.ActionGroups
         public SwitchParameter DisableGroup { get; set; }
 
         /// <summary>
-        /// Gets or sets the Tags of the activity log alert resource
+        /// Gets or sets the Tags of the action group resource
         /// </summary>
         [Parameter(ParameterSetName = ByPropertyName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The tags of the action group resource")]
         [Parameter(ParameterSetName = ByResourceId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The tags of the action group resource")]
         [Parameter(ParameterSetName = ByInputObject, Mandatory = false, ValueFromPipeline = true, HelpMessage = "The tags of the action group resource")]
         [ValidateNotNullOrEmpty]
         public IDictionary<string, string> Tag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location of the action group resource
+        /// </summary>
+        [Parameter(ParameterSetName = ByPropertyName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The location of the action group resource")]
+        [Parameter(ParameterSetName = ByResourceId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The location of the action group resource")]
+        [Parameter(ParameterSetName = ByInputObject, Mandatory = false, ValueFromPipeline = true, HelpMessage = "The location of the action group resource")]
+        [ValidateNotNullOrEmpty]
+        public string Location { get; set; }
 
         /// <summary>
         /// Gets or sets the resource id parameter.
@@ -130,6 +139,10 @@ namespace Microsoft.Azure.Commands.Insights.ActionGroups
                     {
                         this.Tag = this.InputObject.Tags;
                     }
+                    if (this.Location == null)
+                    {
+                        this.Location = this.InputObject.Location;
+                    }
                     this.Receiver = new List<PSActionGroupReceiverBase>();
                     this.Receiver.AddRange(this.InputObject.EmailReceivers);
                     this.Receiver.AddRange(this.InputObject.SmsReceivers);
@@ -141,6 +154,7 @@ namespace Microsoft.Azure.Commands.Insights.ActionGroups
                     this.Receiver.AddRange(this.InputObject.LogicAppReceivers);
                     this.Receiver.AddRange(this.InputObject.AutomationRunbookReceivers);
                     this.Receiver.AddRange(this.InputObject.AzureAppPushReceivers);
+                    this.Receiver.AddRange(this.InputObject.EventHubReceivers);
                 }
                 else if (ParameterSetName == ByResourceId)
                 {
@@ -175,6 +189,10 @@ namespace Microsoft.Azure.Commands.Insights.ActionGroups
                 IList <VoiceReceiver> voiceReceivers =
                     this.Receiver.OfType<PSVoiceReceiver>().
                         Select(o => new VoiceReceiver(name: o.Name, countryCode: o.CountryCode, phoneNumber: o.PhoneNumber)).ToList();
+
+                IList<EventHubReceiver> eventHubReceivers =
+                    this.Receiver.OfType<PSEventHubReceiver>().
+                        Select(o => new EventHubReceiver(name: o.Name, subscriptionId: o.SubscriptionId, eventHubNameSpace: o.EventHubNameSpace, eventHubName: o.EventHubName, useCommonAlertSchema: o.UseCommonAlertSchema)).ToList();
 
                 IList<ArmRoleReceiver> armRoleReceivers =
                     this.Receiver.OfType<PSArmRoleReceiver>().
@@ -219,7 +237,7 @@ namespace Microsoft.Azure.Commands.Insights.ActionGroups
 
                 ActionGroupResource actionGroup = new ActionGroupResource
                                                   {
-                                                      Location = "Global",
+                                                      Location = this.Location ?? "Global",
                                                       GroupShortName = this.ShortName,
                                                       Enabled = !this.DisableGroup.IsPresent || !this.DisableGroup,
                                                       Tags = this.Tag,
@@ -228,6 +246,7 @@ namespace Microsoft.Azure.Commands.Insights.ActionGroups
                                                       WebhookReceivers = webhookReceivers,
                                                       ItsmReceivers = itsmReceivers,
                                                       VoiceReceivers = voiceReceivers,
+                                                      EventHubReceivers = eventHubReceivers,
                                                       ArmRoleReceivers = armRoleReceivers,
                                                       AzureFunctionReceivers = azureFunctionReceivers,
                                                       LogicAppReceivers = logicAppReceivers,

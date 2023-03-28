@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Storage.Management.dll-Help.xml
 Module Name: Az.Storage
-online version: https://docs.microsoft.com/powershell/module/az.storage/update-azrmstorageshare
+online version: https://learn.microsoft.com/powershell/module/az.storage/update-azrmstorageshare
 schema: 2.0.0
 ---
 
@@ -15,27 +15,29 @@ Modifies a Storage file share.
 ### AccountName (Default)
 ```
 Update-AzRmStorageShare [-ResourceGroupName] <String> [-StorageAccountName] <String> -Name <String>
- [-QuotaGiB <Int32>] [-Metadata <Hashtable>] [-AccessTier <String>] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-QuotaGiB <Int32>] [-Metadata <Hashtable>] [-AccessTier <String>] [-RootSquash <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AccountObject
 ```
 Update-AzRmStorageShare -Name <String> -StorageAccount <PSStorageAccount> [-QuotaGiB <Int32>]
- [-Metadata <Hashtable>] [-AccessTier <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-Metadata <Hashtable>] [-AccessTier <String>] [-RootSquash <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ShareResourceId
 ```
 Update-AzRmStorageShare [-ResourceId] <String> [-QuotaGiB <Int32>] [-Metadata <Hashtable>]
- [-AccessTier <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-AccessTier <String>] [-RootSquash <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ShareObject
 ```
 Update-AzRmStorageShare -InputObject <PSShare> [-QuotaGiB <Int32>] [-Metadata <Hashtable>]
- [-AccessTier <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-AccessTier <String>] [-RootSquash <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,6 +46,7 @@ The **New-AzRmStorageShare** cmdlet modifies a Storage file share.
 ## EXAMPLES
 
 ### Example 1: Modifies a Storage file share's metadata and share quota with Storage account name and share name
+<!-- Skip: Output cannot be splitted from code -->
 ```
 PS C:\>$share = Update-AzRmStorageShare -ResourceGroupName "myresourcegroup" -StorageAccountName "mystorageaccount" -Name "myshare" -QuotaGiB 200 -Metadata @{tag0="value0";tag1="value1"}
 
@@ -51,8 +54,8 @@ PS C:\>$share
 
    ResourceGroupName: myresourcegroup, StorageAccountName: mystorageaccount
 
-Name     QuotaGiB EnabledProtocol AccessTier Deleted Version ShareUsageBytes
-----     -------- --------------- ---------- ------- ------- ---------------
+Name     QuotaGiB EnabledProtocols AccessTier Deleted Version ShareUsageBytes
+----     -------- ---------------- ---------- ------- ------- ---------------
 myshare  200
 
 PS C:\>$share.Metadata
@@ -66,21 +69,23 @@ tag1 value1
 This command modifies a Storage file share's metadata and share quota with Storage account name and share name, and show the modify result with the returned file share object.
 
 ### Example 2: Modifies metadata on a Storage file share with Storage account object and share name
-```
-PS C:\>$accountObject = Get-AzStorageAccount -ResourceGroupName "myResourceGroup" -StorageAccountName "myStorageAccount"
-PS C:\>$share = Update-AzRmStorageShare -StorageAccount $accountObject -Name "myshare" -Metadata @{tag0="value0";tag1="value1"}
+```powershell
+$accountObject = Get-AzStorageAccount -ResourceGroupName "myResourceGroup" -StorageAccountName "myStorageAccount"
+$share = Update-AzRmStorageShare -StorageAccount $accountObject -Name "myshare" -Metadata @{tag0="value0";tag1="value1"}
 ```
 
 This command modifies metadata on a Storage file share with Storage account object and share name.
 
 ### Example 3: Modifies share quota for all Storage file shares in a Storage account with pipeline
+```powershell
+Get-AzRmStorageShare -ResourceGroupName "myresourcegroup" -StorageAccountName "mystorageaccount" | Update-AzRmStorageShare -QuotaGiB 5000
 ```
-PS C:\>Get-AzRmStorageShare -ResourceGroupName "myresourcegroup" -StorageAccountName "mystorageaccount" | Update-AzRmStorageShare -QuotaGiB 5000
 
+```output
    ResourceGroupName: myresourcegroup, StorageAccountName: mystorageaccount
 
-Name     QuotaGiB EnabledProtocol AccessTier Deleted Version ShareUsageBytes
-----     -------- --------------- ---------- ------- ------- ---------------
+Name     QuotaGiB EnabledProtocols AccessTier Deleted Version ShareUsageBytes
+----     -------- ---------------- ---------- ------- ------- ---------------
 share1   5000
 share2   5000
 ```
@@ -88,9 +93,11 @@ share2   5000
 This command modifies share quota as 5000 GiB for all Storage file shares in a Storage account with pipeline.
 
 ### Example 4: Modify a Storage file share with accesstier as Cool
+```powershell
+$share = Update-AzRmStorageShare -ResourceGroupName "myresourcegroup" -StorageAccountName "mystorageaccount" -Name "myshare" -AccessTier Cool
 ```
-PS C:\>$share = Update-AzRmStorageShare -ResourceGroupName "myresourcegroup" -StorageAccountName "mystorageaccount" -Name "myshare" -AccessTier Cool
 
+```output
    ResourceGroupName: myresourcegroup, StorageAccountName: mystorageaccount
 
 Name     QuotaGiB EnabledProtocols AccessTier Deleted Version ShareUsageBytes
@@ -99,6 +106,25 @@ myshare                            Cool
 ```
 
 This command modifies a Storage file share with accesstier as Cool.
+
+### Example 5: Modifies rootsquash for a file shares in a Storage account
+<!-- Skip: Output cannot be splitted from code -->
+```
+PS C:\>$share = Update-AzRmStorageShare -ResourceGroupName "myresourcegroup" -StorageAccountName "mystorageaccount" -Name "myshare" -RootSquash NoRootSquash 
+
+PS C:\>$share
+
+   ResourceGroupName: myresourcegroup, StorageAccountName: mystorageaccount
+
+Name     QuotaGiB EnabledProtocols AccessTier Deleted Version ShareUsageBytes
+----     -------- ---------------- ---------- ------- ------- ---------------
+myshare  
+
+PS C:\> $share.RootSquash
+NoRootSquash
+```
+
+This command modifies share RootSquash property to NoRootSquash. RootSquash property is only avaialbe on share with EnabledProtocol as NFS.
 
 ## PARAMETERS
 
@@ -223,6 +249,22 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -RootSquash
+Sets reduction of the access rights for the remote superuser. Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: NoRootSquash, RootSquash, AllSquash
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -StorageAccount
 Storage account object
 
@@ -285,7 +327,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

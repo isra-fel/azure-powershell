@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/get-azkustoclusterprincipalassignment
+online version: https://learn.microsoft.com/powershell/module/az.kusto/get-azkustoclusterprincipalassignment
 schema: 2.0.0
 ---
 
@@ -37,8 +37,10 @@ Gets a Kusto cluster principalAssignment.
 
 ### Example 1: List all Kusto cluster principalAssignment
 ```powershell
-PS C:\> Get-AzKustoClusterPrincipalAssignment -ResourceGroupName testrg -ClusterName testnewkustocluster
+Get-AzKustoClusterPrincipalAssignment -ResourceGroupName testrg -ClusterName testnewkustocluster
+```
 
+```output
 Name                                Type
 ----                                ----
 testnewkustocluster/kustoprincipal1 Microsoft.Kusto/Clusters/PrincipalAssignments
@@ -48,8 +50,10 @@ The above command lists all principalAssignment in the cluster "testnewkustoclus
 
 ### Example 2: Gets a Kusto cluster principalAssignment by name
 ```powershell
-PS C:\> Get-AzKustoClusterPrincipalAssignment -ResourceGroupName testrg -ClusterName testnewkustocluster -PrincipalAssignmentName kustoprincipal1
+Get-AzKustoClusterPrincipalAssignment -ResourceGroupName testrg -ClusterName testnewkustocluster -PrincipalAssignmentName kustoprincipal1
+```
 
+```output
 Name                                Type
 ----                                ----
 testnewkustocluster/kustoprincipal1 Microsoft.Kusto/Clusters/PrincipalAssignments
@@ -75,7 +79,8 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -160,7 +165,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.IClusterPrincipalAssignment
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.IClusterPrincipalAssignment
 
 ## NOTES
 
@@ -171,15 +176,20 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IKustoIdentity>: Identity Parameter
+`INPUTOBJECT <IKustoIdentity>`: Identity Parameter
   - `[AttachedDatabaseConfigurationName <String>]`: The name of the attached database configuration.
   - `[ClusterName <String>]`: The name of the Kusto cluster.
   - `[DataConnectionName <String>]`: The name of the data connection.
   - `[DatabaseName <String>]`: The name of the database in the Kusto cluster.
   - `[Id <String>]`: Resource identity path
-  - `[Location <String>]`: Azure location.
+  - `[Location <String>]`: Azure location (region) name.
+  - `[ManagedPrivateEndpointName <String>]`: The name of the managed private endpoint.
+  - `[OperationId <String>]`: The Guid of the operation ID
   - `[PrincipalAssignmentName <String>]`: The name of the Kusto principalAssignment.
+  - `[PrivateEndpointConnectionName <String>]`: The name of the private endpoint connection.
+  - `[PrivateLinkResourceName <String>]`: The name of the private link resource.
   - `[ResourceGroupName <String>]`: The name of the resource group containing the Kusto cluster.
+  - `[ScriptName <String>]`: The name of the Kusto database script.
   - `[SubscriptionId <String>]`: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
 
 ## RELATED LINKS

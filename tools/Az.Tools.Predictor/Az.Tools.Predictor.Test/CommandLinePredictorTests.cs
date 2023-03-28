@@ -12,11 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.PowerShell.Tools.AzPredictor.Test.Mocks;
+using Microsoft.Azure.PowerShell.Tools.AzPredictor.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation.Language;
-using System.Management.Automation.Subsystem;
+using System.Management.Automation.Subsystem.Prediction;
 using System.Threading;
 using Xunit;
 
@@ -26,19 +28,33 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
     /// Test cases for <see cref="CommandLinePredictor" />
     /// </summary>
     [Collection("Model collection")]
-    public class CommandLinePredictorTests
+    public sealed class CommandLinePredictorTests : IDisposable
     {
         private readonly ModelFixture _fixture;
         private readonly CommandLinePredictor _predictor;
+        private readonly AzContext _azContext;
+        private MockPowerShellRuntime _powerShellRuntime;
 
         /// <summary>
         /// Constructs a new instance of <see cref="CommandLinePredictorTests" />
         /// </summary>
         public CommandLinePredictorTests(ModelFixture fixture)
         {
-            this._fixture = fixture;
+            _fixture = fixture;
+            _powerShellRuntime = new MockPowerShellRuntime();
+            _azContext = new AzContext(_powerShellRuntime);
             var startHistory = $"{AzPredictorConstants.CommandPlaceholder}{AzPredictorConstants.CommandConcatenator}{AzPredictorConstants.CommandPlaceholder}";
-            this._predictor = new CommandLinePredictor(this._fixture.PredictionCollection[startHistory], null);
+            _predictor = new CommandLinePredictor(_fixture.PredictionCollection[startHistory], null,null,  _azContext);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (_powerShellRuntime is not null)
+            {
+                _powerShellRuntime.Dispose();
+                _powerShellRuntime = null;
+            }
         }
 
         /// <summary>
@@ -47,10 +63,10 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         [Fact]
         public void VerifyParameterValues()
         {
-            var predictionContext = PredictionContext.Create("Get-AzContext");
+            var predictionContext = PredictionContext.Create("Remove-Item");
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
 
@@ -113,16 +129,16 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         /// Tests in the case there is no prediction for the user input or the user input matches exact what we have in the model.
         /// </summary>
         [Theory]
-        [InlineData("NEW-AZCONTEXT")]
-        [InlineData("get-azaccount ")]
+        [InlineData("GET-CHILDITEM")]
+        [InlineData("copy-item ")]
         [InlineData(AzPredictorConstants.CommandPlaceholder)]
-        [InlineData("Get-ChildItem")]
+        [InlineData("Get-LogProperties -Name 'Windows'")]
         public void GetNoPredictionWithCommandName(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var result = this._predictor.GetSuggestion(commandName,
@@ -136,20 +152,20 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         }
 
         /// <summary>
-        /// Tests in the case there are no az commands in the history.
+        /// Tests in the case when the user inputs only the command name
         /// </summary>
         [Theory]
-        [InlineData("New-AzKeyVault ")]
-        [InlineData("CONNECT-AZACCOUNT")]
-        [InlineData("set-azstorageaccount ")]
-        [InlineData("Get-AzResourceG")]
-        [InlineData("Get-AzStorageAcco")] // an imcomplete command and there is a record "Get-AzStorageAccount" in the model.
+        [InlineData("Get-LogProperties ")]
+        [InlineData("CLEAR-VARIABLE")]
+        [InlineData("compare-object")]
+        [InlineData("Clear-Con")]
+        [InlineData("set-con")]
         public void GetPredictionWithCommandName(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var result = this._predictor.GetSuggestion(commandName,
@@ -166,15 +182,16 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         /// Tests in the case when the user inputs the command name and parameters.
         /// </summary>
         [Theory]
-        [InlineData("Get-AzKeyVault -VaultName")]
-        [InlineData("GET-AZSTORAGEACCOUNTKEY -NAME ")]
-        [InlineData("new-azresourcegroup -name hello")]
+        [InlineData("Clear-Variable -Name")]
+        [InlineData("CLEAR-CONTENT -PATH ")]
+        [InlineData("set-content -path file")]
+        [InlineData("set-content file")]
         public void GetPredictionWithCommandNameParameters(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var result = this._predictor.GetSuggestion(commandName,
@@ -191,19 +208,18 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         /// Tests in the case when the user inputs the command name and parameters.
         /// </summary>
         [Theory]
-        [InlineData("Get-AzResource -Name hello -Pre")]
-        [InlineData("Get-AzADServicePrincipal -ApplicationObject")] // Doesn't exist
-        [InlineData("new-azresourcegroup -NoExistingParam")]
+        [InlineData("Set-Content -Name hello -Pre")]
+        [InlineData("Get-ccontent -path ")] // Doesn't exist
+        [InlineData("get-logproperties -NoExistingParam")]
         [InlineData("Set-StorageAccount -WhatIf")]
-        // Enable "git status" and "Get-AzContext Name" when ParameterSet can parse this format of command
-        // [InlineData("git status")]
-        // [InlineData("Get-AzContext Name")] // a wrong command
+        [InlineData("git status")]
+        [InlineData("Get-AzContext Name")] // a wrong command
         public void GetNoPredictionWithCommandNameParameters(string userInput)
         {
             var predictionContext = PredictionContext.Create(userInput);
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var result = this._predictor.GetSuggestion(commandName,
@@ -222,10 +238,10 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
         [Fact]
         public void VerifyPredictionForCommand()
         {
-            var predictionContext = PredictionContext.Create("Connect-AzAccount");
+            var predictionContext = PredictionContext.Create("Set-Content");
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var result = this._predictor.GetSuggestion(commandName,
@@ -236,19 +252,19 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
                     1,
                     CancellationToken.None);
 
-            Assert.Equal("Connect-AzAccount -Identity", result.PredictiveSuggestions.First().SuggestionText);
+            Assert.Equal("Set-Content -Path C:\\Temp\\* -Filter *.txt -Value 'Empty'", result.PredictiveSuggestions.First().SuggestionText);
         }
 
         /// <summary>
-        /// Verify that the prediction for the command (with parameter) has the right parameters.
+        /// Verify that the prediction for the command with named parameter has the right parameters.
         /// </summary>
         [Fact]
-        public void VerifyPredictionForCommandAndParameters()
+        public void VerifyPredictionForCommandAndNamedParameters()
         {
-            var predictionContext = PredictionContext.Create("GET-AZSTORAGEACCOUNTKEY -NAME");
+            var predictionContext = PredictionContext.Create("set-CONTENT -PATH");
             var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
             var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
-            var inputParameterSet = new ParameterSet(commandAst);
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
             var rawUserInput = predictionContext.InputAst.Extent.Text;
             var presentCommands = new Dictionary<string, int>();
             var result = this._predictor.GetSuggestion(commandName,
@@ -259,7 +275,64 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor.Test
                     1,
                     CancellationToken.None);
 
-            Assert.Equal("Get-AzStorageAccountKey -Name 'myStorageAccount' -ResourceGroupName 'ContosoGroup02'", result.PredictiveSuggestions.First().SuggestionText);
+            Assert.Equal("Set-Content -Path C:\\Temp\\* -Filter *.txt -Value 'Empty'", result.PredictiveSuggestions.First().SuggestionText);
+        }
+
+        /// <summary>
+        /// Verify that the prediction for the command with positional parameter has the right parameters.
+        /// </summary>
+        [Fact]
+        public void VerifyPredictionForCommandAndTwoPositionalParameters()
+        {
+            var predictionContext = PredictionContext.Create("Compare-Object test test"); // Two positional parameters with the same value.
+            var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
+            var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
+            var rawUserInput = predictionContext.InputAst.Extent.Text;
+            var presentCommands = new Dictionary<string, int>();
+            var result = this._predictor.GetSuggestion(commandName,
+                    inputParameterSet,
+                    rawUserInput,
+                    presentCommands,
+                    3,
+                    1,
+                    CancellationToken.None);
+
+            var expected = new PredictiveSuggestion[]
+            {
+                new PredictiveSuggestion("Compare-Object test test -IncludeEqual -ExcludeDifferent"),
+            };
+
+            Assert.Equal(expected.Select(e => e.SuggestionText), result.PredictiveSuggestions.Select(r => r.SuggestionText));
+        }
+
+        /// <summary>
+        /// Verify that the prediction for the command with positional parameter has the right parameters.
+        /// </summary>
+        [Fact]
+        public void VerifyPredictionForCommandAndPositionalParameters()
+        {
+            var predictionContext = PredictionContext.Create("clear-content file");
+            var commandAst = predictionContext.InputAst.FindAll(p => p is CommandAst, true).LastOrDefault() as CommandAst;
+            var commandName = (commandAst?.CommandElements?.FirstOrDefault() as StringConstantExpressionAst)?.Value;
+            var inputParameterSet = new ParameterSet(commandAst, _azContext);
+            var rawUserInput = predictionContext.InputAst.Extent.Text;
+            var presentCommands = new Dictionary<string, int>();
+            var result = this._predictor.GetSuggestion(commandName,
+                    inputParameterSet,
+                    rawUserInput,
+                    presentCommands,
+                    3,
+                    1,
+                    CancellationToken.None);
+
+            var expected = new PredictiveSuggestion[]
+            {
+                new PredictiveSuggestion("Clear-Content file -Stream Zone.Identifier"),
+                new PredictiveSuggestion("Clear-Content file -Filter '*.log' -Force"),
+            };
+
+            Assert.Equal(expected.Select(e => e.SuggestionText), result.PredictiveSuggestions.Select(r => r.SuggestionText));
         }
     }
 }

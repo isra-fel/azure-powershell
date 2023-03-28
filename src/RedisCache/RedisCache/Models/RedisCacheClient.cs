@@ -20,8 +20,6 @@ namespace Microsoft.Azure.Commands.RedisCache
     using Common.Authentication.Abstractions;
     using Microsoft.Azure.Management.Insights;
     using Microsoft.Azure.Management.Insights.Models;
-    using Microsoft.Azure.Management.Redis;
-    using Microsoft.Azure.Management.Redis.Models;
     using Microsoft.Azure.Management.Internal.Resources;
     using Microsoft.Rest.Azure;
     using System.Collections;
@@ -30,6 +28,8 @@ namespace Microsoft.Azure.Commands.RedisCache
     using Models;
     using System;
     using Properties;
+    using Microsoft.Azure.Management.RedisCache;
+    using Microsoft.Azure.Management.RedisCache.Models;
 
     public class RedisCacheClient
     {
@@ -46,7 +46,8 @@ namespace Microsoft.Azure.Commands.RedisCache
         public RedisCacheClient() { }
 
         public RedisResource CreateCache(string resourceGroupName, string cacheName, string location, string skuFamily, int skuCapacity, string skuName,
-                Hashtable redisConfiguration, bool? enableNonSslPort, Hashtable tenantSettings, int? shardCount, string minimumTlsVersion, string subnetId, string staticIP, Hashtable tags, IList<string> zones)
+                Hashtable redisConfiguration, bool? enableNonSslPort, Hashtable tenantSettings, int? shardCount, string minimumTlsVersion, string subnetId,
+                string staticIP, Hashtable tags, IList<string> zones, string redisVersion, string identityType, string[] userAssignedIdentities)
         {
             try
             {
@@ -58,13 +59,16 @@ namespace Microsoft.Azure.Commands.RedisCache
             var parameters = new RedisCreateParameters
             {
                 Location = location,
-                Sku = new Microsoft.Azure.Management.Redis.Models.Sku
+                Sku = new Sku
                 {
                     Name = skuName,
                     Family = skuFamily,
                     Capacity = skuCapacity
-                }
+                },
+                RedisVersion = redisVersion
             };
+
+            parameters.Identity = Utility.BuildManagedServiceIdentity(identityType, userAssignedIdentities);
 
             if (zones != null && zones.Count != 0)
             {
@@ -82,10 +86,10 @@ namespace Microsoft.Azure.Commands.RedisCache
 
             if (redisConfiguration != null)
             {
-                parameters.RedisConfiguration = new Dictionary<string, string>();
+                parameters.RedisConfiguration = new RedisCommonPropertiesRedisConfiguration(additionalProperties: new Dictionary<string, object>());
                 foreach (object key in redisConfiguration.Keys)
                 {
-                    parameters.RedisConfiguration.Add(key.ToString(), redisConfiguration[key].ToString());
+                    parameters.RedisConfiguration.AdditionalProperties.Add(key.ToString(), redisConfiguration[key].ToString());
                 }
             }
 
@@ -128,7 +132,8 @@ namespace Microsoft.Azure.Commands.RedisCache
         }
 
         public RedisResource UpdateCache(string resourceGroupName, string cacheName, string skuFamily, int skuCapacity, string skuName,
-                Hashtable redisConfiguration, bool? enableNonSslPort, Hashtable tenantSettings, int? shardCount, string MinimumTlsVersion, Hashtable tags)
+                Hashtable redisConfiguration, bool? enableNonSslPort, Hashtable tenantSettings, int? shardCount, string MinimumTlsVersion,
+                string redisVersion, Hashtable tags, string identityType, string[] userAssignedIdentities)
         {
             try
             {
@@ -139,7 +144,7 @@ namespace Microsoft.Azure.Commands.RedisCache
             }
             var parameters = new RedisUpdateParameters
             {
-                Sku = new Microsoft.Azure.Management.Redis.Models.Sku
+                Sku = new Sku
                 {
                     Name = skuName,
                     Family = skuFamily,
@@ -158,14 +163,17 @@ namespace Microsoft.Azure.Commands.RedisCache
 
             if (redisConfiguration != null)
             {
-                parameters.RedisConfiguration = new Dictionary<string, string>();
+                parameters.RedisConfiguration = new RedisCommonPropertiesRedisConfiguration(additionalProperties: new Dictionary<string, object>());
                 foreach (object key in redisConfiguration.Keys)
                 {
-                    parameters.RedisConfiguration.Add(key.ToString(), redisConfiguration[key].ToString());
+                    parameters.RedisConfiguration.AdditionalProperties.Add(key.ToString(), redisConfiguration[key].ToString());
                 }
             }
 
+            parameters.Identity = Utility.BuildManagedServiceIdentity(identityType, userAssignedIdentities);
+
             parameters.EnableNonSslPort = enableNonSslPort;
+            parameters.RedisVersion = redisVersion;
 
             if (tenantSettings != null)
             {
@@ -188,8 +196,8 @@ namespace Microsoft.Azure.Commands.RedisCache
             {
                 parameters.MinimumTlsVersion = MinimumTlsVersion;
             }
-            
-            RedisResource response = _client.Redis.Update(resourceGroupName: resourceGroupName, name: cacheName, parameters: parameters);
+
+            RedisResource response = _client.Redis.BeginUpdate(resourceGroupName: resourceGroupName, name: cacheName, parameters: parameters);
             return response;
         }
 
@@ -230,7 +238,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         {
             if (string.IsNullOrEmpty(resourceGroupName))
             {
-                return _client.Redis.List();
+                return _client.Redis.ListBySubscription();
             }
             else
             {
@@ -242,7 +250,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         {
             if (string.IsNullOrEmpty(resourceGroupName))
             {
-                return _client.Redis.ListNext(nextPageLink: nextLink);
+                return _client.Redis.ListBySubscriptionNext(nextPageLink: nextLink);
             }
             else
             {
@@ -252,7 +260,7 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         public RedisAccessKeys RegenerateAccessKeys(string resourceGroupName, string cacheName, RedisKeyType keyType)
         {
-            return _client.Redis.RegenerateKey(resourceGroupName: resourceGroupName, name: cacheName, parameters: new RedisRegenerateKeyParameters() { KeyType = keyType });
+            return _client.Redis.RegenerateKey(resourceGroupName: resourceGroupName, name: cacheName, keyType);
         }
 
         public RedisAccessKeys GetAccessKeys(string resourceGroupName, string cacheName)
@@ -272,10 +280,11 @@ namespace Microsoft.Azure.Commands.RedisCache
             );
         }
 
-        public void ImportToCache(string resourceGroupName, string cacheName, string[] blobUrisWithSasTokens, string format)
+        public void ImportToCache(string resourceGroupName, string cacheName, string[] blobUrisWithSasTokens, string format, string preferredDataArchiveAuthMethod)
         {
             ImportRDBParameters parameters = new ImportRDBParameters();
             parameters.Files = blobUrisWithSasTokens;
+            parameters.PreferredDataArchiveAuthMethod = preferredDataArchiveAuthMethod;
             if (!string.IsNullOrWhiteSpace(format))
             {
                 parameters.Format = format;
@@ -283,11 +292,12 @@ namespace Microsoft.Azure.Commands.RedisCache
             _client.Redis.ImportData(resourceGroupName: resourceGroupName, name: cacheName, parameters: parameters);
         }
 
-        public void ExportToCache(string resourceGroupName, string cacheName, string containerUrisWithSasTokens, string prefix, string format)
+        public void ExportToCache(string resourceGroupName, string cacheName, string containerUrisWithSasTokens, string prefix, string format, string preferredDataArchiveAuthMethod)
         {
             ExportRDBParameters parameters = new ExportRDBParameters();
             parameters.Container = containerUrisWithSasTokens;
             parameters.Prefix = prefix;
+            parameters.PreferredDataArchiveAuthMethod = preferredDataArchiveAuthMethod;
             if (!string.IsNullOrWhiteSpace(format))
             {
                 parameters.Format = format;
@@ -308,8 +318,8 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         public IList<ScheduleEntry> SetPatchSchedules(string resourceGroupName, string cacheName, List<ScheduleEntry> schedules)
         {
-            var response = _client.PatchSchedules.CreateOrUpdate(resourceGroupName, cacheName, new RedisPatchSchedule { ScheduleEntries = schedules });
-            return response.ScheduleEntries;
+            var response = _client.PatchSchedules.CreateOrUpdateWithHttpMessagesAsync(resourceGroupName, cacheName, schedules).Result;
+            return response.Body.ScheduleEntries;
         }
 
         public IList<ScheduleEntry> GetPatchSchedules(string resourceGroupName, string cacheName)
@@ -329,7 +339,7 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         internal RedisFirewallRule SetFirewallRule(string resourceGroupName, string cacheName, string ruleName, string startIP, string endIP)
         {
-            return _client.FirewallRules.CreateOrUpdate(resourceGroupName, cacheName, ruleName, new RedisFirewallRuleCreateParameters { StartIP = startIP, EndIP = endIP });
+            return _client.FirewallRules.CreateOrUpdate(resourceGroupName, cacheName, ruleName, startIP, endIP);
         }
 
         internal RedisFirewallRule GetFirewallRule(string resourceGroupName, string cacheName, string ruleName)
@@ -339,12 +349,12 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         internal IPage<RedisFirewallRule> ListFirewallRules(string resourceGroupName, string cacheName)
         {
-            return _client.FirewallRules.ListByRedisResource(resourceGroupName, cacheName);
+            return _client.FirewallRules.List(resourceGroupName, cacheName);
         }
 
         internal IPage<RedisFirewallRule> ListFirewallRules(string nextLink)
         {
-            return _client.FirewallRules.ListByRedisResourceNext(nextLink);
+            return _client.FirewallRules.ListNext(nextLink);
         }
 
         internal void RemoveFirewallRule(string resourceGroupName, string cacheName, string ruleName)
@@ -380,7 +390,7 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         internal void RemoveLinkedServer(string resourceGroupName, string cacheName, string linkedCacheName)
         {
-            _client.LinkedServer.Delete(resourceGroupName, cacheName, linkedCacheName);
+            _client.LinkedServer.BeginDelete(resourceGroupName, cacheName, linkedCacheName);
         }
     }
 }

@@ -1,16 +1,17 @@
 {
-  "Get-AzKustoDatabase+[NoContext]+List+$GET+https://management.azure.com/subscriptions/11d5f159-a21d-4a6c-8053-c3aae30057cf/resourceGroups/testgroupmlhoe5/providers/Microsoft.Kusto/Clusters/testclustermlhoe5/Databases/testdatabasemlhoe5?api-version=2020-09-18+1": {
+  "[NoDescription]+[NoContext]+List+$GET+https://management.azure.com/subscriptions/e8257c73-24c5-4791-94dc-8b7901c90dbf/resourceGroups/PS-SDK-4cv18e/providers/Microsoft.Kusto/Clusters/pssdk4cv18e/Databases/TestDb?api-version=2022-12-29+1": {
     "Request": {
       "Method": "GET",
-      "RequestUri": "https://management.azure.com/subscriptions/11d5f159-a21d-4a6c-8053-c3aae30057cf/resourceGroups/testgroupmlhoe5/providers/Microsoft.Kusto/Clusters/testclustermlhoe5/Databases/testdatabasemlhoe5?api-version=2020-09-18",
+      "RequestUri": "https://management.azure.com/subscriptions/e8257c73-24c5-4791-94dc-8b7901c90dbf/resourceGroups/PS-SDK-4cv18e/providers/Microsoft.Kusto/Clusters/pssdk4cv18e/Databases/TestDb?api-version=2022-12-29",
       "Content": null,
+      "isContentBase64": false,
       "Headers": {
-        "x-ms-unique-id": [ "158" ],
-        "x-ms-client-request-id": [ "620b1f2f-7456-4836-9977-d2d0c372a5a7" ],
+        "x-ms-unique-id": [ "108" ],
+        "x-ms-client-request-id": [ "1be7d2c8-3bfe-445f-8c8b-ba366bc6e1b8" ],
         "CommandName": [ "Get-AzKustoDatabase" ],
         "FullCommandName": [ "Get-AzKustoDatabase_Get" ],
         "ParameterSetName": [ "__AllParameterSets" ],
-        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "User-Agent": [ "AzurePowershell/v0.0.0", "PSVersion/v7.3.2", "Az.Kusto/0.1.4" ],
         "Authorization": [ "[Filtered]" ]
       },
       "ContentHeaders": {
@@ -21,38 +22,37 @@
       "Headers": {
         "Cache-Control": [ "no-cache" ],
         "Pragma": [ "no-cache" ],
-        "ETag": [ "\"\"" ],
-        "Vary": [ "Accept-Encoding" ],
+        "x-ms-request-id": [ "aaabe096-8cc2-45e9-ac9e-6fa0f0fff52c" ],
+        "Server": [ "Microsoft-HTTPAPI/2.0" ],
         "x-ms-ratelimit-remaining-subscription-resource-requests": [ "299" ],
-        "x-ms-request-id": [ "70d2626e-3c79-44d7-80d7-0104b4a7436f" ],
-        "Set-Cookie": [ "ARRAffinity=08c542de9c69df304db89085a4be8d076030733c2e6e8b2f44fd02f2435e1112;Path=/;HttpOnly;Secure;Domain=armrp-kustorpeus.kusto.windows.net", "ARRAffinitySameSite=08c542de9c69df304db89085a4be8d076030733c2e6e8b2f44fd02f2435e1112;Path=/;HttpOnly;SameSite=None;Secure;Domain=armrp-kustorpeus.kusto.windows.net" ],
-        "X-Powered-By": [ "ASP.NET" ],
-        "x-ms-correlation-request-id": [ "61bdba72-be61-4486-b400-510e58300135" ],
-        "x-ms-routing-request-id": [ "UKSOUTH:20201026T180853Z:61bdba72-be61-4486-b400-510e58300135" ],
+        "x-ms-correlation-request-id": [ "e8057406-03fa-4680-9e42-558d8cb32c79" ],
+        "x-ms-routing-request-id": [ "FRANCESOUTH:20230315T181338Z:e8057406-03fa-4680-9e42-558d8cb32c79" ],
         "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
         "X-Content-Type-Options": [ "nosniff" ],
-        "Date": [ "Mon, 26 Oct 2020 18:08:53 GMT" ]
+        "Date": [ "Wed, 15 Mar 2023 18:13:37 GMT" ]
       },
       "ContentHeaders": {
-        "Content-Length": [ "518" ],
+        "Content-Length": [ "408" ],
         "Content-Type": [ "application/json; charset=utf-8" ],
         "Expires": [ "-1" ]
       },
-      "Content": "{\"id\":\"/subscriptions/11d5f159-a21d-4a6c-8053-c3aae30057cf/resourceGroups/testgroupmlhoe5/providers/Microsoft.Kusto/Clusters/testclustermlhoe5/Databases/testdatabasemlhoe5\",\"name\":\"testclustermlhoe5/testdatabasemlhoe5\",\"type\":\"Microsoft.Kusto/Clusters/Databases\",\"etag\":\"\\\"\\\"\",\"location\":\"East US\",\"kind\":\"ReadWrite\",\"tags\":{},\"properties\":{\"isFollowed\":true,\"softDeletePeriodInDays\":4,\"softDeletePeriod\":\"P4D\",\"hotCachePeriodInDays\":2,\"hotCachePeriod\":\"P2D\",\"statistics\":{\"size\":0.0},\"provisioningState\":\"Succeeded\"}}"
+      "Content": "{\"id\":\"/subscriptions/e8257c73-24c5-4791-94dc-8b7901c90dbf/resourceGroups/PS-SDK-4cv18e/providers/Microsoft.Kusto/Clusters/pssdk4cv18e/Databases/TestDb\",\"name\":\"pssdk4cv18e/TestDb\",\"type\":\"Microsoft.Kusto/Clusters/Databases\",\"location\":\"East US\",\"kind\":\"ReadWrite\",\"properties\":{\"softDeletePeriod\":\"P365D\",\"hotCachePeriod\":\"P31D\",\"statistics\":{\"size\":0.0},\"isFollowed\":false,\"provisioningState\":\"Succeeded\"}}",
+      "isContentBase64": false
     }
   },
-  "Get-AzKustoDatabase+[NoContext]+Get+$GET+https://management.azure.com/subscriptions/11d5f159-a21d-4a6c-8053-c3aae30057cf/resourceGroups/testgroupmlhoe5/providers/Microsoft.Kusto/Clusters/testclustermlhoe5/Databases/testdatabasemlhoe5?api-version=2020-09-18+1": {
+  "[NoDescription]+[NoContext]+Get+$GET+https://management.azure.com/subscriptions/e8257c73-24c5-4791-94dc-8b7901c90dbf/resourceGroups/PS-SDK-4cv18e/providers/Microsoft.Kusto/Clusters/pssdk4cv18e/Databases/TestDb?api-version=2022-12-29+1": {
     "Request": {
       "Method": "GET",
-      "RequestUri": "https://management.azure.com/subscriptions/11d5f159-a21d-4a6c-8053-c3aae30057cf/resourceGroups/testgroupmlhoe5/providers/Microsoft.Kusto/Clusters/testclustermlhoe5/Databases/testdatabasemlhoe5?api-version=2020-09-18",
+      "RequestUri": "https://management.azure.com/subscriptions/e8257c73-24c5-4791-94dc-8b7901c90dbf/resourceGroups/PS-SDK-4cv18e/providers/Microsoft.Kusto/Clusters/pssdk4cv18e/Databases/TestDb?api-version=2022-12-29",
       "Content": null,
+      "isContentBase64": false,
       "Headers": {
-        "x-ms-unique-id": [ "159" ],
-        "x-ms-client-request-id": [ "d1f56f3b-4a22-4e73-af58-c8b5df26fd09" ],
+        "x-ms-unique-id": [ "109" ],
+        "x-ms-client-request-id": [ "a6163cc7-1a26-45c2-9480-dd874b676b6f" ],
         "CommandName": [ "Get-AzKustoDatabase" ],
         "FullCommandName": [ "Get-AzKustoDatabase_Get" ],
         "ParameterSetName": [ "__AllParameterSets" ],
-        "User-Agent": [ "AzurePowershell/Az4.0.0-preview" ],
+        "User-Agent": [ "AzurePowershell/v0.0.0", "PSVersion/v7.3.2", "Az.Kusto/0.1.4" ],
         "Authorization": [ "[Filtered]" ]
       },
       "ContentHeaders": {
@@ -63,24 +63,22 @@
       "Headers": {
         "Cache-Control": [ "no-cache" ],
         "Pragma": [ "no-cache" ],
-        "ETag": [ "\"\"" ],
-        "Vary": [ "Accept-Encoding" ],
+        "x-ms-request-id": [ "9ed91fa8-b298-441a-b670-9518509485f6" ],
+        "Server": [ "Microsoft-HTTPAPI/2.0" ],
         "x-ms-ratelimit-remaining-subscription-resource-requests": [ "298" ],
-        "x-ms-request-id": [ "fb568f41-d5d1-4fc3-8ec5-af970a4dcba3" ],
-        "Set-Cookie": [ "ARRAffinity=08c542de9c69df304db89085a4be8d076030733c2e6e8b2f44fd02f2435e1112;Path=/;HttpOnly;Secure;Domain=armrp-kustorpeus.kusto.windows.net", "ARRAffinitySameSite=08c542de9c69df304db89085a4be8d076030733c2e6e8b2f44fd02f2435e1112;Path=/;HttpOnly;SameSite=None;Secure;Domain=armrp-kustorpeus.kusto.windows.net" ],
-        "X-Powered-By": [ "ASP.NET" ],
-        "x-ms-correlation-request-id": [ "af2c74e0-982a-423a-b8c8-aa03174f03a9" ],
-        "x-ms-routing-request-id": [ "UKSOUTH:20201026T180854Z:af2c74e0-982a-423a-b8c8-aa03174f03a9" ],
+        "x-ms-correlation-request-id": [ "2b55be5d-378c-4735-9ac2-dcdcdb2e2a71" ],
+        "x-ms-routing-request-id": [ "FRANCESOUTH:20230315T181338Z:2b55be5d-378c-4735-9ac2-dcdcdb2e2a71" ],
         "Strict-Transport-Security": [ "max-age=31536000; includeSubDomains" ],
         "X-Content-Type-Options": [ "nosniff" ],
-        "Date": [ "Mon, 26 Oct 2020 18:08:53 GMT" ]
+        "Date": [ "Wed, 15 Mar 2023 18:13:38 GMT" ]
       },
       "ContentHeaders": {
-        "Content-Length": [ "518" ],
+        "Content-Length": [ "408" ],
         "Content-Type": [ "application/json; charset=utf-8" ],
         "Expires": [ "-1" ]
       },
-      "Content": "{\"id\":\"/subscriptions/11d5f159-a21d-4a6c-8053-c3aae30057cf/resourceGroups/testgroupmlhoe5/providers/Microsoft.Kusto/Clusters/testclustermlhoe5/Databases/testdatabasemlhoe5\",\"name\":\"testclustermlhoe5/testdatabasemlhoe5\",\"type\":\"Microsoft.Kusto/Clusters/Databases\",\"etag\":\"\\\"\\\"\",\"location\":\"East US\",\"kind\":\"ReadWrite\",\"tags\":{},\"properties\":{\"isFollowed\":true,\"softDeletePeriodInDays\":4,\"softDeletePeriod\":\"P4D\",\"hotCachePeriodInDays\":2,\"hotCachePeriod\":\"P2D\",\"statistics\":{\"size\":0.0},\"provisioningState\":\"Succeeded\"}}"
+      "Content": "{\"id\":\"/subscriptions/e8257c73-24c5-4791-94dc-8b7901c90dbf/resourceGroups/PS-SDK-4cv18e/providers/Microsoft.Kusto/Clusters/pssdk4cv18e/Databases/TestDb\",\"name\":\"pssdk4cv18e/TestDb\",\"type\":\"Microsoft.Kusto/Clusters/Databases\",\"location\":\"East US\",\"kind\":\"ReadWrite\",\"properties\":{\"softDeletePeriod\":\"P365D\",\"hotCachePeriod\":\"P31D\",\"statistics\":{\"size\":0.0},\"isFollowed\":false,\"provisioningState\":\"Succeeded\"}}",
+      "isContentBase64": false
     }
   }
 }

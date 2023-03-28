@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/powershell/module/az.network/remove-azapplicationgatewaycustomerror
+online version: https://learn.microsoft.com/powershell/module/az.network/remove-azapplicationgatewaycustomerror
 schema: 2.0.0
 ---
 
@@ -23,11 +23,14 @@ The **Remove-AzApplicationGatewayCustomError** cmdlet removes a custom error fro
 ## EXAMPLES
 
 ### Example 1: Removes custom error from an application gateway
+```powershell
+$AppGw = Get-AzApplicationGateway -Name "ApplicationGateway01" -ResourceGroupName "ResourceGroup01"
+Remove-AzApplicationGatewayCustomError -ApplicationGateway $AppGw -StatusCode HttpStatus502
+Set-AzApplicationGateway -ApplicationGateway $AppGW
 ```
-PS C:\> $updatedgateway = Remove-AzApplicationGatewayCustomError -ApplicationGateway $appgw -StatusCode HttpStatus502
-```
-
-This command removes the custom error of http status code 502 from the application gateway $appgw, and return the updated gateway.
+The first command gets the application gateway named ApplicationGateway01 in the resource group named ResourceGroup01 and stores it in the $AppGw variable.
+The second command removes the custom error for HTTP Status Code 502 from the application gateway and returns the updated gateway.
+The last command updates the application gateway.
 
 ## PARAMETERS
 

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Synapse.dll-Help.xml
 Module Name: Az.Synapse
-online version: https://docs.microsoft.com/powershell/module/az.synapse/new-azsynapsesqldatabase
+online version: https://learn.microsoft.com/powershell/module/az.synapse/new-azsynapsesqldatabase
 schema: 2.0.0
 ---
 
@@ -15,15 +15,15 @@ This feature is in a limited preview, initially accessible only to certain subsc
 ### CreateByNameParameterSet (Default)
 ```
 New-AzSynapseSqlDatabase [-ResourceGroupName <String>] -WorkspaceName <String> -Name <String>
- [-Tag <Hashtable>] [-Collation <String>] [-MaxSizeInBytes <Int64>] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Tag <Hashtable>] [-Collation <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### CreateByParentObjectParameterSet
 ```
 New-AzSynapseSqlDatabase -WorkspaceObject <PSSynapseWorkspace> -Name <String> [-Tag <Hashtable>]
- [-Collation <String>] [-MaxSizeInBytes <Int64>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Collation <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,7 +33,7 @@ The **Get-AzSynapseSqlDatabase** cmdlet gets information about an Azure Synapse 
 
 ### Example 1
 ```powershell
-PS C:\> New-AzSynapseSqlDatabase -WorkspaceName ContosoWorkspace -Name ContosoSqlDatabase
+New-AzSynapseSqlDatabase -WorkspaceName ContosoWorkspace -Name ContosoSqlDatabase
 ```
 
 This command creates an Azure Synapse Analytics SQL database.
@@ -78,21 +78,6 @@ The credentials, account, tenant, and subscription used for communication with A
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -MaxSizeInBytes
-Specifies the maximum size of the database in bytes.
-
-```yaml
-Type: System.Int64
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named

@@ -14,6 +14,7 @@
 
 using Microsoft.Azure.Commands.ResourceManager.Common.Tags;
 using Microsoft.Azure.Commands.Sql.Common;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,13 +26,18 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Commands.Sql.ManagedInstance.Adapter;
 using Microsoft.Azure.Commands.Sql.ManagedInstance.Model;
 using Microsoft.Azure.Management.Sql.Models;
-using System;
+using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 
 namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
 {
     /// <summary>
     /// Defines the Set-AzSqlInstance cmdlet
     /// </summary>
+    [CmdletOutputBreakingChange(
+        deprecatedCmdletOutputTypeName: typeof(AzureSqlManagedInstanceModel),
+        deprecateByVersion: "4.0.0",
+        DeprecatedOutputProperties = new String[] { "BackupStorageRedundancy" },
+        NewOutputProperties = new String[] { "CurrentBackupStorageRedundancy", "RequestedBackupStorageRedundancy" })]
     [Cmdlet(VerbsCommon.Set, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "SqlInstance",
         DefaultParameterSetName = SetByNameAndResourceGroupParameterSet,
         SupportsShouldProcess = true),
@@ -111,6 +117,13 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         public string Edition { get; set; }
 
         /// <summary>
+        /// Gets or sets the instance Subnet Id
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "ID of a subnet to move the managed instance to.")]
+        public string SubnetId { get; set; }
+
+        /// <summary>
         /// Gets or sets the instance License Type
         /// </summary>
         [Parameter(Mandatory = false,
@@ -183,6 +196,20 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         public string MinimalTlsVersion { get; set; }
 
         /// <summary>
+        /// Id of the primary user assigned identity
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The primary user managed identity(UMI) id")]
+        public string PrimaryUserAssignedIdentityId { get; set; }
+
+        /// <summary>
+        /// URI of the key to use for encryption
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The Key Vault URI for encryption")]
+        public string KeyId { get; set; }
+
+        /// <summary>
         /// Defines whether it is ok to skip the requesting of rule removal confirmation
         /// </summary>
         [Parameter(HelpMessage = "Skip confirmation message for performing the action")]
@@ -205,10 +232,48 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         public string MaintenanceConfigurationId { get; set; }
 
         /// <summary>
+        /// List of user assigned identities.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "List of user assigned identities")]
+        public List<string> UserAssignedIdentityId { get; set; }
+
+        /// <summary>
+        /// List of user assigned identities.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Type of Identity to be used. Possible values are SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' and None.")]
+        [PSArgumentCompleter("SystemAssigned", "UserAssigned", "\"SystemAssigned,UserAssigned\"", "None")]
+        public string IdentityType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the managed instance backup storage redundancy
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The Backup storage redundancy used to store backups for the Sql Azure Managed Instance. Options are: Local, Zone and Geo ")]
+        [ValidateSet("Local", "Zone", "Geo", "GeoZone")]
+        public string BackupStorageRedundancy { get; set; }
+
+        /// <summary>
         /// Gets or sets whether or not to run this cmdlet in the background as a job
         /// </summary>
         [Parameter(Mandatory = false, HelpMessage = "Run cmdlet in the background")]
         public SwitchParameter AsJob { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether or not the multi-az is enabled
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "Use zone redundant storage")]
+        public SwitchParameter ZoneRedundant { get; set; }
+
+        /// <summary>
+        /// Gets or sets service principal type
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Type of Service Principal to be used. Possible values are SystemAssigned and None.")]
+        [ValidateSet("None", "SystemAssigned")]
+        [PSArgumentCompleter("SystemAssigned", "None")]
+        public string ServicePrincipalType { get; set; }
 
         /// <summary>
         /// Get the instance to update
@@ -216,7 +281,7 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         /// <returns>The instance being updated</returns>
         protected override IEnumerable<Model.AzureSqlManagedInstanceModel> GetEntity()
         {
-            return new List<AzureSqlManagedInstanceModel>() { ModelAdapter.GetManagedInstance(this.ResourceGroupName, this.Name) };
+            return new List<AzureSqlManagedInstanceModel>() { ModelAdapter.GetManagedInstance(this.ResourceGroupName, this.Name, "administrators/activedirectory") };
         }
 
         /// <summary>
@@ -251,7 +316,7 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         /// <returns>The model to send to the update</returns>
         protected override IEnumerable<AzureSqlManagedInstanceModel> ApplyUserInputToModel(IEnumerable<AzureSqlManagedInstanceModel> model)
         {
-            AzureSqlManagedInstanceModel existingInstance = ModelAdapter.GetManagedInstance(this.ResourceGroupName, this.Name);
+            AzureSqlManagedInstanceModel existingInstance = ModelAdapter.GetManagedInstance(this.ResourceGroupName, this.Name, "administrators/activedirectory");
             Management.Internal.Resources.Models.Sku Sku = new Management.Internal.Resources.Models.Sku();
 
             // Get current edition and family
@@ -273,25 +338,30 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
 
             // Construct a new entity so we only send the relevant data to the Managed instance
             List<AzureSqlManagedInstanceModel> updateData = new List<AzureSqlManagedInstanceModel>();
-            updateData.Add(new AzureSqlManagedInstanceModel()
-            {
-                ResourceGroupName = this.ResourceGroupName,
-                ManagedInstanceName = this.Name,
-                FullyQualifiedDomainName = this.Name,
-                Location = model.FirstOrDefault().Location,
-                Sku = Sku,
-                AdministratorPassword = this.AdministratorPassword,
-                LicenseType = this.LicenseType,
-                StorageSizeInGB = this.StorageSizeInGB ?? model.FirstOrDefault().StorageSizeInGB,
-                VCores = this.VCore,
-                PublicDataEndpointEnabled = this.PublicDataEndpointEnabled,
-                ProxyOverride = this.ProxyOverride,
-                Tags = TagsConversionHelper.CreateTagDictionary(Tag, validate: true),
-                Identity = model.FirstOrDefault().Identity ?? ResourceIdentityHelper.GetIdentityObjectFromType(this.AssignIdentity.IsPresent),
-                InstancePoolName = this.InstancePoolName,
-                MinimalTlsVersion = this.MinimalTlsVersion,
-                MaintenanceConfigurationId = this.MaintenanceConfigurationId
-            });
+            updateData.Add(model.FirstOrDefault());
+            updateData[0].ResourceGroupName = this.ResourceGroupName;
+            updateData[0].ManagedInstanceName = this.Name;
+            updateData[0].FullyQualifiedDomainName = this.Name;
+            updateData[0].Location = model.FirstOrDefault().Location;
+            updateData[0].Sku = Sku;
+            updateData[0].AdministratorPassword = this.AdministratorPassword;
+            updateData[0].LicenseType = this.LicenseType ?? updateData[0].LicenseType;
+            updateData[0].StorageSizeInGB = this.StorageSizeInGB ?? model.FirstOrDefault().StorageSizeInGB;
+            updateData[0].VCores = this.VCore ?? updateData[0].VCores;
+            updateData[0].PublicDataEndpointEnabled = this.PublicDataEndpointEnabled ?? updateData[0].PublicDataEndpointEnabled;
+            updateData[0].ProxyOverride = this.ProxyOverride ?? this.ProxyOverride;
+            updateData[0].Tags = TagsConversionHelper.CreateTagDictionary(Tag, validate: true);
+            updateData[0].Identity = ResourceIdentityHelper.GetIdentityObjectFromType(this.AssignIdentity.IsPresent, this.IdentityType ?? null, UserAssignedIdentityId, model.FirstOrDefault().Identity);
+            updateData[0].InstancePoolName = this.InstancePoolName ?? updateData[0].InstancePoolName;
+            updateData[0].MinimalTlsVersion = this.MinimalTlsVersion ?? updateData[0].MinimalTlsVersion;
+            updateData[0].MaintenanceConfigurationId = this.MaintenanceConfigurationId ?? updateData[0].MaintenanceConfigurationId;
+            updateData[0].AdministratorLogin = model.FirstOrDefault().AdministratorLogin;
+            updateData[0].PrimaryUserAssignedIdentityId = this.PrimaryUserAssignedIdentityId ?? model.FirstOrDefault().PrimaryUserAssignedIdentityId;
+            updateData[0].KeyId = this.KeyId ?? updateData[0].KeyId;
+            updateData[0].SubnetId = this.SubnetId ?? model.FirstOrDefault().SubnetId;
+            updateData[0].ZoneRedundant = this.ZoneRedundant.IsPresent ? this.ZoneRedundant.ToBool() : (bool?)null;
+            updateData[0].RequestedBackupStorageRedundancy = this.BackupStorageRedundancy ?? updateData[0].CurrentBackupStorageRedundancy;
+            updateData[0].ServicePrincipal = ResourceServicePrincipalHelper.GetServicePrincipalObjectFromType(this.ServicePrincipalType ?? null);
             return updateData;
         }
 
@@ -342,6 +412,18 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
                     {
                         return;
                     }
+                }
+            }
+
+            if (string.Equals(this.BackupStorageRedundancy, "Geo", StringComparison.OrdinalIgnoreCase))
+            {
+                ModelAdapter = InitModelAdapter();
+                var existingManagedInstance = ModelAdapter.GetManagedInstance(this.ResourceGroupName, this.Name);
+                if (existingManagedInstance.CurrentBackupStorageRedundancy != "Geo" && !Force.IsPresent && !ShouldContinue(
+                    string.Format(CultureInfo.InvariantCulture, Properties.Resources.DoYouWantToProceed, this.Name),
+                    string.Format(CultureInfo.InvariantCulture, Properties.Resources.BackupRedundancyChosenIsGeoWarning, this.Name)))
+                {
+                    return;
                 }
             }
 

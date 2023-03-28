@@ -19,6 +19,24 @@
 -->
 ## Upcoming Release
 
+## Version 1.7.1
+* Updated `Get-AzRedisCacheLink` and `New-AzRedisCacheLink` to print `PrimaryHostName`, `GeoReplicatedPrimaryHostName`, `ServerRole`, and `LinkedRedisCacheLocation`.
+
+## Version 1.7.0
+* Added optional parameter `PreferredDataArchiveAuthMethod` in `Export-AzRedisCache`  
+* Added optional parameter `PreferredDataArchiveAuthMethod` in `Import-AzRedisCache`  
+* Added 4 additional properties for a geo replication link: `PrimaryHostName`, `GeoReplicatedPrimaryHostName`, `ServerRole`, and `LinkedRedisCacheLocation`in `Get-AzRedisCacheLink` and `New-AzRedisCacheLink` 
+
+## Version 1.6.0
+* Added `IdentityType` and `UserAssignedIdentity` parameter in `New-AzRedisCache` and `Set-AzRedisCache` cmdlets.
+    - It is used to assign and modify the Identity of Azure Cache for Redis.
+
+## Version 1.5.1
+* Created new examples in documentation of `New-AzRedisCache` and `Set-AzRedisCache`.
+
+## Version 1.5.0
+* Added `RedisVersion` parameter in `New-AzRedisCache` and `Set-AzRedisCache`
+
 ## Version 1.4.0
 * Made `New-AzRedisCache` and `Set-AzRedisCache` cmdlets not fail because of permission issue related to registering Microsoft.Cache RP
 

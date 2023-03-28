@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/powershell/module/az.network/disconnect-azvirtualnetworkgatewayvpnconnection
+online version: https://learn.microsoft.com/powershell/module/az.network/disconnect-azvirtualnetworkgatewayvpnconnection
 schema: 2.0.0
 ---
 
@@ -31,10 +31,9 @@ The **Disconnect-AzVirtualNetworkGatewayVpnConnection** cmdlet enables you to di
 
 ## EXAMPLES
 
-### Example
-```
-PS C:\> Disconnect-AzVirtualNetworkGatewayVpnConnection -ResourceName vnet-gw -ResourceGroupName vnetgwrg -VpnConnectionId @("IKEv2_7e1cfe59-5c7c-4315-a876-b11fbfdfeed4")
-
+### Example 1
+```powershell
+Disconnect-AzVirtualNetworkGatewayVpnConnection -ResourceName vnet-gw -ResourceGroupName vnetgwrg -VpnConnectionId @("IKEv2_7e1cfe59-5c7c-4315-a876-b11fbfdfeed4")
 ```
 
 ## PARAMETERS

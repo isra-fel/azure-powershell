@@ -19,7 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Models
         partial void AfterFromJson(Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonObject json);
 
         /// <summary>
-        /// <c>AfterToJson</c> will be called after the json erialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonObject"
+        /// <c>AfterToJson</c> will be called after the json serialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonObject"
         /// /> before it is returned. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -29,7 +29,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Models
         /// <summary>
         /// <c>BeforeFromJson</c> will be called before the json deserialization has commenced, allowing complete customization of
         /// the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name= "returnNow" />
+        /// output parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="json">The JsonNode that should be deserialized into this object.</param>
@@ -41,7 +42,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Models
         /// <summary>
         /// <c>BeforeToJson</c> will be called before the json serialization has commenced, allowing complete customization of the
         /// object before it is serialized.
-        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -86,8 +88,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Models
             AddIf( null != (((object)this._resourceGroupName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._resourceGroupName.ToString()) : null, "resourceGroupName" ,container.Add );
             AddIf( null != (((object)this._privateCloudName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._privateCloudName.ToString()) : null, "privateCloudName" ,container.Add );
             AddIf( null != (((object)this._clusterName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._clusterName.ToString()) : null, "clusterName" ,container.Add );
+            AddIf( null != (((object)this._datastoreName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._datastoreName.ToString()) : null, "datastoreName" ,container.Add );
             AddIf( null != (((object)this._hcxEnterpriseSiteName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._hcxEnterpriseSiteName.ToString()) : null, "hcxEnterpriseSiteName" ,container.Add );
             AddIf( null != (((object)this._authorizationName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._authorizationName.ToString()) : null, "authorizationName" ,container.Add );
+            AddIf( null != (((object)this._globalReachConnectionName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._globalReachConnectionName.ToString()) : null, "globalReachConnectionName" ,container.Add );
+            AddIf( null != (((object)this._segmentId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._segmentId.ToString()) : null, "segmentId" ,container.Add );
+            AddIf( null != (((object)this._dhcpId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._dhcpId.ToString()) : null, "dhcpId" ,container.Add );
+            AddIf( null != (((object)this._gatewayId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._gatewayId.ToString()) : null, "gatewayId" ,container.Add );
+            AddIf( null != (((object)this._portMirroringId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._portMirroringId.ToString()) : null, "portMirroringId" ,container.Add );
+            AddIf( null != (((object)this._vMGroupId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._vMGroupId.ToString()) : null, "vmGroupId" ,container.Add );
+            AddIf( null != (((object)this._virtualMachineId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._virtualMachineId.ToString()) : null, "virtualMachineId" ,container.Add );
+            AddIf( null != (((object)this._dnsServiceId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._dnsServiceId.ToString()) : null, "dnsServiceId" ,container.Add );
+            AddIf( null != (((object)this._dnsZoneId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._dnsZoneId.ToString()) : null, "dnsZoneId" ,container.Add );
+            AddIf( null != (((object)this._publicIPId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._publicIPId.ToString()) : null, "publicIPId" ,container.Add );
+            AddIf( null != (((object)this._cloudLinkName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._cloudLinkName.ToString()) : null, "cloudLinkName" ,container.Add );
+            AddIf( null != (((object)this._addonName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._addonName.ToString()) : null, "addonName" ,container.Add );
+            AddIf( null != (((object)this._placementPolicyName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._placementPolicyName.ToString()) : null, "placementPolicyName" ,container.Add );
+            AddIf( null != (((object)this._scriptPackageName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._scriptPackageName.ToString()) : null, "scriptPackageName" ,container.Add );
+            AddIf( null != (((object)this._scriptCmdletName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._scriptCmdletName.ToString()) : null, "scriptCmdletName" ,container.Add );
+            AddIf( null != (((object)this._scriptExecutionName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._scriptExecutionName.ToString()) : null, "scriptExecutionName" ,container.Add );
             AddIf( null != (((object)this._id)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString(this._id.ToString()) : null, "id" ,container.Add );
             AfterToJson(ref container);
             return container;
@@ -110,8 +129,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Models
             {_resourceGroupName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("resourceGroupName"), out var __jsonResourceGroupName) ? (string)__jsonResourceGroupName : (string)ResourceGroupName;}
             {_privateCloudName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("privateCloudName"), out var __jsonPrivateCloudName) ? (string)__jsonPrivateCloudName : (string)PrivateCloudName;}
             {_clusterName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("clusterName"), out var __jsonClusterName) ? (string)__jsonClusterName : (string)ClusterName;}
+            {_datastoreName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("datastoreName"), out var __jsonDatastoreName) ? (string)__jsonDatastoreName : (string)DatastoreName;}
             {_hcxEnterpriseSiteName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("hcxEnterpriseSiteName"), out var __jsonHcxEnterpriseSiteName) ? (string)__jsonHcxEnterpriseSiteName : (string)HcxEnterpriseSiteName;}
             {_authorizationName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("authorizationName"), out var __jsonAuthorizationName) ? (string)__jsonAuthorizationName : (string)AuthorizationName;}
+            {_globalReachConnectionName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("globalReachConnectionName"), out var __jsonGlobalReachConnectionName) ? (string)__jsonGlobalReachConnectionName : (string)GlobalReachConnectionName;}
+            {_segmentId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("segmentId"), out var __jsonSegmentId) ? (string)__jsonSegmentId : (string)SegmentId;}
+            {_dhcpId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("dhcpId"), out var __jsonDhcpId) ? (string)__jsonDhcpId : (string)DhcpId;}
+            {_gatewayId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("gatewayId"), out var __jsonGatewayId) ? (string)__jsonGatewayId : (string)GatewayId;}
+            {_portMirroringId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("portMirroringId"), out var __jsonPortMirroringId) ? (string)__jsonPortMirroringId : (string)PortMirroringId;}
+            {_vMGroupId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("vmGroupId"), out var __jsonVMGroupId) ? (string)__jsonVMGroupId : (string)VMGroupId;}
+            {_virtualMachineId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("virtualMachineId"), out var __jsonVirtualMachineId) ? (string)__jsonVirtualMachineId : (string)VirtualMachineId;}
+            {_dnsServiceId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("dnsServiceId"), out var __jsonDnsServiceId) ? (string)__jsonDnsServiceId : (string)DnsServiceId;}
+            {_dnsZoneId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("dnsZoneId"), out var __jsonDnsZoneId) ? (string)__jsonDnsZoneId : (string)DnsZoneId;}
+            {_publicIPId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("publicIPId"), out var __jsonPublicIPId) ? (string)__jsonPublicIPId : (string)PublicIPId;}
+            {_cloudLinkName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("cloudLinkName"), out var __jsonCloudLinkName) ? (string)__jsonCloudLinkName : (string)CloudLinkName;}
+            {_addonName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("addonName"), out var __jsonAddonName) ? (string)__jsonAddonName : (string)AddonName;}
+            {_placementPolicyName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("placementPolicyName"), out var __jsonPlacementPolicyName) ? (string)__jsonPlacementPolicyName : (string)PlacementPolicyName;}
+            {_scriptPackageName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("scriptPackageName"), out var __jsonScriptPackageName) ? (string)__jsonScriptPackageName : (string)ScriptPackageName;}
+            {_scriptCmdletName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("scriptCmdletName"), out var __jsonScriptCmdletName) ? (string)__jsonScriptCmdletName : (string)ScriptCmdletName;}
+            {_scriptExecutionName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("scriptExecutionName"), out var __jsonScriptExecutionName) ? (string)__jsonScriptExecutionName : (string)ScriptExecutionName;}
             {_id = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Json.JsonString>("id"), out var __jsonId) ? (string)__jsonId : (string)Id;}
             AfterFromJson(json);
         }

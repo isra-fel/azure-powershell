@@ -18,7 +18,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
 {
-    public class PolicyTests : ResourceTestRunner
+    public class PolicyTests : ResourcesTestRunner
     {
         public PolicyTests(ITestOutputHelper output) : base(output)
         {
@@ -61,9 +61,23 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestPolicyAssignmentIdentity()
+        public void TestPolicyAssignmentAssignIdentity()
         {
-            TestRunner.RunTestScript("Test-PolicyAssignmentIdentity");
+            TestRunner.RunTestScript("Test-PolicyAssignmentAssignIdentity");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestPolicyAssignmentSystemAssignedIdentity()
+        {
+            TestRunner.RunTestScript("Test-PolicyAssignmentSystemAssignedIdentity");
+        }
+
+        [Fact(Skip = "Skip as current test framework does not support recording generated cmdlets.")]
+        [Trait(Category.AcceptanceType, Category.LiveOnly)]
+        public void TestPolicyAssignmentUserAssignedIdentity()
+        {
+            TestRunner.RunTestScript("Test-PolicyAssignmentUserAssignedIdentity");
         }
 
         [Fact]

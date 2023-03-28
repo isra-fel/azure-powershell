@@ -28,23 +28,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         {
             if (global::System.String.IsNullOrEmpty(wordToComplete) || "ReadWrite".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
             {
-                yield return new global::System.Management.Automation.CompletionResult("ReadWrite", "ReadWrite", global::System.Management.Automation.CompletionResultType.ParameterValue, "ReadWrite");
+                yield return new global::System.Management.Automation.CompletionResult("'ReadWrite'", "ReadWrite", global::System.Management.Automation.CompletionResultType.ParameterValue, "ReadWrite");
             }
             if (global::System.String.IsNullOrEmpty(wordToComplete) || "ReadOnlyFollowing".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
             {
-                yield return new global::System.Management.Automation.CompletionResult("ReadOnlyFollowing", "ReadOnlyFollowing", global::System.Management.Automation.CompletionResultType.ParameterValue, "ReadOnlyFollowing");
-            }
-            if (global::System.String.IsNullOrEmpty(wordToComplete) || "EventHub".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
-            {
-                yield return new global::System.Management.Automation.CompletionResult("EventHub", "EventHub", global::System.Management.Automation.CompletionResultType.ParameterValue, "EventHub");
-            }
-            if (global::System.String.IsNullOrEmpty(wordToComplete) || "EventGrid".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
-            {
-                yield return new global::System.Management.Automation.CompletionResult("EventGrid", "EventGrid", global::System.Management.Automation.CompletionResultType.ParameterValue, "EventGrid");
-            }
-            if (global::System.String.IsNullOrEmpty(wordToComplete) || "IotHub".StartsWith(wordToComplete, global::System.StringComparison.InvariantCultureIgnoreCase))
-            {
-                yield return new global::System.Management.Automation.CompletionResult("IotHub", "IotHub", global::System.Management.Automation.CompletionResultType.ParameterValue, "IotHub");
+                yield return new global::System.Management.Automation.CompletionResult("'ReadOnlyFollowing'", "ReadOnlyFollowing", global::System.Management.Automation.CompletionResultType.ParameterValue, "ReadOnlyFollowing");
             }
         }
     }

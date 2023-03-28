@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
-using Microsoft.Azure.Management.NetApp.Models;
 using Microsoft.Azure.Commands.NetAppFiles.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +35,9 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Helpers
                 Label = backup.Label,
                 ProvisioningState = backup.ProvisioningState,
                 Size = backup.Size,
-                VolumeName = backup.VolumeName
+                VolumeName = backup.VolumeName,
+                UseExistingSnapshot = backup.UseExistingSnapshot,
+                CreationDate = backup.CreationDate
             };
             return psBackup;
         }
@@ -54,9 +55,26 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Helpers
                MirrorState = backupStatus.MirrorState,
                RelationshipStatus = backupStatus.RelationshipStatus,
                UnhealthyReason = backupStatus.UnhealthyReason,
-               ErrorMessage = backupStatus.ErrorMessage
+               ErrorMessage = backupStatus.ErrorMessage,
+               LastTransferSize = backupStatus.LastTransferSize,
+               LastTransferType = backupStatus.LastTransferType,
+               TotalTransferBytes = backupStatus.TotalTransferBytes
             };
             return psBackupStatus;
+        }
+
+        public static PSNetAppFilesVolumeRestoreStatus ConvertToPs(this Management.NetApp.Models.RestoreStatus restoreStatus)
+        {
+            var psRestoreStatus = new PSNetAppFilesVolumeRestoreStatus
+            {
+                Healthy = restoreStatus.Healthy,
+                MirrorState = restoreStatus.MirrorState,
+                RelationshipStatus = restoreStatus.RelationshipStatus,
+                UnhealthyReason = restoreStatus.UnhealthyReason,
+                ErrorMessage = restoreStatus.ErrorMessage,
+                TotalTransferBytes = restoreStatus.TotalTransferBytes
+            };
+            return psRestoreStatus;
         }
     }
 }

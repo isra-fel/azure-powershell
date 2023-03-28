@@ -85,17 +85,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
         public SwitchParameter FullUri { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Encryption scope to use when sending requests authorized with this SAS URI.")]
+        [ValidateNotNullOrEmpty]
+        public string EncryptionScope { get; set; }
+
         // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
         public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
+        public override string TagCondition { get; set; }
         protected override bool UseTrack2Sdk()
         {
-            if (SasTokenHelper.IsTrack2Permission(this.Permission))
-            {
-                return true;
-            }
-            return base.UseTrack2Sdk();
+            return true;
         }
 
         /// <summary>
@@ -184,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 //Create SAS builder
-                BlobSasBuilder sasBuilder = SasTokenHelper.SetBlobSasBuilder_FromContainer(container, identifier, this.Permission, this.StartTime, this.ExpiryTime, this.IPAddressOrRange, this.Protocol);
+                BlobSasBuilder sasBuilder = SasTokenHelper.SetBlobSasBuilder_FromContainer(container, identifier, this.Permission, this.StartTime, this.ExpiryTime, this.IPAddressOrRange, this.Protocol, this.EncryptionScope);
 
                 //Create SAS and output it
                 string sasToken = SasTokenHelper.GetBlobSharedAccessSignature(Channel.StorageContext, sasBuilder, generateUserDelegationSas, ClientOptions, CmdletCancellationToken);

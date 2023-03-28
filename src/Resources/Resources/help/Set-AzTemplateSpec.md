@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
-online version: https://docs.microsoft.com/powershell/module/az.resources/set-aztemplatespec
+online version: https://learn.microsoft.com/powershell/module/az.resources/set-aztemplatespec
 schema: 2.0.0
 ---
 
@@ -71,14 +71,14 @@ Modifies a Templace Spec. If the Template Spec with the specified name and/or sp
 created.
 
 When modifying a Template Spec version's ARM Template content, the content can either come from a raw 
-JSON string (using **UpdateVersionByNameFromJsonParameterSet** parameter set) or from a specified JSON file
+JSON string (using **UpdateVersionByNameFromJsonParameterSet** parameter set) or from a specified JSON/Bicep file
 (using **UpdateVersionByNameFromJsonFileParameterSet** parameter set).
 
 ## EXAMPLES
 
-### Example 1:
+### Example 1
 ```powershell
-PS C:\> $templateJson = @"
+$templateJson = @"
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
@@ -86,7 +86,7 @@ PS C:\> $templateJson = @"
     "resources": []
 }
 "@
-PS C:\> Set-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v1.0' -Location 'West US' -TemplateJson $templateJson
+Set-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v1.0' -Location 'West US' -TemplateJson $templateJson
 ```
 
 Modifies version "v1.0" of a Template Spec named "myTemplateSpec". The specified version 
@@ -99,9 +99,9 @@ do not already exist they will be created.
 * The ARM Template in the example is a no-op as it contains no actual resources.
 * Location is only required when the Template Spec does not already exist
 
-### Example 2:
+### Example 2
 ```powershell
-PS C:\> Set-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v2.0' -Location 'West US' -TemplateFile 'myTemplateContent.json'
+Set-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v2.0' -Location 'West US' -TemplateFile 'myTemplateContent.json'
 ```
 
 Modifies version "v2.0" of a Template Spec named "myTemplateSpec". The specified version 
@@ -110,9 +110,9 @@ root Template Spec and/or version do not already exist they will be created.
 
 **Note:** Location is only required when the Template Spec does not already exist
 
-### Example 3:
+### Example 3
 ```powershell
-PS C:\> Set-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec'  -Location 'West US' -Description 'My updated Template Spec'
+Set-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec'  -Location 'West US' -Description 'My updated Template Spec'
 ```
 
 Modifies the description of the Template Spec named "myTemplateSpec" in resource group "myRG". If the 
@@ -245,7 +245,7 @@ Accept wildcard characters: False
 ```
 
 ### -TemplateFile
-The file path to the local Azure Resource Manager template JSON file.
+The file path to the local Azure Resource Manager template JSON/Bicep file.
 
 ```yaml
 Type: System.String

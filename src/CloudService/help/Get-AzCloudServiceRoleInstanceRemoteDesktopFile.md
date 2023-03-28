@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.CloudService
-online version: https://docs.microsoft.com/powershell/module/az.cloudservice/get-azcloudserviceroleinstanceremotedesktopfile
+online version: https://learn.microsoft.com/powershell/module/az.cloudservice/get-azcloudserviceroleinstanceremotedesktopfile
 schema: 2.0.0
 ---
 
@@ -25,7 +25,7 @@ Gets a remote desktop file for a role instance in a cloud service.
 
 ### Example 1: Get an RDP file
 ```powershell
-PS C:\> Get-AzCloudServiceRoleInstanceRemoteDesktopFile -ResourceGroupName "ContosOrg" -CloudServiceName "ContosoCS" -RoleInstanceName "ContosoFrontEnd_IN_0" -OutFile "C:\temp\ContosoFrontEnd_IN_0.rdp"
+Get-AzCloudServiceRoleInstanceRemoteDesktopFile -ResourceGroupName "ContosOrg" -CloudServiceName "ContosoCS" -RoleInstanceName "ContosoFrontEnd_IN_0" -OutFile "C:\temp\ContosoFrontEnd_IN_0.rdp"
 ```
 
 This command gets an RDP file for the role instance named ContosoFrontEnd\_IN\_0 of cloud Service named ContosoCS that belongs to the resource group named ContosOrg.
@@ -33,7 +33,7 @@ This command gets an RDP file for the role instance named ContosoFrontEnd\_IN\_0
 ## PARAMETERS
 
 ### -CloudServiceName
-.
+Name of the cloud service.
 
 ```yaml
 Type: System.String
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-.
+Name of the resource group.
 
 ```yaml
 Type: System.String

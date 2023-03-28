@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Commands.ResourceManager.Cmdlets.Components;
 using Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkModels;
+using Microsoft.Azure.Commands.ResourceManager.Cmdlets.Utilities;
 using Microsoft.Azure.Commands.ResourceManager.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.ResourceManager.Models;
@@ -119,7 +120,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
             ParameterSetName = FromJsonFileParameterSet,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The file path to the local Azure Resource Manager template JSON file.")]
+            HelpMessage = "The file path to the local Azure Resource Manager template JSON/Bicep file.")]
         [ValidateNotNullOrEmpty]
         public string TemplateFile { get; set; }
 
@@ -163,7 +164,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                             );
                         }
 
-                        packagedTemplate = TemplateSpecPackagingEngine.Pack(filePath);
+                        if (BicepUtility.IsBicepFile(TemplateFile))
+                        {
+                            filePath = BicepUtility.BuildFile(this.ResolvePath(TemplateFile), this.WriteVerbose, this.WriteWarning);
+                        }
+
+                        // Note: We set uiFormDefinitionFilePath to null below because we process the UIFormDefinition
+                        // specified by the cmdlet parameters later within this method...
+                        packagedTemplate = TemplateSpecPackagingEngine.Pack(filePath, uiFormDefinitionFilePath: null);
                         break;
                     case FromJsonStringParameterSet:
 
@@ -212,12 +220,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                         throw new PSNotSupportedException();
                 }
 
-                JObject UIFormDefinition = new JObject();
-                if (UIFormDefinitionFile == null && UIFormDefinitionString == null)
-                {
-                    UIFormDefinition = null;
-                }
-                else if (!String.IsNullOrEmpty(UIFormDefinitionFile))
+                if (!string.IsNullOrWhiteSpace(UIFormDefinitionFile))
                 {
                     string UIFormFilePath = this.TryResolvePath(UIFormDefinitionFile);
                     if (!File.Exists(UIFormFilePath))
@@ -227,12 +230,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                         );
                     }
                     string UIFormJson = FileUtilities.DataStore.ReadFileAsText(UIFormDefinitionFile);
-                    UIFormDefinition = JObject.Parse(UIFormJson);
+                    packagedTemplate.UIFormDefinition = JObject.Parse(UIFormJson);
                 }
-                else if (!String.IsNullOrEmpty(UIFormDefinitionString))
+                else if (!string.IsNullOrEmpty(UIFormDefinitionString))
                 {
-                    UIFormDefinition = JObject.Parse(UIFormDefinitionString);
+                    packagedTemplate.UIFormDefinition = JObject.Parse(UIFormDefinitionString);
                 }
+
 
                 Action createOrUpdateAction = () =>
                 {
@@ -242,7 +246,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                         Version,
                         Location,
                         packagedTemplate,
-                        UIFormDefinition,
                         templateSpecDescription: Description,
                         templateSpecDisplayName: DisplayName,
                         versionDescription: VersionDescription,

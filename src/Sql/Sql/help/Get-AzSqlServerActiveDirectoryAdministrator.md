@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Sql.dll-Help.xml
 Module Name: Az.Sql
 ms.assetid: FEDA14CF-632F-4D15-A22B-C73A1298094F
-online version: https://docs.microsoft.com/powershell/module/az.sql/get-azsqlserveractivedirectoryadministrator
+online version: https://learn.microsoft.com/powershell/module/az.sql/get-azsqlserveractivedirectoryadministrator
 schema: 2.0.0
 ---
 
@@ -24,8 +24,11 @@ The **Get-AzSqlServerActiveDirectoryAdministrator** cmdlet gets information abou
 ## EXAMPLES
 
 ### Example 1: Gets information about an administrator for a server
+```powershell
+Get-AzSqlServerActiveDirectoryAdministrator -ResourceGroupName "ResourceGroup01" -ServerName "Server01"
 ```
-PS C:\>Get-AzSqlServerActiveDirectoryAdministrator -ResourceGroupName "ResourceGroup01" -ServerName "Server01"
+
+```output
 ResourceGroupName ServerName DisplayName ObjectId IsAzureADOnlyAuthentication
 ----------------- ---------- ----------- -------- -----------
 ResourceGroup01   Server01   DBAs        40b79501-b343-44ed-9ce7-da4c8cc7353b true
@@ -132,6 +135,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [Disable-AzSqlServerActiveDirectoryOnlyAuthentication](./Disable-AzSqlServerActiveDirectoryOnlyAuthentication.md)
 
-[SQL Database Documentation](https://docs.microsoft.com/azure/sql-database/)
+[SQL Database Documentation](https://learn.microsoft.com/azure/sql-database/)
 
 

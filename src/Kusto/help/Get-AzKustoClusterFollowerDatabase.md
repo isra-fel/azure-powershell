@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/get-azkustoclusterfollowerdatabase
+online version: https://learn.microsoft.com/powershell/module/az.kusto/get-azkustoclusterfollowerdatabase
 schema: 2.0.0
 ---
 
@@ -24,8 +24,10 @@ Returns a list of databases that are owned by this cluster and were followed by 
 
 ### Example 1: List all followed databases
 ```powershell
-PS C:\>  Get-AzKustoClusterFollowerDatabase  -ResourceGroupName testrg -ClusterName testnewkustocluster
+Get-AzKustoClusterFollowerDatabase  -ResourceGroupName testrg -ClusterName testnewkustocluster
+```
 
+```output
 AttachedDatabaseConfigurationName ClusterResourceId                                                                                                                     DatabaseName
 --------------------------------- -----------------                                                                                                                     ------------
 myfollowerconfiguration             /subscriptions/xxxxxxxx-xxxxx-xxxx-xxxx-xxxxxxxxx/resourceGroups/testrg/providers/Microsoft.Kusto/Clusters/testnewkustoclusterf mykustodatabase
@@ -51,7 +53,8 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -134,7 +137,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.IFollowerDatabaseDefinition
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.IFollowerDatabaseDefinition
 
 ## NOTES
 

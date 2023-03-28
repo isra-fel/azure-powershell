@@ -1,11 +1,11 @@
 ---
 external help file:
-Module Name: Az.VMWare
-online version: https://docs.microsoft.com/powershell/module/az.vmware/new-azvmwareauthorization
+Module Name: Az.VMware
+online version: https://learn.microsoft.com/powershell/module/az.vmware/new-azvmwareauthorization
 schema: 2.0.0
 ---
 
-# New-AzVMWareAuthorization
+# New-AzVMwareAuthorization
 
 ## SYNOPSIS
 Create or update an ExpressRoute Circuit Authorization in a private cloud
@@ -13,7 +13,7 @@ Create or update an ExpressRoute Circuit Authorization in a private cloud
 ## SYNTAX
 
 ```
-New-AzVMWareAuthorization -Name <String> -PrivateCloudName <String> -ResourceGroupName <String>
+New-AzVMwareAuthorization -Name <String> -PrivateCloudName <String> -ResourceGroupName <String>
  [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
@@ -23,18 +23,18 @@ Create or update an ExpressRoute Circuit Authorization in a private cloud
 
 ## EXAMPLES
 
-### Example 1: Create autorization
+### Example 1: Create an Circuit Authorization in a private cloud
 ```powershell
-PS C:\> New-AzVMWareAuthorization -Name azps-test-auth -PrivateCloudName azps-test-cloud -ResourceGroupName azps-test-group
-
-
-
-Name           Type
-----           ----
-azps-test-auth Microsoft.AVS/privateClouds/authorizations
+New-AzVMwareAuthorization -Name azps_test_authorization -PrivateCloudName azps_test_cloud -ResourceGroupName azps_test_group
 ```
 
-This cmdlet creates authorization `azps-test-auth` under private cloud `azps-test-cloud`
+```output
+Name                    Type                                       ResourceGroupName
+----                    ----                                       -----------------
+azps_test_authorization Microsoft.AVS/privateClouds/authorizations azps_test_group
+```
+
+Create an Circuit Authorization in a private cloud
 
 ## PARAMETERS
 
@@ -182,7 +182,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.VMWare.Models.Api20200320.IExpressRouteAuthorization
+### Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.IExpressRouteAuthorization
 
 ## NOTES
 

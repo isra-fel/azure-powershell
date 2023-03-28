@@ -43,8 +43,7 @@ namespace Microsoft.Azure.Commands.Sql.Server.Services
         /// <summary>
         /// Creates a communicator for Azure Sql Databases
         /// </summary>
-        /// <param name="profile"></param>
-        /// <param name="subscription"></param>
+        /// <param name="context">The current azure context</param>
         public AzureSqlServerCommunicator(IAzureContext context)
         {
             Context = context;
@@ -58,25 +57,25 @@ namespace Microsoft.Azure.Commands.Sql.Server.Services
         /// <summary>
         /// Gets the Azure Sql Database SErver
         /// </summary>
-        public Management.Sql.Models.Server Get(string resourceGroupName, string serverName)
+        public Management.Sql.Models.Server Get(string resourceGroupName, string serverName, string expand = null)
         {
-            return GetCurrentSqlClient().Servers.Get(resourceGroupName, serverName);
+            return GetCurrentSqlClient().Servers.Get(resourceGroupName, serverName, expand);
         }
 
         /// <summary>
         /// Lists Azure Sql Servers in a resource group
         /// </summary>
-        public IList<Management.Sql.Models.Server> ListByResourceGroup(string resourceGroupName)
+        public IList<Management.Sql.Models.Server> ListByResourceGroup(string resourceGroupName, string expand = null)
         {
-            return GetCurrentSqlClient().Servers.ListByResourceGroup(resourceGroupName).ToList();
+            return GetCurrentSqlClient().Servers.ListByResourceGroup(resourceGroupName, expand).ToList();
         }
 
         /// <summary>
         /// Lists Azure Sql Servers
         /// </summary>
-        public IList<Management.Sql.Models.Server> List()
+        public IList<Management.Sql.Models.Server> List(string expand = null)
         {
-            return GetCurrentSqlClient().Servers.List().ToList();
+            return GetCurrentSqlClient().Servers.List(expand).ToList();
         }
 
         /// <summary>

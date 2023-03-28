@@ -4,19 +4,19 @@
 
 **[Az Predictor](https://www.powershellgallery.com/packages/Az.Tools.Predictor/)** is a PowerShell module that helps you navigate the cmdlets and parameters of the [Az module](https://www.powershellgallery.com/packages/Az) by providing context-aware suggestions in the PowerShell command line.
 
-Az Predictor is using the [subsystem plugin model](https://docs.microsoft.com/en-us/powershell/scripting/learn/experimental-features?view=powershell-7.1#pssubsystempluginmodel) available with PowerShell 7.1. This updated version requires [PS Readline 2.2.0-beta2](https://www.powershellgallery.com/packages/PSReadLine/2.2.0-beta2) to display the suggestions.
+Az Predictor is using the [subsystem plugin model](https://learn.microsoft.com/en-us/powershell/scripting/learn/experimental-features?view=powershell-7.2#pssubsystempluginmodel) available with PowerShell 7.2. This updated version requires [PS Readline 2.2.2](https://www.powershellgallery.com/packages/PSReadLine/2.2.2) to display the suggestions.
 
 Required configuration for Az Predictor:
 
-- [PowerShell 7.2 preview 3](https://github.com/PowerShell/PowerShell/releases/tag/v7.2.0-preview.3)
-- [PSReadline 2.2.0-beta2](https://github.com/PowerShell/PSReadLine/releases/tag/v2.2.0-beta2)
+- [PowerShell 7.2](https://github.com/PowerShell/PowerShell/releases/tag/v7.2.0)
+- [PSReadline 2.2.2](https://github.com/PowerShell/PSReadLine/releases/tag/v2.2.2)
 
 ## Getting started
 
 ### Installing the module
 
-1. Install [PowerShell 7.2 preview 3](https://github.com/PowerShell/PowerShell/releases/tag/v7.2.0-preview.3)
-2. Install [PSReadline 2.2.0-beta2](https://www.powershellgallery.com/packages/PSReadLine/2.2.0-beta2)
+1. Install [PowerShell 7.2](https://github.com/PowerShell/PowerShell/releases/tag/v7.2.0)
+2. Install [PSReadline 2.2.2](https://www.powershellgallery.com/packages/PSReadLine/2.2.2)
 
     `Install-Module -Name PSReadline -AllowPrerelease`
 
@@ -69,4 +69,4 @@ The current version of Az Predictor collects anonymized information about its us
 Az Predictor does not collect any private or personal data.
 
 For example, the usage data helps identify inaccurate suggestions and issues like interferences with PSReadline.
-While we appreciate the insights this data provides, we also understand that not everyone wants to send usage data, and you can disable data collection with the [`Disable-AzDataCollection`](https://docs.microsoft.com/en-us/powershell/module/az.accounts/disable-azdatacollection) cmdlet. You can also read our [privacy statement](https://go.microsoft.com/fwlink/?LinkID=528096&clcid=0x409) to learn more.
+While we appreciate the insights this data provides, we also understand that not everyone wants to send usage data, and you can disable data collection with the [`Disable-AzDataCollection`](https://learn.microsoft.com/en-us/powershell/module/az.accounts/disable-azdatacollection) cmdlet. You can also read our [privacy statement](https://go.microsoft.com/fwlink/?LinkID=528096&clcid=0x409) to learn more.

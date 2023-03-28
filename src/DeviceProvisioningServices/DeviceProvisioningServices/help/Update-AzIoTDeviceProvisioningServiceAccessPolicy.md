@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DeviceProvisioningServices.dll-Help.xml
 Module Name: Az.DeviceProvisioningServices
-online version: https://docs.microsoft.com/powershell/module/az.deviceprovisioningservices/update-aziotdeviceprovisioningserviceaccesspolicy
+online version: https://learn.microsoft.com/powershell/module/az.deviceprovisioningservices/update-aziotdeviceprovisioningserviceaccesspolicy
 schema: 2.0.0
 ---
 
@@ -33,14 +33,16 @@ Update-AzIoTDeviceProvisioningServiceAccessPolicy [-ResourceId] <String> [-KeyNa
 ```
 
 ## DESCRIPTION
-For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/azure/iot-dps/about-iot-dps.
+For an introduction to Azure IoT Hub Device Provisioning Service, see https://learn.microsoft.com/azure/iot-dps/about-iot-dps.
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+Update-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy" -Permissions "EnrollmentWrite"
 ```
-PS C:\> Update-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy" -Permissions "EnrollmentWrite"
 
+```output
 ResourceGroupName	: myresourcegroup
 Name				: myiotdps
 KeyName				: mypolicy
@@ -51,10 +53,12 @@ Rights				: EnrollmentWrite
 
 Update access policy "mypolicy" in an Azure IoT Hub device provisioning service with EnrollmentWrite right.
 
-### Example 1
+### Example 2
+```powershell
+Get-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy" | Update-AzIoTDeviceProvisioningServiceAccessPolicy -Permissions "EnrollmentWrite"
 ```
-PS C:\> Get-AzIoTDpsAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy" | Update-AzIoTDpsAccessPolicy -Permissions "EnrollmentWrite"
 
+```output
 ResourceGroupName	: myresourcegroup
 Name				: myiotdps
 KeyName				: mypolicy

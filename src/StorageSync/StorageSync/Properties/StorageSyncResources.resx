@@ -279,10 +279,7 @@
   <data name="SetStorageSyncServiceActionMessage" xml:space="preserve">
     <value>Updating a Storage Sync Service</value>
   </data>
-  <data name="InvalidInitialDownloadPolicyErrorMessage" xml:space="preserve">
-    <value>InitialDownloadPolicy parameter has invalid value.</value>
-  </data>
-  <data name="InvalidLocalCacheModeErrorMessage" xml:space="preserve">
-    <value>LocalCacheMode parameter has invalid value.</value>
+  <data name="MissingServicePrincipalResourceIdErrorMessage" xml:space="preserve">
+    <value>Service Principal for Azure File Sync was not found. Please contact administrator for further troubleshooting.</value>
   </data>
 </root>

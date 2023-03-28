@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DeviceProvisioningServices.dll-Help.xml
 Module Name: Az.DeviceProvisioningServices
-online version: https://docs.microsoft.com/powershell/module/az.deviceprovisioningservices/get-aziotdeviceprovisioningserviceaccesspolicy
+online version: https://learn.microsoft.com/powershell/module/az.deviceprovisioningservices/get-aziotdeviceprovisioningserviceaccesspolicy
 schema: 2.0.0
 ---
 
@@ -31,14 +31,16 @@ Get-AzIoTDeviceProvisioningServiceAccessPolicy [-ResourceId] <String> [-KeyName 
 ```
 
 ## DESCRIPTION
-For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/azure/iot-dps/about-iot-dps.
+For an introduction to Azure IoT Hub Device Provisioning Service, see https://learn.microsoft.com/azure/iot-dps/about-iot-dps.
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+Get-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps"
 ```
-PS C:\> Get-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps"
 
+```output
 KeyName		Rights		
 -------		------	
 mypolicy1	ServiceConfig, DeviceConnect, EnrollmentWrite
@@ -48,9 +50,11 @@ mypolicy2	EnrollmentWrite
 List all shared access policies in "myiotdps".
 
 ### Example 2
+```powershell
+Get-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy"
 ```
-PS C:\> Get-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy"
 
+```output
 ResourceGroupName	: myresourcegroup
 Name				: myiotdps
 KeyName				: mypolicy

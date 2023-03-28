@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Commands.Resources.ManagementGroups
         public PSManagementGroup InputObject { get; set; }
 
         [Alias("GroupId")]
-        [CmdletParameterBreakingChange("GroupName", ReplaceMentCmdletParameterName = "GroupId", ChangeDescription = "We will repleace GroupName with GroupId to make it more clear.")]
+        [CmdletParameterBreakingChange("GroupName", ReplaceMentCmdletParameterName = "GroupId", ChangeDescription = "We will replace GroupName with GroupId to make it more clear.")]
         [Parameter(ParameterSetName = Constants.ParameterSetNames.GroupOperationsParameterSet, Mandatory = true,
             HelpMessage = Constants.HelpMessages.GroupName, Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -59,11 +59,11 @@ namespace Microsoft.Azure.Commands.Resources.ManagementGroups
                 {
                     PreregisterSubscription();
 
-                    ManagementGroupsApiClient.ManagementGroups.Delete(GroupName);
+                    dynamic response = ManagementGroupsApiClient.ManagementGroups.Delete(GroupName);
 
                     if (PassThru.IsPresent)
                     {
-                        WriteObject(true);
+                        WriteObject(response);
                     }
                 }
             }

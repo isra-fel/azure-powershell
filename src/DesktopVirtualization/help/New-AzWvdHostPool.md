@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.DesktopVirtualization
-online version: https://docs.microsoft.com/powershell/module/az.desktopvirtualization/new-azwvdhostpool
+online version: https://learn.microsoft.com/powershell/module/az.desktopvirtualization/new-azwvdhostpool
 schema: 2.0.0
 ---
 
@@ -14,15 +14,18 @@ Create or update a host pool.
 
 ### CreateExpanded (Default)
 ```
-New-AzWvdHostPool -HostPoolType <HostPoolType> -LoadBalancerType <LoadBalancerType> -Location <String>
- -Name <String> -PreferredAppGroupType <PreferredAppGroupType> -ResourceGroupName <String>
+New-AzWvdHostPool -HostPoolType <HostPoolType> -LoadBalancerType <LoadBalancerType> -Name <String>
+ -PreferredAppGroupType <PreferredAppGroupType> -ResourceGroupName <String> [-Location <String>]
  [-SubscriptionId <String>] [-CustomRdpProperty <String>] [-Description <String>] [-ExpirationTime <DateTime>]
- [-FriendlyName <String>] [-MaxSessionLimit <Int32>]
- [-PersonalDesktopAssignmentType <PersonalDesktopAssignmentType>] [-RegistrationInfoToken <String>]
- [-RegistrationTokenOperation <RegistrationTokenOperation>] [-Ring <Int32>] [-SsoadfsAuthority <String>]
- [-SsoClientId <String>] [-SsoClientSecretKeyVaultPath <String>] [-SsoSecretType <SsoSecretType>]
- [-StartVMOnConnect] [-Tag <Hashtable>] [-ValidationEnvironment] [-VMTemplate <String>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-FriendlyName <String>] [-IdentityType <ResourceIdentityType>] [-Kind <String>] [-ManagedBy <String>]
+ [-MaxSessionLimit <Int32>] [-MigrationRequestMigrationPath <String>] [-MigrationRequestOperation <Operation>]
+ [-PersonalDesktopAssignmentType <PersonalDesktopAssignmentType>] [-PlanName <String>] [-PlanProduct <String>]
+ [-PlanPromotionCode <String>] [-PlanPublisher <String>] [-PlanVersion <String>]
+ [-RegistrationInfoToken <String>] [-RegistrationTokenOperation <RegistrationTokenOperation>] [-Ring <Int32>]
+ [-SkuCapacity <Int32>] [-SkuFamily <String>] [-SkuName <String>] [-SkuSize <String>] [-SkuTier <SkuTier>]
+ [-SsoadfsAuthority <String>] [-SsoClientId <String>] [-SsoClientSecretKeyVaultPath <String>]
+ [-SsoSecretType <SsoSecretType>] [-StartVMOnConnect] [-Tag <Hashtable>] [-ValidationEnvironment]
+ [-VMTemplate <String>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### FullSenerioCreate
@@ -40,25 +43,20 @@ Create or update a host pool.
 
 ### Example 1: Create a Windows Virtual Desktop HostPool by name
 ```powershell
-PS C:\> New-AzWvdHostPool -ResourceGroupName ResourceGroupName `
+New-AzWvdHostPool -ResourceGroupName ResourceGroupName `
                             -Name HostPoolName `
                             -Location 'eastus' `
                             -HostPoolType 'Pooled' `
                             -LoadBalancerType 'DepthFirst' `
                             -RegistrationTokenOperation 'Update' `
-                            -ExpirationTime $((get-date).ToUniversalTime().AddDays(1).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')) `
+                            -ExpirationTime $((Get-Date).ToUniversalTime().AddDays(1).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')) `
                             -Description 'Description' `
                             -FriendlyName 'Friendly Name' `
                             -MaxSessionLimit 5 `
-                            -VMTemplate $null `
-                            -SsoClientId $null `
-                            -SsoClientSecretKeyVaultPath $null `
-                            -SsoSecretType $null `
-                            -SsoadfsAuthority $null `
-                            -CustomRdpProperty $null `
-                            -Ring $null `
-                            -ValidationEnvironment:$false
+                            -PreferredAppGroupType 'Desktop' `
+```
 
+```output
 Location   Name                 Type
 --------   ----                 ----
 eastus     HostPoolName Microsoft.DesktopVirtualization/hostpools
@@ -66,27 +64,22 @@ eastus     HostPoolName Microsoft.DesktopVirtualization/hostpools
 
 This command creates a Windows Virtual Desktop HostPool in a Resource Group.
 
-### Example 1: Create a Windows Virtual Desktop HostPool by name
+### Example 2: Create a Windows Virtual Desktop HostPool by name
 ```powershell
-PS C:\> New-AzWvdHostPool -ResourceGroupName ResourceGroupName `
+New-AzWvdHostPool -ResourceGroupName ResourceGroupName `
                             -Name HostPoolName `
                             -Location 'eastus' `
                             -HostPoolType 'Personal' `
                             -LoadBalancerType 'Persistent' `
                             -RegistrationTokenOperation 'Update' `
-                            -ExpirationTime $((get-date).ToUniversalTime().AddDays(1).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')) `
+                            -ExpirationTime $((Get-Date).ToUniversalTime().AddDays(1).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')) `
                             -Description 'Description' `
                             -FriendlyName 'Friendly Name' `
                             -MaxSessionLimit 5 `
-                            -VMTemplate $null `
-                            -SsoClientId $null `
-                            -SsoClientSecretKeyVaultPath $null `
-                            -SsoSecretType $null `
-                            -SsoadfsAuthority $null `
-                            -CustomRdpProperty $null `
-                            -Ring $null `
-                            -ValidationEnvironment:$false
+                            -PreferredAppGroupType 'Desktop' `
+```
 
+```output
 Location   Name                 Type
 --------   ----                 ----
 eastus     HostPoolName Microsoft.DesktopVirtualization/hostpools
@@ -201,6 +194,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IdentityType
+The identity type.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ResourceIdentityType
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Kind
+Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g.
+ApiApps are a kind of Microsoft.Web/sites type.
+If supported, the resource provider must validate and persist this value.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LoadBalancerType
 The type of the load balancer.
 
@@ -231,11 +256,58 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ManagedBy
+The fully qualified resource ID of the resource that manages this resource.
+Indicates if this resource is managed by another Azure resource.
+If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -MaxSessionLimit
 The max session limit of HostPool.
 
 ```yaml
 Type: System.Int32
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MigrationRequestMigrationPath
+The path to the legacy object to migrate.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MigrationRequestOperation
+The type of operation for migration.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.Operation
 Parameter Sets: CreateExpanded
 Aliases:
 
@@ -276,8 +348,88 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PlanName
+A user defined name of the 3rd Party Artifact that is being procured.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PlanProduct
+The 3rd Party artifact that is being procured.
+E.g.
+NewRelic.
+Product maps to the OfferID specified for the artifact at the time of Data Market onboarding.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PlanPromotionCode
+A publisher provided promotion code as provisioned in Data Market for the said product/artifact.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PlanPublisher
+The publisher of the 3rd Party Artifact that is being bought.
+E.g.
+NewRelic
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PlanVersion
+The version of the desired product/artifact.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -PreferredAppGroupType
-The type of preferred application group type, default to Desktop Application Group
+The type of preferred application group type. Accepted Values: Desktop, RailApplications
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.PreferredAppGroupType
@@ -352,6 +504,85 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SkuCapacity
+If the SKU supports scale out/in then the capacity integer should be included.
+If scale out/in is not possible for the resource this may be omitted.
+
+```yaml
+Type: System.Int32
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkuFamily
+If the service has different generations of hardware, for the same SKU, then that can be captured here.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkuName
+The name of the SKU.
+Ex - P3.
+It is typically a letter+number code
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkuSize
+The SKU size.
+When the name field is the combination of tier and some other value, this would be the standalone code.
+
+```yaml
+Type: System.String
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkuTier
+This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.SkuTier
+Parameter Sets: CreateExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SsoadfsAuthority
 URL to customer ADFS server for signing WVD SSO certificates.
 
@@ -398,7 +629,7 @@ Accept wildcard characters: False
 ```
 
 ### -SsoSecretType
-The type of single sign on Secret Type.
+The type of single sign on Secret Type. Accepted Values: Certificate, CertificateInKeyVault, SharedKey, SharedKeyInKeyVault	
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.SsoSecretType
@@ -540,7 +771,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IHostPool
+### Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IHostPool
 
 ## NOTES
 

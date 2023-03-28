@@ -20,6 +20,7 @@ using Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core;
 using Microsoft.Azure.Commands.Common.Authentication.Models;
 using Microsoft.Azure.Commands.Common.Authentication.Properties;
 using Microsoft.Azure.Commands.Common.Exceptions;
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -77,6 +78,11 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Factories
             List<Type> types = new List<Type>();
             List<object> parameterList = new List<object>();
             List<DelegatingHandler> handlerList = new List<DelegatingHandler> { DefaultCancelRetryHandler.Clone() as CancelRetryHandler};
+            if (parameters.FirstOrDefault(parameter => parameter is IClaimsChallengeProcessor) is IClaimsChallengeProcessor claimsChallengeProcessor)
+            {
+                handlerList.Add(new ClaimsChallengeHandler(claimsChallengeProcessor));
+            }
+
             var customHandlers = GetCustomHandlers();
             if (customHandlers != null && customHandlers.Any())
             {
@@ -364,13 +370,39 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Factories
         }
 
         /// <summary>
+        /// AddUserAgent is method from ClientFactory singleten. When user terminate cmdlet execution on Console, the module name in 
+        /// useragent cannot be removed. It leads multiple module names in useragent if user execute cmdlet of another module after 
+        /// previous terminated cmdlet. The solution here is to share the same key to all modules which name leads "Az.". It is not accurate
+        /// but can cover the majority of cases.
+        /// </summary>
+        /// <param name="productName"></param>
+        /// <returns></returns>
+        private static string GetProductInfoHeaderKey(string productName)
+        {
+            string productInfoHeaderKey = productName;
+            if (!string.IsNullOrWhiteSpace(productName) && productName.StartsWith("Az."))
+            {
+                productInfoHeaderKey = "Az.ModuleKey";
+            }
+            return productInfoHeaderKey;
+        }
+        /// <summary>
         /// Adds user agent to UserAgents collection.
         /// </summary>
         /// <param name="productName">Product name.</param>
         /// <param name="productVersion">Product version.</param>
         public void AddUserAgent(string productName, string productVersion)
         {
-            _userAgents.TryAdd(new ProductInfoHeaderValue(productName, productVersion), productName);
+            //the value may be null in test cases
+            if (string.IsNullOrWhiteSpace(productName))
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(productVersion))
+            {
+                productVersion = "";
+            }
+            _userAgents.TryAdd(new ProductInfoHeaderValue(productName, productVersion ?? ""), GetProductInfoHeaderKey(productName));
         }
 
         /// <summary>

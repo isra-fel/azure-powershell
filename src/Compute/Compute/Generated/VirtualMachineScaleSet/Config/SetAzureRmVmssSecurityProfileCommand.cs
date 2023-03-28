@@ -27,6 +27,7 @@ using System.Management.Automation;
 using Microsoft.Azure.Commands.Compute.Automation.Models;
 using Microsoft.Azure.Management.Compute.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 
 namespace Microsoft.Azure.Commands.Compute.Automation
 {
@@ -42,11 +43,12 @@ namespace Microsoft.Azure.Commands.Compute.Automation
         public PSVirtualMachineScaleSet VirtualMachineScaleSet { get; set; }
 
         [Parameter(
-            HelpMessage = "Parameter to toggle vTPM on the VMs of the scale set",
+            HelpMessage = "Parameter to set the SecurityType on the VMs of the scale set. Possible values are: TrustedLaunch, ConfidentialVM",
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true)]
-        public SecurityTypes SecurityType { get; set; }
+        [PSArgumentCompleter("TrustedLaunch", "ConfidentialVM")]
+        public string SecurityType { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -58,13 +60,16 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             if (this.IsParameterBound(c => c.SecurityType))
             {
                 // Security Profile
+                if (this.VirtualMachineScaleSet.VirtualMachineProfile == null)
+                {
+                    this.VirtualMachineScaleSet.VirtualMachineProfile = new PSVirtualMachineScaleSetVMProfile();
+                }
                 if (this.VirtualMachineScaleSet.VirtualMachineProfile.SecurityProfile == null)
                 {
                     this.VirtualMachineScaleSet.VirtualMachineProfile.SecurityProfile = new SecurityProfile();
                 }
-                this.VirtualMachineScaleSet.VirtualMachineProfile.SecurityProfile.SecurityType = SecurityType;
+                this.VirtualMachineScaleSet.VirtualMachineProfile.SecurityProfile.SecurityType = this.SecurityType;
             }
-
             WriteObject(this.VirtualMachineScaleSet);
         }
 

@@ -36,7 +36,7 @@ function Test-ActiveDirectoryCrud
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tags @{Owner = 'b-aubald'}
 
         # try creating an Account -               
         $newTagName = "tag1"
@@ -77,7 +77,7 @@ function Test-ActiveDirectoryCrud
                               
         #remove by name
         Remove-AzNetAppFilesActiveDirectory -ResourceGroupName $resourceGroup -AccountName $accName1 -ActiveDirectoryId $getRetrievedAd.ActiveDirectoryId
-        Start-Sleep -s 15
+        Start-TestSleep -Seconds 15
         $retrievedActiveDirectoryList = Get-AzNetAppFilesActiveDirectory -ResourceGroupName $resourceGroup -AccountName $accName1
         Assert-AreEqual 0 $retrievedActiveDirectoryList.Length
     }
@@ -109,7 +109,7 @@ function Test-ActiveDirectoryPipelines
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tags @{Owner = 'b-aubald'}
 
         New-AnfAccount -ResourceGroupName $resourceGroup -Location $resourceLocation -Name $accName1
         $sPass = ConvertTo-SecureString $adPassword -AsPlainText -Force

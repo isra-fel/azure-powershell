@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
 {
     using static Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Extensions;
+    using System;
 
     /// <summary>Update a cluster in a private cloud</summary>
     /// <remarks>
     /// [OpenAPI] Update=>PATCH:"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}"
     /// </remarks>
     [global::System.Management.Automation.Cmdlet(global::System.Management.Automation.VerbsData.Update, @"AzVMwareCluster_UpdateViaIdentityExpanded", SupportsShouldProcess = true)]
-    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICluster))]
+    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster))]
     [global::Microsoft.Azure.PowerShell.Cmdlets.VMware.Description(@"Update a cluster in a private cloud")]
     [global::Microsoft.Azure.PowerShell.Cmdlets.VMware.Generated]
     public partial class UpdateAzVMwareCluster_UpdateViaIdentityExpanded : global::System.Management.Automation.PSCmdlet,
@@ -31,6 +32,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         /// The <see cref="global::System.Threading.CancellationTokenSource" /> for this operation.
         /// </summary>
         private global::System.Threading.CancellationTokenSource _cancellationTokenSource = new global::System.Threading.CancellationTokenSource();
+
+        /// <summary>An update of a cluster resource</summary>
+        private Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.IClusterUpdate _clusterUpdateBody = new Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ClusterUpdate();
 
         /// <summary>when specified, runs this cmdlet as a PowerShell job</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "Run the command as a job")]
@@ -54,13 +58,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         Description = @"The cluster size",
         SerializedName = @"clusterSize",
         PossibleTypes = new [] { typeof(int) })]
-        public int ClusterSize { get => ClusterUpdateBody.ClusterSize ?? default(int); set => ClusterUpdateBody.ClusterSize = value; }
-
-        /// <summary>Backing field for <see cref="ClusterUpdateBody" /> property.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.IClusterUpdate _clusterUpdateBody= new Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ClusterUpdate();
-
-        /// <summary>An update of a cluster resource</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.IClusterUpdate ClusterUpdateBody { get => this._clusterUpdateBody; set => this._clusterUpdateBody = value; }
+        public int ClusterSize { get => _clusterUpdateBody.ClusterSize ?? default(int); set => _clusterUpdateBody.ClusterSize = value; }
 
         /// <summary>
         /// The credentials, account, tenant, and subscription used for communication with Azure
@@ -95,11 +93,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         public global::System.Management.Automation.InvocationInfo InvocationInformation { get => __invocationInfo = __invocationInfo ?? this.MyInvocation ; set { __invocationInfo = value; } }
 
         /// <summary>
-        /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
+        /// <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
         global::System.Action Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
 
-        /// <summary><see cref="IEventListener" /> cancellation token.</summary>
+        /// <summary><see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener" /> cancellation token.</summary>
         global::System.Threading.CancellationToken Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener.Token => _cancellationTokenSource.Token;
 
         /// <summary>
@@ -114,6 +112,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         /// The instance of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.HttpPipeline" /> that the remote call will use.
         /// </summary>
         private Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.HttpPipeline Pipeline { get; set; }
+
+        /// <summary>The hosts</summary>
+        [global::System.Management.Automation.AllowEmptyCollection]
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The hosts")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.VMware.Category(global::Microsoft.Azure.PowerShell.Cmdlets.VMware.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The hosts",
+        SerializedName = @"hosts",
+        PossibleTypes = new [] { typeof(string) })]
+        public string[] PropertiesHost { get => _clusterUpdateBody.Host ?? null /* arrayOf */; set => _clusterUpdateBody.Host = value; }
 
         /// <summary>The URI for the proxy server to use</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "The URI for the proxy server to use")]
@@ -136,30 +146,35 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         /// happens on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onDefault method should be processed, or if the method should
         /// return immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// <c>overrideOnOk</c> will be called before the regular onOk has been processed, allowing customization of what happens
         /// on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICluster"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster">Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onOk method should be processed, or if the method should return
         /// immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICluster> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// (overrides the default BeginProcessing method in global::System.Management.Automation.PSCmdlet)
         /// </summary>
         protected override void BeginProcessing()
         {
+            var telemetryId = Microsoft.Azure.PowerShell.Cmdlets.VMware.Module.Instance.GetTelemetryId.Invoke();
+            if (telemetryId != "" && telemetryId != "internal")
+            {
+                __correlationId = telemetryId;
+            }
             Module.Instance.SetProxyConfiguration(Proxy, ProxyCredential, ProxyUseDefaultCredentials);
             if (Break)
             {
@@ -185,14 +200,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
             clone.ProxyUseDefaultCredentials = this.ProxyUseDefaultCredentials;
             clone.HttpPipelinePrepend = this.HttpPipelinePrepend;
             clone.HttpPipelineAppend = this.HttpPipelineAppend;
-            clone.ClusterUpdateBody = this.ClusterUpdateBody;
+            clone._clusterUpdateBody = this._clusterUpdateBody;
             return clone;
         }
 
         /// <summary>Performs clean-up after the command execution</summary>
         protected override void EndProcessing()
         {
-            ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Events.CmdletEndProcessing).Wait(); if( ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+
         }
 
         /// <summary>Handles/Dispatches events during the call to the REST service.</summary>
@@ -325,7 +340,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         {
             using( NoSynchronizationContext )
             {
-                await ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Events.CmdletProcessRecordAsyncStart); if( ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Events.CmdletGetPipeline); if( ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 Pipeline = Microsoft.Azure.PowerShell.Cmdlets.VMware.Module.Instance.CreatePipeline(InvocationInformation, __correlationId, __processRecordId, this.ParameterSetName);
                 if (null != HttpPipelinePrepend)
@@ -342,7 +356,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
                     await ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Events.CmdletBeforeAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                     if (InputObject?.Id != null)
                     {
-                        await this.Client.ClustersUpdateViaIdentity(InputObject.Id, ClusterUpdateBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.ClustersUpdateViaIdentity(InputObject.Id, _clusterUpdateBody, onOk, onDefault, this, Pipeline);
                     }
                     else
                     {
@@ -363,13 +377,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
                         {
                             ThrowTerminatingError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception("InputObject has null value for InputObject.ClusterName"),string.Empty, global::System.Management.Automation.ErrorCategory.InvalidArgument, InputObject) );
                         }
-                        await this.Client.ClustersUpdate(InputObject.SubscriptionId ?? null, InputObject.ResourceGroupName ?? null, InputObject.PrivateCloudName ?? null, InputObject.ClusterName ?? null, ClusterUpdateBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.ClustersUpdate(InputObject.SubscriptionId ?? null, InputObject.ResourceGroupName ?? null, InputObject.PrivateCloudName ?? null, InputObject.ClusterName ?? null, _clusterUpdateBody, onOk, onDefault, this, Pipeline);
                     }
                     await ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.Events.CmdletAfterAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 }
                 catch (Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.UndeclaredResponseException urexception)
                 {
-                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  body=ClusterUpdateBody})
+                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  body=_clusterUpdateBody})
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(urexception.Message) { RecommendedAction = urexception.Action }
                     });
@@ -400,12 +414,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
         /// a delegate that is called when the remote service returns default (any response code not handled elsewhere).
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICloudError> response)
+        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError> response)
         {
             using( NoSynchronizationContext )
             {
@@ -422,15 +436,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
                 if ((null == code || null == message))
                 {
                     // Unrecognized Response. Create an error record based on what we have.
-                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICloudError>(responseMessage, await response);
-                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=ClusterUpdateBody })
+                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.VMware.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICloudError>(responseMessage, await response);
+                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=_clusterUpdateBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(ex.Message) { RecommendedAction = ex.Action }
                     });
                 }
                 else
                 {
-                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=ClusterUpdateBody })
+                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=_clusterUpdateBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(message) { RecommendedAction = global::System.String.Empty }
                     });
@@ -440,12 +454,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICluster"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster">Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICluster> response)
+        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster> response)
         {
             using( NoSynchronizationContext )
             {
@@ -457,7 +471,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.VMware.Cmdlets
                     return ;
                 }
                 // onOk - response for 200 / application/json
-                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20200320.ICluster
+                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.VMware.Models.Api20211201.ICluster
                 WriteObject((await response));
             }
         }

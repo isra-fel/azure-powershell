@@ -63,7 +63,7 @@ SKUSETTING <ISkuSetting[]>: .
   [Size <String>]: 
   [Tier <String>]: 
 .Link
-https://docs.microsoft.com/powershell/module/az.providerhub/new-azproviderhubskunestedresourcetypesecond
+https://learn.microsoft.com/powershell/module/az.providerhub/new-azproviderhubskunestedresourcetypesecond
 #>
 function New-AzProviderHubSkuNestedResourceTypeSecond {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.Api20201120.ISkuResource])]
@@ -106,7 +106,15 @@ param(
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
+    [ArgumentCompleter([Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Support.ProvisioningState])]
+    [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Support.ProvisioningState]
+    # .
+    ${ProvisioningState},
+
+    [Parameter()]
+    [AllowEmptyCollection()]
     [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.Api20201120.ISkuSetting[]]
     # .
@@ -174,6 +182,7 @@ begin {
         if (('CreateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

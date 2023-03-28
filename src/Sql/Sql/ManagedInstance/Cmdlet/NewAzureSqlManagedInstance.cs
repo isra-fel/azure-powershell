@@ -28,12 +28,19 @@ using Microsoft.Azure.Commands.Sql.Instance_Pools.Model;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.Azure.Commands.Sql.Instance_Pools.Services;
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
+using System;
+using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 
 namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
 {
     /// <summary>
     /// Defines the New-AzSqlInstance cmdlet
     /// </summary>
+    [CmdletOutputBreakingChange(
+        deprecatedCmdletOutputTypeName: typeof(AzureSqlManagedInstanceModel),
+        deprecateByVersion: "4.0.0",
+        DeprecatedOutputProperties = new String[] { "BackupStorageRedundancy" },
+        NewOutputProperties = new String[] { "CurrentBackupStorageRedundancy", "RequestedBackupStorageRedundancy" })]
     [Cmdlet(VerbsCommon.New, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "SqlInstance",
         DefaultParameterSetName = NewByEditionAndComputeGenerationParameterSet,
         SupportsShouldProcess = true),
@@ -120,8 +127,7 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         /// <summary>
         /// Gets or sets the admin credential of the instance
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "The SQL authentication credential of the instance.")]
-        [ValidateNotNull]
+        [Parameter(Mandatory = false, HelpMessage = "The SQL authentication credential of the instance.")]
         public PSCredential AdministratorCredential { get; set; }
 
         /// <summary>
@@ -313,7 +319,7 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         /// </summary>
         [Parameter(Mandatory = false,
             HelpMessage = "The Backup storage redundancy used to store backups for the Sql Azure Managed Instance. Options are: Local, Zone and Geo ")]
-        [ValidateSet("Local", "Zone", "Geo")]
+        [ValidateSet("Local", "Zone", "Geo", "GeoZone")]
         public string BackupStorageRedundancy { get; set; }
 
         /// <summary>
@@ -322,6 +328,35 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         [Parameter(Mandatory = false,
             HelpMessage = "The Maintenance configuration id for the Sql Azure Managed Instance.")]
         public string MaintenanceConfigurationId { get; set; }
+
+        /// <summary>
+        /// Id of the primary user assigned identity
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The primary user managed identity(UMI) id")]
+        public string PrimaryUserAssignedIdentityId { get; set; }
+
+        /// <summary>
+        /// URI of the key to use for encryption
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The Key Vault URI for encryption")]
+        public string KeyId { get; set; }
+
+        /// <summary>
+        /// List of user assigned identities.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "List of user assigned identities")]
+        public List<string> UserAssignedIdentityId { get; set; }
+
+        /// <summary>
+        /// Type of identity to be assigned to the server..
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Type of Identity to be used. Possible values are SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' and None.")]
+        [PSArgumentCompleter("SystemAssigned", "UserAssigned", "\"SystemAssigned,UserAssigned\"", "None")]
+        public string IdentityType { get; set; }
 
         /// <summary>
         /// Gets or sets whether or not to run this cmdlet in the background as a job
@@ -336,10 +371,56 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
         public SwitchParameter Force { get; set; }
 
         /// <summary>
+        /// Enable Active Directory Only Authentication on the server
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Enable Active Directory Only Authentication on the server.")]
+        public SwitchParameter EnableActiveDirectoryOnlyAuthentication { get; set; }
+
+        /// <summary>
+        /// Azure Active Directory display name for a user or group
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Specifies the display name of the user, group or application which is the Azure Active Directory administrator for the server. This display name must exist in the active directory associated with the current subscription.")]
+        public string ExternalAdminName { get; set; }
+
+        /// <summary>
+        /// Azure Active Directory object id for a user, group or application
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Specifies the object ID of the user, group or application which is the Azure Active Directory administrator.")]
+        public Guid? ExternalAdminSID { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether or not the multi-az is enabled
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "Use zone redundant storage")]
+        public SwitchParameter ZoneRedundant { get; set; }
+
+        /// <summary>
+        /// Gets or sets service principal type
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Type of Service Principal to be used. Possible values are SystemAssigned and None.")]
+        [ValidateSet("None", "SystemAssigned")]
+        [PSArgumentCompleter("SystemAssigned", "None")]
+        public string ServicePrincipalType { get; set; }
+
+        /// <summary>
         /// Overriding to add warning message
         /// </summary>
         public override void ExecuteCmdlet()
         {
+            if (this.EnableActiveDirectoryOnlyAuthentication.IsPresent && this.ExternalAdminName == null)
+            {
+                throw new PSArgumentException(Properties.Resources.MissingExternalAdmin, "ExternalAdminName");
+            }
+
+            if (!this.EnableActiveDirectoryOnlyAuthentication.IsPresent && this.AdministratorCredential == null)
+            {
+                throw new PSArgumentException(Properties.Resources.MissingSQLAdministratorCredentials, "AdministratorCredential");
+            }
+
             if (this.IsParameterBound(c => c.InstancePool))
             {
                 this.ResourceGroupName = this.InstancePool.ResourceGroupName;
@@ -462,10 +543,10 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
                 Location = this.Location,
                 ResourceGroupName = this.ResourceGroupName,
                 FullyQualifiedDomainName = this.Name,
-                AdministratorLogin = this.AdministratorCredential.UserName,
-                AdministratorPassword = this.AdministratorCredential.Password,
+                AdministratorPassword = (this.AdministratorCredential != null) ? this.AdministratorCredential.Password : null,
+                AdministratorLogin = (this.AdministratorCredential != null) ? this.AdministratorCredential.UserName : null,
                 Tags = TagsConversionHelper.CreateTagDictionary(Tag, validate: true),
-                Identity = ResourceIdentityHelper.GetIdentityObjectFromType(this.AssignIdentity.IsPresent),
+                Identity = ResourceIdentityHelper.GetIdentityObjectFromType(this.AssignIdentity.IsPresent, this.IdentityType ?? null, UserAssignedIdentityId, null),
                 LicenseType = this.LicenseType,
                 // `-StorageSizeInGB 0` as a parameter to this cmdlet means "use default".
                 // For non-MI database, we can just pass in 0 and the server will treat 0 as default.
@@ -482,9 +563,19 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Cmdlet
                 DnsZonePartner = this.DnsZonePartner,
                 InstancePoolName = this.InstancePoolName,
                 MinimalTlsVersion = this.MinimalTlsVersion,
-                BackupStorageRedundancy = this.BackupStorageRedundancy,
-                MaintenanceConfigurationId = this.MaintenanceConfigurationId
-            });
+                RequestedBackupStorageRedundancy = this.BackupStorageRedundancy,
+                MaintenanceConfigurationId = this.MaintenanceConfigurationId,
+                PrimaryUserAssignedIdentityId = this.PrimaryUserAssignedIdentityId,
+                KeyId = this.KeyId,
+                Administrators = new Management.Sql.Models.ManagedInstanceExternalAdministrator()
+                {
+                    AzureADOnlyAuthentication = (this.EnableActiveDirectoryOnlyAuthentication.IsPresent) ? (bool?)true : null,
+                    Login = this.ExternalAdminName,
+                    Sid = this.ExternalAdminSID
+                },
+                ZoneRedundant = this.ZoneRedundant.IsPresent ? this.ZoneRedundant.ToBool() : (bool?)null,
+                ServicePrincipal = ResourceServicePrincipalHelper.GetServicePrincipalObjectFromType(this.ServicePrincipalType ?? null)
+            }); ;
             return newEntity;
         }
 

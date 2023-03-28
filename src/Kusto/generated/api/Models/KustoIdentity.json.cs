@@ -19,7 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
         partial void AfterFromJson(Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonObject json);
 
         /// <summary>
-        /// <c>AfterToJson</c> will be called after the json erialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonObject"
+        /// <c>AfterToJson</c> will be called after the json serialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonObject"
         /// /> before it is returned. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -29,7 +29,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
         /// <summary>
         /// <c>BeforeFromJson</c> will be called before the json deserialization has commenced, allowing complete customization of
         /// the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name= "returnNow" />
+        /// output parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="json">The JsonNode that should be deserialized into this object.</param>
@@ -41,7 +42,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
         /// <summary>
         /// <c>BeforeToJson</c> will be called before the json serialization has commenced, allowing complete customization of the
         /// object before it is serialized.
-        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -79,7 +81,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
             {_principalAssignmentName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("principalAssignmentName"), out var __jsonPrincipalAssignmentName) ? (string)__jsonPrincipalAssignmentName : (string)PrincipalAssignmentName;}
             {_databaseName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("databaseName"), out var __jsonDatabaseName) ? (string)__jsonDatabaseName : (string)DatabaseName;}
             {_attachedDatabaseConfigurationName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("attachedDatabaseConfigurationName"), out var __jsonAttachedDatabaseConfigurationName) ? (string)__jsonAttachedDatabaseConfigurationName : (string)AttachedDatabaseConfigurationName;}
+            {_managedPrivateEndpointName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("managedPrivateEndpointName"), out var __jsonManagedPrivateEndpointName) ? (string)__jsonManagedPrivateEndpointName : (string)ManagedPrivateEndpointName;}
+            {_scriptName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("scriptName"), out var __jsonScriptName) ? (string)__jsonScriptName : (string)ScriptName;}
+            {_privateEndpointConnectionName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("privateEndpointConnectionName"), out var __jsonPrivateEndpointConnectionName) ? (string)__jsonPrivateEndpointConnectionName : (string)PrivateEndpointConnectionName;}
+            {_privateLinkResourceName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("privateLinkResourceName"), out var __jsonPrivateLinkResourceName) ? (string)__jsonPrivateLinkResourceName : (string)PrivateLinkResourceName;}
             {_dataConnectionName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("dataConnectionName"), out var __jsonDataConnectionName) ? (string)__jsonDataConnectionName : (string)DataConnectionName;}
+            {_operationId = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("operationId"), out var __jsonOperationId) ? (string)__jsonOperationId : (string)OperationId;}
             {_id = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString>("id"), out var __jsonId) ? (string)__jsonId : (string)Id;}
             AfterFromJson(json);
         }
@@ -110,7 +117,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
             AddIf( null != (((object)this._principalAssignmentName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._principalAssignmentName.ToString()) : null, "principalAssignmentName" ,container.Add );
             AddIf( null != (((object)this._databaseName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._databaseName.ToString()) : null, "databaseName" ,container.Add );
             AddIf( null != (((object)this._attachedDatabaseConfigurationName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._attachedDatabaseConfigurationName.ToString()) : null, "attachedDatabaseConfigurationName" ,container.Add );
+            AddIf( null != (((object)this._managedPrivateEndpointName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._managedPrivateEndpointName.ToString()) : null, "managedPrivateEndpointName" ,container.Add );
+            AddIf( null != (((object)this._scriptName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._scriptName.ToString()) : null, "scriptName" ,container.Add );
+            AddIf( null != (((object)this._privateEndpointConnectionName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._privateEndpointConnectionName.ToString()) : null, "privateEndpointConnectionName" ,container.Add );
+            AddIf( null != (((object)this._privateLinkResourceName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._privateLinkResourceName.ToString()) : null, "privateLinkResourceName" ,container.Add );
             AddIf( null != (((object)this._dataConnectionName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._dataConnectionName.ToString()) : null, "dataConnectionName" ,container.Add );
+            AddIf( null != (((object)this._operationId)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._operationId.ToString()) : null, "operationId" ,container.Add );
             AddIf( null != (((object)this._id)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonString(this._id.ToString()) : null, "id" ,container.Add );
             AfterToJson(ref container);
             return container;

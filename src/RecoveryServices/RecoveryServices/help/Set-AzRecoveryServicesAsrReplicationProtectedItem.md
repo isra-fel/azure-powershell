@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/powershell/module/az.recoveryservices/set-azrecoveryservicesasrreplicationprotecteditem
+online version: https://learn.microsoft.com/powershell/module/az.recoveryservices/set-azrecoveryservicesasrreplicationprotecteditem
 schema: 2.0.0
 ---
 
@@ -23,8 +23,8 @@ Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicationPr
  [-DiskTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-RecoveryNicTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-RecoveryAvailabilityZone <String>] [-RecoveryProximityPlacementGroupId <String>]
- [-RecoveryVirtualMachineScaleSetId <String>] [-EnableAcceleratedNetworkingOnRecovery]
- [-RecoveryBootDiagStorageAccountId <String>]
+ [-RecoveryVirtualMachineScaleSetId <String>] [-RecoveryCapacityReservationGroupId <String>]
+ [-EnableAcceleratedNetworkingOnRecovery] [-RecoveryBootDiagStorageAccountId <String>]
  [-AzureToAzureUpdateReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
  [-KeyEncryptionVaultId <String>] [-UseManagedDisk <String>]
@@ -41,61 +41,61 @@ The **Set-AzRecoveryServicesAsrReplicationProtectedItem** cmdlet sets the recove
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -ReplicationProtectedItem $RPI -UpdateNic $NicId -RecoveryNetworkId $AzureNetworkID -RecoveryNicSubnetName $subnetName
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -ReplicationProtectedItem $RPI -UpdateNic $NicId -RecoveryNetworkId $AzureNetworkID -RecoveryNicSubnetName $subnetName
 ```
 
 Starts the operation of updating the replication protected item settings using the specified parameters and returns the ASR job used to track the operation.
 
 ### Example 2
-```
-PS C:\> $currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -UpdateNic "00:50:56:8F:3F:7B" -RecoveryNetworkId $recoveryNetwork -RecoveryNicSubnetName $recoverySubnet -NicSelectionType NotSelected
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -UpdateNic "00:50:56:8F:3F:7B" -RecoveryNetworkId $recoveryNetwork -RecoveryNicSubnetName $recoverySubnet -NicSelectionType NotSelected
 ```
 
 Starts the operation of updating the replication protected item Network Interface card(NIC Reduction) settings using the specified parameters and returns the ASR job used to track the operation.
 
 ### Example 3
-```
-PS C:\> $currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -PrimaryNic "00:50:56:8F:3F:7B"
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -PrimaryNic "00:50:56:8F:3F:7B"
 ```
 
 Starts the operation of updating the replication protected item primary NIC(to used for recovered vm )settings using the specified parameters and returns the ASR job used to track the operation.
 
 ### Example 4
-```
-PS C:\>Set-ASRReplicationProtectedItem -InputObject $rpi -UpdateNic $updateNic -RecoveryNetworkId $recoveryNetworkId -RecoveryNicSubnetName $recoveryNicSubnetName�-NicSelectionType SelectedByUser
+```powershell
+Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -UpdateNic $updateNic -RecoveryNetworkId $recoveryNetworkId -RecoveryNicSubnetName $recoveryNicSubnetName -NicSelectionType SelectedByUser
 ```
 
 Starts the operation of updating the replication protected item NIC (to used for recovered vm )settings using the specified parameters and returns the ASR job used to track the operation.
 
 ### Example 5
-```
-PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject $ rpi -UpdateNic $updateNic `
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -UpdateNic $updateNic `
 		-RecoveryNetworkId $recoveryNetworkId -RecoveryNicSubnetName $recoveryNicSubnetName -EnableAcceleratedNetworkingOnRecovery
 ```
 
 Starts the operation of updating the replication protected item selected noc tp enable accelerated networking on recovery VM(for Azure to Azure disaster recovery).
-Don�t pass -EnableAcceleratedNetworkingOnRecovery to disable accelerated Networking.
+Don't pass -EnableAcceleratedNetworkingOnRecovery to disable accelerated Networking.
 
 ### Example 6
-```
-PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject $ rpi `
-	-DiskEncryptionVaultId  $DiskEncryptionVaultId   �-DiskEncryptionSecertUrl $DiskEncryptionSecertUrl `
-	 -KeyEncryptionVaultId $KeyEncryptionVaultId  -KeyEncryptionKeyUrl $KeyEncryptionKeyUrl
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi `
+		-DiskEncryptionVaultId $DiskEncryptionVaultId -DiskEncryptionSecretUrl $DiskEncryptionSecertUrl `
+		-KeyEncryptionVaultId $KeyEncryptionVaultId -KeyEncryptionKeyUrl $KeyEncryptionKeyUrl
 ```
 
 Start the update operation for the specified encrypted replication protected item to use supplied encryption details for failover VM.
 
 ### Example 7
-```
-PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject $ rpi -RecoveryProximityPlacementGroupId $ppg
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -RecoveryProximityPlacementGroupId $ppg
 ```
 
 Start the update operation for the specified replication protected item to use the supplied proximity placement group for failover VM.
 
 ### Example 8
-```
-PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject $ rpi -RecoveryVirtualMachineScaleSetId $vmss
+```powershell
+$currentJob = Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject $rpi -RecoveryVirtualMachineScaleSetId $vmss
 ```
 
 Start the update operation for the specified replication protected item to use the supplied virtual machine scale set for failover VM.
@@ -364,6 +364,21 @@ Accept wildcard characters: False
 
 ### -RecoveryBootDiagStorageAccountId
 Specifies the storage account for boot diagnostics for recovery azure VM.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RecoveryCapacityReservationGroupId
+Specify the capacity reservation group Id to be used by the failover VM in target recovery region.
 
 ```yaml
 Type: System.String

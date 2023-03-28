@@ -18,18 +18,36 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
-* Remove deprecated cluster certificate commands:
-    - Add-AzServiceFabricClusterCertificate
-    - Remove-AzServiceFabricClusterCertificate
-Please follow instructions here to add/remove cluster certificates: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-security-update-certs-azure#add-a-secondary-certificate-using-azure-resource-manager
-* Change PSManagedService model to avoid using the properties parameter directly from sdk.
-* Remove deprecated parameters for managed cmdlets:
-    - ReverseProxyEndpointPort
-    - InstanceCloseDelayDuration
-    - ServiceDnsName
-    - InstanceCloseDelayDuration
-    - DropSourceReplicaOnMove
-* Fixed Update-AzServiceFabricReliability to update correctly the vm instance count of the primary node type on the cluster resource.
+
+## Version 3.1.1
+* Added support for Windows 2022 server vm image. 
+    - This enables cluster operations with Windows 2022 server vm image 
+
+## Version 3.1.0
+* Fixed typo in verbose log message.
+* Added Tag support for managed cluster create and update
+
+## Version 3.0.2
+* Added support for Ubuntu 20.04 vm image. 
+    - This enables cluster operations with Ubuntu 20.04 vm image using AZ powershell. 
+
+## Version 3.0.1
+* Fixed Managed and Classic Application models (Application, Cluster, Service) by updating constructor to take all new properties
+    - This solves piping related issues where piping the results directly from a Get cmdlet call into and Update or Set call remove some intentionally set properties
+    - Updated appropriate test files to cover the above mentioned cases
+
+## Version 3.0.0
+* Removed deprecated cluster certificate commands:
+    - `Add-AzServiceFabricClusterCertificate`
+    - `Remove-AzServiceFabricClusterCertificate`
+* Changed PSManagedService model to avoid using the properties parameter directly from sdk.
+* Removed deprecated parameters for managed cmdlets:
+    - `ReverseProxyEndpointPort`
+    - `InstanceCloseDelayDuration`
+    - `ServiceDnsName`
+    - `InstanceCloseDelayDuration`
+    - `DropSourceReplicaOnMove`
+* Fixed `Update-AzServiceFabricReliability` to update correctly the vm instance count of the primary node type on the cluster resource.
 
 ## Version 2.4.0
 * Upgraded Managed Cluster commands to use Service Fabric Managed Cluster SDK version 1.0.0 which uses service fabric resource provider api-version 2021-05-01.

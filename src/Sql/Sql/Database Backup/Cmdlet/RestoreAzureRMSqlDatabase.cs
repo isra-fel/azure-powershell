@@ -11,15 +11,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-
-using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
-using Microsoft.Azure.Commands.Common.Authentication.Models;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using Microsoft.Azure.Commands.ResourceManager.Common.Tags;
 using Microsoft.Azure.Commands.Sql.Backup.Services;
 using Microsoft.Azure.Commands.Sql.Common;
 using Microsoft.Azure.Commands.Sql.Database.Model;
 using Microsoft.Azure.Commands.Sql.Database.Services;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Management.Automation;
@@ -280,12 +281,54 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Cmdlet
         public string LicenseType { get; set; }
 
         /// <summary>
+        /// Gets or sets the HA Replica Count option.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The HA Replica Count used to store backups for the SQL Database.")]
+        [ValidateRange(0, int.MaxValue)]
+        public int HAReplicaCount { get; set; }
+
+        /// <summary>
         /// Gets or sets the database backup storage redundancy.
         /// </summary>
         [Parameter(Mandatory = false,
-            HelpMessage = "The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone and Geo.")]
-        [ValidateSet("Local", "Zone", "Geo")]
+            HelpMessage = "The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone, Geo, GeoZone.")]
+        [ValidateSet("Local", "Zone", "Geo", "GeoZone")]
         public string BackupStorageRedundancy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the zone redundant option to assign to the Azure SQL Database
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The zone redundancy to associate with the Azure Sql Database. This property is only settable for Hyperscale edition databases.")]
+        public SwitchParameter ZoneRedundant { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags associated with the Azure Sql Database
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The tags to associate with the Azure Sql Database")]
+        public Hashtable Tag { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "Generate and assign an Azure Active Directory Identity for this database for use with key management services like Azure KeyVault.")]
+        public SwitchParameter AssignIdentity { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The encryption protector key for SQL Database.")]
+        public string EncryptionProtector { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The list of user assigned identity for the SQL Database.")]
+        public string[] UserAssignedIdentityId { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The list of AKV keys for the SQL Database.")]
+        public string[] KeyList { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The federated client id for the SQL Database. It is used for cross tenant CMK scenario.")]
+        public Guid? FederatedClientId { get; set; }
 
         protected static readonly string[] ListOfRegionsToShowWarningMessageForGeoBackupStorage = { "eastasia", "southeastasia", "brazilsouth", "east asia", "southeast asia", "brazil south" };
 
@@ -365,6 +408,13 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Cmdlet
                 CreateMode = createMode,
                 LicenseType = LicenseType,
                 RequestedBackupStorageRedundancy = BackupStorageRedundancy,
+                Tags = TagsConversionHelper.CreateTagDictionary(Tag, validate: true),
+                ZoneRedundant = this.IsParameterBound(p => p.ZoneRedundant) ? ZoneRedundant.ToBool() : (bool?)null,
+                HighAvailabilityReplicaCount = HAReplicaCount,
+                Identity = DatabaseIdentityAndKeysHelper.GetDatabaseIdentity(this.AssignIdentity.IsPresent, this.UserAssignedIdentityId),
+                Keys = DatabaseIdentityAndKeysHelper.GetDatabaseKeysDictionary(this.KeyList),
+                EncryptionProtector = this.EncryptionProtector,
+                FederatedClientId = this.FederatedClientId,
             };
 
             if (ParameterSetName == FromPointInTimeBackupWithVcoreSetName || ParameterSetName == FromDeletedDatabaseBackupWithVcoreSetName ||
@@ -382,7 +432,48 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Cmdlet
                 model.Edition = Edition;
             }
 
-            return ModelAdapter.RestoreDatabase(this.ResourceGroupName, restorePointInTime, ResourceId, model);
+            // get auth headers for cross-sub and cross-tenant restore operations
+            string targetSubscriptionId = ModelAdapter.Context?.Subscription?.Id;
+            string sourceSubscriptionId = ParseSubscriptionIdFromResourceId(ResourceId);
+            bool isCrossSubscriptionRestore = false;
+            Dictionary<string, List<string>> auxAuthHeader = null;
+            if (!string.IsNullOrEmpty(sourceSubscriptionId) && !string.IsNullOrEmpty(targetSubscriptionId) && !targetSubscriptionId.Equals(sourceSubscriptionId, StringComparison.OrdinalIgnoreCase))
+            {
+                List<string> resourceIds = new List<string>();
+                resourceIds.Add(ResourceId);
+                var auxHeaderDictionary = GetAuxilaryAuthHeaderFromResourceIds(resourceIds);
+                if (auxHeaderDictionary != null && auxHeaderDictionary.Count > 0)
+                {
+                    auxAuthHeader = new Dictionary<string, List<string>>(auxHeaderDictionary);
+                }
+
+                isCrossSubscriptionRestore = true;
+            }
+
+            return ModelAdapter.RestoreDatabase(this.ResourceGroupName, restorePointInTime, ResourceId, model, isCrossSubscriptionRestore, auxAuthHeader);
+        }
+
+        /// <summary>
+        /// Parse subscription id from ResourceId
+        /// </summary>
+        /// <returns>Subscription Id</returns>
+        private string ParseSubscriptionIdFromResourceId(string resourceId)
+        {
+            string subscriptionId = null;
+            if (!string.IsNullOrEmpty(resourceId))
+            {
+                string[] words = resourceId.Split('/');
+                for (int i = 0; i < words.Length - 1; i++)
+                {
+                    if ("subscriptions".Equals(words[i], StringComparison.OrdinalIgnoreCase))
+                    {
+                        subscriptionId = words[i + 1];
+                        break;
+                    }
+                }
+            }
+
+            return subscriptionId;
         }
     }
 }

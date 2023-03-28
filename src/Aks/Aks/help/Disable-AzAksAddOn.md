@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Aks.dll-Help.xml
 Module Name: Az.Aks
-online version: https://docs.microsoft.com/powershell/module/az.aks/disable-azaksaddon
+online version: https://learn.microsoft.com/powershell/module/az.aks/disable-azaksaddon
 schema: 2.0.0
 ---
 
@@ -15,13 +15,15 @@ Disable the addons for aks.
 ### defaultParameterSet (Default)
 ```
 Disable-AzAksAddOn [-ResourceGroupName] <String> [-ClusterName] <String> [-Name <String[]>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [-SubscriptionId <String>]
+ [<CommonParameters>]
 ```
 
 ### InputObjectParameterSet
 ```
 Disable-AzAksAddOn -ClusterObject <PSKubernetesCluster> [-Name <String[]>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [-SubscriptionId <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +33,7 @@ Disable the addons for aks.
 
 ### Example 1
 ```powershell
-PS C:\> Get-AzAks -ResourceGroupName group -Name myCluster | Disable-AzAksAddon -Name HttpApplicationRouting,Monitoring,AzurePolicy,VirtualNode,KubeDashboard
+Get-AzAksCluster -ResourceGroupName group -Name myCluster | Disable-AzAksAddon -Name HttpApplicationRouting,Monitoring,AzurePolicy,VirtualNode,KubeDashboard
 ```
 
 Disable the addons `HttpApplicationRouting`, `Monitoring`, `AzurePolicy`, `VirtualNode` and `KubeDashboard` for aks.
@@ -110,6 +112,23 @@ Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SubscriptionId
+The ID of the subscription.
+By default, cmdlets are executed in the subscription that is set in the current context. If the user specifies another subscription, the current cmdlet is executed in the subscription specified by the user.
+Overriding subscriptions only take effect during the lifecycle of the current cmdlet. It does not change the subscription in the context, and does not affect subsequent cmdlets.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

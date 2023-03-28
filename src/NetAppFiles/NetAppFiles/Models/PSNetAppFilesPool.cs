@@ -50,6 +50,14 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         public object Tags { get; set; }
 
         /// <summary>
+        /// Gets or sets resource etag
+        /// </summary>
+        /// <remarks>
+        /// A unique read-only string that changes whenever the resource is updated.
+        /// </remarks>
+        public string Etag { get; set; }
+
+        /// <summary>
         /// Gets poolId
         /// </summary>
         public string PoolId { get; set; }
@@ -73,7 +81,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         /// Gets or sets TotalThroughputMibps
         /// </summary>
         /// <value>
-        /// total throughput of pool in Mibps        
+        /// Total throughput of pool in MiB/s
         /// </value>
         public double? TotalThroughputMibps { get; set; }
 
@@ -81,17 +89,37 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         /// Gets or sets UtilizedThroughputMibps
         /// </summary>
         /// <value>
-        /// Utilized throughput of pool in Mibps        
+        /// Utilized throughput of pool in MiB/s        
         /// </value>
         public double? UtilizedThroughputMibps { get; set; }
 
-
         /// <summary>
-        /// Gets or sets qosType
+        /// Gets or sets QosType
         /// </summary>
         /// <value>
-        /// The qos type of the pool. Possible values include: 'Auto', 'Manual'
+        /// The qos type of the pool (Auto, Manual)
         /// </value>
         public string QosType { get; set; }
+
+        /// <summary>
+        /// Gets or sets CoolAccess
+        /// </summary>
+        /// <value>
+        /// If enabled (true) the pool can contain cool Access enabled volumes.
+        /// </value>
+        public bool? CoolAccess { get; set; }
+
+        /// <summary>
+        /// Gets or sets EncryptionType
+        /// </summary>
+        /// <value>
+        /// Encryption type of the capacity pool (Single, Double), set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool.
+        /// </value>
+        public string EncryptionType { get; set; }
+
+        /// <summary>
+        /// Gets or sets System Data
+        /// </summary>
+        public PSSystemData SystemData { get; set; }
     }
 }

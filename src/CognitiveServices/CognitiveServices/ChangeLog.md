@@ -18,6 +18,34 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Removed notice and attestation from `New-AzCognitiveServicesAccount`.
+
+## Version 1.13.0
+* Updated CognitiveServices PowerShell to use 2022-12-01 version.
+* Added new CognitiveServices CommitmentPlan and Association cmdlets.
+* Added MultiRegionSetting support for CognitiveServices Account cmdlets.
+
+## Version 1.12.0
+* Updated CognitiveServices PowerShell to use 2022-10-01 version.
+
+## Version 1.11.0
+* Updated CognitiveServices PowerShell to use 2022-03-01 version.
+* Added `Get-AzCognitiveServicesAccountModel` cmdlet.
+
+## Version 1.10.0
+* Updated PowerShell to use 2021-10-01 version.
+* Added CommitmentTier and CommitmentPlan cmdlets.
+* Added Deployment cmdlets.
+* Added `New-AzCognitiveServicesObject` cmdlet for generating CommitmentPlan/Deployment objects.
+
+## Version 1.9.0
+* [Breaking Change] Changed type of PSCognitiveServicesAccount.Identity.Type from IdentityType to ResourceIdentityType.
+* [Breaking Change] Changed type of PSCognitiveServicesAccount.Sku.Tier from SkuTier to string.
+* [Breaking Change] Removed ActionRequired from PrivateLinkServiceConnectionState.
+* Updated PowerShell to use 2021-04-30 version.
+* Added `Undo-AzCognitiveServicesAccountRemoval` cmdlet.
+* Added parameters `-RestrictOutboundNetworkAccess`, `-AllowedFqdnList`, `-DisableLocalAuth`, `-KeyVaultIdentityClientId`, `-IdentityType`, `-UserAssignedIdentityId` to `New-AzureCognitiveServicesAccount` and `Set-AzureCognitiveServicesAccount`.
+* Added parameters `-InRemovedState`, `-Location` to `Remove-AzureCognitiveServicesAccount` and `Get-AzureCognitiveServicesAccount`.
 
 ## Version 1.8.0
 

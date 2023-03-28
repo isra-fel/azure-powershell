@@ -6,21 +6,13 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
 {
 
-    /// <summary>The type of resource, Microsoft.Kusto/clusters.</summary>
+    /// <summary>The type of resource, for instance Microsoft.Kusto/Clusters/databases.</summary>
     public partial struct Type :
         System.IEquatable<Type>
     {
-        public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type MicrosoftKustoClusters = @"Microsoft.Kusto/clusters";
-
         public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type MicrosoftKustoClustersAttachedDatabaseConfigurations = @"Microsoft.Kusto/Clusters/attachedDatabaseConfigurations";
 
         public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type MicrosoftKustoClustersDatabases = @"Microsoft.Kusto/Clusters/databases";
-
-        public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type MicrosoftKustoClustersDatabasesDataConnections = @"Microsoft.Kusto/Clusters/Databases/dataConnections";
-
-        public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type MicrosoftKustoClustersDatabasesPrincipalAssignments = @"Microsoft.Kusto/Clusters/Databases/principalAssignments";
-
-        public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type MicrosoftKustoClustersPrincipalAssignments = @"Microsoft.Kusto/Clusters/principalAssignments";
 
         /// <summary>the value for an instance of the <see cref="Type" /> Enum.</summary>
         private string _value { get; set; }
@@ -29,7 +21,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         /// <param name="value">the value to convert to an instance of <see cref="Type" />.</param>
         internal static object CreateFrom(object value)
         {
-            return new Type(System.Convert.ToString(value));
+            return new Type(global::System.Convert.ToString(value));
         }
 
         /// <summary>Compares values of enum type Type</summary>
@@ -62,7 +54,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
             return this._value;
         }
 
-        /// <summary>Creates an instance of the <see cref="Type" Enum class./></summary>
+        /// <summary>Creates an instance of the <see cref="Type"/> Enum class.</summary>
         /// <param name="underlyingValue">the value to create an instance for.</param>
         private Type(string underlyingValue)
         {
@@ -86,8 +78,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         }
 
         /// <summary>Overriding != operator for enum Type</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are not equal to the same value</returns>
         public static bool operator !=(Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type e1, Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type e2)
         {
@@ -95,8 +87,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         }
 
         /// <summary>Overriding == operator for enum Type</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are equal to the same value</returns>
         public static bool operator ==(Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type e1, Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type e2)
         {

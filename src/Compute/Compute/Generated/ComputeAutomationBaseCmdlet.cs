@@ -122,6 +122,14 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             }
         }
 
+        public ISshPublicKeysOperations SshPublicKeyClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.SshPublicKeys;
+            }
+        }
+
         public IGalleriesOperations GalleriesClient
         {
             get
@@ -143,6 +151,59 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             get
             {
                 return ComputeClient.ComputeManagementClient.GalleryImageVersions;
+            }
+        }
+        public IGallerySharingProfileOperations GallerySharingProfileClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.GallerySharingProfile;
+            }
+        }
+        public ISharedGalleriesOperations SharedGalleriesClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.SharedGalleries;
+            }
+        }
+
+        public ICommunityGalleriesOperations CommunityGalleriesClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.CommunityGalleries;
+            }
+        }
+
+        public ICommunityGalleryImagesOperations CommunityGalleryImagesClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.CommunityGalleryImages;
+            }
+        }
+
+        public ICommunityGalleryImageVersionsOperations CommunityGalleryImageVersionsClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.CommunityGalleryImageVersions;
+            }
+        }
+
+        public ISharedGalleryImagesOperations SharedGalleryImagesClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.SharedGalleryImages;
+            }
+        }
+        public ISharedGalleryImageVersionsOperations SharedGalleryImageVersionsClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.SharedGalleryImageVersions;
             }
         }
 
@@ -226,11 +287,50 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             }
         }
 
+        public IVirtualMachineScaleSetVMRunCommandsOperations VirtualMachineScaleSetVMRunCommandsClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.VirtualMachineScaleSetVMRunCommands;
+            }
+        }
+
         public IVirtualMachinesOperations VirtualMachinesClient
         {
             get
             {
                 return ComputeClient.ComputeManagementClient.VirtualMachines;
+            }
+        }
+
+        public ICapacityReservationGroupsOperations CapacityReservationGroupClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.CapacityReservationGroups;
+            }
+        }
+        public ICapacityReservationsOperations CapacityReservationClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.CapacityReservations;
+            }
+        }
+
+        public IRestorePointCollectionsOperations RestorePointCollectionsClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.RestorePointCollections;
+            }
+        }
+
+        public IRestorePointsOperations RestorePointClient
+        {
+            get
+            {
+                return ComputeClient.ComputeManagementClient.RestorePoints;
             }
         }
 

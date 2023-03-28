@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.Backup.dll-Help.xml
 Module Name: Az.RecoveryServices
 ms.assetid: C2A7F37B-5713-4430-B83F-C6745692396D
-online version: https://docs.microsoft.com/powershell/module/az.recoveryservices/set-azrecoveryservicesvaultproperty
+online version: https://learn.microsoft.com/powershell/module/az.recoveryservices/set-azrecoveryservicesvaultproperty
 schema: 2.0.0
 ---
 
@@ -15,14 +15,17 @@ Updates properties of a Vault.
 
 ### AzureRSVaultSoftDelteParameterSet (Default)
 ```
-Set-AzRecoveryServicesVaultProperty -SoftDeleteFeatureState <String> [-VaultId <String>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-AzRecoveryServicesVaultProperty [-SoftDeleteFeatureState <String>]
+ [-DisableHybridBackupSecurityFeature <Boolean>] [-VaultId <String>] [-DefaultProfile <IAzureContextContainer>]
+ [-Token <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AzureRSVaultCMKParameterSet
 ```
-Set-AzRecoveryServicesVaultProperty -EncryptionKeyId <string> -KeyVaultSubscriptionId <string> [-InfrastructureEncryption] [-VaultId <String>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-AzRecoveryServicesVaultProperty [-VaultId <String>] [-DefaultProfile <IAzureContextContainer>]
+ -EncryptionKeyId <String> [-KeyVaultSubscriptionId <String>] [-InfrastructureEncryption]
+ [-UseSystemAssignedIdentity <Boolean>] [-UserAssignedIdentity <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,25 +35,47 @@ The **Set-AzRecoveryServicesVaultProperty** cmdlet updates properties of a Recov
 ## EXAMPLES
 
 ### Example 1: Update SoftDeleteFeatureState of a vault
-```
-PS C:\> $vault = Get-AzRecoveryServicesVault -ResourceGroupName "rgName" -Name "vaultName"
-PS C:\> $props = Set-AzRecoveryServicesVaultProperty -VaultId $vault.Id -SoftDeleteFeatureState Enable
+```powershell
+$vault = Get-AzRecoveryServicesVault -ResourceGroupName "rgName" -Name "vaultName"
+$props = Set-AzRecoveryServicesVaultProperty -VaultId $vault.Id -SoftDeleteFeatureState Enable
 ```
 
 The first command gets a Vault object and then stores it in the $vault variable.
 The second command Updates the SoftDeleteFeatureState property of the vault to "Enabled" state.
 
-### Example 2: Update CMK encryption of a vault
+### Example 2: Update CMK encryption of a vault to use SystemAssigned MSIdentity
 
-```
-PS C:\> $vault = Get-AzRecoveryServicesVault -ResourceGroupName "rgName" -Name "vaultName"
-PS C:\> $keyVault = Get-AzKeyVault -VaultName "keyVaultName" -ResourceGroupName "RGName" 
-PS C:\> $key = Get-AzKeyVaultKey -VaultName "keyVaultName" -Name "keyName" 
-PS C:\> Set-AzRecoveryServicesVaultProperty -EncryptionKeyId $key.ID -KeyVaultSubscriptionId "f870818k-5h28-4t48-8961-37458592348r" -InfrastructureEncryption -VaultId $vault.ID
+```powershell
+$vault = Get-AzRecoveryServicesVault -ResourceGroupName "rgName" -Name "vaultName"
+$keyVault = Get-AzKeyVault -VaultName "keyVaultName" -ResourceGroupName "RGName" 
+$key = Get-AzKeyVaultKey -VaultName "keyVaultName" -Name "keyName" 
+Set-AzRecoveryServicesVaultProperty -EncryptionKeyId $key.ID -InfrastructureEncryption -VaultId $vault.ID -UseSystemAssignedIdentity $true
 ```
 
-First cmdlet gets the RSVault to update encryption properties. Second cmdlet gets the azure key vault. Third cmdlet get the key from the key vault.
-Fourth cmdlet updates the customer managed encryption key within the RSVault. Use -InfrastructureEncryption param to enable infrastructure encryption for the first time update. 
+First cmdlet gets the RSVault to update encryption properties. Second cmdlet gets the azure key vault. Third cmdlet gets the key from the key vault.
+Fourth cmdlet updates the customer managed encryption key within the RSVault to be accessed via SystemAssigned identity. Use -InfrastructureEncryption param to enable infrastructure encryption for the first time update. 
+
+### Example 3: Update CMK encryption of a vault to use userAssigned MSIdentity
+
+```powershell
+$vault = Get-AzRecoveryServicesVault -ResourceGroupName "rgName" -Name "vaultName"
+$keyVault = Get-AzKeyVault -VaultName "keyVaultName" -ResourceGroupName "RGName" 
+$key = Get-AzKeyVaultKey -VaultName "keyVaultName" -Name "keyName" 
+Set-AzRecoveryServicesVaultProperty -EncryptionKeyId $key.ID -VaultId $vault.ID -UseSystemAssignedIdentity $false -UserAssignedIdentity $vault.Identity.UserAssignedIdentities.Keys[0]
+```
+
+First cmdlet gets the RSVault to update encryption properties. Second cmdlet gets the azure key vault. Third cmdlet gets the key from the key vault.
+Fourth cmdlet updates the customer managed encryption key within the RSVault to be accessed via UserAssigned identity.
+
+### Example 4: Update HybridBackupSecurityFeature of a vault
+
+```powershell
+$vault = Get-AzRecoveryServicesVault -ResourceGroupName "rgName" -Name "vaultName"
+$prop = Set-AzRecoveryServicesVaultProperty -VaultId $vault.Id -DisableHybridBackupSecurityFeature $false
+```
+
+The first command gets a Vault object and then stores it in the $vault variable.
+The second command disables the HybridBackupSecurityFeature of the vault, set $true to enable it again.
 
 ## PARAMETERS
 
@@ -69,16 +94,15 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SoftDeleteFeatureState
-SoftDeleteFeatureState of the Recovery Services Vault.
+### -DisableHybridBackupSecurityFeature
+Optional flag ($true/$false) to disable/enable security setting for hybrid backups against accidental deletes and add additional layer of authentication for critical operations. Provide $false to enable the security.
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: System.Nullable`1[System.Boolean]
+Parameter Sets: AzureRSVaultSoftDelteParameterSet
 Aliases:
-Accepted values: Enable, Disable
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -90,25 +114,8 @@ KeyId of the encryption key to be used for CMK.
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: AzureRSVaultCMKParameterSet
 Aliases:
-Accepted values: KeyID
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyVaultSubscriptionId
-Subscription Id of the Key Vault.
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-Accepted values: SubscriptionID
 
 Required: True
 Position: Named
@@ -121,10 +128,85 @@ Accept wildcard characters: False
 Enables infrastructure encryption on this vault. Infrastructure encryption must be enabled when configuring encryption.
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: AzureRSVaultCMKParameterSet
 Aliases:
-Accepted values:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyVaultSubscriptionId
+Subscription Id of the Key Vault.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureRSVaultCMKParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SoftDeleteFeatureState
+SoftDeleteFeatureState of the Recovery Services Vault.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureRSVaultSoftDelteParameterSet
+Aliases:
+Accepted values: Enable, Disable
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Token
+Auxiliary access token for authenticating critical operation to resource guard subscription
+
+```yaml
+Type: System.String
+Parameter Sets: AzureRSVaultSoftDelteParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserAssignedIdentity
+ARM Id of UserAssigned Identity to be used for CMK encryption. Provide this parameter if UseSystemAssignedIdentity is $false.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureRSVaultCMKParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseSystemAssignedIdentity
+Boolean flag to indicate if SystemAssigned Identity will be used for CMK encryption. Accepted Vaules: $true, $false
+
+```yaml
+Type: System.Boolean
+Parameter Sets: AzureRSVaultCMKParameterSet
+Aliases:
 
 Required: False
 Position: Named

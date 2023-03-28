@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Sql.dll-Help.xml
 Module Name: Az.Sql
-online version: https://docs.microsoft.com/powershell/module/az.sql/disable-azsqlserveractivedirectoryonlyauthentication
+online version: https://learn.microsoft.com/powershell/module/az.sql/disable-azsqlserveractivedirectoryonlyauthentication
 schema: 2.0.0
 ---
 
@@ -37,7 +37,10 @@ The **Disable-AzSqlServerActiveDirectoryOnlyAuthentication** cmdlet disables Azu
 
 ### Example 1
 ```powershell
-PS C:\>Disable-AzSqlServerActiveDirectoryOnlyAuthentication -ResourceGroupName "ResourceGroup01" -ServerName "Server01"
+Disable-AzSqlServerActiveDirectoryOnlyAuthentication -ResourceGroupName "ResourceGroup01" -ServerName "Server01"
+```
+
+```output
 ResourceGroupName ServerName AzureADOnlyAuthentication
 ----------------- ---------- ----------- -------- -----------
 ResourceGroup01   Server01   False
@@ -176,4 +179,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [Get-AzSqlServerActiveDirectoryAdministrator](./Get-AzSqlServerActiveDirectoryAdministrator.md)
 
-[SQL Database Documentation](https://docs.microsoft.com/azure/sql-database/)
+[SQL Database Documentation](https://learn.microsoft.com/azure/sql-database/)

@@ -19,6 +19,16 @@
 -->
 ## Upcoming Release
 
+## Version 0.13.0
+* Introduced -UseTenantScope parameter. Should be used to query for all accessible resources under current tenant.
+
+## Version 0.12.0
+* Supported piping for the `-Query` parameter of `Search-AzGraph` by pipeline property name
+
+## Version 0.11.0
+* Fixed the output print issue for `Search-AzGraph` by updating the output type to Microsoft.Azure.Commands.ResourceGraph.Models.PSResourceGraphResponse`1[[System.Management.Automation.PSObject]].
+* Fixed the issue when Search-AzGraph fails if no subscriptions are stored in the context.
+
 ## Version 0.10.0
 * Changed output of `Search-AzGraph` to PSResourceGraphResponse which wrapped previous output under Data property.
 

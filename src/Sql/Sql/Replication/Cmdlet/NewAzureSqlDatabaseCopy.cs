@@ -25,6 +25,7 @@ using System.Management.Automation;
 using System.Globalization;
 using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using System;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Sql.Replication.Cmdlet
 {
@@ -144,9 +145,36 @@ namespace Microsoft.Azure.Commands.Sql.Replication.Cmdlet
         /// Gets or sets the database backup storage redundancy.
         /// </summary>
         [Parameter(Mandatory = false,
-            HelpMessage = "The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone and Geo.")]
-        [ValidateSet("Local", "Zone", "Geo")]
+            HelpMessage = "The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone, Geo, GeoZone.")]
+        [ValidateSet("Local", "Zone", "Geo", "GeoZone")]
         public string BackupStorageRedundancy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the zone redundant option to assign to the Azure SQL Database
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The zone redundancy to associate with the Azure Sql Database. This property is only settable for Hyperscale edition databases.")]
+        public SwitchParameter ZoneRedundant { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "Generate and assign an Azure Active Directory Identity for this database for use with key management services like Azure KeyVault.")]
+        public SwitchParameter AssignIdentity { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The encryption protector key for SQL Database copy.")]
+        public string EncryptionProtector { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The list of user assigned identity for the SQL Database copy.")]
+        public string[] UserAssignedIdentityId { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The list of AKV keys for the SQL Database copy.")]
+        public string[] KeyList { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = "The federated client id for the SQL Database. It is used for cross tenant CMK scenario.")]
+        public Guid? FederatedClientId { get; set; }
 
         protected static readonly string[] ListOfRegionsToShowWarningMessageForGeoBackupStorage = { "eastasia", "southeastasia", "brazilsouth", "east asia", "southeast asia", "brazil south" };
 
@@ -233,6 +261,11 @@ namespace Microsoft.Azure.Commands.Sql.Replication.Cmdlet
                 Tags = TagsConversionHelper.CreateTagDictionary(Tags, validate: true),
                 LicenseType = LicenseType, // note: default license type is LicenseIncluded
                 RequestedBackupStorageRedundancy = BackupStorageRedundancy,
+                ZoneRedundant = this.IsParameterBound(p => p.ZoneRedundant) ? ZoneRedundant.ToBool() : (bool?)null,
+                Identity = Common.DatabaseIdentityAndKeysHelper.GetDatabaseIdentity(this.AssignIdentity.IsPresent, this.UserAssignedIdentityId),
+                Keys = Common.DatabaseIdentityAndKeysHelper.GetDatabaseKeysDictionary(this.KeyList),
+                EncryptionProtector = this.EncryptionProtector,
+                FederatedClientId = this.FederatedClientId
             };
 
             if(ParameterSetName == DtuDatabaseParameterSet)

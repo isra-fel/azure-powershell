@@ -22,10 +22,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using System.Threading.Tasks;
     using OpContext = Microsoft.Azure.Storage.OperationContext;
     using System.Collections.Generic;
+    using System.Security.Cryptography;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {
         protected const int size4MB = 4 * 1024 * 1024;
+
+        protected const int size8MB = 8 * 1024 * 1024;
+
+        protected const int size256MB = 256 * 1024 * 1024;
 
         /// <summary>
         /// block blob type
@@ -68,7 +73,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <summary>
         /// Confirm the overwrite operation
         /// </summary>
-        /// <param name="msg">Confirmation message</param>
+        /// <param name="source">Indicating the source.</param>
+        /// <param name="destination">Indicating the destination.</param>
         /// <returns>True if the opeation is confirmed, otherwise return false</returns>
         protected bool ConfirmOverwrite(object source, object destination)
         {
@@ -79,7 +85,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <summary>
         /// Confirm the overwrite operation
         /// </summary>
-        /// <param name="msg">Confirmation message</param>
+        /// <param name="source">Indicating the source.</param>
+        /// <param name="destination">Indicating the destination.</param>
         /// <returns>True if the opeation is confirmed, otherwise return false</returns>
         protected async Task<bool> ConfirmOverwriteAsync(object source, object destination)
         {
@@ -178,12 +185,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         public static long GetBlockLength(long contentLength)
         {
-            long blockLength = contentLength / 50000;
-            if (blockLength % (8 * 1024 * 1024) != 0)
+            if (contentLength <= size8MB)
             {
-                blockLength = (blockLength / (8 * 1024 * 1024) + 1) * (8 * 1024 * 1024);
+                return contentLength;
             }
-            return blockLength;
+            long blockLength = contentLength / 50000;
+            if (blockLength % (size8MB) != 0)
+            {
+                blockLength = (blockLength / (size8MB) + 1) * (size8MB);
+            }
+            return blockLength > 0 ? blockLength : contentLength;
         }
 
         /// <summary>
@@ -201,6 +212,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 blockCount++;
             }
             List<string> blockIDs = new List<string>();
+            string blockIdPrefix = Convert.ToBase64String(MD5.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(blobname)));
             for (int i = 0; i < (int)blockCount; i++)
             {
                 string idNo = i.ToString();
@@ -208,7 +220,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 {
                     idNo = "0" + idNo;
                 }
-                string blockID = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(blobname + idNo));
+                string blockID = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(blockIdPrefix + idNo));
                 blockIDs.Add(blockID);
             }
             return blockIDs.ToArray();

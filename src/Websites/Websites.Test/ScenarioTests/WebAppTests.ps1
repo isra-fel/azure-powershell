@@ -422,6 +422,7 @@ function Test-CreateNewWebApp
 	$tier = "Shared"
 	$apiversion = "2015-08-01"
 	$resourceType = "Microsoft.Web/sites"
+	$tag= @{"TagKey" = "TagValue"}
 	try
 	{
 		#Setup
@@ -429,13 +430,15 @@ function Test-CreateNewWebApp
 		$serverFarm = New-AzAppServicePlan -ResourceGroupName $rgname -Name  $whpName -Location  $location -Tier $tier
 		
 		# Create new web app
-		$job = New-AzWebApp -ResourceGroupName $rgname -Name $wname -Location $location -AppServicePlan $whpName -AsJob
+		$job = New-AzWebApp -ResourceGroupName $rgname -Name $wname -Location $location -AppServicePlan $whpName -Tag $tag -AsJob
 		$job | Wait-Job
 		$actual = $job | Receive-Job
 		
 		# Assert
 		Assert-AreEqual $wname $actual.Name
 		Assert-AreEqual $serverFarm.Id $actual.ServerFarmId
+		Assert-AreEqual $tag.Keys $actual.Tags.Keys
+                Assert-AreEqual $tag.Values $actual.Tags.Values
 
 		# Get new web app
 		$result = Get-AzWebApp -ResourceGroupName $rgname -Name $wname
@@ -464,15 +467,15 @@ function Test-CreateNewWebAppHyperV
 	# Setup
 	$rgname = Get-ResourceGroupName
 	$wname = Get-WebsiteName
-	$location = Get-WebLocation
+	$location = "East US 2"
 	$whpName = Get-WebHostPlanName
-	$tier = "PremiumContainer"
+	$tier = "PremiumV3"
 	$apiversion = "2015-08-01"
 	$resourceType = "Microsoft.Web/sites"
-    $containerImageName = "dotnetsdktesting.azurecr.io/webapplication3:latest"
-    $containerRegistryUrl = "https://dotnetsdktesting.azurecr.io"
-    $containerRegistryUser ="DotNetSDKTesting"
-    $pass = "NuO4xVus40R/wukMM9i1OdMIohADB=oR"
+    $containerImageName = "psunittesting.azurecr.io/webapplication3:latest"
+    $containerRegistryUrl = "https://psunittesting.azurecr.io"
+    $containerRegistryUser ="psunittesting"
+    $pass = "L/kYXsr5m2WtSMWSRxKOcwI0xPJrMmETWpY475GA2i+ACRA2WfC9"
     $containerRegistryPassword = ConvertTo-SecureString -String $pass -AsPlainText -Force
     $dockerPrefix = "DOCKER|" 
 
@@ -533,15 +536,15 @@ function Test-SetWebAppHyperVCredentials
 		# Setup
 		$rgname = Get-ResourceGroupName
 		$wname = Get-WebsiteName
-		$location = Get-WebLocation
+		$location = "East US 2"
 		$whpName = Get-WebHostPlanName
-		$tier = "PremiumContainer"
+		$tier = "PremiumV3"
 		$apiversion = "2015-08-01"
 		$resourceType = "Microsoft.Web/sites"
-		$containerImageName = "pstestacr.azurecr.io/tests/iis:latest"
-		$containerRegistryUrl = "https://pstestacr.azurecr.io"
-		$containerRegistryUser = "pstestacr"
-		$pass = "cYK4qnENExflnnOkBN7P+gkmBG0sqgIv"
+		$containerImageName = "psunittesting.azurecr.io/webapplication3:latest"
+		$containerRegistryUrl = "https://psunittesting.azurecr.io"
+		$containerRegistryUser = "psunittesting"
+		$pass = "L/kYXsr5m2WtSMWSRxKOcwI0xPJrMmETWpY475GA2i+ACRA2WfC9"
 		$containerRegistryPassword = ConvertTo-SecureString -String $pass -AsPlainText -Force
 		$dockerPrefix = "DOCKER|" 
 	
@@ -658,15 +661,15 @@ function Test-EnableContainerContinuousDeploymentAndGetUrl
 	# Setup
 	$rgname = Get-ResourceGroupName
 	$wname = Get-WebsiteName
-	$location = Get-WebLocation
+	$location = 'East US 2'
 	$whpName = Get-WebHostPlanName
-	$tier = "PremiumContainer"
+	$tier = "PremiumV3"
 	$apiversion = "2015-08-01"
 	$resourceType = "Microsoft.Web/sites"
-    $containerImageName = "pstestacr.azurecr.io/tests/iis:latest"
-    $containerRegistryUrl = "https://pstestacr.azurecr.io"
-    $containerRegistryUser = "pstestacr"
-    $pass = "cYK4qnENExflnnOkBN7P+gkmBG0sqgIv"
+    $containerImageName = "psunittesting.azurecr.io/webapplication3:latest"
+    $containerRegistryUrl = "https://psunittesting.azurecr.io"
+    $containerRegistryUser = "psunittesting"
+    $pass = "L/kYXsr5m2WtSMWSRxKOcwI0xPJrMmETWpY475GA2i+ACRA2WfC9"
     $containerRegistryPassword = ConvertTo-SecureString -String $pass -AsPlainText -Force
     $dockerPrefix = "DOCKER|"
  	try
@@ -1022,26 +1025,26 @@ function Test-SetAzureStorageWebAppHyperV
 	# Setup
 	$rgname = Get-ResourceGroupName
 	$wname = Get-WebsiteName
-	$location = Get-WebLocation
+	$location = 'East US 2'
 	$whpName = Get-WebHostPlanName
-	$tier = "PremiumContainer"
+	$tier = "PremiumV3"
 	$apiversion = "2015-08-01"
 	$resourceType = "Microsoft.Web/sites"
-    $containerImageName = "dotnetsdktesting.azurecr.io/webapplication3:latest"
-    $containerRegistryUrl = "https://dotnetsdktesting.azurecr.io"
-    $containerRegistryUser ="DotNetSDKTesting"
-    $pass = "NuO4xVus40R/wukMM9i1OdMIohADB=oR"
+    $containerImageName = "psunittesting.azurecr.io/webapplication3:latest"
+	$containerRegistryUrl = "https://psunittesting.azurecr.io"
+	$containerRegistryUser = "psunittesting"
+	$pass = "L/kYXsr5m2WtSMWSRxKOcwI0xPJrMmETWpY475GA2i+ACRA2WfC9"
     $containerRegistryPassword = ConvertTo-SecureString -String $pass -AsPlainText -Force
     $dockerPrefix = "DOCKER|" 
 	$azureStorageAccountCustomId1 = "mystorageaccount"
 	$azureStorageAccountType1 = "AzureFiles"
-	$azureStorageAccountName1 = "myaccountname.file.core.windows.net"
+	$azureStorageAccountName1 = "myaccountname"
 	$azureStorageAccountShareName1 = "myremoteshare"
 	$azureStorageAccountAccessKey1 = "AnAccessKey"
 	$azureStorageAccountMountPath1 = "/mymountpath"
 	$azureStorageAccountCustomId2 = "mystorageaccount2"
 	$azureStorageAccountType2 = "AzureFiles"
-	$azureStorageAccountName2 = "myaccountname2.file.core.windows.net"
+	$azureStorageAccountName2 = "myaccountname2"
 	$azureStorageAccountShareName2 = "myremoteshare2"
 	$azureStorageAccountAccessKey2 = "AnAccessKey2"
 	$azureStorageAccountMountPath2 = "/mymountpath2"
@@ -1144,11 +1147,11 @@ function Test-CreateNewWebAppOnAse
 	# Setup
 	# Creating and provisioning an ASE currently takes 30 mins to an hour, hence this test requires that the ASE & ASP are already created 
 	# before creating the app on the ASE
-	$rgname = "11698RG1"
+	$rgname = "RG-PS-UnitTesting"
 	$wname = Get-WebsiteName
-	$location = "East US"
-	$whpName = "powershellasp"
-	$aseName = "11698ASP-PS"
+	$location = "Central US"
+	$whpName = "ASP-PS-UnitTesting"
+	$aseName = "ASE-PS-Unittesting"
 	$resourceType = "Microsoft.Web/sites"
 	try
 	{
@@ -1238,6 +1241,7 @@ function Test-SetWebApp
 		$webapp.SiteConfig.RequestTracingEnabled = $true
 		$webapp.SiteConfig.FtpsState = "FtpsOnly"
 		$webApp.SiteConfig.MinTlsVersion = "1.0"
+		$webApp.SiteConfig.HealthCheckPath = "/api/path"
 
 		# Set site properties
 		$webApp = $webApp | Set-AzWebApp
@@ -1252,6 +1256,7 @@ function Test-SetWebApp
 		Assert-AreEqual $false $webApp.SiteConfig.AlwaysOn
 		Assert-AreEqual "FtpsOnly" $webApp.SiteConfig.FtpsState
 		Assert-AreEqual "1.0" $webApp.SiteConfig.MinTlsVersion
+		Assert-AreEqual "/api/path" $webApp.SiteConfig.HealthCheckPath
 		 
 		$appSettings = @{ "setting1" = "valueA"; "setting2" = "valueB"}
 		$connectionStrings = @{ connstring1 = @{ Type="MySql"; Value="string value 1"}; connstring2 = @{ Type = "SQLAzure"; Value="string value 2"}}
@@ -1504,6 +1509,15 @@ function Test-PublishAzureWebAppFromWar
 		# Create new web app
 		$webapp = New-AzureRmWebApp -ResourceGroupName $rgname -Name $appName -Location $location -AppServicePlan $planName 
 		
+		#Configuring jdk and web container
+        # Set Java runtime to 1.8 | Tomcat. In order to deploy war, site should be configured to run with stack = TOMCAT 
+		# or JBOSSEAP (only availble on Linux). In this test case, it creates Windows app. 
+		$javaVersion="1.8"
+        $javaContainer="TOMCAT"
+        $javaContainerVersion="8.5"
+        $PropertiesObject = @{javaVersion = $javaVersion;javaContainer = $javaContainer;javaContainerVersion = $javaContainerVersion}
+        New-AzResource -PropertyObject $PropertiesObject -ResourceGroupName $rgname -ResourceType Microsoft.Web/sites/config -ResourceName "$appName/web" -ApiVersion 2018-02-01 -Force
+
 		$warPath = Join-Path $ResourcesPath "HelloJava.war"
 		$publishedApp = Publish-AzWebApp -ResourceGroupName $rgname -Name $appName -ArchivePath $warPath -Force
 
@@ -1541,11 +1555,11 @@ Tests Tags are not overridden when calling Set-AzWebApp commandlet
 #>
 function Test-TagsNotRemovedBySetWebApp
 {
-	$rgname = "lketmtestantps10"
-	$appname = "tagstestantps10" # this is an existing app with existing tags
+	$rgname = "RG-PS-UnitTesting"
+	$appname = "AppService-PS-UnitTesting" # this is an existing app with existing tags
 	$slot = "testslot"
-	$aspName = "tagstestAspantps10"
-	$aspToMove = "tagstestAsp2antps10"
+	$aspName = "ASP-PS-UnitTesting"
+	$aspToMove = "ASP-PS-UnitTesting1"
 
 	$getApp =  Get-AzWebApp -ResourceGroupName $rgname -Name $appname
 	$getSlot = Get-AzWebAppSlot -ResourceGroupName $rgname -Name $appname -Slot $slot

@@ -22,6 +22,7 @@ namespace Microsoft.Azure.Commands.Network
     using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
     using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
     using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
+    using MNM = Microsoft.Azure.Management.Network.Models;
 
     [Cmdlet(VerbsCommon.New,
         ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "VirtualHub",
@@ -97,6 +98,32 @@ namespace Microsoft.Azure.Commands.Network
         [PSArgumentCompleter("Basic", "Standard")]
         public string Sku { get; set; }
 
+        public const String PreferredGWChangeDesc = "PreferredRoutingGateway parameter is deprecated. Use *HubRoutingPreference* property";
+        [CmdletParameterBreakingChange("PreferredRoutingGateway", ChangeDescription = PreferredGWChangeDesc)]
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Preferred Routing Gateway to Route On-Prem traffic from VNET")]
+        [ValidateSet(
+            MNM.PreferredRoutingGateway.ExpressRoute,
+            MNM.PreferredRoutingGateway.VpnGateway,
+            IgnoreCase = true)]
+        public string PreferredRoutingGateway { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Virtual Hub Routing Preference to route traffic")]
+        [ValidateSet(
+            MNM.HubRoutingPreference.ExpressRoute,
+            MNM.HubRoutingPreference.VpnGateway,
+            MNM.HubRoutingPreference.ASPath,
+            IgnoreCase = true)]
+        public string HubRoutingPreference { get; set; }
+
+        [Parameter(
+        Mandatory = false,
+        HelpMessage = "The ASN of this virtual hub")]
+        public uint VirtualRouterAsn { get; set; }
+
         [Parameter(
             Mandatory = false,
             HelpMessage = "Run cmdlet in the background")]
@@ -147,7 +174,8 @@ namespace Microsoft.Azure.Commands.Network
                         Name = this.Name,
                         VirtualWan = new PSResourceId() { Id = resolvedVirtualWan.Id },
                         AddressPrefix = this.AddressPrefix,
-                        Location = this.Location
+                        Location = this.Location,
+                        VirtualRouterAsn = this.VirtualRouterAsn
                     };
 
                     virtualHub.RouteTable = this.RouteTable;
@@ -162,6 +190,24 @@ namespace Microsoft.Azure.Commands.Network
                     if (string.IsNullOrWhiteSpace(this.Sku))
                     {
                         virtualHub.Sku = "Standard";
+                    }
+
+                    if (string.IsNullOrWhiteSpace(this.PreferredRoutingGateway))
+                    {
+                        virtualHub.PreferredRoutingGateway = "ExpressRoute";
+                    }
+                    else
+                    {
+                        virtualHub.PreferredRoutingGateway = this.PreferredRoutingGateway;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(this.HubRoutingPreference))
+                    {
+                        virtualHub.HubRoutingPreference = "ExpressRoute";
+                    }
+                    else
+                    {
+                        virtualHub.HubRoutingPreference = this.HubRoutingPreference;
                     }
 
                     WriteObject(CreateOrUpdateVirtualHub(

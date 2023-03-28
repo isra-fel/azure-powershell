@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DeviceProvisioningServices.dll-Help.xml
 Module Name: Az.DeviceProvisioningServices
-online version: https://docs.microsoft.com/powershell/module/az.deviceprovisioningservices/add-aziotdeviceprovisioningserviceaccesspolicy
+online version: https://learn.microsoft.com/powershell/module/az.deviceprovisioningservices/add-aziotdeviceprovisioningserviceaccesspolicy
 schema: 2.0.0
 ---
 
@@ -33,14 +33,16 @@ Add-AzIoTDeviceProvisioningServiceAccessPolicy [-ResourceId] <String> [-KeyName]
 ```
 
 ## DESCRIPTION
-For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/azure/iot-dps/about-iot-dps.
+For an introduction to Azure IoT Hub Device Provisioning Service, see https://learn.microsoft.com/azure/iot-dps/about-iot-dps.
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+Add-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy" -Permissions "ServiceConfig", "EnrollmentWrite"
 ```
-PS C:\> Add-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy" -Permissions "ServiceConfig, EnrollmentWrite"
 
+```output
 ResourceGroupName	: myresourcegroup
 Name				: myiotdps
 KeyName				: mypolicy
@@ -52,11 +54,13 @@ Rights				: ServiceConfig, EnrollmentWrite
 Add a new shared access policy in an Azure IoT Hub device provisioning service with EnrollmentWrite and ServiceConfig rights.
 
 ### Example 2
+```powershell
+Add-AzIoTDeviceProvisioningServiceAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy2" -Permissions "EnrollmentRead"
 ```
-PS C:\> Add-AzIoTDpsAccessPolicy -ResourceGroupName "myresourcegroup" -Name "myiotdps" -KeyName "mypolicy2" -Permissions "EnrollmentRead"
 
-KeyName		Rights		
--------		------	
+```output
+KeyName		Rights
+-------		------
 mypolicy1	ServiceConfig, EnrollmentWrite
 mypolicy2	EnrollmentRead
 ```

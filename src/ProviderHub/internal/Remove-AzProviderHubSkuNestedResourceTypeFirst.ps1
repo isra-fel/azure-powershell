@@ -48,7 +48,7 @@ INPUTOBJECT <IProviderHubIdentity>: Identity Parameter
   [Sku <String>]: The SKU.
   [SubscriptionId <String>]: The ID of the target subscription.
 .Link
-https://docs.microsoft.com/powershell/module/az.providerhub/remove-azproviderhubskunestedresourcetypefirst
+https://learn.microsoft.com/powershell/module/az.providerhub/remove-azproviderhubskunestedresourcetypefirst
 #>
 function Remove-AzProviderHubSkuNestedResourceTypeFirst {
 [OutputType([System.Boolean])]
@@ -160,6 +160,7 @@ begin {
         if (('Delete') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

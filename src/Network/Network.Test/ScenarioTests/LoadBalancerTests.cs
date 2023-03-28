@@ -92,9 +92,33 @@ namespace Commands.Network.Test.ScenarioTests
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestLoadBalancerProbes_ProbeThresholdParameter()
+        {
+            TestRunner.RunTestScript("Test-LoadBalancerProbes_ProbeThresholdParameter");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
         public void TestLoadBalancerChildResource()
         {
             TestRunner.RunTestScript("Test-LoadBalancerChildResource");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestLoadBalancerInboundNatRuleV2()
+        {
+            TestRunner.RunTestScript("Test-LoadBalancerInboundNatRuleV2");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestLoadBalancerInboundNatRuleV2InternalLB()
+        {
+            TestRunner.RunTestScript("Test-LoadBalancerInboundNatRuleV2-InternalLB");
         }
 
         [Fact]
@@ -247,6 +271,38 @@ namespace Commands.Network.Test.ScenarioTests
         public void TestCreateSubresourcesOnEmptyLoadBalancer()
         {
             TestRunner.RunTestScript("Test-CreateSubresourcesOnEmptyLoadBalancer");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestGatewayLoadBalancerProviderOnePool()
+        {
+            TestRunner.RunTestScript("Test-GatewayLoadBalancer-ProviderOnePool");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestGatewayLoadBalancerProviderTwoPool()
+        {
+            TestRunner.RunTestScript("Test-GatewayLoadBalancer-ProviderTwoPool");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestGatewayLoadBalancerConsumerLb()
+        {
+            TestRunner.RunTestScript("Test-GatewayLoadBalancer-ConsumerLb");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        [Trait(Category.Owner, NrpTeamAlias.slbdev)]
+        public void TestLoadBalancerInEdgeZone()
+        {
+            TestRunner.RunTestScript("Test-LoadBalancerInEdgeZone");
         }
     }
 }

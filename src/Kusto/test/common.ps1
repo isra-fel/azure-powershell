@@ -44,7 +44,7 @@ Gets a database soft delet perios in days parameter
 #>
 function Get-Soft-Delete-Period-In-Days
 {
-	return New-TimeSpan -Days 4
+	return New-TimeSpan -Days 365
 }
 
 <#
@@ -53,7 +53,7 @@ Gets a database hot cache period in days
 #>
 function Get-Hot-Cache-Period-In-Days
 {
-	return New-TimeSpan -Days 2
+	return New-TimeSpan -Days 31
 }
 
 <#
@@ -163,11 +163,87 @@ function Validate_PrincipalAssignment {
 		[string]$PrincipalAssignmentFullName,
 		[string]$PrincipalId,
 		[string]$PrincipalType,
-		[string]$Role)
+		[string]$Role, 
+		[string]$AadObjectId)
 		$PrincipalAssignment.Name | Should -Be $PrincipalAssignmentFullName
 		$PrincipalAssignment.PrincipalId | Should -Be $PrincipalId
 		$PrincipalAssignment.PrincipalType | Should -Be $PrincipalType
 		$PrincipalAssignment.Role | Should -Be $Role
+		$PrincipalAssignment.AadObjectId -match("^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$") | Should -Be $true
+}
+
+<#
+.SYNOPSIS
+Validate if script is valid
+#>
+function Validate_Script {
+	Param ([Object]$Script,
+		[string]$forceUpdateTag,
+		[bool]$continueOnErros,
+		[string]$clusterName,
+		[string]$databaseName,
+		[string]$scriptName)
+		$ScriptFullName = "$clusterName/$databaseName/$scriptName"
+		$Script.Name | Should -Be $ScriptFullName
+		$Script.ForceUpdateTag | Should -Be $forceUpdateTag
+}
+
+function Validate_Inline_Script {
+	Param ([Object]$Script,
+		[string]$forceUpdateTag,
+		[bool]$continueOnErros,
+		[string]$clusterName,
+		[string]$databaseName,
+		[string]$scriptName)
+		$ScriptFullName = "$clusterName/$databaseName/$scriptName"
+		$Script.Name | Should -Be $ScriptFullName
+		$Script.ForceUpdateTag | Should -Be $forceUpdateTag
+}
+
+<#
+.SYNOPSIS
+Validate if managed private endpoint is valid
+#>
+function Validate_ManagedPrivateEndpoint {
+	Param ([Object]$ManagedPrivateEndpoint,
+		[string]$Name)
+		$ManagedPrivateEndpoint.Name -Match $Name | Should -Be $true
+}
+
+<#
+.SYNOPSIS
+Validate if private endpoint connection is valid
+#>
+function Validate_PrivateEndpointConnection {
+	Param ([Object]$PrivateEndpointConnection,
+		[string]$Name)
+		$PrivateEndpointConnection.ResourceName | Should -Be $Name
+}
+
+<#
+.SYNOPSIS
+Validate if private link is valid
+#>
+function Validate_PrivateLink {
+	Param ([Object]$PrivateLink,
+		[string]$resourceId,
+		[string]$Name)
+		$PrivateLink.Id | Should -Be $resourceId
+		$PrivateLink.Type | Should -Be "Microsoft.Kusto/Clusters/PrivateLinkResources"		
+		$PrivateLink.Name | Should -Be $Name
+}
+
+<#
+.SYNOPSIS
+Validate if private link list is valid
+#>
+function Validate_PrivateLinkList {
+	Param ([Object]$PrivateLinkList,
+		[string]$resourceId,
+		[string]$Name)
+		$PrivateLinkList.Id | Should -Be $resourceId
+		$PrivateLinkList.Type | Should -Be "Microsoft.Kusto/Clusters/PrivateLinkResources"		
+		$PrivateLinkList.Name | Should -Be $Name
 }
 
 <#
@@ -179,11 +255,13 @@ function Validate_EventHubDataConnection {
 		[string]$dataConnectionFullName,
 		[string]$location,
 		[string]$eventHubResourceId,
-		[string]$kind)
+		[string]$kind,
+		[string]$databaseRouting)
 		$DataConnection.Name | Should -Be $dataConnectionFullName
 		$DataConnection.Location | Should -Be $location
 		$DataConnection.EventHubResourceId | Should -Be $eventHubResourceId
 		$DataConnection.Kind | Should -Be $kind
+		$DataConnection.DatabaseRouting | Should -Be $databaseRouting
 }
 
 <#
@@ -196,12 +274,14 @@ function Validate_EventGridDataConnection {
 		[string]$location,
 		[string]$eventHubResourceId,
 		[string]$storageAccountResourceId,
-		[string]$kind)
+		[string]$kind,
+		[string]$databaseRouting)
 		$DataConnection.Name | Should -Be $dataConnectionFullName
 		$DataConnection.Location | Should -Be $location
 		$DataConnection.EventHubResourceId | Should -Be $eventHubResourceId
 		$DataConnection.StorageAccountResourceId | Should -Be $storageAccountResourceId
 		$DataConnection.Kind | Should -Be $kind
+		$DataConnection.DatabaseRouting | Should -Be $databaseRouting
 }
 
 <#
@@ -214,12 +294,14 @@ function Validate_IotHubDataConnection {
 		[string]$location,
 		[string]$iotHubResourceId,
 		[string]$sharedAccessPolicyName,
-		[string]$kind)
+		[string]$kind,
+		[string]$databaseRouting)
 		$DataConnection.Name | Should -Be $dataConnectionFullName
 		$DataConnection.Location | Should -Be $location
 		$DataConnection.IotHubResourceId | Should -Be $iotHubResourceId
 		$DataConnection.SharedAccessPolicyName | Should -Be $sharedAccessPolicyName
 		$DataConnection.Kind | Should -Be $kind
+		$DataConnection.DatabaseRouting | Should -Be $databaseRouting
 }
 
 function Validate_AttachedDatabaseConfiguration {
@@ -233,7 +315,7 @@ function Validate_AttachedDatabaseConfiguration {
 		$AttachedDatabaseConfigurationCreated.Location | Should -Be $Location
 		$AttachedDatabaseConfigurationCreated.ClusterResourceId | Should -Be $ClusterResourceId
 		$AttachedDatabaseConfigurationCreated.DatabaseName | Should -Be $DatabaseName
-		$AttachedDatabaseConfigurationCreated.DefaultPrincipalsModificationKind | Should -Be $DefaultPrincipalsModificationKind
+		$AttachedDatabaseConfigurationCreated.DefaultPrincipalsModificationKind | Should -Be "Union"
 }
 
 

@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
 ms.assetid: 13EF1028-43DE-424D-8185-EC45B5CEF2C1
-online version: https://docs.microsoft.com/powershell/module/az.network/set-aznetworkinterfaceipconfig
+online version: https://learn.microsoft.com/powershell/module/az.network/set-aznetworkinterfaceipconfig
 schema: 2.0.0
 ---
 
@@ -33,20 +33,28 @@ Set-AzNetworkInterfaceIpConfig -Name <String> -NetworkInterface <PSNetworkInterf
  [-ApplicationSecurityGroupId <String[]>] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### SetByResourceGatewayLoadBalancer
+```
+Set-AzNetworkInterfaceIpConfig -Name <String> -NetworkInterface <PSNetworkInterface>
+ [-PrivateIpAddressVersion <String>] [-PrivateIpAddress <String>] [-Primary] [-SubnetId <String>]
+ [-PublicIpAddressId <String>] [-GatewayLoadBalancerId <String>] [-LoadBalancerBackendAddressPoolId <String[]>]
+ [-LoadBalancerInboundNatRuleId <String[]>] [-ApplicationGatewayBackendAddressPoolId <String[]>]
+ [-ApplicationSecurityGroupId <String[]>] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Set-AzNetworkInterfaceIpConfig** cmdlet updates an IP configuration for a network interface.
 
 ## EXAMPLES
 
 ### 1: Changing the IP address of an IP configuration
-```
+```powershell
 $vnet = Get-AzVirtualNetwork -Name myvnet -ResourceGroupName myrg
 $subnet = Get-AzVirtualNetworkSubnetConfig -Name mysubnet -VirtualNetwork $vnet
 
 $nic = Get-AzNetworkInterface -Name nic1 -ResourceGroupName myrg
 
-$nic | Set-AzNetworkInterfaceIpConfig -Name ipconfig1 -PrivateIpAddress 10.0.0.11 -Subnet $subnet
-    -Primary
+$nic | Set-AzNetworkInterfaceIpConfig -Name ipconfig1 -PrivateIpAddress 10.0.0.11 -Subnet $subnet -Primary
 
 $nic | Set-AzNetworkInterface
 ```
@@ -59,15 +67,14 @@ The first two commands get a virtual network called myvnet and a subnet called m
     
 
 ### 2: Associating an IP configuration with an application security group
-```
+```powershell
 $vnet = Get-AzVirtualNetwork -Name myvnet -ResourceGroupName myrg
 $subnet = Get-AzVirtualNetworkSubnetConfig -Name mysubnet -VirtualNetwork $vnet
-$asg = Get-ApplicationSecurityGroup -Name myasg -ResourceGroupName myrg
+$asg = Get-AzApplicationSecurityGroup -Name myasg -ResourceGroupName myrg
 
 $nic = Get-AzNetworkInterface -Name nic1 -ResourceGroupName myrg
 
-$nic | Set-AzNetworkInterfaceIpConfig -Name ipconfig1 -PrivateIpAddress 10.0.0.11 -Subnet $subnet -ApplicationSecurityGroup $asg
-    -Primary
+$nic | Set-AzNetworkInterfaceIpConfig -Name ipconfig1 -PrivateIpAddress 10.0.0.11 -Subnet $subnet -ApplicationSecurityGroup $asg -Primary
 
 $nic | Set-AzNetworkInterface
 ```
@@ -153,6 +160,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GatewayLoadBalancerId
+Specifies the ID of the Gateway Load Balancer Provider Frontend Ip Configuration.
+
+```yaml
+Type: System.String
+Parameter Sets: SetByResourceGatewayLoadBalancer
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

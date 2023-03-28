@@ -19,7 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
         partial void AfterFromJson(Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonObject json);
 
         /// <summary>
-        /// <c>AfterToJson</c> will be called after the json erialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonObject"
+        /// <c>AfterToJson</c> will be called after the json serialization has finished, allowing customization of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonObject"
         /// /> before it is returned. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -29,7 +29,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
         /// <summary>
         /// <c>BeforeFromJson</c> will be called before the json deserialization has commenced, allowing complete customization of
         /// the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name= "returnNow" />
+        /// output parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="json">The JsonNode that should be deserialized into this object.</param>
@@ -41,7 +42,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
         /// <summary>
         /// <c>BeforeToJson</c> will be called before the json serialization has commenced, allowing complete customization of the
         /// object before it is serialized.
-        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default serialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="container">The JSON container that the serialization result will be placed in.</param>
@@ -91,6 +93,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
             {_solutionName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("solutionName"), out var __jsonSolutionName) ? (string)__jsonSolutionName : (string)SolutionName;}
             {_resourceName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("resourceName"), out var __jsonResourceName) ? (string)__jsonResourceName : (string)ResourceName;}
             {_alertSettingName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("alertSettingName"), out var __jsonAlertSettingName) ? (string)__jsonAlertSettingName : (string)AlertSettingName;}
+            {_virtualMachineName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("virtualMachineName"), out var __jsonVirtualMachineName) ? (string)__jsonVirtualMachineName : (string)VirtualMachineName;}
             {_fabricName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("fabricName"), out var __jsonFabricName) ? (string)__jsonFabricName : (string)FabricName;}
             {_logicalNetworkName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("logicalNetworkName"), out var __jsonLogicalNetworkName) ? (string)__jsonLogicalNetworkName : (string)LogicalNetworkName;}
             {_networkName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("networkName"), out var __jsonNetworkName) ? (string)__jsonNetworkName : (string)NetworkName;}
@@ -107,7 +110,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
             {_storageClassificationName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("storageClassificationName"), out var __jsonStorageClassificationName) ? (string)__jsonStorageClassificationName : (string)StorageClassificationName;}
             {_storageClassificationMappingName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("storageClassificationMappingName"), out var __jsonStorageClassificationMappingName) ? (string)__jsonStorageClassificationMappingName : (string)StorageClassificationMappingName;}
             {_policyName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("policyName"), out var __jsonPolicyName) ? (string)__jsonPolicyName : (string)PolicyName;}
+            {_intentObjectName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("intentObjectName"), out var __jsonIntentObjectName) ? (string)__jsonIntentObjectName : (string)IntentObjectName;}
             {_recoveryPlanName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("recoveryPlanName"), out var __jsonRecoveryPlanName) ? (string)__jsonRecoveryPlanName : (string)RecoveryPlanName;}
+            {_vaultSettingName = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("vaultSettingName"), out var __jsonVaultSettingName) ? (string)__jsonVaultSettingName : (string)VaultSettingName;}
             {_id = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString>("id"), out var __jsonId) ? (string)__jsonId : (string)Id;}
             AfterFromJson(json);
         }
@@ -148,6 +153,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
             AddIf( null != (((object)this._solutionName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._solutionName.ToString()) : null, "solutionName" ,container.Add );
             AddIf( null != (((object)this._resourceName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._resourceName.ToString()) : null, "resourceName" ,container.Add );
             AddIf( null != (((object)this._alertSettingName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._alertSettingName.ToString()) : null, "alertSettingName" ,container.Add );
+            AddIf( null != (((object)this._virtualMachineName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._virtualMachineName.ToString()) : null, "virtualMachineName" ,container.Add );
             AddIf( null != (((object)this._fabricName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._fabricName.ToString()) : null, "fabricName" ,container.Add );
             AddIf( null != (((object)this._logicalNetworkName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._logicalNetworkName.ToString()) : null, "logicalNetworkName" ,container.Add );
             AddIf( null != (((object)this._networkName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._networkName.ToString()) : null, "networkName" ,container.Add );
@@ -164,7 +170,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Migrate.Models
             AddIf( null != (((object)this._storageClassificationName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._storageClassificationName.ToString()) : null, "storageClassificationName" ,container.Add );
             AddIf( null != (((object)this._storageClassificationMappingName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._storageClassificationMappingName.ToString()) : null, "storageClassificationMappingName" ,container.Add );
             AddIf( null != (((object)this._policyName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._policyName.ToString()) : null, "policyName" ,container.Add );
+            AddIf( null != (((object)this._intentObjectName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._intentObjectName.ToString()) : null, "intentObjectName" ,container.Add );
             AddIf( null != (((object)this._recoveryPlanName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._recoveryPlanName.ToString()) : null, "recoveryPlanName" ,container.Add );
+            AddIf( null != (((object)this._vaultSettingName)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._vaultSettingName.ToString()) : null, "vaultSettingName" ,container.Add );
             AddIf( null != (((object)this._id)?.ToString()) ? (Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonNode) new Microsoft.Azure.PowerShell.Cmdlets.Migrate.Runtime.Json.JsonString(this._id.ToString()) : null, "id" ,container.Add );
             AfterToJson(ref container);
             return container;

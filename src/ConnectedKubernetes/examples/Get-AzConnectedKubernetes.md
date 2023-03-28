@@ -1,54 +1,54 @@
-### Example 1: Get all connected kubernetes under a subscription
+### Example 1: Get all connected kubernetes under a subscription.
 ```powershell
-PS C:\> Get-AzConnectedKubernetes
+Get-AzConnectedKubernetes
+```
 
-Location Name              Type
--------- ----              ----
-eastus   connected-aks       Microsoft.Kubernetes/connectedClusters
-eastus   connected-pwsh-aks  Microsoft.Kubernetes/connectedClusters
-eastus   connected-pwsh-aks1 Microsoft.Kubernetes/connectedClusters
-eastus   connected-pwsh-aks3 Microsoft.Kubernetes/connectedClusters
-eastus   connected-aks-cli1  Microsoft.Kubernetes/connectedClusters
+```output
+Location Name                  ResourceGroupName
+-------- ----                  -----------------
+eastus   azps_test_cluster     azps_test_group
+eastus   azps_test_cluster_ahb azps_test_group
 ```
 
 This command gets all connected kubernetes under a subscription.
 
-### Example 2: Get all connected kubernetes under the resource group
+### Example 2: Get all connected kubernetes under the resource group.
 ```powershell
-PS C:\> Get-AzConnectedKubernetes -ResourceGroupName connected-aks
+Get-AzConnectedKubernetes -ResourceGroupName azps_test_group
+```
 
-Location Name              Type
--------- ----              ----
-eastus   connected-aks       Microsoft.Kubernetes/connectedClusters
-eastus   connected-pwsh-aks  Microsoft.Kubernetes/connectedClusters
-eastus   connected-pwsh-aks1 Microsoft.Kubernetes/connectedClusters
-eastus   connected-pwsh-aks3 Microsoft.Kubernetes/connectedClusters
-eastus   connected-aks-cli1  Microsoft.Kubernetes/connectedClusters
+```output
+Location Name                  ResourceGroupName
+-------- ----                  -----------------
+eastus   azps_test_cluster     azps_test_group
+eastus   azps_test_cluster_ahb azps_test_group
 ```
 
 This command gets all connected kubernetes under the resource group.
 
-### Example 3: Get a connected kubernetes
+### Example 3: Get a connected kubernetes.
 ```powershell
-PS C:\> Get-AzConnectedKubernetes -ResourceGroupName connected-aks -Name connected-pwsh-aks
+Get-AzConnectedKubernetes -ResourceGroupName azps_test_group -Name azps_test_cluster
+```
 
-Location Name             Type
--------- ----             ----
-eastus   connected-pwsh-aks Microsoft.Kubernetes/connectedClusters
+```output
+Location Name              ResourceGroupName
+-------- ----              -----------------
+eastus   azps_test_cluster azps_test_group
 ```
 
 This command gets a connected kubernetes.
 
-### Example 4: Get a connected kubernetes by object
+### Example 4: Get a connected kubernetes by object.
 ```powershell
-PS C:\> $conAks = Get-AzConnectedKubernetes -ResourceGroupName connected-aks -Name connected-pwsh-aks
-PS C:\> Get-AzConnectedKubernetes -InputObject $conAks
+$conAks = Get-AzConnectedKubernetes -ClusterName azps_test_cluster_ahb -ResourceGroupName azps_test_group
+Get-AzConnectedKubernetes -InputObject $conAks
+```
 
-Location Name             Type
--------- ----             ----
-eastus   connected-pwsh-aks Microsoft.Kubernetes/connectedClusters
+```output
+Location Name                  ResourceGroupName
+-------- ----                  -----------------
+eastus   azps_test_cluster_ahb azps_test_group
 ```
 
 This command gets a connected kubernetes by object.
-
-

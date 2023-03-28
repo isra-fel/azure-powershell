@@ -30,7 +30,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
         /// <summary>
         /// <c>BeforeDeserializeDictionary</c> will be called before the deserialization has commenced, allowing complete customization
         /// of the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="content">The global::System.Collections.IDictionary content that should be used.</param>
@@ -42,7 +43,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
         /// <summary>
         /// <c>BeforeDeserializePSObject</c> will be called before the deserialization has commenced, allowing complete customization
         /// of the object before it is deserialized.
-        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <see "returnNow" /> output parameter.
+        /// If you wish to disable the default deserialization entirely, return <c>true</c> in the <paramref name="returnNow" /> output
+        /// parameter.
         /// Implement this method in a partial class to enable this behavior.
         /// </summary>
         /// <param name="content">The global::System.Management.Automation.PSObject content that should be used.</param>
@@ -81,7 +83,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
         /// Creates a new instance of <see cref="KustoIdentity" />, deserializing the content from a json string.
         /// </summary>
         /// <param name="jsonText">a string containing a JSON serialized instance of this model.</param>
-        /// <returns>an instance of the <see cref="className" /> model class.</returns>
+        /// <returns>an instance of the <see cref="KustoIdentity" /> model class.</returns>
         public static Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentity FromJsonString(string jsonText) => FromJson(Microsoft.Azure.PowerShell.Cmdlets.Kusto.Runtime.Json.JsonNode.Parse(jsonText));
 
         /// <summary>
@@ -98,15 +100,62 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
                 return;
             }
             // actually deserialize
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location = (string) content.GetValueForProperty("Location",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName = (string) content.GetValueForProperty("PrincipalAssignmentName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName = (string) content.GetValueForProperty("DatabaseName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName = (string) content.GetValueForProperty("AttachedDatabaseConfigurationName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName = (string) content.GetValueForProperty("DataConnectionName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id, global::System.Convert.ToString);
+            if (content.Contains("ResourceGroupName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ClusterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName, global::System.Convert.ToString);
+            }
+            if (content.Contains("SubscriptionId"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
+            }
+            if (content.Contains("Location"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location = (string) content.GetValueForProperty("Location",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location, global::System.Convert.ToString);
+            }
+            if (content.Contains("PrincipalAssignmentName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName = (string) content.GetValueForProperty("PrincipalAssignmentName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName, global::System.Convert.ToString);
+            }
+            if (content.Contains("DatabaseName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName = (string) content.GetValueForProperty("DatabaseName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName, global::System.Convert.ToString);
+            }
+            if (content.Contains("AttachedDatabaseConfigurationName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName = (string) content.GetValueForProperty("AttachedDatabaseConfigurationName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ManagedPrivateEndpointName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ManagedPrivateEndpointName = (string) content.GetValueForProperty("ManagedPrivateEndpointName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ManagedPrivateEndpointName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ScriptName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ScriptName = (string) content.GetValueForProperty("ScriptName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ScriptName, global::System.Convert.ToString);
+            }
+            if (content.Contains("PrivateEndpointConnectionName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateEndpointConnectionName = (string) content.GetValueForProperty("PrivateEndpointConnectionName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateEndpointConnectionName, global::System.Convert.ToString);
+            }
+            if (content.Contains("PrivateLinkResourceName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateLinkResourceName = (string) content.GetValueForProperty("PrivateLinkResourceName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateLinkResourceName, global::System.Convert.ToString);
+            }
+            if (content.Contains("DataConnectionName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName = (string) content.GetValueForProperty("DataConnectionName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName, global::System.Convert.ToString);
+            }
+            if (content.Contains("OperationId"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).OperationId = (string) content.GetValueForProperty("OperationId",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).OperationId, global::System.Convert.ToString);
+            }
+            if (content.Contains("Id"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id, global::System.Convert.ToString);
+            }
             AfterDeserializeDictionary(content);
         }
 
@@ -124,15 +173,62 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models
                 return;
             }
             // actually deserialize
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location = (string) content.GetValueForProperty("Location",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName = (string) content.GetValueForProperty("PrincipalAssignmentName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName = (string) content.GetValueForProperty("DatabaseName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName = (string) content.GetValueForProperty("AttachedDatabaseConfigurationName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName = (string) content.GetValueForProperty("DataConnectionName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName, global::System.Convert.ToString);
-            ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id, global::System.Convert.ToString);
+            if (content.Contains("ResourceGroupName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName = (string) content.GetValueForProperty("ResourceGroupName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ResourceGroupName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ClusterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ClusterName, global::System.Convert.ToString);
+            }
+            if (content.Contains("SubscriptionId"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId = (string) content.GetValueForProperty("SubscriptionId",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).SubscriptionId, global::System.Convert.ToString);
+            }
+            if (content.Contains("Location"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location = (string) content.GetValueForProperty("Location",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Location, global::System.Convert.ToString);
+            }
+            if (content.Contains("PrincipalAssignmentName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName = (string) content.GetValueForProperty("PrincipalAssignmentName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrincipalAssignmentName, global::System.Convert.ToString);
+            }
+            if (content.Contains("DatabaseName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName = (string) content.GetValueForProperty("DatabaseName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DatabaseName, global::System.Convert.ToString);
+            }
+            if (content.Contains("AttachedDatabaseConfigurationName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName = (string) content.GetValueForProperty("AttachedDatabaseConfigurationName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).AttachedDatabaseConfigurationName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ManagedPrivateEndpointName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ManagedPrivateEndpointName = (string) content.GetValueForProperty("ManagedPrivateEndpointName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ManagedPrivateEndpointName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ScriptName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ScriptName = (string) content.GetValueForProperty("ScriptName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).ScriptName, global::System.Convert.ToString);
+            }
+            if (content.Contains("PrivateEndpointConnectionName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateEndpointConnectionName = (string) content.GetValueForProperty("PrivateEndpointConnectionName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateEndpointConnectionName, global::System.Convert.ToString);
+            }
+            if (content.Contains("PrivateLinkResourceName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateLinkResourceName = (string) content.GetValueForProperty("PrivateLinkResourceName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).PrivateLinkResourceName, global::System.Convert.ToString);
+            }
+            if (content.Contains("DataConnectionName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName = (string) content.GetValueForProperty("DataConnectionName",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).DataConnectionName, global::System.Convert.ToString);
+            }
+            if (content.Contains("OperationId"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).OperationId = (string) content.GetValueForProperty("OperationId",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).OperationId, global::System.Convert.ToString);
+            }
+            if (content.Contains("Id"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.IKustoIdentityInternal)this).Id, global::System.Convert.ToString);
+            }
             AfterDeserializePSObject(content);
         }
 

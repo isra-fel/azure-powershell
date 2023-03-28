@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Management.NetApp.Models;
 using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.NetAppFiles.Models
@@ -30,7 +31,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         /// Gets or sets Resource location
         /// </summary>
         public string Location { get; set; }
-        
+
         /// <summary>
         /// Gets resource Id
         /// </summary>
@@ -50,6 +51,19 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         /// Gets or sets resource tags
         /// </summary>
         public object Tags { get; set; }
+
+        /// <summary>
+        /// Gets or sets resource etag
+        /// </summary>
+        /// <remarks>
+        /// A unique read-only string that changes whenever the resource is updated.
+        /// </remarks>
+        public string Etag { get; set; }
+
+        /// <summary>
+        /// Gets or sets availability Zone
+        /// </summary>
+        public IList<string> Zones { get; set; }
 
         /// <summary>
         /// Gets azure lifecycle management
@@ -113,7 +127,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         /// <remarks>
         /// Mount targets associated with the volume
         /// </remarks>
-        public object MountTargets { get; set;  }
+        public object MountTargets { get; set; }
 
         /// <summary>
         /// Gets or sets snapshot ID
@@ -180,10 +194,9 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         /// Gets or sets ThroughputMibps
         /// </summary>
         /// <remarks>
-        ///  Maximum throughput in Mibps that can be achieved by this volume
+        ///  Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume
         /// </remarks>
         public double? ThroughputMibps { get; set; }
-
 
         /// <summary>
         /// Gets or sets KerberosEnabled
@@ -210,11 +223,226 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Models
         public bool? SmbContinuouslyAvailable { get; set; }
 
         /// <summary>
+        /// Gets or sets encryption Key Source. Possible values are:
+        /// 'Microsoft.NetApp'
+        /// </summary>
+        public string EncryptionKeySource { get; set; }
+
+        /// <summary>
         /// Gets or sets LdapEnabled
         /// </summary>
         /// <remarks>
         ///  Specifies whether LDAP is enabled or not for a given NFS volume.
         /// </remarks>
-        public bool? LdapEnabled { get; set; }        
+        public bool? LdapEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets CoolAccess
+        /// </summary>
+        /// <value>
+        /// Specifies whether Cool Access(tiering) is enabled for the volume.
+        /// </value>
+        public bool? CoolAccess { get; set; }
+
+        /// <summary>
+        /// Gets or sets CoolnessPeriod
+        /// </summary>
+        /// <value>
+        /// Specifies the number of days after which data that is not accessed by clients will be tiered.
+        /// </value>
+        public int? CoolnessPeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets UnixPermission
+        /// </summary>
+        /// <value>
+        /// UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. 
+        /// Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. 
+        /// The fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.
+        /// </value>
+        public string UnixPermission { get; set; }
+
+        /// <summary>
+        /// Gets or sets CloneProgress
+        /// </summary>
+        /// <value>
+        /// When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume.
+        /// This value will update every 5 minutes during cloning.
+        /// </value>
+        public int? CloneProgress { get; set; }
+
+        /// <summary>
+        /// Gets or sets AvsDataStore
+        /// </summary>
+        /// <value>
+        /// Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose (Enabled, Disabled)
+        /// </value>
+        public string AvsDataStore { get; set; }
+
+        /// <summary>
+        /// Gets or sets IsDefaultQuotaEnabled
+        /// </summary>
+        /// <value>
+        /// Specifies if default quota is enabled for the volume
+        /// </value>
+        public bool? IsDefaultQuotaEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets DefaultUserQuotaInKiBs
+        /// </summary>
+        /// <value>
+        /// Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies
+        /// </value>
+        public long? DefaultUserQuotaInKiBs { get; set; }
+
+        /// <summary>
+        /// Gets or sets DefaultGroupQuotaInKiBs
+        /// </summary>
+        /// <value>
+        /// Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies
+        /// </value>
+        public long? DefaultGroupQuotaInKiBs { get; set; }
+
+        /// <summary>
+        /// Gets or sets NetworkFeatures
+        /// </summary>
+        /// <value>
+        /// Basic network, or Standard features available to the volume (Basic, Standard).
+        /// </value>
+        public string NetworkFeatures { get; set; }
+
+        /// <summary>
+        /// Gets or sets NetworkSiblingSetId
+        /// </summary>
+        /// <value>
+        /// Network Sibling Set ID for the group of volumes sharing networking resources example (9760acf5-4638-11e7-9bdb-020073ca3333).
+        /// </value>
+        public string NetworkSiblingSetId { get; set; }
+
+        /// <summary>
+        /// Gets or sets NetworkFeatures
+        /// </summary>
+        /// <value>
+        /// Provides storage to network proximity information for the volume (Default, T1, T2).
+        /// Default: Basic storage to network connectivity
+        /// T1: Standard T1 storage to network connectivity.
+        /// T2: Standard T2 storage to network connectivity.
+        /// </value>
+        public string StorageToNetworkProximity { get; set; }
+
+        /// <summary>
+        /// Gets or sets VolumeGroupName
+        /// </summary>
+        /// <value>
+        /// Volume Group Name
+        /// </value>
+        public string VolumeGroupName { get; set; }
+
+        /// <summary>
+        /// Gets or sets CapacityPoolResourceId
+        /// </summary>
+        /// <value>
+        /// Pool Resource Id used in case of creating a volume through volume group
+        /// </value>
+        public string CapacityPoolResourceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets ProximityPlacementGroup
+        /// </summary>
+        /// <value>
+        /// Proximity placement group associated with the volume
+        /// </value>
+        public string ProximityPlacementGroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets T2Network
+        /// </summary>
+        /// <value>
+        /// T2 network information
+        /// </value>
+        public string T2Network { get; set; }
+
+        /// <summary>
+        /// Gets or sets volume spec name is the application specific
+        /// designation or identifier for the particular volume in a volume
+        /// group for e.g. data, log
+        /// </summary>
+        public string VolumeSpecName { get; set; }
+
+        /// <summary>
+        /// Gets or sets volume placement rules
+        /// </summary>
+        /// <remarks>
+        /// Application specific placement rules for the particular volume
+        /// </remarks>
+        public IList<PSKeyValuePairs> PlacementRules { get; set; }
+
+        /// <summary>
+        /// Gets or sets SystemData
+        /// </summary>
+        public PSSystemData SystemData { get; set; }
+
+        /// <summary>
+        /// Gets or sets MaximumNumberOfFiles
+        /// </summary>
+        /// <value>
+        /// Gets maximum number of files allowed. Needs a service request in
+        /// order to be changed. Only allowed to be changed if volume quota is
+        /// more than 4TiB.
+        /// </value>
+        public long? MaximumNumberOfFiles {get; set;}
+
+        /// <summary>
+        /// Gets or sets EnableSubvolumes
+        /// </summary>
+        /// <value>
+        /// Gets or sets flag indicating whether subvolume operations are
+        /// enabled on the volume. Possible values include: 'Enabled',
+        /// 'Disabled'
+        /// </value>
+        public string EnableSubvolumes { get; set; }
+
+        /// <summary>
+        /// Gets or sets Encrypted
+        /// </summary>
+        /// <value>
+        /// Gets specifies if the volume is encrypted or not. Only available on
+        /// volumes created or updated after 2022-01-01.
+        /// </value>
+        public bool? Encrypted { get; set; }
+
+        /// <summary>
+        /// Gets or sets the resource ID of private endpoint for KeyVault. It
+        /// must reside in the same VNET as the volume. Only applicable if
+        /// encryptionKeySource = 'Microsoft.KeyVault'.
+        /// </summary>
+        public string KeyVaultPrivateEndpointResourceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets if enabled (true) the snapshot the volume was created
+        /// from will be automatically deleted after the volume create
+        /// operation has finished.  Defaults to false
+        /// </summary>        
+        public bool? DeleteBaseSnapshot { get; set; }
+
+        /// <summary>
+        /// Gets or sets smbAccessBasedEnumeration
+        /// </summary>
+        /// <remarks>
+        /// Enables access based enumeration share property for SMB Shares.
+        /// Only applicable for SMB/DualProtocol volume. Possible values
+        /// include: 'Disabled', 'Enabled'
+        /// </remarks>        
+        public string SmbAccessBasedEnumeration { get; set; }
+
+        /// <summary>
+        /// Gets or sets smbNonBrowsable
+        /// </summary>
+        /// <remarks>
+        /// Enables non browsable property for SMB Shares. Only applicable for
+        /// SMB/DualProtocol volume. Possible values include: 'Disabled',
+        /// 'Enabled'
+        /// </remarks>        
+        public string SmbNonBrowsable { get; set; }
     }
 }

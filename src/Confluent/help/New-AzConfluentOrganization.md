@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Confluent
-online version: https://docs.microsoft.com/powershell/module/az.confluent/new-azconfluentorganization
+online version: https://learn.microsoft.com/powershell/module/az.confluent/new-azconfluentorganization
 schema: 2.0.0
 ---
 
@@ -15,10 +15,9 @@ Create Organization resource
 ```
 New-AzConfluentOrganization -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-Location <String>] [-OfferDetailId <String>] [-OfferDetailPlanId <String>] [-OfferDetailPlanName <String>]
- [-OfferDetailPublisherId <String>] [-OfferDetailStatus <SaaSOfferStatus>] [-OfferDetailTermUnit <String>]
- [-Tag <Hashtable>] [-UserDetailEmailAddress <String>] [-UserDetailFirstName <String>]
- [-UserDetailLastName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-OfferDetailPublisherId <String>] [-OfferDetailTermUnit <String>] [-Tag <Hashtable>]
+ [-UserDetailEmailAddress <String>] [-UserDetailFirstName <String>] [-UserDetailLastName <String>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,8 +27,10 @@ Create Organization resource
 
 ### Example 1: Create a confluent organization
 ```powershell
-PS C:\> New-AzConfluentOrganization -ResourceGroupName azure-rg-test -Name confluentorg-02-pwsh -Location eastus -OfferDetailId "confluent-cloud-azure-prod" -OfferDetailPlanId "confluent-cloud-azure-payg-prod" -OfferDetailPlanName "Confluent Cloud - Pay as you Go" -OfferDetailPublisherId "confluentinc" -OfferDetailTermUnit "P1M" -UserDetailEmailAddress "xxxx@microsoft.com"
+New-AzConfluentOrganization -ResourceGroupName azure-rg-test -Name confluentorg-02-pwsh -Location eastus -OfferDetailId "confluent-cloud-azure-prod" -OfferDetailPlanId "confluent-cloud-azure-payg-prod" -OfferDetailPlanName "Confluent Cloud - Pay as you Go" -OfferDetailPublisherId "confluentinc" -OfferDetailTermUnit "P1M" -UserDetailEmailAddress "xxxx@microsoft.com"
+```
 
+```output
 Location Name                   Type
 -------- ----                   ----
 eastus   confluentorg-02-pwsh Microsoft.Confluent/organizations
@@ -164,21 +165,6 @@ Publisher Id
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OfferDetailStatus
-SaaS Offer Status
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Confluent.Support.SaaSOfferStatus
 Parameter Sets: (All)
 Aliases:
 

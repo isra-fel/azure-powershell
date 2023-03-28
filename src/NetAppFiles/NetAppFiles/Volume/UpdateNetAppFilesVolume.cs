@@ -96,6 +96,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
         [Parameter(
             Mandatory = false,
             HelpMessage = "The service level of the ANF volume")]
+        [PSArgumentCompleter("Standard", "Premium", "Ultra", "StandardZRS")]
         [ValidateNotNullOrEmpty]
         public string ServiceLevel { get; set; }
 
@@ -113,8 +114,29 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
 
         [Parameter(
             Mandatory = false,
-            HelpMessage = "Maximum throughput in Mibps that can be achieved by this volume")]
+            HelpMessage = "Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume")]
         public double? ThroughputMibps { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Snapshot Policy ResourceId used to apply a snapshot policy to the volume")]
+        [ValidateNotNullOrEmpty]
+        public string SnapshotPolicyId { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Specifies if default quota is enabled for the volume")]
+        public SwitchParameter IsDefaultQuotaEnabled { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.")]
+        public long? DefaultUserQuotaInKiB { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.")]
+        public long? DefaultGroupQuotaInKiB { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -122,6 +144,21 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
         [ValidateNotNullOrEmpty]
         [Alias("Tags")]
         public Hashtable Tag { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.")]
+        public string UnixPermission { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Specifies whether Cool Access(tiering) is enabled for the volume (default false).")]
+        public SwitchParameter CoolAccess { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Specifies the number of days after which data that is not accessed by clients will be tiered (minimum 7, maximum 63).")]
+        public int? CoolnessPeriod { get; set; }
 
         [Parameter(
             Mandatory = true,
@@ -187,11 +224,16 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
                 AccountName = NameParts[0];
                 PoolName = NameParts[1];
             }
-            
-            var dataProtection = new PSNetAppFilesVolumeDataProtection
+
+            PSNetAppFilesVolumeDataProtection dataProtection = null;
+            if (!string.IsNullOrWhiteSpace(SnapshotPolicyId) || Backup != null)
             {
-                Backup = Backup
-            };
+                dataProtection = new PSNetAppFilesVolumeDataProtection
+                {
+                    Snapshot = new PSNetAppFilesVolumeSnapshot() { SnapshotPolicyId = SnapshotPolicyId },
+                    Backup = Backup
+                };
+            }
 
             var volumePatchBody = new VolumePatch()
             {
@@ -200,7 +242,13 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Volume
                 ExportPolicy = (ExportPolicy != null) ? ModelExtensions.ConvertExportPolicyPatchFromPs(ExportPolicy) : null,
                 Tags = tagPairs,
                 ThroughputMibps = ThroughputMibps,
-                DataProtection = (dataProtection.Backup != null) ? dataProtection.ConvertToPatchFromPs() : null
+                DataProtection = (dataProtection != null) ? dataProtection.ConvertToPatchFromPs() : null,
+                IsDefaultQuotaEnabled = IsDefaultQuotaEnabled,
+                DefaultUserQuotaInKiBs = DefaultUserQuotaInKiB,
+                DefaultGroupQuotaInKiBs = DefaultGroupQuotaInKiB,
+                UnixPermissions = UnixPermission,
+                CoolAccess = CoolAccess,
+                CoolnessPeriod = CoolnessPeriod,
             };
 
             if (ShouldProcess(Name, string.Format(PowerShell.Cmdlets.NetAppFiles.Properties.Resources.UpdateResourceMessage, ResourceGroupName)))

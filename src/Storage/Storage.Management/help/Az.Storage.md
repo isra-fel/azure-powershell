@@ -1,7 +1,7 @@
 ---
 Module Name: Az.Storage
 Module Guid: da67eaa7-4cb1-4bfa-a194-8bf3faae8ac5
-Download Help Link: https://docs.microsoft.com/powershell/module/az.storage
+Download Help Link: https://learn.microsoft.com/powershell/module/az.storage
 Help Version: 4.2.3.0
 Locale: en-US
 ---
@@ -29,8 +29,14 @@ Copy a blob synchronously.
 ### [Disable-AzStorageBlobDeleteRetentionPolicy](Disable-AzStorageBlobDeleteRetentionPolicy.md)
 Disable delete retention policy for the Azure Storage Blob service.
 
+### [Disable-AzStorageBlobLastAccessTimeTracking](Disable-AzStorageBlobLastAccessTimeTracking.md)
+Disable last access time tracking for the Azure Storage Blob service.
+
 ### [Disable-AzStorageBlobRestorePolicy](Disable-AzStorageBlobRestorePolicy.md)
 Disables Blob Restore Policy on a Storage account.
+
+### [Disable-AzStorageContainerDeleteRetentionPolicy](Disable-AzStorageContainerDeleteRetentionPolicy.md)
+Disable delete retention policy for Azure Storage blob containers.
 
 ### [Disable-AzStorageDeleteRetentionPolicy](Disable-AzStorageDeleteRetentionPolicy.md)
 Disable delete retention policy  for the Azure Storage Blob service.
@@ -41,8 +47,14 @@ Disable static website for the Azure Storage account.
 ### [Enable-AzStorageBlobDeleteRetentionPolicy](Enable-AzStorageBlobDeleteRetentionPolicy.md)
 Enable delete retention policy for the Azure Storage Blob service.
 
+### [Enable-AzStorageBlobLastAccessTimeTracking](Enable-AzStorageBlobLastAccessTimeTracking.md)
+Enable last access time tracking for the Azure Storage Blob service.
+
 ### [Enable-AzStorageBlobRestorePolicy](Enable-AzStorageBlobRestorePolicy.md)
 Enables Blob Restore Policy on a Storage account.
+
+### [Enable-AzStorageContainerDeleteRetentionPolicy](Enable-AzStorageContainerDeleteRetentionPolicy.md)
+Enable delete retention policy for Azure Storage blob containers.
 
 ### [Enable-AzStorageDeleteRetentionPolicy](Enable-AzStorageDeleteRetentionPolicy.md)
 Enable delete retention policy  for the Azure Storage Blob service.
@@ -52,6 +64,9 @@ Enable static website for the Azure Storage account.
 
 ### [Get-AzDataLakeGen2ChildItem](Get-AzDataLakeGen2ChildItem.md)
 Lists sub directorys and files from a directory or filesystem root.
+
+### [Get-AzDataLakeGen2DeletedItem](Get-AzDataLakeGen2DeletedItem.md)
+List all deleted files or directories from a directory or filesystem root.
 
 ### [Get-AzDataLakeGen2Item](Get-AzDataLakeGen2Item.md)
 Gets the details of a file or directory in a filesystem.
@@ -74,6 +89,12 @@ Gets a Storage account.
 ### [Get-AzStorageAccountKey](Get-AzStorageAccountKey.md)
 Gets the access keys for an Azure Storage account.
 
+### [Get-AzStorageLocalUser](Get-AzStorageLocalUser.md)
+Gets a specified local user or lists all local users in a storage account.
+
+### [Get-AzStorageLocalUserKey](Get-AzStorageLocalUserKey.md)
+Lists SSH authorized keys and shared key of a specified local user.
+
 ### [Get-AzStorageAccountManagementPolicy](Get-AzStorageAccountManagementPolicy.md)
 Gets the management policy of an Azure Storage account.
 
@@ -85,6 +106,9 @@ Get the NetWorkRule property of a Storage account
 
 ### [Get-AzStorageBlob](Get-AzStorageBlob.md)
 Lists blobs in a container.
+
+### [Get-AzStorageBlobByTag](Get-AzStorageBlobByTag.md)
+Lists blobs in a storage account across containers, with a blob tag filter sql expression.
 
 ### [Get-AzStorageBlobContent](Get-AzStorageBlobContent.md)
 Downloads a storage blob.
@@ -100,6 +124,9 @@ Applies a simple Structured Query Language (SQL) statement on a blob's contents 
 
 ### [Get-AzStorageBlobServiceProperty](Get-AzStorageBlobServiceProperty.md)
 Gets service properties for Azure Storage Blob services.
+
+### [Get-AzStorageBlobTag](Get-AzStorageBlobTag.md)
+Get blob tags of a specific blob.
 
 ### [Get-AzStorageContainer](Get-AzStorageContainer.md)
 Lists the storage containers.
@@ -161,8 +188,14 @@ Gets the stored access policy or policies for an Azure storage table.
 ### [Get-AzStorageUsage](Get-AzStorageUsage.md)
 Gets the Storage resource usage of the current subscription.
 
+### [Invoke-AzRmStorageContainerImmutableStorageWithVersioningMigration](Invoke-AzRmStorageContainerImmutableStorageWithVersioningMigration.md)
+Migrate an existing Storage blob containers to enable immutable Storage with versioning.
+
 ### [Invoke-AzStorageAccountFailover](Invoke-AzStorageAccountFailover.md)
 Invokes failover of a Storage account.
+
+### [Invoke-AzStorageAccountHierarchicalNamespaceUpgrade](Invoke-AzStorageAccountHierarchicalNamespaceUpgrade.md)
+Validates if a storage account can be upgraded to enable HierarchicalNamespace, or upgrades a Storage account to enabled HierarchicalNamespace.
 
 ### [Lock-AzRmStorageContainerImmutabilityPolicy](Lock-AzRmStorageContainerImmutabilityPolicy.md)
 Locks ImmutabilityPolicy of a Storage blob containers
@@ -172,6 +205,9 @@ Move a file or directory to another a file or directory in same Storage account.
 
 ### [New-AzDataLakeGen2Item](New-AzDataLakeGen2Item.md)
 Create a file or directory in a filesystem.
+
+### [New-AzDataLakeGen2SasToken](New-AzDataLakeGen2SasToken.md)
+Generates a SAS token for Azure DatalakeGen2 item.
 
 ### [New-AzRmStorageContainer](New-AzRmStorageContainer.md)
 Creates a Storage blob container
@@ -184,6 +220,18 @@ Creates a Storage account.
 
 ### [New-AzStorageAccountKey](New-AzStorageAccountKey.md)
 Regenerates a storage key for an Azure Storage account.
+
+### [New-AzStorageAccountManagementPolicyBlobIndexMatchObject](New-AzStorageAccountManagementPolicyBlobIndexMatchObject.md)
+Creates a ManagementPolicy BlobIndexMatch object, which can be used in New-AzStorageAccountManagementPolicyFilter.
+
+### [New-AzStorageLocalUserPermissionScope](New-AzStorageLocalUserPermissionScope.md)
+Creates a permission scope object, which can be used in Set-AzStorageLocalUser.
+
+### [New-AzStorageLocalUserSshPassword](New-AzStorageLocalUserSshPassword.md)
+Regenerate SSH password of a specified local user in a storage account.
+
+### [New-AzStorageLocalUserSshPublicKey](New-AzStorageLocalUserSshPublicKey.md)
+Creates a SSH public key object, which can be used in Set-AzStorageLocalUser.
 
 ### [New-AzStorageAccountManagementPolicyFilter](New-AzStorageAccountManagementPolicyFilter.md)
 Creates a ManagementPolicy rule filter object, which can be used in New-AzStorageAccountManagementPolicyRule.
@@ -278,6 +326,9 @@ Removes a Storage file share.
 ### [Remove-AzStorageAccount](Remove-AzStorageAccount.md)
 Removes a Storage account from Azure.
 
+### [Remove-AzStorageLocalUser](Remove-AzStorageLocalUser.md)
+Removes a specified local user in a storage account.
+
 ### [Remove-AzStorageAccountManagementPolicy](Remove-AzStorageAccountManagementPolicy.md)
 Removes the management policy of an Azure Storage account.
 
@@ -286,6 +337,9 @@ Remove IpRules or VirtualNetworkRules from the NetWorkRule property of a Storage
 
 ### [Remove-AzStorageBlob](Remove-AzStorageBlob.md)
 Removes the specified storage blob.
+
+### [Remove-AzStorageBlobImmutabilityPolicy](Remove-AzStorageBlobImmutabilityPolicy.md)
+Removes ImmutabilityPolicy of a Storage blob.
 
 ### [Remove-AzStorageBlobInventoryPolicy](Remove-AzStorageBlobInventoryPolicy.md)
 Removes blob inventory policy from a Storage account.
@@ -326,11 +380,17 @@ Removes a storage table.
 ### [Remove-AzStorageTableStoredAccessPolicy](Remove-AzStorageTableStoredAccessPolicy.md)
 Removes a stored access policy from an Azure storage table.
 
+### [Restore-AzDataLakeGen2DeletedItem](Restore-AzDataLakeGen2DeletedItem.md)
+Restores a deleted file or directory in a filesystem.
+
 ### [Restore-AzRmStorageShare](Restore-AzRmStorageShare.md)
 Restores a deleted file share.
 
 ### [Restore-AzStorageBlobRange](Restore-AzStorageBlobRange.md)
 Restores a Storage account for specific blob ranges.
+
+### [Restore-AzStorageContainer](Restore-AzStorageContainer.md)
+Restores a previously deleted Azure storage blob container.
 
 ### [Revoke-AzStorageAccountUserDelegationKeys](Revoke-AzStorageAccountUserDelegationKeys.md)
 Revoke all User Delegation keys of a Storage account.
@@ -350,14 +410,26 @@ Creates or updates ImmutabilityPolicy of a Storage blob containers
 ### [Set-AzStorageAccount](Set-AzStorageAccount.md)
 Modifies a Storage account.
 
+### [Set-AzStorageLocalUser](Set-AzStorageLocalUser.md)
+Creates or updates a specified local user in a storage account.
+
 ### [Set-AzStorageAccountManagementPolicy](Set-AzStorageAccountManagementPolicy.md)
 Creates or modifies the management policy of an Azure Storage account.
 
 ### [Set-AzStorageBlobContent](Set-AzStorageBlobContent.md)
 Uploads a local file to an Azure Storage blob.
 
+### [Set-AzStorageBlobImmutabilityPolicy](Set-AzStorageBlobImmutabilityPolicy.md)
+Creates or updates ImmutabilityPolicy of a Storage blob.
+
 ### [Set-AzStorageBlobInventoryPolicy](Set-AzStorageBlobInventoryPolicy.md)
 Creates or updates blob inventory policy in a Storage account.
+
+### [Set-AzStorageBlobLegalHold](Set-AzStorageBlobLegalHold.md)
+Enables or disables legal hold on a Storage blob.
+
+### [Set-AzStorageBlobTag](Set-AzStorageBlobTag.md)
+Set blob tags of a specific blob.
 
 ### [Set-AzStorageContainerAcl](Set-AzStorageContainerAcl.md)
 Sets the public access permission to a storage container.
@@ -400,6 +472,9 @@ Start an Incremental copy operation from a Page blob snapshot to the specified d
 
 ### [Start-AzStorageFileCopy](Start-AzStorageFileCopy.md)
 Starts to copy a source file.
+
+### [Stop-AzStorageAccountHierarchicalNamespaceUpgrade](Stop-AzStorageAccountHierarchicalNamespaceUpgrade.md)
+Aborts an ongoing HierarchicalNamespace upgrade task on a storage account.
 
 ### [Stop-AzStorageBlobCopy](Stop-AzStorageBlobCopy.md)
 Stops a copy operation.

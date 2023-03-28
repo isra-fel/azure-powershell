@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataFactoryV2.dll-Help.xml
 Module Name: Az.DataFactory
-online version: https://docs.microsoft.com/powershell/module/az.datafactory/start-azdatafactoryv2integrationruntime
+online version: https://learn.microsoft.com/powershell/module/az.datafactory/start-azdatafactoryv2integrationruntime
 schema: 2.0.0
 ---
 
@@ -37,9 +37,11 @@ The **Start-AzDataFactoryV2IntegrationRuntime** cmdlet starts a managed dedicate
 ## EXAMPLES
 
 ### Example 1: Start an integration runtime
+```powershell
+Start-AzDataFactoryV2IntegrationRuntime -ResourceGroupName 'rg-test-dfv2' -DataFactoryName 'test-df-eu2' -Name 'test-dedicated-ir' -Force
 ```
-PS C:\> Start-AzDataFactoryV2IntegrationRuntime -ResourceGroupName 'rg-test-dfv2' -DataFactoryName 'test-df-eu2' -Name test-dedicated-ir' -Force
 
+```output
     CreateTime                   : 9/11/2017 2:16:12 PM
     Nodes                        : {tvm-1650185656_1-20170911t141751z}
     OtherErrors                  : {}
@@ -55,6 +57,7 @@ PS C:\> Start-AzDataFactoryV2IntegrationRuntime -ResourceGroupName 'rg-test-dfv2
     CatalogPricingTier           : S1
     VNetId                       : 
     Subnet                       : 
+    SubnetId                     : 
     PublicIPs                    : 
     Id                           : /subscriptions/b3ee3a7f-7614-4644-ad07-afa832620b4b/resourceGroups/rg-test-dfv2/providers/Microsoft.DataFactory/factories/test-df-eu2/integrationruntimes/test-dedicated-ir
     ResourceGroupName            : rg-test-dfv2

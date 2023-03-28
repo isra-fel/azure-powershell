@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 // 
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -179,8 +179,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
         [Parameter(ParameterSetName = VMwareToAzureWithDiskType)]
         [Parameter(ParameterSetName = VMwareToAzureParameterSet)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [Parameter(ParameterSetName = ASRParameterSets.ReplicateVMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.ReplicateVMwareToAzureWithDiskInput)]
         [ValidateNotNullOrEmpty]
@@ -411,6 +409,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryVirtualMachineScaleSetId { get; set; }
 
         /// <summary>
+        /// Gets or sets the resource ID of capacity reservation group to failover this virtual machine to.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, HelpMessage = "Specify the capacity reservation group Id to be used by the failover Vm in target recovery region.")]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails, HelpMessage = "Specify the capacity reservation group Id to be used by the failover Vm in target recovery region.")]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryCapacityReservationGroupId { get; set; }
+
+        /// <summary>
         /// Gets or sets ID of the AvailabilitySet to recover the machine to in the event of a failover.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
@@ -486,6 +492,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string UseManagedDisk { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether managed disks should be used during replication.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.True,
+            Constants.False)]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
+        public string UseManagedDisksForReplication { get; set; }
+
+        /// <summary>
         /// Gets or sets BootDiagnosticStorageAccountId.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
@@ -545,6 +562,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = VMwareToAzureParameterSet)]
         [Parameter(ParameterSetName = ASRParameterSets.ReplicateVMwareToAzure)]
         public string DiskEncryptionSetId { get; set; }
+
+        /// <summary>
+        ///  Gets or sets the recovery extended location.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, HelpMessage = "Specifies Recovery ExtendedLocation in case of EZ-to-EZ.", Mandatory = false)]
+        public string RecoveryExtendedLocation { get; set; }
 
         /// <summary>
         ///     ProcessRecord of the command.
@@ -801,6 +824,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             providerSettings.TargetProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId;
             providerSettings.TargetAvailabilityZone = this.RecoveryAvailabilityZone;
             providerSettings.UseManagedDisks = this.UseManagedDisk;
+            providerSettings.UseManagedDisksForReplication = this.UseManagedDisksForReplication;
             providerSettings.TargetAvailabilitySetId = this.RecoveryAvailabilitySetId;
             providerSettings.TargetVmSize = this.Size;
             providerSettings.SqlServerLicenseType = this.SqlServerLicenseType;
@@ -905,6 +929,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     this.RecoveryResourceGroupId;
             }
 
+            if (this.IsParameterBound(c => c.IncludeDiskId))
+            {
+                List<string> disksToInclude = IncludeDiskId.ToList();
+                providerSettings.DisksToInclude = disksToInclude;
+            }
+
             input.Properties.ProviderSpecificDetails = providerSettings;
         }
 
@@ -928,7 +958,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 RecoverySubnetName = this.RecoveryAzureSubnetName,
                 RecoveryAvailabilityZone = this.RecoveryAvailabilityZone,
                 RecoveryProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId,
-                RecoveryVirtualMachineScaleSetId = this.RecoveryVirtualMachineScaleSetId
+                RecoveryVirtualMachineScaleSetId = this.RecoveryVirtualMachineScaleSetId,
+                RecoveryCapacityReservationGroupId = this.RecoveryCapacityReservationGroupId,
+                RecoveryExtendedLocation = this.IsParameterBound(c => c.RecoveryExtendedLocation) ? new ExtendedLocation
+                {
+                    Name = this.RecoveryExtendedLocation
+                } : null
             };
 
             if (!string.IsNullOrEmpty(this.ReplicationGroupName))
@@ -1081,7 +1116,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 .CustomDetails;
             var processServer = fabricSpecificDetails
                 .ProcessServers
-                .Where(x => x.Name == this.ApplianceName)
+                .Where(x => x.Name.Equals(this.ApplianceName, StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefault();
             if (processServer == null)
             {
@@ -1104,7 +1139,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             var siteId = this.ProtectableItem.FabricSiteId;
             var runAsAccount =
                 this.FabricDiscoveryClient.GetAzureSiteRecoveryRunAsAccounts(siteId)
-                .Where(x => x.Properties.DisplayName == this.CredentialsToAccessVm)
+                .Where(x => x.Properties.DisplayName.Equals(
+                        this.CredentialsToAccessVm, StringComparison.OrdinalIgnoreCase ) &&
+                    x.Properties.ApplianceName.Equals(
+                        this.ApplianceName, StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefault();
             if (runAsAccount == null)
             {
@@ -1112,6 +1150,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     string.Format(
                         Resources.RunAsAccountNotFound,
                         this.CredentialsToAccessVm,
+                        this.ApplianceName,
                         siteId));
             }
 

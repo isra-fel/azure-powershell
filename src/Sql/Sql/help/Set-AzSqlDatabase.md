@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Sql.dll-Help.xml
 Module Name: Az.Sql
 ms.assetid: 2E4F5C27-C50F-4133-B193-BC477BCD6778
-online version: https://docs.microsoft.com/powershell/module/az.sql/set-azsqldatabase
+online version: https://learn.microsoft.com/powershell/module/az.sql/set-azsqldatabase
 schema: 2.0.0
 ---
 
@@ -20,8 +20,12 @@ Set-AzSqlDatabase [-DatabaseName] <String> [-MaxSizeBytes <Int64>] [-Edition <St
  [-Tags <Hashtable>] [-ZoneRedundant] [-AsJob] [-LicenseType <String>] [-ComputeModel <String>]
  [-AutoPauseDelayInMinutes <Int32>] [-MinimumCapacity <Double>] [-HighAvailabilityReplicaCount <Int32>]
  [-BackupStorageRedundancy <String>] [-SecondaryType <String>] [-MaintenanceConfigurationId <String>]
- [-ServerName] <String> [-ResourceGroupName] <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-AssignIdentity] [-EncryptionProtector <String>]
+ [-UserAssignedIdentityId <System.Collections.Generic.List`1[System.String]>]
+ [-KeyList <System.Collections.Generic.List`1[System.String]>]
+ [-KeysToRemove <System.Collections.Generic.List`1[System.String]>] [-FederatedClientId <Guid>]
+ [-PreferredEnclaveType <String>] [-ServerName] <String> [-ResourceGroupName] <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### VcoreBasedDatabase
@@ -31,16 +35,23 @@ Set-AzSqlDatabase [-DatabaseName] <String> [-MaxSizeBytes <Int64>] [-Edition <St
  [-ComputeGeneration <String>] [-LicenseType <String>] [-ComputeModel <String>]
  [-AutoPauseDelayInMinutes <Int32>] [-MinimumCapacity <Double>] [-HighAvailabilityReplicaCount <Int32>]
  [-BackupStorageRedundancy <String>] [-SecondaryType <String>] [-MaintenanceConfigurationId <String>]
- [-ServerName] <String> [-ResourceGroupName] <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-AssignIdentity] [-EncryptionProtector <String>]
+ [-UserAssignedIdentityId <System.Collections.Generic.List`1[System.String]>]
+ [-KeyList <System.Collections.Generic.List`1[System.String]>]
+ [-KeysToRemove <System.Collections.Generic.List`1[System.String]>] [-FederatedClientId <Guid>]
+ [-PreferredEnclaveType <String>] [-ServerName] <String> [-ResourceGroupName] <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Rename
 ```
 Set-AzSqlDatabase [-DatabaseName] <String> -NewName <String> [-AsJob] [-BackupStorageRedundancy <String>]
- [-SecondaryType <String>] [-MaintenanceConfigurationId <String>] [-ServerName] <String>
- [-ResourceGroupName] <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-SecondaryType <String>] [-MaintenanceConfigurationId <String>] [-AssignIdentity]
+ [-EncryptionProtector <String>] [-UserAssignedIdentityId <System.Collections.Generic.List`1[System.String]>]
+ [-KeyList <System.Collections.Generic.List`1[System.String]>]
+ [-KeysToRemove <System.Collections.Generic.List`1[System.String]>] [-FederatedClientId <Guid>]
+ [-PreferredEnclaveType <String>] [-ServerName] <String> [-ResourceGroupName] <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,8 +60,11 @@ The **Set-AzSqlDatabase** cmdlet sets properties for a database in Azure SQL Dat
 ## EXAMPLES
 
 ### Example 1: Update a database to a Standard S0 database
+```powershell
+Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -Edition "Standard" -RequestedServiceObjectiveName "S0"
 ```
-PS C:\>Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -Edition "Standard" -RequestedServiceObjectiveName "S0"
+
+```output
 ResourceGroupName             : ResourceGroup01
 ServerName                    : Server01
 DatabaseName                  : Database01
@@ -74,8 +88,11 @@ Tags                          :
 This command updates a database named Database01 to a Standard S0 database on a server named Server01.
 
 ### Example 2: Add a database to an elastic pool
+```powershell
+Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -ElasticPoolName "ElasticPool01"
 ```
-PS C:\>Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -ElasticPoolName "ElasticPool01"
+
+```output
 ResourceGroupName             : ResourceGroup01
 ServerName                    : Server01
 DatabaseName                  : Database01
@@ -99,8 +116,11 @@ Tags                          :
 This command adds a database named Database01 to the elastic pool named ElasticPool01 hosted on the server named Server01.
 
 ### Example 3: Modify the storage max size of a database
+```powershell
+Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -MaxSizeBytes 1099511627776
 ```
-PS C:\>Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -MaxSizeBytes 1099511627776
+
+```output
 ResourceGroupName             : ResourceGroup01
 ServerName                    : Server01
 DatabaseName                  : Database01
@@ -124,8 +144,11 @@ Tags                          :
 This command updates a database named Database01 to set its max size to 1 TB.
 
 ### Example 4: Update a existing General Purpose database to Hyperscale service tier
+```powershell
+Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -Edition "Hyperscale" -RequestedServiceObjectiveName "HS_Gen5_2"
 ```
-PS C:\>Set-AzSqlDatabase -ResourceGroupName "ResourceGroup01" -DatabaseName "Database01" -ServerName "Server01" -Edition "Hyperscale" -RequestedServiceObjectiveName "HS_Gen5_2"
+
+```output
 ResourceGroupName             : ResourceGroup01
 ServerName                    : Server01
 DatabaseName                  : Database01
@@ -177,6 +200,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AssignIdentity
+Generate and assign an Azure Active Directory Identity for this database for use with key management services like Azure KeyVault.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -AutoPauseDelayInMinutes
 The auto pause delay in minutes for database (serverless only), -1 to opt out
 
@@ -193,13 +231,13 @@ Accept wildcard characters: False
 ```
 
 ### -BackupStorageRedundancy
-The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone and Geo.
+The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone, Geo and GeoZone. To know the options supported by each edition of the database, see [Get-AzSqlCapability](https://learn.microsoft.com/en-us/powershell/module/az.sql/get-azsqlcapability).
 
 ```yaml
 Type: System.String
 Parameter Sets: (All)
 Aliases:
-Accepted values: Local, Zone, Geo
+Accepted values: Local, Zone, Geo, GeoZone
 
 Required: False
 Position: Named
@@ -309,6 +347,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EncryptionProtector
+The encryption protector key for SQL Database.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FederatedClientId
+The federated client id for the SQL Database. It is used for cross tenant CMK scenario.
+
+```yaml
+Type: System.Nullable`1[System.Guid]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HighAvailabilityReplicaCount
 The number of readonly secondary replicas associated with the database.  For Hyperscale edition only.
 
@@ -316,6 +384,36 @@ The number of readonly secondary replicas associated with the database.  For Hyp
 Type: System.Int32
 Parameter Sets: Update, VcoreBasedDatabase
 Aliases: ReadReplicaCount
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyList
+The list of AKV keys for the SQL Database.
+
+```yaml
+Type: System.Collections.Generic.List`1[System.String]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeysToRemove
+The list of AKV keys to remove from the SQL Database.
+
+```yaml
+Type: System.Collections.Generic.List`1[System.String]
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -402,6 +500,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PreferredEnclaveType
+The preferred enclave type for the Azure Sql database. Possible values are Default and VBS.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ReadScale
 If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.
 
@@ -420,7 +533,7 @@ Accept wildcard characters: False
 
 ### -RequestedServiceObjectiveName
 Specifies the name of the service objective to assign to the database. For information about
-service objectives, see [Azure SQL Database Service Tiers and Performance Levels](https://docs.microsoft.com/azure/sql-database/sql-database-dtu-resource-limits-single-databases)
+service objectives, see [Azure SQL Database Service Tiers and Performance Levels](https://learn.microsoft.com/azure/sql-database/sql-database-dtu-resource-limits-single-databases)
 in the Microsoft Developer Network Library.
 
 ```yaml
@@ -489,6 +602,21 @@ Key-value pairs in the form of a hash table. For example:
 Type: System.Collections.Hashtable
 Parameter Sets: Update, VcoreBasedDatabase
 Aliases: Tag
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserAssignedIdentityId
+The list of user assigned identity for the SQL Database.
+
+```yaml
+Type: System.Collections.Generic.List`1[System.String]
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -583,4 +711,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [Suspend-AzSqlDatabase](./Suspend-AzSqlDatabase.md)
 
-[SQL Database Documentation](https://docs.microsoft.com/azure/sql-database/)
+[SQL Database Documentation](https://learn.microsoft.com/azure/sql-database/)

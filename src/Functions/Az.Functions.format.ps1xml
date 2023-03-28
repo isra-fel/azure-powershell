@@ -498,9 +498,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -510,9 +507,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -529,18 +523,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -1034,9 +1022,6 @@
           <TableColumnHeader>
             <Label>TenantId</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -1046,9 +1031,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>TenantId</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -1069,9 +1051,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>ETag</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -1083,9 +1062,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>ETag</PropertyName>
@@ -1366,9 +1342,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -1378,9 +1351,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -1441,18 +1411,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -1522,9 +1486,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -1534,9 +1495,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -1714,9 +1672,6 @@
             <Label>ReasonCode</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Value</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -1725,9 +1680,6 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>ReasonCode</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Value</PropertyName>
@@ -1949,9 +1901,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Kind</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -1963,9 +1912,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Kind</PropertyName>
@@ -1985,18 +1931,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -2120,6 +2060,12 @@
             <Label>AccessTier</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>AllowBlobPublicAccess</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>AllowSharedKeyAccess</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>CreationTime</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -2136,6 +2082,9 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>LastGeoFailoverTime</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>MinimumTlsVersion</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>PrimaryLocation</Label>
@@ -2160,6 +2109,12 @@
                 <PropertyName>AccessTier</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
+                <PropertyName>AllowBlobPublicAccess</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AllowSharedKeyAccess</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>CreationTime</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
@@ -2176,6 +2131,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>LastGeoFailoverTime</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MinimumTlsVersion</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>PrimaryLocation</PropertyName>
@@ -2208,6 +2166,12 @@
             <Label>AccessTier</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>AllowBlobPublicAccess</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>AllowSharedKeyAccess</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>EnableHttpsTrafficOnly</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -2215,6 +2179,9 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>LargeFileSharesState</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>MinimumTlsVersion</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -2224,6 +2191,12 @@
                 <PropertyName>AccessTier</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
+                <PropertyName>AllowBlobPublicAccess</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AllowSharedKeyAccess</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>EnableHttpsTrafficOnly</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
@@ -2231,6 +2204,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>LargeFileSharesState</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MinimumTlsVersion</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -2248,10 +2224,19 @@
             <Label>AccessTier</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>AllowBlobPublicAccess</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>AllowSharedKeyAccess</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>EnableHttpsTrafficOnly</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>LargeFileSharesState</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>MinimumTlsVersion</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -2261,10 +2246,19 @@
                 <PropertyName>AccessTier</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
+                <PropertyName>AllowBlobPublicAccess</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AllowSharedKeyAccess</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>EnableHttpsTrafficOnly</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>LargeFileSharesState</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MinimumTlsVersion</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -2578,9 +2572,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -2590,9 +2581,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -2610,9 +2598,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Location</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -2621,9 +2606,6 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Location</PropertyName>
@@ -2750,9 +2732,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Location</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -2761,9 +2740,6 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Location</PropertyName>
@@ -2939,9 +2915,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Kind</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -2953,9 +2926,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Kind</PropertyName>
@@ -3159,9 +3129,6 @@
           <TableColumnHeader>
             <Label>Operator</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Value</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -3174,9 +3141,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Operator</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Value</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3240,9 +3204,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -3252,9 +3213,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3316,9 +3274,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Etag</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -3327,9 +3282,6 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Etag</PropertyName>
@@ -3349,18 +3301,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3377,18 +3323,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3406,9 +3346,6 @@
             <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Location</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -3417,9 +3354,6 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Location</PropertyName>
@@ -3544,9 +3478,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -3556,9 +3487,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3634,9 +3562,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -3646,9 +3571,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3838,9 +3760,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -3850,9 +3769,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3931,9 +3847,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -3946,9 +3859,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -3990,9 +3900,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -4002,9 +3909,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -4236,9 +4140,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -4248,9 +4149,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -4273,9 +4171,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -4288,9 +4183,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -4546,9 +4438,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -4558,9 +4447,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -4583,9 +4469,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -4598,9 +4481,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -4642,9 +4522,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -4654,9 +4531,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5079,9 +4953,6 @@
           <TableColumnHeader>
             <Label>State</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5101,9 +4972,6 @@
               <TableColumnItem>
                 <PropertyName>State</PropertyName>
               </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
-              </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
@@ -5122,9 +4990,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5134,9 +4999,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5184,9 +5046,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5196,9 +5055,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5334,9 +5190,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5346,9 +5199,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5454,9 +5304,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5466,9 +5313,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5599,9 +5443,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5614,9 +5455,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5728,9 +5566,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5740,9 +5575,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5790,9 +5622,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5802,9 +5631,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -5852,9 +5678,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -5864,9 +5687,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -6272,9 +6092,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -6284,9 +6101,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -6306,9 +6120,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -6318,9 +6129,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -6335,18 +6143,12 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Value</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
-              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Value</PropertyName>
               </TableColumnItem>
@@ -6666,9 +6468,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -6678,9 +6477,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -6948,6 +6744,84 @@
       </TableControl>
     </View>
     <View>
+      <Name>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingCredentialsPoliciesCollection</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingCredentialsPoliciesCollection</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Kind</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Kind</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingCredentialsPoliciesEntity</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingCredentialsPoliciesEntity</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Kind</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Kind</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingCredentialsPoliciesEntityProperties</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingCredentialsPoliciesEntityProperties</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Allow</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Allow</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingProfileOptions</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.Azure.PowerShell.Cmdlets.Functions.Models.Api20190801.CsmPublishingProfileOptions</TypeName>
@@ -7078,9 +6952,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7090,9 +6961,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -7386,9 +7254,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7398,9 +7263,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -7460,9 +7322,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7472,9 +7331,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -7580,9 +7436,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7592,9 +7445,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -7715,9 +7565,6 @@
           <TableColumnHeader>
             <Label>StartTime</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7737,9 +7584,6 @@
               <TableColumnItem>
                 <PropertyName>StartTime</PropertyName>
               </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
-              </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
@@ -7758,9 +7602,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7770,9 +7611,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -7872,9 +7710,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7884,9 +7719,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -7928,9 +7760,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -7940,9 +7769,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -8012,9 +7838,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -8024,9 +7847,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -8112,9 +7932,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -8124,9 +7941,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -8321,9 +8135,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -8336,9 +8147,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -8448,9 +8256,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -8460,9 +8265,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -8526,9 +8328,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -8538,9 +8337,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9008,9 +8804,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9020,9 +8813,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9168,9 +8958,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9180,9 +8967,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9441,18 +9225,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9547,9 +9325,6 @@
           <TableColumnHeader>
             <Label>SiteName</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9569,9 +9344,6 @@
               <TableColumnItem>
                 <PropertyName>SiteName</PropertyName>
               </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
-              </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
@@ -9590,9 +9362,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9602,9 +9371,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9768,9 +9534,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9780,9 +9543,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9824,9 +9584,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9836,9 +9593,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -9886,9 +9640,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9898,9 +9649,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10012,9 +9760,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10024,9 +9769,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10250,9 +9992,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10262,9 +10001,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10284,9 +10020,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10296,9 +10029,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10380,9 +10110,6 @@
           <TableColumnHeader>
             <Label>TenantId</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10392,9 +10119,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>TenantId</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10542,9 +10266,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10554,9 +10275,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10604,9 +10322,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10616,9 +10331,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10672,9 +10384,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10684,9 +10393,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10780,9 +10486,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10792,9 +10495,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10814,9 +10514,6 @@
           <TableColumnHeader>
             <Label>Time</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10826,9 +10523,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Time</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -10848,9 +10542,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -10860,9 +10551,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11040,9 +10728,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11052,9 +10737,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11353,9 +11035,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11368,9 +11047,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11390,9 +11066,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11402,9 +11075,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11522,9 +11192,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11534,9 +11201,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11648,9 +11312,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11660,9 +11321,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11766,9 +11424,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11778,9 +11433,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11800,9 +11452,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11812,9 +11461,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11865,18 +11511,12 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -11930,9 +11570,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -11942,9 +11579,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12222,9 +11856,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12234,9 +11865,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12360,9 +11988,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12372,9 +11997,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12504,9 +12126,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12516,9 +12135,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12538,9 +12154,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12550,9 +12163,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12628,9 +12238,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12640,9 +12247,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12766,9 +12370,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12778,9 +12379,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -12976,9 +12574,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -12988,9 +12583,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13104,9 +12696,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13116,9 +12705,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13178,9 +12764,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13190,9 +12773,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13292,9 +12872,6 @@
           <TableColumnHeader>
             <Label>Title</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13304,9 +12881,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Title</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13326,9 +12900,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13338,9 +12909,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13425,9 +12993,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13440,9 +13005,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13490,9 +13052,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13502,9 +13061,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13602,9 +13158,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13614,9 +13167,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13748,9 +13298,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13760,9 +13307,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13804,9 +13348,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13816,9 +13357,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13914,9 +13452,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -13926,9 +13461,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -14159,6 +13691,12 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>AcrUseManagedIdentityCred</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>AcrUserManagedIdentityId</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>AlwaysOn</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -14285,6 +13823,12 @@
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>AcrUseManagedIdentityCred</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AcrUserManagedIdentityId</PropertyName>
+              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AlwaysOn</PropertyName>
               </TableColumnItem>
@@ -14426,9 +13970,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -14438,9 +13979,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -14482,9 +14020,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -14494,9 +14029,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -14566,9 +14098,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -14578,9 +14107,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -14758,9 +14284,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -14770,9 +14293,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -14848,9 +14368,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -14860,9 +14377,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -14922,9 +14436,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -14934,9 +14445,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -15158,9 +14666,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -15170,9 +14675,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -15484,9 +14986,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -15496,9 +14995,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -15756,9 +15252,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -15768,9 +15261,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -15790,9 +15280,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -15802,9 +15289,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -15972,9 +15456,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -15984,9 +15465,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16072,9 +15550,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16084,9 +15559,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16155,9 +15627,6 @@
           <TableColumnHeader>
             <Label>Order</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16170,9 +15639,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Order</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16192,9 +15658,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16204,9 +15667,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16539,9 +15999,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16554,9 +16011,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16576,9 +16030,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16588,9 +16039,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16746,9 +16194,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16758,9 +16203,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16830,9 +16272,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16842,9 +16281,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16914,9 +16350,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16926,9 +16359,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -16948,9 +16378,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -16960,9 +16387,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17010,9 +16434,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17022,9 +16443,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17106,9 +16524,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17118,9 +16533,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17186,9 +16598,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17198,9 +16607,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17294,9 +16700,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17306,9 +16709,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17368,9 +16768,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17380,9 +16777,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17424,9 +16818,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17436,9 +16827,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17480,9 +16868,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17492,9 +16877,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17604,9 +16986,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17616,9 +16995,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17710,9 +17086,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17722,9 +17095,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17766,9 +17136,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17778,9 +17145,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -17882,9 +17246,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -17894,9 +17255,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18002,9 +17360,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18014,9 +17369,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18122,9 +17474,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18134,9 +17483,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18151,15 +17497,6 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>PublishingPassword</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>PublishingPasswordHash</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>PublishingPasswordHashSalt</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>PublishingUserName</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -18169,15 +17506,6 @@
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>PublishingPassword</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>PublishingPasswordHash</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>PublishingPasswordHashSalt</PropertyName>
-              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>PublishingUserName</PropertyName>
               </TableColumnItem>
@@ -18296,9 +17624,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18308,9 +17633,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18488,9 +17810,6 @@
           <TableColumnHeader>
             <Label>Subnet</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18500,9 +17819,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Subnet</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18522,9 +17838,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18534,9 +17847,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18584,9 +17894,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18596,9 +17903,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18670,9 +17974,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18682,9 +17983,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18738,9 +18036,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18750,9 +18045,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18806,9 +18098,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18818,9 +18107,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18862,9 +18148,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18874,9 +18157,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -18968,9 +18248,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -18980,9 +18257,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -19076,9 +18350,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -19088,9 +18359,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -19218,9 +18486,6 @@
           <TableColumnHeader>
             <Label>Name</Label>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Type</Label>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -19230,9 +18495,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Type</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Monitor.dll-Help.xml
 Module Name: Az.Monitor
-online version: https://docs.microsoft.com/powershell/module/az.monitor/new-azdatacollectionrule
+online version: https://learn.microsoft.com/powershell/module/az.monitor/new-azdatacollectionrule
 schema: 2.0.0
 ---
 
@@ -12,29 +12,20 @@ Create a data collection rule.
 
 ## SYNTAX
 
-### ByFile (Default)
 ```
-New-AzDataCollectionRule
-   -Location <string>
-   -ResourceGroupName <string>
-   -RuleName <string>
-   -RuleFile <string>
-   [-Description <string>]
-   [-Tag <hashtable>]
-   [-DefaultProfile <IAzureContextContainer>]
-   [-WhatIf]
-   [-Confirm]
-   [<CommonParameters>]
+New-AzDataCollectionRule -Location <String> -ResourceGroupName <String> -RuleName <String> -RuleFile <String>
+ [-Description <String>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 The **New-AzDataCollectionRule** cmdlet creates a data collection rule.
 
-Data Collection Rules (DCR) define data coming into Azure Monitor and specify where that data should be sent or stored. Here is the complete [DCR overview article](https://docs.microsoft.com/azure/azure-monitor/platform/data-collection-rule-overview).
+Data Collection Rules (DCR) define data coming into Azure Monitor and specify where that data should be sent or stored. Here is the complete [DCR overview article](https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview).
 
 To use the -RuleFile parameter, construct a json file containing three properties: dataSources, destinations, dataFlows (see Example #1)
 
-You may find here the [schema detail](https://docs.microsoft.com/rest/api/monitor/datacollectionrules/create).
+You may find here the [schema detail](https://learn.microsoft.com/rest/api/monitor/datacollectionrules/create).
 
 The output of a DCR serialized with the cmdlet ConvertTo-Json is also supported (see Example #2).
 
@@ -42,11 +33,13 @@ The output of a DCR serialized with the cmdlet ConvertTo-Json is also supported 
 
 ### Example 1: Create data collection rule, JSON from Rest API
 ```powershell
-PS C:\>New-AzDataCollectionRule -Location 'East US 2 EUAP' -ResourceGroupName 'testdcr'
-                                -RuleName 'newDcrEx1' -RuleFile 'C:\samples\dcrEx1.json'
-                                -Description 'Dcr description'
+New-AzDataCollectionRule -Location 'East US 2 EUAP' -ResourceGroupName 'testdcr' `
+                                -RuleName 'newDcrEx1' -RuleFile 'C:\samples\dcrEx1.json' `
+                                -Description 'Dcr description' `
                                 -Tag @{"tag1"="value1"; "tag2"="value2"}
+```
 
+```output
 Description       : Dcr description
 DataSources       : Microsoft.Azure.Commands.Insights.OutputClasses.PSDataCollectionRuleDataSources
 Destinations      : Microsoft.Azure.Commands.Insights.OutputClasses.PSDataCollectionRuleDestinations
@@ -98,62 +91,6 @@ Tags              : {[tag2, value2], [tag1, value1]}
 
 This command creates a data collection rules for the current subscription.
 
-### Example 2: Create data collection rule, JSON from PSDataCollectionRuleResource
-```powershell
-PS C:\>New-AzDataCollectionRule -Location 'East US 2 EUAP' -ResourceGroupName 'testdcr'
-                                -RuleName 'newDcrEx2' -RuleFile 'C:\samples\dcrEx2.json'
-                                -Description 'Dcr description'
-                                -Tag @{"tag1"="value1"; "tag2"="value2"}
-
-Description       : Dcr description
-DataSources       : Microsoft.Azure.Commands.Insights.OutputClasses.PSDataCollectionRuleDataSources
-Destinations      : Microsoft.Azure.Commands.Insights.OutputClasses.PSDataCollectionRuleDestinations
-DataFlows         : {Microsoft.Azure.Commands.Insights.OutputClasses.PSDataFlow}
-ProvisioningState : Succeeded
-Etag              : "{etag}"
-Id                : /subscriptions/{subId}/resourceGroups/testdcr/providers/Microsoft.Insights/dataCollectionRules/newDcrEx2
-Name              : newDcrEx2
-Type              : Microsoft.Insights/dataCollectionRules
-Location          : East US 2 EUAP
-Tags              : {[tag2, value2], [tag1, value1]}
-
-# Note: Content of C:\samples\dcrEx2.json
-{
-  "DataSources": {
-    "PerformanceCounters": [
-      {
-        "Streams": [
-          "Microsoft-InsightsMetrics"
-        ],
-        "ScheduledTransferPeriod": "PT1M",
-        "SamplingFrequencyInSeconds": 10,
-        "CounterSpecifiers": [
-          "\\Processor Information(_Total)\\% Processor Time"
-        ],
-        "Name": "perfCounter01"
-      }
-    ]
-  },
-  "Destinations": {
-    "AzureMonitorMetrics": {
-      "Name": "azureMonitorMetrics-default"
-    }
-  },
-  "DataFlows": [
-    {
-      "Streams": [
-        "Microsoft-InsightsMetrics"
-      ],
-      "Destinations": [
-        "azureMonitorMetrics-default"
-      ]
-    }
-  ]
-}
-```
-
-This command creates a data collection rules for the current subscription.
-
 ## PARAMETERS
 
 ### -DefaultProfile
@@ -171,12 +108,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Description
+The resource description
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Location
 The resource location
 
 ```yaml
 Type: System.String
-Parameter Sets: ByFile
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -191,7 +143,22 @@ The resource group name
 
 ```yaml
 Type: System.String
-Parameter Sets: ByFile
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RuleFile
+The JSON file path
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -206,40 +173,10 @@ The resource name
 
 ```yaml
 Type: System.String
-Parameter Sets: ByFile
+Parameter Sets: (All)
 Aliases: Name
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RuleFile
-The JSON file path
-
-```yaml
-Type: System.String
-Parameter Sets: ByFile
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Description
-The resource description
-
-```yaml
-Type: System.String
-Parameter Sets: ByFile
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -251,7 +188,7 @@ The resource tags
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: ByFile
+Parameter Sets: (All)
 Aliases:
 
 Required: False

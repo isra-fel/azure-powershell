@@ -69,12 +69,29 @@ namespace Microsoft.Azure.Commands.Network
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The type of this virtual network gateway: Vpn, ExoressRoute")]
+            HelpMessage = "The type of this virtual network gateway: Vpn, ExoressRoute, LocalGateway")]
         [ValidateSet(
             MNM.VirtualNetworkGatewayType.Vpn,
             MNM.VirtualNetworkGatewayType.ExpressRoute,
+            MNM.VirtualNetworkGatewayType.LocalGateway,
             IgnoreCase = true)]
         public string GatewayType { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The extended location of this virtual network gateway")]
+        [ValidateSet(
+            "MicrosoftRRDCLab3",
+            IgnoreCase = true)]
+        public string ExtendedLocation { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "VNetExtendedLocationResourceId for Virtual network gateway.")]
+        [ValidateNotNullOrEmpty]
+        public string VNetExtendedLocationResourceId { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -91,6 +108,12 @@ namespace Microsoft.Azure.Commands.Network
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "EnableBgp Flag")]
         public bool EnableBgp { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Disable IPsec Protection Flag")]
+        public bool DisableIPsecProtection { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -202,6 +225,17 @@ namespace Microsoft.Azure.Commands.Network
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The NatRules for Virtual network gateway.")]
+        public PSVirtualNetworkGatewayNatRule[] NatRule { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Flag to enable BgpRouteTranslationForNat on this VirtualNetworkGateway.")]
+        public SwitchParameter EnableBgpRouteTranslationForNat { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "A hashtable which represents resource tags.")]
         public Hashtable Tag { get; set; }
 
@@ -266,6 +300,18 @@ namespace Microsoft.Azure.Commands.Network
             MNM.VpnGatewayGeneration.Generation1,
             MNM.VpnGatewayGeneration.Generation2)]
         public string VpnGatewayGeneration { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "P2S policy group added to this gateway")]
+        public PSVirtualNetworkGatewayPolicyGroup[] VirtualNetworkGatewayPolicyGroup { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "P2S Client Connection Configuration that assiociate between address and policy group")]
+        public PSClientConnectionConfiguration[] ClientConnectionConfiguration { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Run cmdlet in the background")]
         public SwitchParameter AsJob { get; set; }
@@ -347,10 +393,21 @@ namespace Microsoft.Azure.Commands.Network
 
             }
             vnetGateway.GatewayType = this.GatewayType;
+            if(vnetGateway.GatewayType == "LocalGateway")
+            {
+                vnetGateway.ExtendedLocation = new PSExtendedLocation(this.ExtendedLocation);
+                vnetGateway.VNetExtendedLocationResourceId = this.VNetExtendedLocationResourceId;
+            }
             vnetGateway.VpnType = this.VpnType;
             vnetGateway.EnableBgp = this.EnableBgp;
+            vnetGateway.DisableIPsecProtection = this.DisableIPsecProtection;
             vnetGateway.ActiveActive = this.EnableActiveActiveFeature.IsPresent;
             vnetGateway.EnablePrivateIpAddress = this.EnablePrivateIpAddress.IsPresent;
+
+            if (this.VirtualNetworkGatewayPolicyGroup != null && this.VirtualNetworkGatewayPolicyGroup.Length > 0)
+            {
+                vnetGateway.VirtualNetworkGatewayPolicyGroups = this.VirtualNetworkGatewayPolicyGroup.ToList();
+            }
 
             if (this.GatewayDefaultSite != null)
             {
@@ -444,6 +501,18 @@ namespace Microsoft.Azure.Commands.Network
                         throw new ArgumentException("Virtual Network Gateway VpnClientProtocol should be :" + MNM.VpnClientProtocol.OpenVPN + " when P2S AAD authentication is being configured.");
                     }
                 }
+
+                if (this.ClientConnectionConfiguration != null && this.ClientConnectionConfiguration.Any())
+                {
+                    foreach( var config in this.ClientConnectionConfiguration)
+                    {
+                        foreach (var policyGroup  in config.VirtualNetworkGatewayPolicyGroups)
+                        {
+                            policyGroup.Id = string.Format("/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Network/virtualNetworkGateways/{2}/virtualNetworkGatewayPolicyGroups/{3}", this.NetworkClient.NetworkManagementClient.SubscriptionId, vnetGateway.ResourceGroupName, Name, policyGroup.Id);
+                         }
+                    }
+                    vnetGateway.VpnClientConfiguration.ClientConnectionConfigurations = this.ClientConnectionConfiguration.ToList();
+                }
             }
             else
             {
@@ -475,6 +544,11 @@ namespace Microsoft.Azure.Commands.Network
                 if(vnetGateway.BgpSettings == null)
                 {
                     vnetGateway.BgpSettings = new PSBgpSettings();
+                }
+
+                if(this.IpConfigurationBgpPeeringAddresses.Any(address => address.CustomBgpIpAddresses == null || !address.CustomBgpIpAddresses.Any()))
+                {
+                    throw new ArgumentException("if IpConfigurationBgpPeeringAddresses are provided, CustomBgpIpAddresses must be a provided in create gateway");
                 }
 
                 vnetGateway.BgpSettings.BgpPeeringAddresses = new List<PSIpConfigurationBgpPeeringAddress>();
@@ -511,6 +585,14 @@ namespace Microsoft.Azure.Commands.Network
 
                 vnetGateway.VpnGatewayGeneration = this.VpnGatewayGeneration;
             }
+
+            if (this.NatRule != null && this.NatRule.Any())
+            {
+                vnetGateway.NatRules = this.NatRule?.ToList();
+            }
+
+            // Set the EnableBgpRouteTranslationForNat, if it is specified by customer.
+            vnetGateway.EnableBgpRouteTranslationForNat = EnableBgpRouteTranslationForNat.IsPresent;
 
             // Map to the sdk object
             var vnetGatewayModel = NetworkResourceManagerProfile.Mapper.Map<MNM.VirtualNetworkGateway>(vnetGateway);

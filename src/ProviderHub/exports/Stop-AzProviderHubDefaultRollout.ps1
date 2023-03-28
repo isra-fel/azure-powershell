@@ -44,7 +44,7 @@ INPUTOBJECT <IProviderHubIdentity>: Identity Parameter
   [Sku <String>]: The SKU.
   [SubscriptionId <String>]: The ID of the target subscription.
 .Link
-https://docs.microsoft.com/powershell/module/az.providerhub/stop-azproviderhubdefaultrollout
+https://learn.microsoft.com/powershell/module/az.providerhub/stop-azproviderhubdefaultrollout
 #>
 function Stop-AzProviderHubDefaultRollout {
 [OutputType([System.Boolean])]
@@ -144,6 +144,8 @@ begin {
         if (('Stop') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

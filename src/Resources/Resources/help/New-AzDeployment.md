@@ -1,21 +1,21 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
-online version: https://docs.microsoft.com/powershell/module/az.resources/new-azdeployment
+online version: https://learn.microsoft.com/powershell/module/az.resources/new-azdeployment
 schema: 2.0.0
 ---
 
 # New-AzDeployment
 
 ## SYNOPSIS
-Create a deployment
+Create a deployment at the current subscription scope.
 
 ## SYNTAX
 
 ### ByTemplateFileWithNoParameters (Default)
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateFile <String> [-SkipTemplateParameterPrompt] [-Pre]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -23,7 +23,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateObjectAndParameterObject
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterObject <Hashtable> -TemplateObject <Hashtable>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -32,7 +32,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateFileAndParameterObject
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterObject <Hashtable> -TemplateFile <String>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -41,7 +41,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateUriAndParameterObject
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterObject <Hashtable> -TemplateUri <String>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -50,7 +50,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateSpecResourceIdAndParamsObject
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterObject <Hashtable> -TemplateSpecId <String>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -59,7 +59,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateObjectAndParameterFile
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterFile <String> -TemplateObject <Hashtable>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -68,7 +68,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateFileAndParameterFile
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterFile <String> -TemplateFile <String> [-SkipTemplateParameterPrompt]
  [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -76,7 +76,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateUriAndParameterFile
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterFile <String> -TemplateUri <String> [-SkipTemplateParameterPrompt]
  [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -84,7 +84,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateSpecResourceIdAndParams
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterFile <String> -TemplateSpecId <String>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -93,7 +93,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateObjectAndParameterUri
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterUri <String> -TemplateObject <Hashtable>
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -102,7 +102,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateFileAndParameterUri
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterUri <String> -TemplateFile <String> [-SkipTemplateParameterPrompt]
  [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -110,7 +110,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateUriAndParameterUri
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterUri <String> -TemplateUri <String> [-SkipTemplateParameterPrompt]
  [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -118,7 +118,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateSpecResourceIdAndParamsUri
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateParameterUri <String> -TemplateSpecId <String> [-SkipTemplateParameterPrompt]
  [-Pre] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -126,7 +126,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateObjectWithNoParameters
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateObject <Hashtable> [-SkipTemplateParameterPrompt] [-Pre]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -134,7 +134,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateUriWithNoParameters
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -142,7 +142,7 @@ New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <
 ### ByTemplateSpecResourceId
 ```
 New-AzDeployment [-Name <String>] -Location <String> [-DeploymentDebugLogLevel <String>] [-Tag <Hashtable>]
- [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-AsJob]
+ [-WhatIfResultFormat <WhatIfResultFormat>] [-WhatIfExcludeChangeType <String[]>] [-ProceedIfNoChange] [-AsJob]
  [-QueryString <String>] -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -171,17 +171,16 @@ Template parameter values that you enter at the command prompt take precedence o
 ## EXAMPLES
 
 ### Example 1: Use a custom template and parameter file to create a deployment
-```
-PS C:\> New-AzDeployment -Location "West US" -TemplateFile "D:\Azure\Templates\EngineeringSite.json" -TemplateParameterFile "D:\Azure\Templates\EngSiteParms.json" -TemplateVersion "2.1" -Tag @{"key1"="value1"; "key2"="value2";}
+```powershell
+New-AzDeployment -Location "West US" -TemplateFile "D:\Azure\Templates\EngineeringSite.json" -TemplateParameterFile "D:\Azure\Templates\EngSiteParms.json" -Tag @{"key1"="value1"; "key2"="value2";}
 ```
 
 This command creates a new deployment at the current subscription scope by using a custom template and a template file on disk, with defined tags parameter.
 The command uses the *TemplateFile* parameter to specify the template and the *TemplateParameterFile* parameter to specify a file that contains parameters and parameter values.
-It uses the *TemplateVersion* parameter to specify the version of the template.
 
 ### Example 2: Deploy a template stored in a non public storage account using a uri and SAS token
-```
-PS C:\> New-AzDeployment -Location "West US" -TemplateUri "https://example.com/example.json" -QueryString "foo"
+```powershell
+New-AzDeployment -Location "West US" -TemplateUri "https://example.com/example.json" -QueryString "foo"
 ```
 
 This command creates a new deployment using the template in TemplateUri which is not public and requires a token parameter to access which would be provided using the QueryString parameter.
@@ -189,16 +188,15 @@ Running this command effectively accesses the template using the url `https://ex
 This can be used if you want to use a template in a storage account by providing the SAS token as the QueryString
 
 ### Example 3: Use a custom template object and parameter file to create a deployment
-```
-PS C:\> $TemplateFileText = [System.IO.File]::ReadAllText("D:\Azure\Templates\EngineeringSite.json")
-PS C:\> $TemplateObject = ConvertFrom-Json $TemplateFileText -AsHashtable
-PS C:\> New-AzDeployment -Location "West US" -TemplateObject $TemplateObject -TemplateParameterFile "D:\Azure\Templates\EngSiteParams.json" -TemplateVersion "2.1"
+```powershell
+$TemplateFileText = [System.IO.File]::ReadAllText("D:\Azure\Templates\EngineeringSite.json")
+$TemplateObject = ConvertFrom-Json $TemplateFileText -AsHashtable
+New-AzDeployment -Location "West US" -TemplateObject $TemplateObject -TemplateParameterFile "D:\Azure\Templates\EngSiteParams.json"
 ```
 
 This command creates a new deployment at the current subscription scope by using a custom template and a template file on disk that has been converted to an in-memory hashtable.
 The first two commands read the text for the template file on disk and convert it to an in-memory hashtable.
 The last command uses the *TemplateObject* parameter to specify this hashtable and the *TemplateParameterFile* parameter to specify a file that contains parameters and parameter values.
-It uses the *TemplateVersion* parameter to specify the version of the template.
 
 ## PARAMETERS
 
@@ -279,6 +277,21 @@ Accept wildcard characters: False
 
 ### -Pre
 When set, indicates that the cmdlet should use pre-release API versions when automatically determining which version to use.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProceedIfNoChange
+Do not ask for confirmation if there is no changes in the What-If result. Applicable when the -Confirm switch is set.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

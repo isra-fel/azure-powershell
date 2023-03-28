@@ -121,7 +121,7 @@ namespace Microsoft.Azure.Commands.StorageSync.Common
         /// <summary>
         /// The cloud endpoint name parameter
         /// </summary>
-        public const string CloudEndpointNameParameter = "Name of the CloudEndpoint.";
+        public const string CloudEndpointNameParameter = "Name of the CloudEndpoint. To verify the cloud endpoint name, use the Get-AzStorageSyncCloudEndpoint cmdlet, and check the Name property of the returned object.";
         /// <summary>
         /// The cloud endpoint force parameter
         /// </summary>
@@ -210,5 +210,9 @@ namespace Microsoft.Azure.Commands.StorageSync.Common
         /// Change detection recurse parameter
         /// </summary>
         public const string ChangeDetectionRecurseParameter = "Indication whether directory change detection is recursive.";
+        /// <summary>
+        /// The initial upload policy parameter.
+        /// </summary>
+        public const string InitialUploadPolicyParameter = "Initial Upload Policy Parameter.";
     }
 }

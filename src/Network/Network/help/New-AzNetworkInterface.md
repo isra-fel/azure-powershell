@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
 ms.assetid: B2F2082F-4BAA-4FBE-8846-2D436A433570
-online version: https://docs.microsoft.com/powershell/module/az.network/new-aznetworkinterface
+online version: https://learn.microsoft.com/powershell/module/az.network/new-aznetworkinterface
 schema: 2.0.0
 ---
 
@@ -15,7 +15,7 @@ Creates a network interface.
 
 ### SetByIpConfigurationResource (Default)
 ```
-New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String>
+New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String> [-EdgeZone <String>]
  -IpConfiguration <PSNetworkInterfaceIPConfiguration[]> [-DnsServer <String[]>]
  [-InternalDnsNameLabel <String>] [-EnableIPForwarding] [-EnableAcceleratedNetworking] [-Tag <Hashtable>]
  [-Force] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -23,7 +23,7 @@ New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <Str
 
 ### SetByIpConfigurationResourceId
 ```
-New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String>
+New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String> [-EdgeZone <String>]
  -IpConfiguration <PSNetworkInterfaceIPConfiguration[]> [-NetworkSecurityGroupId <String>]
  [-NetworkSecurityGroup <PSNetworkSecurityGroup>] [-DnsServer <String[]>] [-InternalDnsNameLabel <String>]
  [-EnableIPForwarding] [-EnableAcceleratedNetworking] [-Tag <Hashtable>] [-Force] [-AsJob]
@@ -32,8 +32,8 @@ New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <Str
 
 ### SetByResourceId
 ```
-New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String> -SubnetId <String>
- [-PublicIpAddressId <String>] [-NetworkSecurityGroupId <String>]
+New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String> [-EdgeZone <String>]
+ -SubnetId <String> [-PublicIpAddressId <String>] [-NetworkSecurityGroupId <String>]
  [-LoadBalancerBackendAddressPoolId <String[]>] [-LoadBalancerInboundNatRuleId <String[]>]
  [-ApplicationGatewayBackendAddressPoolId <String[]>] [-ApplicationSecurityGroupId <String[]>]
  [-PrivateIpAddress <String>] [-IpConfigurationName <String>] [-DnsServer <String[]>]
@@ -43,8 +43,8 @@ New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <Str
 
 ### SetByResource
 ```
-New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String> -Subnet <PSSubnet>
- [-PublicIpAddress <PSPublicIpAddress>] [-NetworkSecurityGroup <PSNetworkSecurityGroup>]
+New-AzNetworkInterface -Name <String> -ResourceGroupName <String> -Location <String> [-EdgeZone <String>]
+ -Subnet <PSSubnet> [-PublicIpAddress <PSPublicIpAddress>] [-NetworkSecurityGroup <PSNetworkSecurityGroup>]
  [-LoadBalancerBackendAddressPool <PSBackendAddressPool[]>] [-LoadBalancerInboundNatRule <PSInboundNatRule[]>]
  [-ApplicationGatewayBackendAddressPool <PSApplicationGatewayBackendAddressPool[]>]
  [-ApplicationSecurityGroup <PSApplicationSecurityGroup[]>] [-PrivateIpAddress <String>]
@@ -60,7 +60,7 @@ The **New-AzNetworkInterface** cmdlet creates an Azure network interface.
 
 ### Example 1: Create an Azure network interface
 ```powershell
-PS C:\>New-AzNetworkInterface -Name "NetworkInterface1" -ResourceGroupName "ResourceGroup1" -Location "centralus" -SubnetId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/ResourceGroup1/providers/Microsoft.Network/virtualNetworks/VirtualNetwork1/subnets/Subnet1" -IpConfigurationName "IPConfiguration1" -DnsServer "8.8.8.8", "8.8.4.4"
+New-AzNetworkInterface -Name "NetworkInterface1" -ResourceGroupName "ResourceGroup1" -Location "centralus" -SubnetId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/ResourceGroup1/providers/Microsoft.Network/virtualNetworks/VirtualNetwork1/subnets/Subnet1" -IpConfigurationName "IPConfiguration1" -DnsServer "8.8.8.8", "8.8.4.4"
 ```
 
 This command creates a network interface named NetworkInterface001 with a dynamically assigned
@@ -70,9 +70,9 @@ created automatically using the name IPConfiguration1.
 
 ### Example 2: Create an Azure network interface using an IP configuration object
 ```powershell
-PS C:\>$Subnet = Get-AzVirtualNetwork -Name "VirtualNetwork1" -ResourceGroupName "ResourceGroup1" 
-PS C:\>$IPconfig = New-AzNetworkInterfaceIpConfig -Name "IPConfig1" -PrivateIpAddressVersion IPv4 -PrivateIpAddress "10.0.1.10" -SubnetId $Subnet.Subnets[0].Id
-PS C:\> New-AzNetworkInterface -Name "NetworkInterface1" -ResourceGroupName "ResourceGroup1" -Location "centralus" -IpConfiguration $IPconfig
+$Subnet = Get-AzVirtualNetwork -Name "VirtualNetwork1" -ResourceGroupName "ResourceGroup1" 
+$IPconfig = New-AzNetworkInterfaceIpConfig -Name "IPConfig1" -PrivateIpAddressVersion IPv4 -PrivateIpAddress "10.0.1.10" -SubnetId $Subnet.Subnets[0].Id
+New-AzNetworkInterface -Name "NetworkInterface1" -ResourceGroupName "ResourceGroup1" -Location "centralus" -IpConfiguration $IPconfig
 ```
 
 This example creates a new network interface using an IP configuration object. The IP configuration
@@ -88,6 +88,8 @@ interface IP configuration stored in the variable named $IPconfig.
 Creates a network interface. (autogenerated)
 
 <!-- Aladdin Generated Example -->
+
+
 ```powershell
 New-AzNetworkInterface -Location 'West US' -Name 'NetworkInterface1' -PrivateIpAddress '10.0.1.10' -ResourceGroupName 'ResourceGroup1' -SubnetId '/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/ResourceGroup1/providers/Microsoft.Network/virtualNetworks/VirtualNetwork1/subnets/Subnet1'
 ```
@@ -184,11 +186,40 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DisableTcpStateTracking
+Indicates whether to disable tcp state tracking.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -DnsServer
 Specifies the DNS server for the network interface.
 
 ```yaml
 Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -EdgeZone
+The edge zone of the network interface
+
+```yaml
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -549,7 +580,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

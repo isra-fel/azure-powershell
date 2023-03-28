@@ -21,6 +21,14 @@
 
 ## Upcoming Release
 
+## Version 2.0.0
+* [Breaking Change] Replaced `New/Remove/Get-AzAttestation` with `New/Remove/Get-AzAttestationProvider`
+* Added `Get-AzAttestationDefaultProvider` and `Update-AzAttestationProvider`
+* Upgraded API version from 2018-09-01-preview to 2020-10-01
+
+## Version 1.0.0
+* General availability of `Az.Attestation` module
+
 ## Version 0.1.8
 * Added default provider support to `Az.Attestation` module
     - Added `Location` and `DefaultProvider` to `Get-AzAttestation`

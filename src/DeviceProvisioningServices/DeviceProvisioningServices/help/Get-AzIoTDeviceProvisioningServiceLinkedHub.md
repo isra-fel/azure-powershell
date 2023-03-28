@@ -1,7 +1,7 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DeviceProvisioningServices.dll-Help.xml
 Module Name: Az.DeviceProvisioningServices
-online version: https://docs.microsoft.com/powershell/module/az.deviceprovisioningservices/get-aziotdeviceprovisioningservicelinkedhub
+online version: https://learn.microsoft.com/powershell/module/az.deviceprovisioningservices/get-aziotdeviceprovisioningservicelinkedhub
 schema: 2.0.0
 ---
 
@@ -31,14 +31,16 @@ Get-AzIoTDeviceProvisioningServiceLinkedHub [-ResourceId] <String> [-LinkedHubNa
 ```
 
 ## DESCRIPTION
-For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/azure/iot-dps/about-iot-dps.
+For an introduction to Azure IoT Hub Device Provisioning Service, see https://learn.microsoft.com/azure/iot-dps/about-iot-dps.
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+Get-AzIoTDeviceProvisioningServiceLinkedHub -ResourceGroupName "myresourcegroup" -Name "myiotdps"
 ```
-PS C:\> Get-AzIoTDeviceProvisioningServiceLinkedHub -ResourceGroupName "myresourcegroup" -Name "myiotdps"
 
+```output
 LinkedHubName					Location	AllocationWeight	ApplyAllocationPolicy
 -------------					--------	----------------	---------------------
 myiothub1.azure-devices.net		eastus		2
@@ -48,9 +50,11 @@ myiothub2.azure-devices.net		westus2							true
 List all linked IoT hubs in "myiotdps".
 
 ### Example 2
+```powershell
+Get-AzIoTDeviceProvisioningServiceLinkedHub -ResourceGroupName "myresourcegroup" -Name "myiotdps" -LinkedHubName "myiothub1"
 ```
-PS C:\> Get-AzIoTDpsHub -ResourceGroupName "myresourcegroup" -Name "myiotdps" -LinkedHubName "myiothub1"
 
+```output
 ResourceGroupName	  : myresourcegroup
 Name				  : myiotdps
 LinkedHubName         : myiothub1.azure-devices.net

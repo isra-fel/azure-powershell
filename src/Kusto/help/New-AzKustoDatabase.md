@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/new-azkustodatabase
+online version: https://learn.microsoft.com/powershell/module/az.kusto/new-azkustodatabase
 schema: 2.0.0
 ---
 
@@ -14,8 +14,9 @@ Creates or updates a database.
 
 ```
 New-AzKustoDatabase -ClusterName <String> -Name <String> -ResourceGroupName <String> -Kind <Kind>
- [-SubscriptionId <String>] [-HotCachePeriod <TimeSpan>] [-Location <String>] [-SoftDeletePeriod <TimeSpan>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-SubscriptionId <String>] [-CallerRole <CallerRole>] [-HotCachePeriod <TimeSpan>] [-Location <String>]
+ [-SoftDeletePeriod <TimeSpan>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,16 +24,18 @@ Creates or updates a database.
 
 ## EXAMPLES
 
-### Example 1: Create a new Kusto database by name
+### Example 1: Create a new database
 ```powershell
-PS C:\> New-AzKustoDatabase -ResourceGroupName testrg -ClusterName testnewkustocluster -Name mykustodatabase -Kind ReadWrite -Location 'East US'
+New-AzKustoDatabase -ResourceGroupName testrg -ClusterName testnewkustocluster -Name mykustodatabase -Kind ReadWrite -Location 'East US'
+```
 
+```output
 Kind      Location Name                                Type
 ----      -------- ----                                ----
 ReadWrite East US  testnewkustocluster/mykustodatabase Microsoft.Kusto/Clusters/Databases
 ```
 
-The above command creates a new Kusto database named "mykustodatabase" in the existing cluster "testnewkustocluster" found in the resource group "testrg".
+The above command creates a new datebase named "mykustodatabase" in the resource group "testrg".
 
 ## PARAMETERS
 
@@ -41,6 +44,22 @@ Run the command as a job
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CallerRole
+By default, any user who run operation on a database become an Admin on it.
+This property allows the caller to exclude the caller from Admins list.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.CallerRole
 Parameter Sets: (All)
 Aliases:
 
@@ -240,7 +259,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.IDatabase
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.IDatabase
 
 ## NOTES
 

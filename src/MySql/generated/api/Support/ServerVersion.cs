@@ -12,6 +12,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Support
     {
         public static Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion Eight0 = @"8.0";
 
+        public static Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion Eight021 = @"8.0.21";
+
         public static Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion Five6 = @"5.6";
 
         public static Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion Five7 = @"5.7";
@@ -49,7 +51,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Support
             return this._value.GetHashCode();
         }
 
-        /// <summary>Creates an instance of the <see cref="ServerVersion" Enum class./></summary>
+        /// <summary>Creates an instance of the <see cref="ServerVersion"/> Enum class.</summary>
         /// <param name="underlyingValue">the value to create an instance for.</param>
         private ServerVersion(string underlyingValue)
         {
@@ -80,8 +82,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Support
         }
 
         /// <summary>Overriding != operator for enum ServerVersion</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are not equal to the same value</returns>
         public static bool operator !=(Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion e1, Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion e2)
         {
@@ -89,8 +91,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.MySql.Support
         }
 
         /// <summary>Overriding == operator for enum ServerVersion</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are equal to the same value</returns>
         public static bool operator ==(Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion e1, Microsoft.Azure.PowerShell.Cmdlets.MySql.Support.ServerVersion e2)
         {

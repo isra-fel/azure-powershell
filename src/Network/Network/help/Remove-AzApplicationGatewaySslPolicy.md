@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
 ms.assetid: A308E4DD-49FA-4905-94A7-CEA3AAEC3959
-online version: https://docs.microsoft.com/powershell/module/az.network/remove-azapplicationgatewaysslpolicy
+online version: https://learn.microsoft.com/powershell/module/az.network/remove-azapplicationgatewaysslpolicy
 schema: 2.0.0
 ---
 
@@ -24,12 +24,14 @@ The Remove-AzApplicationGatewaySslPolicy cmdlet removes SSL policy from an Azure
 ## EXAMPLES
 
 ### Example 1: Remove an SSL policy from an application gateway
+```powershell
+$AppGW = Get-AzApplicationGateway -Name "ApplicationGateway01" -ResourceGroupName "ResourceGroup01"
+$AppGW = Remove-AzApplicationGatewaySslPolicy -ApplicationGateway $AppGW
+Set-AzApplicationGateway -ApplicationGateway $AppGW
 ```
-PS C:\>$AppGW = Get-AzApplicationGateway -Name "ApplicationGateway01" -ResourceGroupName "ResourceGroup01"
-PS C:\> $AppGW = Remove-AzApplicationGatewaySslPolicy -ApplicationGateway $AppGW
-```
-
-This command removes the SSL policy from the application gateway named ApplicationGateway01.
+The first command gets the application gateway named ApplicationGateway01 in the resource group named ResourceGroup01 and stores it in the $AppGW variable. 
+The second command removes the SSL policy from the application gateway.
+The last command updates the application gateway.
 
 ## PARAMETERS
 

@@ -87,17 +87,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Components
         /// <summary>
         /// The default policy definition API version.
         /// </summary>
-        public static readonly string PolicyDefinitionApiVersion = "2019-09-01";
+        public static readonly string PolicyDefinitionApiVersion = "2021-06-01";
 
         /// <summary>
         /// The default policy set definition API version.
         /// </summary>
-        public static readonly string PolicySetDefintionApiVersion = "2019-09-01";
+        public static readonly string PolicySetDefintionApiVersion = "2021-06-01";
 
         /// <summary>
         /// The default policy assignment API version.
         /// </summary>
-        public static readonly string PolicyAssignmentApiVersion = "2019-09-01";
+        public static readonly string PolicyAssignmentApiVersion = "2021-06-01";
 
         /// <summary>
         /// The default policy exemption API version.
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Components
         /// <summary>
         /// The default Lock API version.
         /// </summary>
-        public static readonly string LockApiVersion = "2015-01-01";
+        public static readonly string LockApiVersion = "2017-04-01";
 
         /// <summary>
         /// The default deployment operation API version.

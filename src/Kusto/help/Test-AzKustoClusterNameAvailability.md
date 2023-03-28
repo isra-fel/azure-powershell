@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/test-azkustoclusternameavailability
+online version: https://learn.microsoft.com/powershell/module/az.kusto/test-azkustoclusternameavailability
 schema: 2.0.0
 ---
 
@@ -14,14 +14,14 @@ Checks that the cluster name is valid and is not already in use.
 
 ### CheckExpanded (Default)
 ```
-Test-AzKustoClusterNameAvailability -Location <String> -Name <String> -Type <Type> [-SubscriptionId <String>]
+Test-AzKustoClusterNameAvailability -Location <String> -Name <String> [-SubscriptionId <String>]
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CheckViaIdentityExpanded
 ```
-Test-AzKustoClusterNameAvailability -InputObject <IKustoIdentity> -Name <String> -Type <Type>
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+Test-AzKustoClusterNameAvailability -InputObject <IKustoIdentity> -Name <String> [-DefaultProfile <PSObject>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,8 +31,10 @@ Checks that the cluster name is valid and is not already in use.
 
 ### Example 1: Check the availability of a Kusto cluster name which is in use
 ```powershell
-PS C:\> Test-AzKustoClusterNameAvailability -Name testnewkustocluster -Location 'East US' -Type Microsoft.Kusto/clusters
+Test-AzKustoClusterNameAvailability -Name testnewkustocluster -Location 'East US'
+```
 
+```output
 Message                                                                                       Name                NameAvailable Reason
 -------                                                                                       ----                ------------- ------
 Name 'testnewkustocluster' with type Engine is already taken. Please specify a different name testnewkustocluster False
@@ -42,8 +44,10 @@ The above command returns whether or not a Kusto cluster named "testnewkustoclus
 
 ### Example 2: Check the availability of a Kusto cluster name which is not in use
 ```powershell
-PS C:\> Test-AzKustoClusterNameAvailability -Name availablekustocluster -Location 'East US' -Type Microsoft.Kusto/clusters
+Test-AzKustoClusterNameAvailability -Name availablekustocluster -Location 'East US'
+```
 
+```output
 Message Name                  NameAvailable Reason
 ------- ----                  ------------- ------
         availablekustocluster True
@@ -54,7 +58,8 @@ The above command returns whether or not a Kusto cluster named "availablekustocl
 ## PARAMETERS
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -85,7 +90,7 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-Azure location.
+Azure location (region) name.
 
 ```yaml
 Type: System.String
@@ -130,21 +135,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Type
-The type of resource, Microsoft.Kusto/clusters.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.Type
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
@@ -185,7 +175,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.ICheckNameResult
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.ICheckNameResult
 
 ## NOTES
 
@@ -196,15 +186,20 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IKustoIdentity>: Identity Parameter
+`INPUTOBJECT <IKustoIdentity>`: Identity Parameter
   - `[AttachedDatabaseConfigurationName <String>]`: The name of the attached database configuration.
   - `[ClusterName <String>]`: The name of the Kusto cluster.
   - `[DataConnectionName <String>]`: The name of the data connection.
   - `[DatabaseName <String>]`: The name of the database in the Kusto cluster.
   - `[Id <String>]`: Resource identity path
-  - `[Location <String>]`: Azure location.
+  - `[Location <String>]`: Azure location (region) name.
+  - `[ManagedPrivateEndpointName <String>]`: The name of the managed private endpoint.
+  - `[OperationId <String>]`: The Guid of the operation ID
   - `[PrincipalAssignmentName <String>]`: The name of the Kusto principalAssignment.
+  - `[PrivateEndpointConnectionName <String>]`: The name of the private endpoint connection.
+  - `[PrivateLinkResourceName <String>]`: The name of the private link resource.
   - `[ResourceGroupName <String>]`: The name of the resource group containing the Kusto cluster.
+  - `[ScriptName <String>]`: The name of the Kusto database script.
   - `[SubscriptionId <String>]`: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
 
 ## RELATED LINKS

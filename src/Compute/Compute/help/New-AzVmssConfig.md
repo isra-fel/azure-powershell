@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Compute.dll-Help.xml
 Module Name: Az.Compute
 ms.assetid: CE32F620-8DB2-4004-8012-F1C4AA235B60
-online version: https://docs.microsoft.com/powershell/module/az.compute/new-azvmssconfig
+online version: https://learn.microsoft.com/powershell/module/az.compute/new-azvmssconfig
 schema: 2.0.0
 ---
 
@@ -15,8 +15,8 @@ Creates a VMSS configuration object.
 
 ### DefaultParameterSet (Default)
 ```
-New-AzVmssConfig [[-Overprovision] <Boolean>] [[-Location] <String>] [[-Tag] <Hashtable>] [[-SkuName] <String>]
- [[-SkuTier] <String>] [[-SkuCapacity] <Int32>] [[-UpgradePolicyMode] <UpgradeMode>]
+New-AzVmssConfig [[-Overprovision] <Boolean>] [[-Location] <String>] [-EdgeZone <String>] [[-Tag] <Hashtable>]
+ [[-SkuName] <String>] [[-SkuTier] <String>] [[-SkuCapacity] <Int32>] [[-UpgradePolicyMode] <UpgradeMode>]
  [[-OsProfile] <VirtualMachineScaleSetOSProfile>] [[-StorageProfile] <VirtualMachineScaleSetStorageProfile>]
  [[-NetworkInterfaceConfiguration] <VirtualMachineScaleSetNetworkConfiguration[]>]
  [[-Extension] <PSVirtualMachineScaleSetExtension[]>] [-SkipExtensionsOnOverprovisionedVMs]
@@ -24,16 +24,20 @@ New-AzVmssConfig [[-Overprovision] <Boolean>] [[-Location] <String>] [[-Tag] <Ha
  [-PlanName <String>] [-PlanPublisher <String>] [-PlanProduct <String>] [-PlanPromotionCode <String>]
  [-RollingUpgradePolicy <RollingUpgradePolicy>] [-EnableAutomaticRepair] [-AutomaticRepairGracePeriod <String>]
  [-AutoOSUpgrade] [-DisableAutoRollback <Boolean>] [-EnableUltraSSD] [-HealthProbeId <String>]
- [-BootDiagnostic <BootDiagnostics>] [-LicenseType <String>] [-Priority <String>] [-EvictionPolicy <String>]
- [-MaxPrice <Double>] [-TerminateScheduledEvents] [-TerminateScheduledEventNotBeforeTimeoutInMinutes <Int32>]
- [-ProximityPlacementGroupId <String>] [-ScaleInPolicy <String[]>] [-EncryptionAtHost]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-BootDiagnostic <BootDiagnostics>] [-LicenseType <String>] [-Priority <String>] [-EnableSpotRestore]
+ [-SpotRestoreTimeout <String>] [-EvictionPolicy <String>] [-MaxPrice <Double>] [-TerminateScheduledEvents]
+ [-TerminateScheduledEventNotBeforeTimeoutInMinutes <Int32>] [-ProximityPlacementGroupId <String>]
+ [-ScaleInPolicy <String[]>] [-EncryptionAtHost] [-OrchestrationMode <String>]
+ [-CapacityReservationGroupId <String>] [-UserData <String>] [-AutomaticRepairAction <String>]
+ [-BaseRegularPriorityCount <Int32>] [-RegularPriorityPercentage <Int32>] [-ImageReferenceId <String>]
+ [-SharedGalleryImageId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ExplicitIdentityParameterSet
 ```
-New-AzVmssConfig [[-Overprovision] <Boolean>] [[-Location] <String>] [[-Tag] <Hashtable>] [[-SkuName] <String>]
- [[-SkuTier] <String>] [[-SkuCapacity] <Int32>] [[-UpgradePolicyMode] <UpgradeMode>]
+New-AzVmssConfig [[-Overprovision] <Boolean>] [[-Location] <String>] [-EdgeZone <String>] [[-Tag] <Hashtable>]
+ [[-SkuName] <String>] [[-SkuTier] <String>] [[-SkuCapacity] <Int32>] [[-UpgradePolicyMode] <UpgradeMode>]
  [[-OsProfile] <VirtualMachineScaleSetOSProfile>] [[-StorageProfile] <VirtualMachineScaleSetStorageProfile>]
  [[-NetworkInterfaceConfiguration] <VirtualMachineScaleSetNetworkConfiguration[]>]
  [[-Extension] <PSVirtualMachineScaleSetExtension[]>] [-SkipExtensionsOnOverprovisionedVMs]
@@ -41,33 +45,41 @@ New-AzVmssConfig [[-Overprovision] <Boolean>] [[-Location] <String>] [[-Tag] <Ha
  [-PlanName <String>] [-PlanPublisher <String>] [-PlanProduct <String>] [-PlanPromotionCode <String>]
  [-RollingUpgradePolicy <RollingUpgradePolicy>] [-EnableAutomaticRepair] [-AutomaticRepairGracePeriod <String>]
  [-AutoOSUpgrade] [-DisableAutoRollback <Boolean>] [-EnableUltraSSD] [-HealthProbeId <String>]
- [-BootDiagnostic <BootDiagnostics>] [-LicenseType <String>] [-Priority <String>] [-EvictionPolicy <String>]
- [-MaxPrice <Double>] [-TerminateScheduledEvents] [-TerminateScheduledEventNotBeforeTimeoutInMinutes <Int32>]
- [-ProximityPlacementGroupId <String>] [-ScaleInPolicy <String[]>] -IdentityType <ResourceIdentityType>
- [-IdentityId <String[]>] [-EncryptionAtHost] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-BootDiagnostic <BootDiagnostics>] [-LicenseType <String>] [-Priority <String>] [-EnableSpotRestore]
+ [-SpotRestoreTimeout <String>] [-EvictionPolicy <String>] [-MaxPrice <Double>] [-TerminateScheduledEvents]
+ [-TerminateScheduledEventNotBeforeTimeoutInMinutes <Int32>] [-ProximityPlacementGroupId <String>]
+ [-ScaleInPolicy <String[]>] -IdentityType <ResourceIdentityType> [-IdentityId <String[]>] [-EncryptionAtHost]
+ [-OrchestrationMode <String>] [-CapacityReservationGroupId <String>] [-UserData <String>]
+ [-AutomaticRepairAction <String>] [-BaseRegularPriorityCount <Int32>] [-RegularPriorityPercentage <Int32>]
+ [-ImageReferenceId <String>] [-SharedGalleryImageId <String>] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 The **New-AzVmssConfig** cmdlet creates a configurable local Virtual Manager Scale Set (VMSS)
-object. Other cmdlets are needed to configure the VMSS object. These cmdlets are:
-- Set-AzVmssOsProfile
-- Set-AzVmssStorageProfile
-- Add-AzVmssNetworkInterfaceConfiguration
-- Add-AzVmssExtension
+object. <br>
+
+Use the following cmdlets to configure the VMSS object:
+- **[Add-AzVmssNetworkInterfaceConfiguration](https://learn.microsoft.com/en-us/powershell/module/az.compute/add-azvmssnetworkinterfaceconfiguration)** to set the network profile.<br>
+- **[Set-AzVmssOsProfile](https://learn.microsoft.com/en-us/powershell/module/az.compute/set-azvmssosprofile)** to set the OS profile. <br>
+- **[Set-AzVmssStorageProfile](https://learn.microsoft.com/en-us/powershell/module/az.compute/set-azvmssstorageprofile)** to set the storage profile.<br>
+- **[Get-AzComputeResourceSku](https://learn.microsoft.com/en-us/powershell/module/az.compute/get-azcomputeresourcesku)** can also be used to find out available virtual machine sizes for your subscription and region.<br><br>
+
+See other cmdlets for virtual machine scale set [here](https://learn.microsoft.com/en-us/powershell/module/az.compute/#vm-scale-sets).<br>
+<br>
+See [Quickstart: Create a virtual machine scale set with Azure PowerShell](https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/quick-create-powershell) for tutorial.
 
 ## EXAMPLES
 
 ### Example 1: Create a VMSS configuration object
 ```powershell
-PS C:\> $VMSS = New-AzVmssConfig -Location $Loc -SkuCapacity 2 -SkuName "Standard_A0" -UpgradePolicyMode "Automatic" -NetworkInterfaceConfiguration $NetCfg `
+$VMSS = New-AzVmssConfig -Location $Loc -SkuCapacity 2 -SkuName "Standard_A0" -UpgradePolicyMode "Automatic" -NetworkInterfaceConfiguration $NetCfg `
             | Add-AzVmssNetworkInterfaceConfiguration -Name "Test" -Primary $True -IPConfiguration $IPCfg `
-            | Set-AzVmssOSProfile -ComputerNamePrefix "Test" -AdminUsername $adminUsername -AdminPassword $AdminPassword `
+            | Set-AzVmssOsProfile -ComputerNamePrefix "Test" -AdminUsername $adminUsername -AdminPassword $AdminPassword `
             | Set-AzVmssStorageProfile -Name "Test" -OsDiskCreateOption "FromImage" -OsDiskCaching "None" `
             -ImageReferenceOffer $ImgRef.Offer -ImageReferenceSku $ImgRef.Skus -ImageReferenceVersion $ImgRef.Version `
             -ImageReferencePublisher $ImgRef.PublisherName -VhdContainer $VHDContainer `
-            | Add-AzVmssAdditionalUnattendContent -ComponentName  $AUCComponentName -Content  $AUCContent -PassName  $AUCPassName -SettingName  $AUCSetting `
-            | Remove-AzVmssAdditionalUnattendContent -ComponentName  $AUCComponentName;
+            | Add-AzVmssAdditionalUnattendContent -ComponentName  $AUCComponentName -Content  $AUCContent -PassName  $AUCPassName -SettingName  $AUCSetting;
 
 New-AzVmss -ResourceGroupName $RGName -Name $VMSSName -VirtualMachineScaleSet $VMSS;
 ```
@@ -81,11 +93,40 @@ uses the VMSS configuration object created in the first command.
 
 Creates a VMSS configuration object. (autogenerated)
 
-```powershell <!-- Aladdin Generated Example --> 
-New-AzVmssConfig -Location <String> -Overprovision $false -SkuCapacity 2 -SkuName 'Standard_A0' -Tag 'Sql' -UpgradePolicyMode Automatic
+<!-- Aladdin Generated Example -->
+
+
+```powershell
+New-AzVmssConfig -Location <String> -Overprovision $false -SkuCapacity 2 -SkuName 'Standard_A0' -Tag @{key0="value0";key1=$null;key2="value2"} -UpgradePolicyMode Automatic;
+```
+
+### Example 3
+
+Creates a VMSS configuration object. (autogenerated)
+
+<!-- Aladdin Generated Example -->
+
+
+```powershell
+New-AzVmssConfig -Location <String> -SkuCapacity 2 -SkuName 'Standard_A0' -UpgradePolicyMode Automatic -IdentityType SystemAssigned;
 ```
 
 ## PARAMETERS
+
+### -AutomaticRepairAction
+Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -AutomaticRepairGracePeriod
 The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
@@ -117,6 +158,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -BaseRegularPriorityCount
+Specifies the minimum number of VMs that must be of Regular priority as a VMSS Flex instance scales out. This parameter is only valid for VMSS instances with Flexible OrchestrationMode. 
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -BootDiagnostic
 Specifies the virtual machine scale set boot diagnostics profile.
 
@@ -129,6 +185,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -CapacityReservationGroupId
+Id of the capacity reservation Group that is used to allocate.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -162,8 +233,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EdgeZone
+Sets the edge zone name. If set, the query will be routed to the specified edgezone instead of the main region.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -EnableAutomaticRepair
 Enables automatic repairs on the virtual machine scale set.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -EnableSpotRestore
+Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -294,6 +395,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -ImageReferenceId
+Specified the gallery image unique id for vmss deployment. This can be fetched from gallery image GET call.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LicenseType
 Specify the license type, which is for bringing your own license scenario.
 
@@ -350,6 +466,21 @@ Aliases:
 
 Required: False
 Position: 9
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -OrchestrationMode
+Specifies the orchestration mode for the virtual machine scale set. Possible values: Uniform, Flexible
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -494,6 +625,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -RegularPriorityPercentage
+Specifies the desired percentage of VMs, after the BaseRegularCount has been met, that are of Regular priority as the VMSS Flex instance scales out. This property is only valid for VMSS instances with Flexible OrchestrationMode.
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -RollingUpgradePolicy
 Specifies the rolling upgrade policy.
 
@@ -521,6 +667,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -SharedGalleryImageId
+Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -570,7 +731,7 @@ Accept wildcard characters: False
 ```
 
 ### -SkuName
-Specifies the size of all the instances of VMSS.
+Specifies the size of all the instances of VMSS. [Get-AzComputeResourceSku](https://learn.microsoft.com/en-us/powershell/module/az.compute/get-azcomputeresourcesku) can be used to find out available sizes for your subscription and region. 
 
 ```yaml
 Type: System.String
@@ -596,6 +757,21 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -SpotRestoreTimeout
+Specifies timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -677,6 +853,21 @@ Accepted values: Automatic, Manual, Rolling
 
 Required: False
 Position: 6
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UserData
+UserData for the VM, which will be base-64 encoded. Customer should not pass any secrets in here.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

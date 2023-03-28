@@ -31,21 +31,23 @@ function Test-AccountActiveDirectory
         Password = "sdkpass"
         Domain = "sdkdomain"
         Dns = "192.0.2.2"
-        SmbServerName = "PSSMBSName"
+        SmbServerName = "PSMBSName1"
     }
     $activeDirectory2 = @{
         Username = "sdkuser1"
 		<#[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="...")]#>
-        Password = "sdkpass1"
+        Password = "sdkpass2"
         Domain = "sdkdomain"
         Dns = "192.0.2.2"
-        SmbServerName = "PSSMBSName"
+        SmbServerName = "PSMBSName2"
     }
 
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        $groupTagName = "owner"
+        $groupTagValue = "b-aubald"
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tags @{$groupTagName = $groupTagValue}
 
         # check multiple ADs are captured
         # currently this is not permitted and throws a message
@@ -107,6 +109,11 @@ function Test-AccountActiveDirectory
         # Assert-AreEqual $activeDirectory2.Password $retrievedAcc.ActiveDirectories[0].Password
         Assert-AreEqual $activeDirectory2.Username $retrievedAcc.ActiveDirectories[0].Username
         Assert-AreEqual 1 $retrievedAcc.ActiveDirectories.Length
+
+        # update (put) the account. The absence of an active directory should result in the removal of any currently associated. Also tags
+        $retrievedAcc = Set-AzNetAppFilesAccount -ResourceGroupName $resourceGroup -AccountName $accName1 -Location $resourceLocation
+        Assert-AreEqual $accName1 $retrievedAcc.Name
+
     }
     finally
     {
@@ -121,6 +128,7 @@ Test Account CRUD operations
 #>
 function Test-AccountCrud
 {
+    #$resourceGroup = "somename2"
     $resourceGroup = Get-ResourceGroupName
     $accName1 = Get-ResourceName
     $accName2 = Get-ResourceName
@@ -130,8 +138,10 @@ function Test-AccountCrud
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tags @{Owner = 'b-aubald'}
 
+        #New-AzResourceGroup -Name $resourceGroup -Tags @{Owner = 'b-aubald'} -Location $resourceLocation 
+      
         # create and check account 1
         $newTagName = "tag1"
         $newTagValue = "tagValue1"
@@ -197,7 +207,10 @@ function Test-AccountPipelines
     try
     {
         # create the resource group
-        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation
+        $groupTagName = "owner"
+        $groupTagValue = "b-aubald"
+        New-AzResourceGroup -Name $resourceGroup -Location $resourceLocation -Tag @{$groupTagName = $groupTagValue}
+
 
         New-AnfAccount -ResourceGroupName $resourceGroup -Location $resourceLocation -Name $accName1 | Remove-AnfAccount
 

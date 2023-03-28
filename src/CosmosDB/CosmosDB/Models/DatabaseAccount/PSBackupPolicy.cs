@@ -22,6 +22,7 @@ namespace Microsoft.Azure.Commands.CosmosDB.Models
     public class PSBackupPolicy
     {
         public static readonly string PeriodicModeBackupType = "Periodic";
+        public static readonly string ContinuousModeBackupType = "Continuous";
 
         public PSBackupPolicy()
         {
@@ -35,10 +36,16 @@ namespace Microsoft.Azure.Commands.CosmosDB.Models
                 BackupIntervalInMinutes = periodicModeBackupPolicy.PeriodicModeProperties.BackupIntervalInMinutes;
                 BackupRetentionIntervalInHours = periodicModeBackupPolicy.PeriodicModeProperties.BackupRetentionIntervalInHours;
                 BackupType = PeriodicModeBackupType;
+                BackupStorageRedundancy = periodicModeBackupPolicy.PeriodicModeProperties.BackupStorageRedundancy;
             }
-            else
+            else if (backupPolicy is ContinuousModeBackupPolicy)
             {
-                return;
+                BackupType = ContinuousModeBackupType;
+            }
+
+            if (backupPolicy.MigrationState != null)
+            {
+                BackupPolicyMigrationState = new PSBackupPolicyMigrationState(backupPolicy.MigrationState);
             }
         }
 
@@ -48,25 +55,33 @@ namespace Microsoft.Azure.Commands.CosmosDB.Models
 
         public string BackupType { get; set; }
 
+        public string BackupStorageRedundancy { get; set; }
+
+        public PSBackupPolicyMigrationState BackupPolicyMigrationState { get; set;}
+
         public BackupPolicy ToSDKModel()
         {
-            if (BackupType.Equals(PSBackupPolicy.PeriodicModeBackupType))
+            BackupPolicy backupPolicy;
+            if (BackupType.Equals(PSBackupPolicy.ContinuousModeBackupType))
+            {
+                backupPolicy = new ContinuousModeBackupPolicy();
+            }
+            else
             {
                 PeriodicModeBackupPolicy periodicModeBackupPolicy = new PeriodicModeBackupPolicy
                 {
                     PeriodicModeProperties = new PeriodicModeProperties()
                     {
                         BackupIntervalInMinutes = BackupIntervalInMinutes,
-                        BackupRetentionIntervalInHours = BackupRetentionIntervalInHours
+                        BackupRetentionIntervalInHours = BackupRetentionIntervalInHours,
+                        BackupStorageRedundancy = BackupStorageRedundancy
                     }
                 };
 
-                return periodicModeBackupPolicy;
+                backupPolicy = periodicModeBackupPolicy;
             }
-            else
-            {
-                return null;
-            }
+
+            return backupPolicy;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -277,6 +277,60 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subscription name or GUID. Sets the default context for Azure PowerShell when logging in without specifying a subscription..
+        /// </summary>
+        public static string HelpMessageOfDefaultSubscriptionForLogin {
+            get {
+                return ResourceManager.GetString("HelpMessageOfDefaultSubscriptionForLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controls if warning messages for breaking changes are displayed or suppressed. When enabled, a breaking change warning is displayed when executing cmdlets with breaking changes in a future release..
+        /// </summary>
+        public static string HelpMessageOfDisplayBreakingChangeWarnings {
+            get {
+                return ResourceManager.GetString("HelpMessageOfDisplayBreakingChangeWarnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When enabled, Azure PowerShell displays recommendations on regions which may reduce your costs..
+        /// </summary>
+        public static string HelpMessageOfDisplayRegionIdentified {
+            get {
+                return ResourceManager.GetString("HelpMessageOfDisplayRegionIdentified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When enabled, Azure PowerShell cmdlets send telemetry data to Microsoft to improve the customer experience. For more information, see our privacy statement: https://aka.ms/privacy.
+        /// </summary>
+        public static string HelpMessageOfEnableDataCollection {
+            get {
+                return ResourceManager.GetString("HelpMessageOfEnableDataCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When enabled, you are prompted infrequently to participate in user experience surveys for Azure PowerShell..
+        /// </summary>
+        public static string HelpMessageOfEnableInterceptSurvey {
+            get {
+                return ResourceManager.GetString("HelpMessageOfEnableInterceptSurvey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Preview] When enabled, Web Account Manager (WAM) will be the default interactive login experience. It will fall back to using the browser if the platform does not support WAM. Note that this feature is under preview. Microsoft Account (MSA) is currently not supported. Feel free to reach out to Azure PowerShell team if you have any feedbacks: https://aka.ms/azpsissue.
+        /// </summary>
+        public static string HelpMessageOfEnableWamLogin {
+            get {
+                return ResourceManager.GetString("HelpMessageOfEnableWamLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [HttpClientOperations]: Adding Header &apos;{0}&apos;.
         /// </summary>
         public static string HttpClientAddingHeader {
@@ -520,6 +574,15 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selecting “{0}” may reduce your costs. The region you’ve selected may cost more for the same services. You can disable this message in the future with the command “Update-AzConfig -DisplayRegionIdentified $false”. Learn more at https://go.microsoft.com/fwlink/?linkid=2225665.
+        /// </summary>
+        public static string RecommendationMessageForLocation {
+            get {
+                return ResourceManager.GetString("RecommendationMessageForLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing built-in or discovered environment is not supported..
         /// </summary>
         public static string RemovingDefaultEnvironmentsNotSupported {
@@ -565,6 +628,15 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AzKeyStore is locked. Please try again after a while..
+        /// </summary>
+        public static string StorageLockConflicts {
+            get {
+                return ResourceManager.GetString("StorageLockConflicts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The subscription id {0} doesn&apos;t exist..
         /// </summary>
         public static string SubscriptionIdNotFoundMessage {
@@ -606,6 +678,15 @@ namespace Microsoft.Azure.Commands.Common.Authentication.Properties {
         public static string SuccessfullyLaunchedBrowser {
             get {
                 return ResourceManager.GetString("SuccessfullyLaunchedBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You may need to login again after updating &quot;{0}&quot;..
+        /// </summary>
+        public static string SwitchLoginMethodWarning {
+            get {
+                return ResourceManager.GetString("SwitchLoginMethodWarning", resourceCulture);
             }
         }
         

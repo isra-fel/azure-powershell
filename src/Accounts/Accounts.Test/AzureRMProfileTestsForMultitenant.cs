@@ -15,10 +15,12 @@
 using Microsoft.Azure.Commands.Common.Authentication;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Commands.Common.Authentication.Models;
+using Microsoft.Azure.Commands.Profile.Models;
 using Microsoft.Azure.Commands.Profile.Test.Mocks;
 using Microsoft.Azure.Commands.ScenarioTest;
+using Microsoft.Azure.Commands.TestFx.Mocks;
 using Microsoft.Azure.ServiceManagement.Common.Models;
-using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Newtonsoft.Json.Linq;
 using System;
@@ -28,9 +30,12 @@ using System.Management.Automation;
 using Xunit;
 using Xunit.Abstractions;
 
+using SubscriptionLatest = Microsoft.Azure.Management.ResourceManager.Version2021_01_01.Models.Subscription;
+using SubscriptionOld = Microsoft.Azure.Internal.Subscriptions.Models.Subscription;
+
 namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
 {
-    public class AzureRMProfileTestsForMultitenant
+    public class AzureRMProfileTestsForMultitenant : IDisposable
     {
         private const string DefaultAccount = "admin@contoso.com";
         private static Guid DefaultSubscription = Guid.NewGuid();
@@ -56,6 +61,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 AccessToken = "bbb",
                 TenantId = tenant
             };
+        }
+
+        public void Dispose()
+        {
+            SubscritpionClientCandidates.Reset();
         }
 
         private RMProfileClient GetProfileClient()
@@ -272,11 +282,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             string subscriptionA = Guid.NewGuid().ToString()
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionList = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 null
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionList.Values.ToList())
@@ -301,7 +312,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 false,
                 null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, azureRmProfile.DefaultContext.Tenant.Id.ToString());
             Assert.Equal(subscriptionA, azureRmProfile.DefaultContext.Subscription.Id.ToString());
         }
@@ -315,12 +326,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             var subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             var subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 MockSubscriptionClientFactory.CreateTenantListFromJson(GetTenantsJson(tenantA, tenantB).Values.ToArray())
                 , MockSubscriptionClientFactory.CreateSubscripitonsFromJson(subscriptionListA[subscriptionA], subscriptionListB[subscriptionA])
                 , null
@@ -344,7 +356,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 false,
                 null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, azureRmProfile.DefaultContext.Tenant.Id.ToString());
             Assert.Equal(subscriptionA, azureRmProfile.DefaultContext.Subscription.Id.ToString());
         }
@@ -358,13 +370,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             var tenantList = GetTenantsJson(tenantA, tenantB);
             var subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             var subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 MockSubscriptionClientFactory.CreateTenantListFromJson(tenantList[tenantB], tenantList[tenantA])
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListB.Values.ToList(), subscriptionListA.Values.ToList())
@@ -390,7 +403,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 false,
                 null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, azureRmProfile.DefaultContext.Tenant.Id.ToString());
             Assert.Equal(subscriptionA, azureRmProfile.DefaultContext.Subscription.Id.ToString());
         }
@@ -404,12 +417,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             Dictionary<string, string> subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 MockSubscriptionClientFactory.CreateTenantListFromJson(GetTenantsJson(tenantA, tenantB).Values.ToArray())
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListA.Values.ToList(), subscriptionListB.Values.ToList())
@@ -434,7 +448,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 false,
                 null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantB, azureRmProfile.DefaultContext.Tenant.Id.ToString());
             Assert.Equal(subscriptionC, azureRmProfile.DefaultContext.Subscription.Id.ToString());
         }
@@ -448,11 +462,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 null
                 , MockSubscriptionClientFactory.CreateSubscripitonsFromJson(subscriptionListA[subscriptionB])
                 , null
@@ -477,7 +492,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 false,
                 null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, azureRmProfile.DefaultContext.Tenant.Id.ToString());
             Assert.Equal(subscriptionB, azureRmProfile.DefaultContext.Subscription.Id.ToString());
         }
@@ -491,12 +506,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             Dictionary<string, string> subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 null
                 , MockSubscriptionClientFactory.CreateSubscripitonsFromJson(null)
                 , null
@@ -532,12 +548,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             Dictionary<string, string> subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 MockSubscriptionClientFactory.CreateTenantListFromJson(GetTenantsJson(tenantA, tenantB).Values.ToArray())
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListA.Values.ToList(), subscriptionListB.Values.ToList())
@@ -570,11 +587,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             string subscriptionA = Guid.NewGuid().ToString()
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionList = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 null
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionList.Values.ToList())
@@ -591,11 +609,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             var client = GetProfileClient();
             var context = client.SetCurrentContext(null, tenantA);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, context.Tenant.Id.ToString());
             Assert.Equal(subscriptionA, context.Subscription.Id.ToString());
         }
-
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
@@ -606,16 +623,29 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             var subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             var subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
+
+            MockSubscriptionClientFactory.SubGetQueueVerLatest = new Queue<Func<AzureOperationResponse<SubscriptionLatest>>>();
+            MockSubscriptionClientFactory.SubGetQueueVerLatest.Enqueue(() =>
+            {
+                throw new CloudException("Subscription not in the tenant.");
+            });
+
+            var resultLatest = new AzureOperationResponse<SubscriptionLatest>()
+            {
+                RequestId = Guid.NewGuid().ToString(),
+                Body = MockSubscriptionClientFactory.CreateSubscripitonsFromJson(subscriptionListA[subscriptionA]).First()
+            };
+            MockSubscriptionClientFactory.SubGetQueueVerLatest.Enqueue(() => resultLatest);
+
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
-                MockSubscriptionClientFactory.CreateTenantListFromJson(GetTenantsJson(tenantA, tenantB).Values.ToArray())
-                , null
-                , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListB.Values.ToList(), subscriptionListA.Values.ToList())
-                ));
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
+                MockSubscriptionClientFactory.CreateTenantListFromJson(GetTenantsJson(tenantB, tenantA).Values.ToArray())
+                , null, null));
 
             var mock = new AccountMockClientFactory(() =>
             {
@@ -627,7 +657,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             var client = GetProfileClient();
             var context = client.SetCurrentContext(subscriptionA, null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, context.Tenant.Id.ToString());
             Assert.Equal(subscriptionA, context.Subscription.Id.ToString());
         }
@@ -641,17 +671,19 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             var tenantList = GetTenantsJson(tenantA, tenantB);
             var subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             var subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 MockSubscriptionClientFactory.CreateTenantListFromJson(tenantList[tenantB], tenantList[tenantA])
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListA.Values.ToList(), subscriptionListB.Values.ToList())
                 ));
+
 
             var mock = new AccountMockClientFactory(() =>
             {
@@ -664,7 +696,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             var client = GetProfileClient();
             var context = client.SetCurrentContext(subscriptionName.ToString(), null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, context.Tenant.Id.ToString());
             Assert.Equal(subscriptionA, context.Subscription.Id.ToString());
         }
@@ -678,16 +710,16 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             Dictionary<string, string> subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 MockSubscriptionClientFactory.CreateTenantListFromJson(GetTenantsJson(tenantA, tenantB).Values.ToArray())
-                , null
-                , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListA.Values.ToList(), subscriptionListB.Values.ToList())
-                ));
+                , MockSubscriptionClientFactory.CreateSubscripitonsFromJson(subscriptionListA[subscriptionC])
+                , null));
 
             var mock = new AccountMockClientFactory(() =>
             {
@@ -699,7 +731,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             var client = GetProfileClient();
             var context = client.SetCurrentContext(subscriptionC.ToString(), null);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, context.Tenant.Id.ToString());
             Assert.Equal(subscriptionC, context.Subscription.Id.ToString());
         }
@@ -713,11 +745,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListA = GetFirstTenantSubscriptionsJson(tenantA, subscriptionA, subscriptionB, subscriptionC, tenantB);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(
                 null
                 , null
                 , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListA.Values.ToList())
@@ -735,7 +768,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
             var subscriptionName = (JObject.Parse(subscriptionListA[subscriptionB]))["displayName"];
             var context = client.SetCurrentContext(subscriptionName.ToString(), tenantA);
 
-            Assert.Equal("2019-06-01", client.SubscriptionAndTenantClient.ApiVersion);
+            Assert.Equal("2021-01-01", client.SubscriptionAndTenantClient.ApiVersion);
             Assert.Equal(tenantA, context.Tenant.Id.ToString());
             Assert.Equal(subscriptionB, context.Subscription.Id.ToString());
         }
@@ -748,15 +781,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Common.Test
                 , subscriptionB = Guid.NewGuid().ToString()
                 , subscriptionC = Guid.NewGuid().ToString()
                 , subscriptionD = Guid.NewGuid().ToString();
+            MockSubscriptionClientFactory.Reset();
             var clientFactory = new MockSubscriptionClientFactory();
 
             Dictionary<string, string> subscriptionListB = GetSecondTenantSubscriptionsJson(tenantB, subscriptionA, subscriptionB, subscriptionC, subscriptionD, tenantA);
             subscriptionClients.Clear();
-            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVer2019(
-                null
-                , null
-                , MockSubscriptionClientFactory.CreateSubscriptionListsFromJson(subscriptionListB.Values.ToList())
-                ));
+            subscriptionClients.Enqueue(clientFactory.GetSubscriptionClientVerLatest(null, null, null));
 
             var mock = new AccountMockClientFactory(() =>
             {

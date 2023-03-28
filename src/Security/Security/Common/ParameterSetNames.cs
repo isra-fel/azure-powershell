@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Commands.Security.Common
 
         #region Settings
 
-        public const string DataExportSettingsScope = "DataExportSettingsScope";
+        public const string SettingsScope = "SettingsScope";
 
         #endregion
 
@@ -49,6 +49,24 @@ namespace Microsoft.Azure.Commands.Security.Common
         public const string InputObjectBaselineWithOnPrem = "InputObjectBaselineWithOnPrem";
         public const string ResourceIdWithScanId = "ResourceIdWithScanId";
         public const string OnPremMachinesWithScanId = "OnPremMachinesWithScanId";
+
+        #endregion
+
+        #region AlertsSuppressionRules
+
+        public const string RuleNameWithParameters = "RuleNameWithParameters";
+
+        #endregion
+
+        #region Security Automation
+
+        public const string SecurityAutomationScope = "SecurityAutomationScope";
+        public const string SecurityAutomationActionWorkspace = "SecurityAutomationActionWorkspace";
+        public const string SecurityAutomationActionEventHub = "SecurityAutomationActionEventHub";
+        public const string SecurityAutomationActionLogicApp = "SecurityAutomationActionLogicApp";
+        public const string SecurityAutomationRule = "SecurityAutomationRule";
+        public const string SecurityAutomationRuleSet = "SecurityAutomationRuleSet";
+        public const string SecurityAutomationSource = "SecurityAutomationSource";
 
         #endregion
     }

@@ -27,9 +27,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -73,15 +73,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdateViaIdentity(global::System.String viaIdentity, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdateViaIdentity(global::System.String viaIdentity, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}'");
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdate_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdate_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -236,6 +236,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                             // make the final call
                             _response = await sender.SendAsync(request,  eventListener);
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Polling, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
                             break;
                         }
                     }
@@ -246,13 +247,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -280,7 +281,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdate_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup body, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsCreateOrUpdate_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup body, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
         {
             using( NoSynchronizationContext )
             {
@@ -309,9 +310,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsDelete(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsDelete(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -354,15 +355,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsDeleteViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsDeleteViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}'");
@@ -408,7 +409,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsDelete_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsDelete_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -515,6 +516,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                             // make the final call
                             _response = await sender.SendAsync(request,  eventListener);
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Polling, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
                             break;
                         }
                     }
@@ -525,7 +527,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         case global::System.Net.HttpStatusCode.NoContent:
@@ -537,7 +539,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -591,9 +593,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsGet(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsGet(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -623,6 +625,184 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         }
 
         /// <summary>
+        /// Gets all the network dependencies for this container group to allow complete control of network setting and configuration.
+        /// For container groups, this will always be an empty list.
+        /// </summary>
+        /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription
+        /// ID forms part of the URI for every service call.</param>
+        /// <param name="resourceGroupName">The name of the resource group.</param>
+        /// <param name="containerGroupName">The name of the container group.</param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
+        /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
+        /// elsewhere).</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <param name="sender">an instance of an Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync pipeline to use to make the request.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        public async global::System.Threading.Tasks.Task ContainerGroupsGetOutboundNetworkDependenciesEndpoints(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<string[]>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        {
+            var apiVersion = @"2022-10-01-preview";
+            // Constant Parameters
+            using( NoSynchronizationContext )
+            {
+                // construct URL
+                var pathAndQuery = global::System.Text.RegularExpressions.Regex.Replace(
+                        "/subscriptions/"
+                        + global::System.Uri.EscapeDataString(subscriptionId)
+                        + "/resourceGroups/"
+                        + global::System.Uri.EscapeDataString(resourceGroupName)
+                        + "/providers/Microsoft.ContainerInstance/containerGroups/"
+                        + global::System.Uri.EscapeDataString(containerGroupName)
+                        + "/outboundNetworkDependenciesEndpoints"
+                        + "?"
+                        + "api-version=" + global::System.Uri.EscapeDataString(apiVersion)
+                        ,"\\?&*$|&*$|(\\?)&+|(&)&+","$1$2");
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.URLCreated, pathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                // generate request object
+                var _url = new global::System.Uri($"https://management.azure.com{pathAndQuery}");
+                var request =  new global::System.Net.Http.HttpRequestMessage(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Method.Get, _url);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.RequestCreated, request.RequestUri.PathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.HeaderParametersAdded); if( eventListener.Token.IsCancellationRequested ) { return; }
+                // make the call
+                await this.ContainerGroupsGetOutboundNetworkDependenciesEndpoints_Call(request,onOk,onDefault,eventListener,sender);
+            }
+        }
+
+        /// <summary>
+        /// Gets all the network dependencies for this container group to allow complete control of network setting and configuration.
+        /// For container groups, this will always be an empty list.
+        /// </summary>
+        /// <param name="viaIdentity"></param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
+        /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
+        /// elsewhere).</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <param name="sender">an instance of an Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync pipeline to use to make the request.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        public async global::System.Threading.Tasks.Task ContainerGroupsGetOutboundNetworkDependenciesEndpointsViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<string[]>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        {
+            var apiVersion = @"2022-10-01-preview";
+            // Constant Parameters
+            using( NoSynchronizationContext )
+            {
+                // verify that Identity format is an exact match for uri
+
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/outboundNetworkDependenciesEndpoints$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
+                if (!_match.Success)
+                {
+                    throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/outboundNetworkDependenciesEndpoints'");
+                }
+
+                // replace URI parameters with values from identity
+                var subscriptionId = _match.Groups["subscriptionId"].Value;
+                var resourceGroupName = _match.Groups["resourceGroupName"].Value;
+                var containerGroupName = _match.Groups["containerGroupName"].Value;
+                // construct URL
+                var pathAndQuery = global::System.Text.RegularExpressions.Regex.Replace(
+                        "/subscriptions/"
+                        + subscriptionId
+                        + "/resourceGroups/"
+                        + resourceGroupName
+                        + "/providers/Microsoft.ContainerInstance/containerGroups/"
+                        + containerGroupName
+                        + "/outboundNetworkDependenciesEndpoints"
+                        + "?"
+                        + "api-version=" + global::System.Uri.EscapeDataString(apiVersion)
+                        ,"\\?&*$|&*$|(\\?)&+|(&)&+","$1$2");
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.URLCreated, pathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                // generate request object
+                var _url = new global::System.Uri($"https://management.azure.com{pathAndQuery}");
+                var request =  new global::System.Net.Http.HttpRequestMessage(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Method.Get, _url);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.RequestCreated, request.RequestUri.PathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.HeaderParametersAdded); if( eventListener.Token.IsCancellationRequested ) { return; }
+                // make the call
+                await this.ContainerGroupsGetOutboundNetworkDependenciesEndpoints_Call(request,onOk,onDefault,eventListener,sender);
+            }
+        }
+
+        /// <summary>
+        /// Actual wire call for <see cref="ContainerGroupsGetOutboundNetworkDependenciesEndpoints" /> method.
+        /// </summary>
+        /// <param name="request">the prepared HttpRequestMessage to send.</param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
+        /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
+        /// elsewhere).</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <param name="sender">an instance of an Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync pipeline to use to make the request.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        internal async global::System.Threading.Tasks.Task ContainerGroupsGetOutboundNetworkDependenciesEndpoints_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<string[]>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        {
+            using( NoSynchronizationContext )
+            {
+                global::System.Net.Http.HttpResponseMessage _response = null;
+                try
+                {
+                    var sendTask = sender.SendAsync(request, eventListener);
+                    await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeCall, request); if( eventListener.Token.IsCancellationRequested ) { return; }
+                    _response = await sendTask;
+                    await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.ResponseCreated, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                    var _contentType = _response.Content.Headers.ContentType?.MediaType;
+
+                    switch ( _response.StatusCode )
+                    {
+                        case global::System.Net.HttpStatusCode.OK:
+                        {
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => If( Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonArray.Parse(body.Result) as Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonArray, out var __y) ? new global::System.Func<string[]>(()=> global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Select(__y, (__x)=>(string) (__x is Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString __w ? (string)(__w.ToString()) : null)) ))() : null));
+                            break;
+                        }
+                        default:
+                        {
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            break;
+                        }
+                    }
+                }
+                finally
+                {
+                    // finally statements
+                    await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Finally, request, _response);
+                    _response?.Dispose();
+                    request?.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validation method for <see cref="ContainerGroupsGetOutboundNetworkDependenciesEndpoints" /> method. Call this like the
+        /// actual call, but you will get validation events back.
+        /// </summary>
+        /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription
+        /// ID forms part of the URI for every service call.</param>
+        /// <param name="resourceGroupName">The name of the resource group.</param>
+        /// <param name="containerGroupName">The name of the container group.</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        internal async global::System.Threading.Tasks.Task ContainerGroupsGetOutboundNetworkDependenciesEndpoints_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
+        {
+            using( NoSynchronizationContext )
+            {
+                await eventListener.AssertNotNull(nameof(subscriptionId),subscriptionId);
+                await eventListener.AssertNotNull(nameof(resourceGroupName),resourceGroupName);
+                await eventListener.AssertNotNull(nameof(containerGroupName),containerGroupName);
+            }
+        }
+
+        /// <summary>
         /// Gets the properties of the specified container group in the specified subscription and resource group. The operation returns
         /// the properties of each container group including containers, image registry credentials, restart policy, IP address type,
         /// OS type, state, and volumes.
@@ -636,15 +816,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsGetViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsGetViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}'");
@@ -689,7 +869,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsGet_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsGet_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -707,13 +887,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -764,9 +944,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsList(string subscriptionId, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsList(string subscriptionId, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -808,9 +988,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsListByResourceGroup(string subscriptionId, string resourceGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsListByResourceGroup(string subscriptionId, string resourceGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -852,15 +1032,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsListByResourceGroupViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsListByResourceGroupViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups'");
@@ -903,7 +1083,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsListByResourceGroup_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsListByResourceGroup_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -921,13 +1101,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerGroupListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerGroupListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -975,15 +1155,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsListViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsListViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups'");
@@ -1023,7 +1203,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsList_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsList_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroupListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -1041,13 +1221,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerGroupListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerGroupListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -1095,9 +1275,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsRestart(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsRestart(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -1139,15 +1319,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsRestartViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsRestartViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/restart'");
@@ -1193,7 +1373,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsRestart_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsRestart_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -1300,6 +1480,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                             // make the final call
                             _response = await sender.SendAsync(request,  eventListener);
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Polling, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
                             break;
                         }
                     }
@@ -1316,7 +1497,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -1360,6 +1541,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// ID forms part of the URI for every service call.</param>
         /// <param name="resourceGroupName">The name of the resource group.</param>
         /// <param name="containerGroupName">The name of the container group.</param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
         /// <param name="onNoContent">a delegate that is called when the remote service returns 204 (NoContent).</param>
         /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
         /// elsewhere).</param>
@@ -1368,9 +1550,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsStart(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsStart(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -1396,7 +1578,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                 await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.HeaderParametersAdded); if( eventListener.Token.IsCancellationRequested ) { return; }
                 // make the call
-                await this.ContainerGroupsStart_Call(request,onNoContent,onDefault,eventListener,sender);
+                await this.ContainerGroupsStart_Call(request,onOk,onNoContent,onDefault,eventListener,sender);
             }
         }
 
@@ -1404,6 +1586,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// Starts all containers in a container group. Compute resources will be allocated and billing will start.
         /// </summary>
         /// <param name="viaIdentity"></param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
         /// <param name="onNoContent">a delegate that is called when the remote service returns 204 (NoContent).</param>
         /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
         /// elsewhere).</param>
@@ -1412,15 +1595,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsStartViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsStartViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/start'");
@@ -1452,12 +1635,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                 await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.HeaderParametersAdded); if( eventListener.Token.IsCancellationRequested ) { return; }
                 // make the call
-                await this.ContainerGroupsStart_Call(request,onNoContent,onDefault,eventListener,sender);
+                await this.ContainerGroupsStart_Call(request,onOk,onNoContent,onDefault,eventListener,sender);
             }
         }
 
         /// <summary>Actual wire call for <see cref="ContainerGroupsStart" /> method.</summary>
         /// <param name="request">the prepared HttpRequestMessage to send.</param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
         /// <param name="onNoContent">a delegate that is called when the remote service returns 204 (NoContent).</param>
         /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
         /// elsewhere).</param>
@@ -1466,7 +1650,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsStart_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsStart_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -1573,6 +1757,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                             // make the final call
                             _response = await sender.SendAsync(request,  eventListener);
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Polling, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
                             break;
                         }
                     }
@@ -1580,6 +1765,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
 
                     switch ( _response.StatusCode )
                     {
+                        case global::System.Net.HttpStatusCode.OK:
+                        {
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            await onOk(_response);
+                            break;
+                        }
                         case global::System.Net.HttpStatusCode.NoContent:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
@@ -1589,7 +1780,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -1641,9 +1832,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsStop(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsStop(string subscriptionId, string resourceGroupName, string containerGroupName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -1685,15 +1876,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsStopViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsStopViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/stop'");
@@ -1739,7 +1930,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsStop_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsStop_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -1763,7 +1954,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -1814,9 +2005,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsUpdate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResource body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsUpdate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IResource body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -1860,15 +2051,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainerGroupsUpdateViaIdentity(global::System.String viaIdentity, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResource body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainerGroupsUpdateViaIdentity(global::System.String viaIdentity, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IResource body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}'");
@@ -1917,7 +2108,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsUpdate_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsUpdate_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -1935,13 +2126,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerGroup.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -1969,7 +2160,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainerGroupsUpdate_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResource body, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
+        internal async global::System.Threading.Tasks.Task ContainerGroupsUpdate_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IResource body, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
         {
             using( NoSynchronizationContext )
             {
@@ -1997,9 +2188,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainersAttach(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerAttachResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainersAttach(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerAttachResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -2043,15 +2234,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainersAttachViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerAttachResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainersAttachViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerAttachResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/containers/(?<containerName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/containers/(?<containerName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach'");
@@ -2100,7 +2291,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainersAttach_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerAttachResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainersAttach_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerAttachResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -2118,13 +2309,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerAttachResponse.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerAttachResponse.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -2180,9 +2371,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainersExecuteCommand(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerExecRequest body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerExecResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainersExecuteCommand(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerExecRequest body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerExecResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -2231,15 +2422,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainersExecuteCommandViaIdentity(global::System.String viaIdentity, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerExecRequest body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerExecResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainersExecuteCommandViaIdentity(global::System.String viaIdentity, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerExecRequest body, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerExecResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/containers/(?<containerName>[^/]+)$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/containers/(?<containerName>[^/]+)$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/exec'");
@@ -2292,7 +2483,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainersExecuteCommand_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerExecResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainersExecuteCommand_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerExecResponse>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -2310,13 +2501,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ContainerExecResponse.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ContainerExecResponse.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -2345,7 +2536,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainersExecuteCommand_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerExecRequest body, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
+        internal async global::System.Threading.Tasks.Task ContainersExecuteCommand_Validate(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerExecRequest body, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
         {
             using( NoSynchronizationContext )
             {
@@ -2378,9 +2569,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainersListLogs(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, int? tail, bool? timestamps, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ILogs>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainersListLogs(string subscriptionId, string resourceGroupName, string containerGroupName, string containerName, int? tail, bool? timestamps, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ILogs>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -2432,15 +2623,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task ContainersListLogsViaIdentity(global::System.String viaIdentity, int? tail, bool? timestamps, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ILogs>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task ContainersListLogsViaIdentity(global::System.String viaIdentity, int? tail, bool? timestamps, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ILogs>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/containers/(?<containerName>[^/]+)/logs$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.ContainerInstance/containerGroups/(?<containerGroupName>[^/]+)/containers/(?<containerName>[^/]+)/logs$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs'");
@@ -2493,7 +2684,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task ContainersListLogs_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ILogs>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task ContainersListLogs_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ILogs>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -2511,13 +2702,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.Logs.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.Logs.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -2574,9 +2765,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task LocationListCachedImages(string subscriptionId, string location, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICachedImagesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task LocationListCachedImages(string subscriptionId, string location, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICachedImagesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -2616,15 +2807,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task LocationListCachedImagesViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICachedImagesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task LocationListCachedImagesViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICachedImagesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/locations/(?<location>[^/]+)/cachedImages$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/locations/(?<location>[^/]+)/cachedImages$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages'");
@@ -2667,7 +2858,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task LocationListCachedImages_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICachedImagesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task LocationListCachedImages_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICachedImagesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -2685,13 +2876,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CachedImagesListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CachedImagesListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -2738,9 +2929,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task LocationListCapabilities(string subscriptionId, string location, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICapabilitiesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task LocationListCapabilities(string subscriptionId, string location, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICapabilitiesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -2778,15 +2969,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task LocationListCapabilitiesViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICapabilitiesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task LocationListCapabilitiesViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICapabilitiesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/locations/(?<location>[^/]+)/capabilities$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/locations/(?<location>[^/]+)/capabilities$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities'");
@@ -2829,7 +3020,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task LocationListCapabilities_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICapabilitiesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task LocationListCapabilities_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICapabilitiesListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -2847,13 +3038,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CapabilitiesListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CapabilitiesListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -2900,9 +3091,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task LocationListUsage(string subscriptionId, string location, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IUsageListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task LocationListUsage(string subscriptionId, string location, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IUsageListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -2940,15 +3131,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task LocationListUsageViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IUsageListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task LocationListUsageViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IUsageListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/locations/(?<location>[^/]+)/usages$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/providers/Microsoft.ContainerInstance/locations/(?<location>[^/]+)/usages$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages'");
@@ -2991,7 +3182,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task LocationListUsage_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IUsageListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task LocationListUsage_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IUsageListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -3009,13 +3200,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.UsageListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.UsageListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -3059,9 +3250,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task OperationsList(global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IOperationListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task OperationsList(global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IOperationListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
@@ -3095,15 +3286,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        public async global::System.Threading.Tasks.Task OperationsListViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IOperationListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        public async global::System.Threading.Tasks.Task OperationsListViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IOperationListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
-            var apiVersion = @"2021-03-01";
+            var apiVersion = @"2022-10-01-preview";
             // Constant Parameters
             using( NoSynchronizationContext )
             {
                 // verify that Identity format is an exact match for uri
 
-                var _match = new global::System.Text.RegularExpressions.Regex("^/providers/Microsoft.ContainerInstance/operations$").Match(viaIdentity);
+                var _match = new global::System.Text.RegularExpressions.Regex("^/providers/Microsoft.ContainerInstance/operations$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
                 if (!_match.Success)
                 {
                     throw new global::System.Exception("Invalid identity for URI '/providers/Microsoft.ContainerInstance/operations'");
@@ -3140,7 +3331,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
         /// </returns>
-        internal async global::System.Threading.Tasks.Task OperationsList_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IOperationListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        internal async global::System.Threading.Tasks.Task OperationsList_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IOperationListResult>, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
         {
             using( NoSynchronizationContext )
             {
@@ -3158,13 +3349,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
                         case global::System.Net.HttpStatusCode.OK:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.OperationListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onOk(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.OperationListResult.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                         default:
                         {
                             await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
-                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
                             break;
                         }
                     }
@@ -3192,6 +3383,299 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance
             using( NoSynchronizationContext )
             {
 
+            }
+        }
+
+        /// <summary>
+        /// Delete container group virtual network association links. The operation does not delete other resources provided by the
+        /// user.
+        /// </summary>
+        /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription
+        /// ID forms part of the URI for every service call.</param>
+        /// <param name="resourceGroupName">The name of the resource group.</param>
+        /// <param name="virtualNetworkName">The name of the virtual network.</param>
+        /// <param name="subnetName">The name of the subnet.</param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
+        /// <param name="onNoContent">a delegate that is called when the remote service returns 204 (NoContent).</param>
+        /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
+        /// elsewhere).</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <param name="sender">an instance of an Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync pipeline to use to make the request.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        public async global::System.Threading.Tasks.Task SubnetServiceAssociationLinkDelete(string subscriptionId, string resourceGroupName, string virtualNetworkName, string subnetName, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        {
+            var apiVersion = @"2022-10-01-preview";
+            // Constant Parameters
+            using( NoSynchronizationContext )
+            {
+                // construct URL
+                var pathAndQuery = global::System.Text.RegularExpressions.Regex.Replace(
+                        "/subscriptions/"
+                        + global::System.Uri.EscapeDataString(subscriptionId)
+                        + "/resourceGroups/"
+                        + global::System.Uri.EscapeDataString(resourceGroupName)
+                        + "/providers/Microsoft.Network/virtualNetworks/"
+                        + global::System.Uri.EscapeDataString(virtualNetworkName)
+                        + "/subnets/"
+                        + global::System.Uri.EscapeDataString(subnetName)
+                        + "/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default"
+                        + "?"
+                        + "api-version=" + global::System.Uri.EscapeDataString(apiVersion)
+                        ,"\\?&*$|&*$|(\\?)&+|(&)&+","$1$2");
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.URLCreated, pathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                // generate request object
+                var _url = new global::System.Uri($"https://management.azure.com{pathAndQuery}");
+                var request =  new global::System.Net.Http.HttpRequestMessage(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Method.Delete, _url);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.RequestCreated, request.RequestUri.PathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.HeaderParametersAdded); if( eventListener.Token.IsCancellationRequested ) { return; }
+                // make the call
+                await this.SubnetServiceAssociationLinkDelete_Call(request,onOk,onNoContent,onDefault,eventListener,sender);
+            }
+        }
+
+        /// <summary>
+        /// Delete container group virtual network association links. The operation does not delete other resources provided by the
+        /// user.
+        /// </summary>
+        /// <param name="viaIdentity"></param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
+        /// <param name="onNoContent">a delegate that is called when the remote service returns 204 (NoContent).</param>
+        /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
+        /// elsewhere).</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <param name="sender">an instance of an Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync pipeline to use to make the request.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        public async global::System.Threading.Tasks.Task SubnetServiceAssociationLinkDeleteViaIdentity(global::System.String viaIdentity, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        {
+            var apiVersion = @"2022-10-01-preview";
+            // Constant Parameters
+            using( NoSynchronizationContext )
+            {
+                // verify that Identity format is an exact match for uri
+
+                var _match = new global::System.Text.RegularExpressions.Regex("^/subscriptions/(?<subscriptionId>[^/]+)/resourceGroups/(?<resourceGroupName>[^/]+)/providers/Microsoft.Network/virtualNetworks/(?<virtualNetworkName>[^/]+)/subnets/(?<subnetName>[^/]+)/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default$", global::System.Text.RegularExpressions.RegexOptions.IgnoreCase).Match(viaIdentity);
+                if (!_match.Success)
+                {
+                    throw new global::System.Exception("Invalid identity for URI '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default'");
+                }
+
+                // replace URI parameters with values from identity
+                var subscriptionId = _match.Groups["subscriptionId"].Value;
+                var resourceGroupName = _match.Groups["resourceGroupName"].Value;
+                var virtualNetworkName = _match.Groups["virtualNetworkName"].Value;
+                var subnetName = _match.Groups["subnetName"].Value;
+                // construct URL
+                var pathAndQuery = global::System.Text.RegularExpressions.Regex.Replace(
+                        "/subscriptions/"
+                        + subscriptionId
+                        + "/resourceGroups/"
+                        + resourceGroupName
+                        + "/providers/Microsoft.Network/virtualNetworks/"
+                        + virtualNetworkName
+                        + "/subnets/"
+                        + subnetName
+                        + "/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default"
+                        + "?"
+                        + "api-version=" + global::System.Uri.EscapeDataString(apiVersion)
+                        ,"\\?&*$|&*$|(\\?)&+|(&)&+","$1$2");
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.URLCreated, pathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                // generate request object
+                var _url = new global::System.Uri($"https://management.azure.com{pathAndQuery}");
+                var request =  new global::System.Net.Http.HttpRequestMessage(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Method.Delete, _url);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.RequestCreated, request.RequestUri.PathAndQuery); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.HeaderParametersAdded); if( eventListener.Token.IsCancellationRequested ) { return; }
+                // make the call
+                await this.SubnetServiceAssociationLinkDelete_Call(request,onOk,onNoContent,onDefault,eventListener,sender);
+            }
+        }
+
+        /// <summary>Actual wire call for <see cref="SubnetServiceAssociationLinkDelete" /> method.</summary>
+        /// <param name="request">the prepared HttpRequestMessage to send.</param>
+        /// <param name="onOk">a delegate that is called when the remote service returns 200 (OK).</param>
+        /// <param name="onNoContent">a delegate that is called when the remote service returns 204 (NoContent).</param>
+        /// <param name="onDefault">a delegate that is called when the remote service returns default (any response code not handled
+        /// elsewhere).</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <param name="sender">an instance of an Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync pipeline to use to make the request.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        internal async global::System.Threading.Tasks.Task SubnetServiceAssociationLinkDelete_Call(global::System.Net.Http.HttpRequestMessage request, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onOk, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task> onNoContent, global::System.Func<global::System.Net.Http.HttpResponseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>, global::System.Threading.Tasks.Task> onDefault, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.ISendAsync sender)
+        {
+            using( NoSynchronizationContext )
+            {
+                global::System.Net.Http.HttpResponseMessage _response = null;
+                try
+                {
+                    var sendTask = sender.SendAsync(request, eventListener);
+                    await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeCall, request); if( eventListener.Token.IsCancellationRequested ) { return; }
+                    _response = await sendTask;
+                    await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.ResponseCreated, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                    // this operation supports x-ms-long-running-operation
+                    var _originalUri = request.RequestUri.AbsoluteUri;
+                    // declared final-state-via: default
+                    var _finalUri = _response.GetFirstHeader(@"Location");
+                    var asyncOperation = _response.GetFirstHeader(@"Azure-AsyncOperation");
+                    var location = _response.GetFirstHeader(@"Location");
+                    while (request.Method == System.Net.Http.HttpMethod.Put && _response.StatusCode == global::System.Net.HttpStatusCode.OK || _response.StatusCode == global::System.Net.HttpStatusCode.Created || _response.StatusCode == global::System.Net.HttpStatusCode.Accepted )
+                    {
+
+                        // get the delay before polling. (default to 30 seconds if not present)
+                        int delay = (int)(_response.Headers.RetryAfter?.Delta?.TotalSeconds ?? 30);
+                        await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.DelayBeforePolling, $"Delaying {delay} seconds before polling.", _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                        // start the delay timer (we'll await later...)
+                        var waiting = global::System.Threading.Tasks.Task.Delay(delay * 1000, eventListener.Token );
+
+                        // while we wait, let's grab the headers and get ready to poll.
+                        if (!System.String.IsNullOrEmpty(_response.GetFirstHeader(@"Azure-AsyncOperation"))) {
+                            asyncOperation = _response.GetFirstHeader(@"Azure-AsyncOperation");
+                        }
+                        if (!global::System.String.IsNullOrEmpty(_response.GetFirstHeader(@"Location"))) {
+                            location = _response.GetFirstHeader(@"Location");
+                        }
+                        var _uri = global::System.String.IsNullOrEmpty(asyncOperation) ? global::System.String.IsNullOrEmpty(location) ? _originalUri : location : asyncOperation;
+                        request = request.CloneAndDispose(new global::System.Uri(_uri), Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Method.Get);
+
+                        // and let's look at the current response body and see if we have some information we can give back to the listener
+                        var content = await _response.Content.ReadAsStringAsync();
+                        await waiting;
+
+                        // check for cancellation
+                        if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                        // drop the old response
+                        _response?.Dispose();
+
+                        // make the polling call
+                        _response = await sender.SendAsync(request, eventListener);
+                        await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Polling, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+
+                        // if we got back an OK, take a peek inside and see if it's done
+                        if( _response.StatusCode == global::System.Net.HttpStatusCode.OK)
+                        {
+                            var error = false;
+                            try {
+                                if( Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(await _response.Content.ReadAsStringAsync()) is Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonObject json)
+                                {
+                                    var state = json.Property("properties")?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("provisioningState") ?? json.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonString>("status");
+                                    if( state is null )
+                                    {
+                                        // the body doesn't contain any information that has the state of the LRO
+                                        // we're going to just get out, and let the consumer have the result
+                                        break;
+                                    }
+
+                                    switch( state?.ToString()?.ToLower() )
+                                    {
+                                      case "failed":
+                                          error = true;
+                                          break;
+                                      case "succeeded":
+                                      case "canceled":
+                                        // we're done polling.
+                                        break;
+
+                                      default:
+                                        // need to keep polling!
+                                        _response.StatusCode = global::System.Net.HttpStatusCode.Created;
+                                        continue;
+                                    }
+                                }
+                            } catch {
+                                // if we run into a problem peeking into the result,
+                                // we really don't want to do anything special.
+                            }
+                            if (error) {
+                                throw new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.UndeclaredResponseException(_response);
+                            }
+                        }
+
+                        // check for terminal status code
+                        if (_response.StatusCode == global::System.Net.HttpStatusCode.Created || _response.StatusCode == global::System.Net.HttpStatusCode.Accepted )
+                        {
+                            continue;
+                        }
+                        // we are done polling, do a request on final target?
+                        if (!string.IsNullOrWhiteSpace(_finalUri))
+                        {
+                            // create a new request with the final uri
+                            request = request.CloneAndDispose(new global::System.Uri(_finalUri), Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Method.Get);
+
+                            // drop the old response
+                            _response?.Dispose();
+
+                            // make the final call
+                            _response = await sender.SendAsync(request,  eventListener);
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Polling, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            break;
+                        }
+                    }
+                    var _contentType = _response.Content.Headers.ContentType?.MediaType;
+
+                    switch ( _response.StatusCode )
+                    {
+                        case global::System.Net.HttpStatusCode.OK:
+                        {
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            await onOk(_response);
+                            break;
+                        }
+                        case global::System.Net.HttpStatusCode.NoContent:
+                        {
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            await onNoContent(_response);
+                            break;
+                        }
+                        default:
+                        {
+                            await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.BeforeResponseDispatch, _response); if( eventListener.Token.IsCancellationRequested ) { return; }
+                            await onDefault(_response,_response.Content.ReadAsStringAsync().ContinueWith( body => Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.CloudError.FromJson(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Json.JsonNode.Parse(body.Result)) ));
+                            break;
+                        }
+                    }
+                }
+                finally
+                {
+                    // finally statements
+                    await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Finally, request, _response);
+                    _response?.Dispose();
+                    request?.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validation method for <see cref="SubnetServiceAssociationLinkDelete" /> method. Call this like the actual call, but you
+        /// will get validation events back.
+        /// </summary>
+        /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription
+        /// ID forms part of the URI for every service call.</param>
+        /// <param name="resourceGroupName">The name of the resource group.</param>
+        /// <param name="virtualNetworkName">The name of the virtual network.</param>
+        /// <param name="subnetName">The name of the subnet.</param>
+        /// <param name="eventListener">an <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> instance that will receive events.</param>
+        /// <returns>
+        /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the response is completed.
+        /// </returns>
+        internal async global::System.Threading.Tasks.Task SubnetServiceAssociationLinkDelete_Validate(string subscriptionId, string resourceGroupName, string virtualNetworkName, string subnetName, Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener eventListener)
+        {
+            using( NoSynchronizationContext )
+            {
+                await eventListener.AssertNotNull(nameof(subscriptionId),subscriptionId);
+                await eventListener.AssertNotNull(nameof(resourceGroupName),resourceGroupName);
+                await eventListener.AssertNotNull(nameof(virtualNetworkName),virtualNetworkName);
+                await eventListener.AssertNotNull(nameof(subnetName),subnetName);
             }
         }
     }

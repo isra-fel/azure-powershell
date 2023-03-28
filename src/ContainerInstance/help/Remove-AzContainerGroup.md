@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.ContainerInstance
-online version: https://docs.microsoft.com/powershell/module/az.containerinstance/remove-azcontainergroup
+online version: https://learn.microsoft.com/powershell/module/az.containerinstance/remove-azcontainergroup
 schema: 2.0.0
 ---
 
@@ -33,22 +33,26 @@ The operation does not delete other resources provided by the user, such as volu
 
 ### Example 1: Remove a container group
 ```powershell
-PS C:\> Remove-AzContainerGroup -Name test-cg -ResourceGroupName test-rg
+Remove-AzContainerGroup -Name test-cg -ResourceGroupName test-rg
+```
 
-Location Name    Type
--------- ----    ----
-eastus   test-cg Microsoft.ContainerInstance/containerGroups
+```output
+Location Name    Zone ResourceGroupName
+-------- ----    ---- -----------------
+eastus   test-cg      test-rg
 ```
 
 This command removes the specified container group.
 
 ### Example 2: Removes a container group by piping
 ```powershell
-PS C:\> Get-AzContainerGroup -Name test-cg -ResourceGroupName bez-rg | Remove-AzContainerGroup
+Get-AzContainerGroup -Name test-cg -ResourceGroupName bez-rg | Remove-AzContainerGroup
+```
 
-Location Name    Type
--------- ----    ----
-eastus   test-cg Microsoft.ContainerInstance/containerGroups
+```output
+Location Name    Zone ResourceGroupName
+-------- ----    ---- -----------------
+eastus   test-cg      test-rg
 ```
 
 This command removes a container group by piping.
@@ -217,7 +221,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup
+### Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup
 
 ## NOTES
 
@@ -228,13 +232,15 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IContainerInstanceIdentity>: Identity Parameter
+`INPUTOBJECT <IContainerInstanceIdentity>`: Identity Parameter
   - `[ContainerGroupName <String>]`: The name of the container group.
   - `[ContainerName <String>]`: The name of the container instance.
   - `[Id <String>]`: Resource identity path
   - `[Location <String>]`: The identifier for the physical azure location.
   - `[ResourceGroupName <String>]`: The name of the resource group.
+  - `[SubnetName <String>]`: The name of the subnet.
   - `[SubscriptionId <String>]`: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  - `[VirtualNetworkName <String>]`: The name of the virtual network.
 
 ## RELATED LINKS
 

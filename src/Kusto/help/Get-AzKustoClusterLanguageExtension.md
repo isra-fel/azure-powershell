@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/get-azkustoclusterlanguageextension
+online version: https://learn.microsoft.com/powershell/module/az.kusto/get-azkustoclusterlanguageextension
 schema: 2.0.0
 ---
 
@@ -24,8 +24,10 @@ Returns a list of language extensions that can run within KQL queries.
 
 ### Example 1: List all language extensions set for a cluster
 ```powershell
-PS C:\> Get-AzKustoClusterLanguageExtension -ResourceGroupName testrg -ClusterName testnewkustocluster
+Get-AzKustoClusterLanguageExtension -ResourceGroupName testrg -ClusterName testnewkustocluster
+```
 
+```output
 Name
 ----
 R
@@ -52,7 +54,8 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -135,7 +138,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.ILanguageExtension
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.ILanguageExtension
 
 ## NOTES
 

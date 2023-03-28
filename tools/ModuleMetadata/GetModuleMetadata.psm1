@@ -38,7 +38,6 @@ function Get-CmdletBindingPropertyValue
                 }
                 return $null
             }
-            return $null
         }
     }
     elseif ($Cmdlet.CommandType -eq 'Cmdlet')
@@ -188,7 +187,7 @@ function Get-ParameterMetadata
         }
         $ParameterMetadata = [ParameterMetadata]::New()
         $ParameterMetadata.Name = $Parameter.Name
-        $ParameterMetadata.Type = [TypeMetadata]::New($Parameter.ParameterType, $ModuleMetadata)
+        $ParameterMetadata.Type = [TypeMetadata]::New($Parameter.ParameterType, $ModuleMetadata, $true)
         $ParameterMetadata.AliasList.AddRange($Parameter.Aliases)
         $ParameterMetadata.ValidateNotNullOrEmpty = $false
         foreach ($Attribute in $Parameter.Attributes)

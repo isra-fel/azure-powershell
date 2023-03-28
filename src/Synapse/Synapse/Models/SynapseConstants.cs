@@ -1,4 +1,18 @@
-﻿using Microsoft.Azure.Management.Synapse.Models;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using Microsoft.Azure.Management.Synapse.Models;
 using System;
 using System.Collections.Generic;
 
@@ -128,6 +142,8 @@ namespace Microsoft.Azure.Commands.Synapse.Models
 
         public const string LinkedService = nameof(LinkedService);
 
+        public const string LinkedServiceEncryptedCredential = nameof(LinkedServiceEncryptedCredential);
+
         public const string Notebook = nameof(Notebook);
 
         // TODO: In future, we should expose the default version string of Spark SDK and use that value here.
@@ -155,6 +171,8 @@ namespace Microsoft.Azure.Commands.Synapse.Models
 
         public const string ManagedVirtualNetworkConfig = nameof(ManagedVirtualNetworkConfig);
 
+        public const string GitRepositoryConfig = nameof(GitRepositoryConfig);
+
         public const string EncryptionConfig = nameof(EncryptionConfig);
 
         public const string WorkspaceKey = nameof(WorkspaceKey);
@@ -162,6 +180,46 @@ namespace Microsoft.Azure.Commands.Synapse.Models
         public const string WorkspaceKeyName = nameof(WorkspaceKeyName);
 
         public const string KeyName = nameof(KeyName);
+
+        public const string SparkJobDefinition = nameof(SparkJobDefinition);
+
+        public const string DisableMaxServiceObjectiveName = "remove";
+
+        public const string ManagedPrivateEndpoint = nameof(ManagedPrivateEndpoint);
+
+        public const string DefaultVNetName = "default";
+
+        public const string WorkspacePackage = nameof(WorkspacePackage);
+
+        public const string DataFlowDebugSession = nameof(DataFlowDebugSession);
+
+        public const string DataFlowDebugSessionCommand = nameof(DataFlowDebugSessionCommand);
+
+        public const string DataFlowDebugSessionPackage = nameof(DataFlowDebugSessionPackage);
+
+        public const string SqlScript = nameof(SqlScript);
+
+        public const int DefaultResultLimit = 5000;
+        
+        public const string KqlScript = nameof(KqlScript);
+
+        public const string DefaultAutoPauseDelayInMinute = "15";
+
+        public const string DefaultMinExecutorCount = "1";
+
+        public const string DefaultMaxExecutorCount = "2";
+
+        public const string ActiveDirectoryOnlyAuthentication = nameof(ActiveDirectoryOnlyAuthentication);
+
+        public const string LinkConnectionLinkTable = nameof(LinkConnectionLinkTable);
+
+        public const string LinkConnectionLinkTableStatus = nameof(LinkConnectionLinkTableStatus);
+
+        public const string LinkConnectionLandingZoneCredential = nameof(LinkConnectionLandingZoneCredential);
+
+        public const string LinkConnection = nameof(LinkConnection);
+
+        public const string LinkConnectionDetailedStatus = nameof(LinkConnectionDetailedStatus);
 
         public static Dictionary<string, ComputeNodeSize> ComputeNodeSizes = new Dictionary<string, ComputeNodeSize>
         {
@@ -190,6 +248,33 @@ namespace Microsoft.Azure.Commands.Synapse.Models
                     Name = NodeSize.Large,
                     Cores = 16,
                     Memory = 112
+                }
+            },
+            {
+                NodeSize.XLarge,
+                new ComputeNodeSize
+                {
+                    Name = NodeSize.XLarge,
+                    Cores = 32,
+                    Memory = 224
+                }
+            },
+            {
+                NodeSize.XXLarge,
+                new ComputeNodeSize
+                {
+                    Name = NodeSize.XXLarge,
+                    Cores = 64,
+                    Memory = 368
+                }
+            },
+            {
+                NodeSize.XXXLarge,
+                new ComputeNodeSize
+                {
+                    Name = NodeSize.XXXLarge,
+                    Cores = 80,
+                    Memory = 424
                 }
             }
         };
@@ -235,5 +320,33 @@ namespace Microsoft.Azure.Commands.Synapse.Models
             LinkedService,
             Credential
         }
+
+        public class RepositoryType
+        {
+            public const string GitHub = "GitHub";
+            public const string AzureDevOpsGit = "AzureDevOpsGit";
+            public const string WorkspaceGitHubConfiguration = "WorkspaceGitHubConfiguration";
+            public const string WorkspaceVSTSConfiguration = "WorkspaceVSTSConfiguration";
+        }
+
+        public enum PackageActionType
+        {
+            Add,
+            Remove
+        }
+        public enum UserAssignedManagedIdentityActionType
+        {
+            Add,
+            Remove,
+            Set
+        }
+
+        public class PublicNetworkAccess
+        {
+            public const string Enabled = "Enabled";
+            public const string Disabled = "Disabled";
+        }
+
+        public const string SparkConfiguration = nameof(SparkConfiguration);
     }
 }

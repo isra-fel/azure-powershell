@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/powershell/module/az.recoveryservices/new-azrecoveryservicesasrreplicationprotecteditem
+online version: https://learn.microsoft.com/powershell/module/az.recoveryservices/new-azrecoveryservicesasrreplicationprotecteditem
 schema: 2.0.0
 ---
 
@@ -15,7 +15,7 @@ Enables replication for an ASR protectable item by creating a replication protec
 ### EnterpriseToEnterprise (Default)
 ```
 New-AzRecoveryServicesAsrReplicationProtectedItem [-VmmToVmm] -ProtectableItem <ASRProtectableItem>
- -Name <String> -ProtectionContainerMapping <ASRProtectionContainerMapping>
+ -Name <String> -ProtectionContainerMapping <ASRProtectionContainerMapping> 
  [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -56,7 +56,7 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-VMwareToAzure] -ProtectableI
 ```
 New-AzRecoveryServicesAsrReplicationProtectedItem [-HyperVToAzure] -ProtectableItem <ASRProtectableItem>
  -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
- -RecoveryAzureStorageAccountId <String> -RecoveryResourceGroupId <String>
+ -RecoveryAzureStorageAccountId <String> -RecoveryResourceGroupId <String> [-UseManagedDisk <String>] [-UseManagedDisksForReplication <String>]
  [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -72,7 +72,7 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-HyperVToAzure] -ProtectableI
  [-RecoveryVmTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-DiskTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-RecoveryNicTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
- [-UseManagedDisk <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-UseManagedDisk <String>] [-UseManagedDisksForReplication <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
@@ -84,10 +84,10 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
  [-RecoveryAzureNetworkId <String>] [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String>
  [-ReplicationGroupName <String>] [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilityZone <String>]
  [-RecoveryProximityPlacementGroupId <String>] [-RecoveryVirtualMachineScaleSetId <String>]
- [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>]
- [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
- [-KeyEncryptionVaultId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-RecoveryCapacityReservationGroupId <String>] [-RecoveryAvailabilitySetId <String>]
+ [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
+ [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
+ [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AzureToAzureWithoutDiskDetails
@@ -97,10 +97,11 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure] -AzureVmId <St
  [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> [-RecoveryAzureNetworkId <String>]
  [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String> [-ReplicationGroupName <String>]
  [-RecoveryAvailabilityZone <String>] [-RecoveryProximityPlacementGroupId <String>]
- [-RecoveryVirtualMachineScaleSetId <String>] [-RecoveryAvailabilitySetId <String>]
- [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
- [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
- [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryVirtualMachineScaleSetId <String>] [-RecoveryCapacityReservationGroupId <String>]
+ [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>]
+ [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
+ [-KeyEncryptionVaultId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### ReplicateVMwareToAzure
@@ -112,7 +113,7 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-ReplicateVMwareToAzure]
  -LogStorageAccountId <String> -ApplianceName <String> -Fabric <ASRFabric> [-RecoveryAzureNetworkId <String>]
  [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String> [-ReplicationGroupName <String>]
  [-RecoveryAvailabilityZone <String>] [-RecoveryProximityPlacementGroupId <String>]
- [-RecoveryAvailabilitySetId <String>] [-Size <String>]
+ [-RecoveryAvailabilitySetId <String>] [-Size <String>] 
  [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion] -DiskType <String>
  [-DiskEncryptionSetId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
@@ -139,15 +140,15 @@ Use this cmdlet to enable replication for an ASR protectable item.
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $currentJob = New-AzRecoveryServicesAsrReplicationProtectedItem -ProtectableItem $VM -Name $VM.Name -ProtectionContainerMapping $ProtectionContainerMapping
+```powershell
+$currentJob = New-AzRecoveryServicesAsrReplicationProtectedItem -ProtectableItem $VM -Name $VM.Name -ProtectionContainerMapping $ProtectionContainerMapping
 ```
 
 Starts the replication protected item creation operation for the specified ASR protectable item and returns the ASR job used to track the operation.
 
 ### Example 2
-```
-PS C:\>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -Account $fabric.FabricSpecificDetails.RunAsAccounts[0] `
+```powershell
+$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -Account $fabric.FabricSpecificDetails.RunAsAccounts[0] `
 -RecoveryResourceGroupId $RecoveryResourceGroupId -RecoveryAzureNetworkId $RecoveryAzureNetworkId  -name $name `
 -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -ProtectableItem $protectableItem -ProtectionContainerMapping $pcm `
 -RecoveryAzureSubnetName $RecoveryAzureSubnetName -RecoveryVmName $RecoveryVmName -LogStorageAccountId $LogStorageAccountId
@@ -156,20 +157,20 @@ PS C:\>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -
 Starts the replication protected item creation operation for the specified ASR protectable item and returns the ASR job used to track the operation(vmWare to Azure scenario).
 
 ### Example 3
-```
-PS C:>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureToAzureDiskReplicationConfig disk1,disk2 -AzVmId $vmId `
--Name "a2aprotectedItem" -RecoveryVmName "vmName" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup
+```powershell
+$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureToAzureDiskReplicationConfiguration disk1,disk2 -AzureVmId $vmId `
+-Name "a2aprotectedItem" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup
 ```
 
 Starts the replication protected item creation operation for the specified ASR protectable item and returns the ASR job used to track the operation (Azure to Azure scenario).
 
 ### Example 4
-```
-PS C:\> $disk1 = New-AzureToAzureDiskReplicationConfiguration -vhdUri  $diskUri1 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId `
+```powershell
+$disk1 = New-AzRecoveryServicesAsrAzureToAzureDiskReplicationConfig -vhdUri  $diskUri1 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId `
 -LogStorageAccountId $logStorageAccountId  
-PS C:\> $disk2 = New-AzureToAzureDiskReplicationConfiguration -vhdUri  $diskUri2 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId `
+$disk2 = New-AzRecoveryServicesAsrAzureToAzureDiskReplicationConfig -vhdUri  $diskUri2 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId `
 -LogStorageAccountId $logStorageAccountId  
-PS C:\> $enableDRjob = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureVmId $vmId -Name $rpiName `
+$enableDRjob = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureVmId $vmId -Name $rpiName `
 -RecoveryCloudServiceId  $recoveryCloudServiceId -ProtectionContainerMapping $pcm -RecoveryResourceGroupId  $RecoveryResourceGroupId `
 -AzureToAzureDiskReplicationConfiguration $disk1,$disk2 -RecoveryAzureNetworkId $RecoveryAzureNetworkId -RecoveryAzureSubnetName $RecoveryAzureSubnetName
 ```
@@ -177,11 +178,10 @@ PS C:\> $enableDRjob = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureT
 Starts the replication protected item creation operation for the specified VmId and returns the ASR job used to track the operation (Azure to Azure scenario).
 
 ### Example 5
-```
-PS C:\>$disk1 = New-AzRecoveryServicesAsrInMageAzureV2DiskInput -DiskId $diskId -LogStorageAccountId $logStorageAccountId -DiskType $diskType
-PS C:\>$disk2 = New-AzRecoveryServicesAsrInMageAzureV2DiskInput -DiskId $diskId2 -LogStorageAccountId $logStorageAccountId -DiskType $diskType2
-
-PS C:\>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -Account $fabric.FabricSpecificDetails.RunAsAccounts[0] -RecoveryResourceGroupId $RecoveryResourceGroupId `
+```powershell
+$disk1 = New-AzRecoveryServicesAsrInMageAzureV2DiskInput -DiskId $diskId -LogStorageAccountId $logStorageAccountId -DiskType $diskType
+$disk2 = New-AzRecoveryServicesAsrInMageAzureV2DiskInput -DiskId $diskId2 -LogStorageAccountId $logStorageAccountId -DiskType $diskType2
+$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -Account $fabric.FabricSpecificDetails.RunAsAccounts[0] -RecoveryResourceGroupId $RecoveryResourceGroupId `
 -RecoveryAzureNetworkId $RecoveryAzureNetworkId  -name $name -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -ProtectableItem $protectableItem  `
 -ProtectionContainerMapping $pcm -RecoveryAzureSubnetName $RecoveryAzureSubnetName -RecoveryVmName $RecoveryVmName `
 -LogStorageAccountId $LogStorageAccountId -InMageAzureV2DiskInput $disk1,$disk2
@@ -190,39 +190,39 @@ PS C:\>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -
 Starts the replication protected item creation operation for the specified ASR protectable item including selective disks and returns the ASR job used to track the operation(vmWare to Azure scenario) with selected disks.
 
 ### Example 6
-```
-PS C:\>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -Account $fabric.FabricSpecificDetails.RunAsAccounts[0] -RecoveryResourceGroupId $RecoveryResourceGroupId `
+```powershell
+$job = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -Account $fabric.FabricSpecificDetails.RunAsAccounts[0] -RecoveryResourceGroupId $RecoveryResourceGroupId `
 -RecoveryAzureNetworkId $RecoveryAzureNetworkId  -name $name -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -ProtectableItem $protectableItem  `
 -ProtectionContainerMapping $pcm -RecoveryAzureSubnetName $RecoveryAzureSubnetName -RecoveryVmName $RecoveryVmName `
 -LogStorageAccountId $LogStorageAccountId -DiskType Standard_LRS
+```
 
 Starts the replication protected item creation operation for the specified ASR protectable item with default disk type and returns the ASR job used to track the operation(vmWare to Azure scenario).
-```
 
 ### Example 7
-```
-PS C:\> $disk1 = New-AzureToAzureDiskReplicationConfiguration -vhdUri  $diskUri1 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId -LogStorageAccountId $logStorageAccountId  
-PS C:\> $disk2 = new-AzureToAzureDiskReplicationConfiguration -vhdUri  $diskUri2 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId -LogStorageAccountId $logStorageAccountId  
-PS C:\> $enableDRjob = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzVmId $vmId -Name $rpiName `
+```powershell
+$disk1 = New-AzRecoveryServicesAsrAzureToAzureDiskReplicationConfig -vhdUri  $diskUri1 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId -LogStorageAccountId $logStorageAccountId  
+$disk2 = New-AzRecoveryServicesAsrAzureToAzureDiskReplicationConfig -vhdUri  $diskUri2 -RecoveryAzureStorageAccountId $recoveryAzureStorageAccountId -LogStorageAccountId $logStorageAccountId  
+$enableDRjob = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureVmId $vmId -Name $rpiName `
 -RecoveryCloudServiceId  $recoveryCloudServiceId -ProtectionContainerMapping $pcm -RecoveryResourceGroupId  $RecoveryResourceGroupId `
--AzureToAzureDiskReplicationConfiguration $disk1,$disk2 -DiskEncryptionVaultId  $DiskEncryptionVaultId -DiskEncryptionSecertUrl $DiskEncryptionSecertUrl `
+-AzureToAzureDiskReplicationConfiguration $disk1,$disk2 -DiskEncryptionVaultId  $DiskEncryptionVaultId -DiskEncryptionSecretUrl $DiskEncryptionSecertUrl `
  -KeyEncryptionVaultId $KeyEncryptionVaultId  -KeyEncryptionKeyUrl $KeyEncryptionKeyUrl
 ```
 
 Starts the replication protected item creation operation for the specified VmId and returns the ASR job used to track the operation (Azure to Azure scenario).For the failover VM details passed in cmdlet for encryption will be used .
 
 ### Example 8
-```
-PS C:>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureToAzureDiskReplicationConfig disk1,disk2 -AzVmId $vmId `
--Name "a2aprotectedItem" -RecoveryVmName "vmName" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup -RecoveryProximityPlacementGroupId $ppg
+```powershell
+$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureToAzureDiskReplicationConfiguration disk1,disk2 -AzureVmId $vmId `
+-Name "a2aprotectedItem" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup -RecoveryProximityPlacementGroupId $ppg
 ```
 
 Starts the replication protected item creation operation for a Virtual Machine inside Proximity placement group and returns the ASR job used to track the operation (Azure to Azure scenario).
 
 ### Example 9
-```
-PS C:>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureToAzureDiskReplicationConfig disk1,disk2 -AzVmId $vmId `
--Name "a2aprotectedItem" -RecoveryVmName "vmName" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup -RecoveryVirtualMachineScaleSetId $vmss
+```powershell
+$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -AzureToAzureDiskReplicationConfiguration disk1,disk2 -AzureVmId $vmId `
+-Name "a2aprotectedItem" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup -RecoveryVirtualMachineScaleSetId $vmss
 ```
 
 Starts the replication protected item creation operation for a Virtual Machine with target virtual machine scale set configured and returns the ASR job used to track the operation (Azure to Azure scenario).
@@ -754,6 +754,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryCapacityReservationGroupId
+Specify the capacity reservation group Id to be used by the failover VM in target recovery region.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RecoveryCloudServiceId
 Specifies the resource ID of the recovery cloud service to failover this virtual machine to.
 
@@ -768,6 +783,22 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### -RecoveryExtendedLocation
+Specifies Recovery ExtendedLocation in case of EZ-to-EZ.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 
 ### -RecoveryNicTag
 Specify the tags for the target NICs of the VM.
@@ -952,6 +983,22 @@ Accept wildcard characters: False
 
 ### -UseManagedDisk
 Specifies if the Azure virtual machine that is created on failover should use managed disks. It Accepts either True or False.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: True, False
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseManagedDisksForReplication
+Specifies if the managed disks needs to be used during replication. It Accepts either True or False.
 
 ```yaml
 Type: System.String

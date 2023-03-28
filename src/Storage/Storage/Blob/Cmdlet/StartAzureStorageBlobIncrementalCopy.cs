@@ -133,6 +133,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
         private bool skipSourceChannelInit;
 
+        // Overwrite the useless parameter
+        public override string TagCondition { get; set; }
+
         /// <summary>
         /// Create blob client and storage service management channel if need to.
         /// </summary>
@@ -244,6 +247,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Start copy operation by source and destination CloudBlob object
         /// </summary>
+        /// <param name="destChannel"></param>
         /// <param name="srcCloudBlob">Source CloudBlob object</param>
         /// <param name="destCloudBlob">Destination CloudBlob object</param>
         /// <returns>Destination CloudBlob object</returns>
@@ -258,6 +262,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Start copy operation by source CloudBlob object
         /// </summary>
+        /// <param name="destChannel"></param>
         /// <param name="srcCloudBlob">Source CloudBlob object</param>
         /// <param name="destContainer">Destinaion container name</param>
         /// <param name="destBlobName">Destination blob name</param>
@@ -277,9 +282,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Start copy operation by source uri
         /// </summary>
-        /// <param name="srcCloudBlob">Source uri</param>
+        /// <param name="destChannel"></param>
+        /// <param name="srcUri">Source uri</param>
         /// <param name="destContainer">Destinaion container name</param>
         /// <param name="destBlobName">Destination blob name</param>
+        /// <param name="context">a cloud blob object</param>
         /// <returns>Destination CloudBlob object</returns>
         private void StartCopyBlob(IStorageBlobManagement destChannel, string srcUri, string destContainer, string destBlobName, AzureStorageContext context)
         {
@@ -325,9 +332,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Start copy operation by container name and blob name
         /// </summary>
+        /// <param name="SrcChannel"></param>
+        /// <param name="destChannel"></param>
         /// <param name="srcContainerName">Source container name</param>
         /// <param name="srcBlobName">Source blob name</param>
-        /// <param name="destContainer">Destinaion container name</param>
+        /// <param name="SrcBlobSnapshotTime"></param>
+        /// <param name="destContainerName">Destinaion container name</param>
         /// <param name="destBlobName">Destination blob name</param>
         /// <returns>Destination CloudBlob object</returns>
         private void StartCopyBlob(IStorageBlobManagement SrcChannel, IStorageBlobManagement destChannel, string srcContainerName, string srcBlobName, DateTimeOffset? SrcBlobSnapshotTime, string destContainerName, string destBlobName)
@@ -392,9 +402,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Start copy using transfer mangager by source CloudBlob object
         /// </summary>
-        /// <param name="blob">Source CloudBlob object</param>
-        /// <param name="destContainer">Destination CloudBlobContainer object</param>
-        /// <param name="destBlobName">Destination blob name</param>
+        /// <param name="taskId">Task id</param>
+        /// <param name="destChannel">IStorageBlobManagement channel object</param>
+        /// <param name="sourceBlob">Source blob</param>
+        /// <param name="destBlob">Destination blob</param>
         /// <returns>Destination CloudBlob object</returns>
         private async Task StartCopyAsync(long taskId, IStorageBlobManagement destChannel, CloudPageBlob sourceBlob, CloudPageBlob destBlob)
         {
@@ -408,6 +419,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Start copy using transfer mangager by source uri
         /// </summary>
+        /// <param name="taskId">Task id</param>
+        /// <param name="destChannel">IStorageBlobManagement channel object</param>
         /// <param name="uri">source uri</param>
         /// <param name="destContainer">Destination CloudBlobContainer object</param>
         /// <param name="destBlobName">Destination blob name</param>
@@ -437,9 +450,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Get DestinationBlob with specified copy id
         /// </summary>
+        /// <param name="destChannel">IStorageBlobManagement channel object</param>
         /// <param name="container">CloudBlobContainer object</param>
         /// <param name="blobName">Blob name</param>
-        /// <param name="copyId">Current CopyId</param>
         /// <returns>Destination CloudBlob object</returns>
         private CloudPageBlob GetDestinationBlobWithCopyId(IStorageBlobManagement destChannel, CloudBlobContainer container, string blobName)
         {

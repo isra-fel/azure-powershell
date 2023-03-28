@@ -14,6 +14,7 @@
 
 using Microsoft.Azure.PowerShell.Tools.AzPredictor.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -25,23 +26,27 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor
 {
     /// <summary>
     /// <para type="synopsis">Cmdlet to open a survey link in the default browser</para>
-    /// <para type="description">This cmdlet will open a survey link in the default browser. All data from this survey will be anonymized. See the Microsoft Privacy Policy (https://privacy.microsoft.com/) for more information </para>
+    /// <para type="description">This cmdlet opens a survey link in the default browser and writes the link to the output stream. All data from this survey will be anonymized. See the Microsoft Privacy Policy (https://privacy.microsoft.com/) for more information </para>
     /// </summary>
     [Cmdlet("Open", "AzPredictorSurvey"), OutputType(typeof(bool))]
-    public sealed class OpenAzPredictorSurvey : PSCmdlet
+    public sealed class OpenAzPredictorSurvey : BasePSCmdlet
     {
         private const string _SurveyLinkFormat = "https://aka.ms/azpredictorisurvey?SessionId={0}&Q_CHL=cmdlet";
         /// <summary>
         /// <para type="description">Indicates whether the user would like to receive output. </para>
         /// </summary>
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, HelpMessage = "Indicates whether the user would like to receive output.")]
         public SwitchParameter PassThru { get; set; }
 
         /// <inheritdoc/>
         protected override void ProcessRecord()
         {
-            var profileSettings = Settings.GetProfileSettings();
-            var surveyId = profileSettings?.SurveyId?.ToString(CultureInfo.InvariantCulture) ?? "000000";
+            var random = new Random((int)DateTime.UtcNow.Ticks);
+            int minIdNumber = 0;
+            int maxIdNumber = 1000000;
+            // Format the integer into a 6-digit string, adding 0 to the left if needed, e.g. 123 -> "000123", 123456 -> "123456".
+            // See https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings
+            var surveyId = random.Next(minIdNumber, maxIdNumber).ToString("D6", CultureInfo.InvariantCulture);
 
             var link = string.Format(OpenAzPredictorSurvey._SurveyLinkFormat, surveyId, CultureInfo.InvariantCulture);
 
@@ -53,24 +58,10 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor
 
             Process.Start(processStartInfo);
 
-            if (profileSettings != null)
+            AdditionalTelemetryProperties = new Dictionary<string, string>
             {
-                profileSettings.SurveyId = null;
-
-                try
-                {
-                    var fileContent = JsonSerializer.Serialize<Settings>(profileSettings, new JsonSerializerOptions(JsonUtilities.DefaultSerializerOptions)
-                        {
-                            WriteIndented = true,
-                        });
-                    var profileSettingFilePath = Settings.GetProfileSettingsFilePath();
-                    File.WriteAllText(profileSettingFilePath, fileContent, Encoding.UTF8);
-                }
-                catch
-                {
-                    // Ignore all exceptions.
-                }
-            }
+                { "SurveyId", surveyId },
+            };
 
             if (PassThru.IsPresent)
             {

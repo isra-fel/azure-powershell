@@ -32,6 +32,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Helpers
                 Name = backupPolicy.Name,
                 Type = backupPolicy.Type,
                 Tags = backupPolicy.Tags,
+                Etag = backupPolicy.Etag,
                 ProvisioningState = backupPolicy.ProvisioningState,
                 BackupPolicyId = backupPolicy.Id,
                 DailyBackupsToKeep = backupPolicy.DailyBackupsToKeep,
@@ -40,6 +41,7 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Helpers
                 VolumeBackups = (backupPolicy.VolumeBackups !=null) ?  backupPolicy.VolumeBackups.ConvertToPS() : null,
                 VolumesAssigned = backupPolicy.VolumesAssigned,
                 Enabled = backupPolicy.Enabled,
+                SystemData = backupPolicy.SystemData?.ToPsSystemData(),
             };
             return psBackupPolicy;
         }

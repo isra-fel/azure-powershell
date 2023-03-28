@@ -554,6 +554,10 @@
       "_justification": "Test resource is deleted"
     },
     {
+      "file": "src\\HDInsight\\HDInsight.Test\\SessionRecords\\Commands.HDInsight.Test.ScenarioTests.HDInsightAzureMonitorTests\\TestAzureMonitorRelatedCommands.json",
+      "_justification": "Test resource is deleted"
+    },
+    {
       "file": "src\\HDInsight\\HDInsight.Test\\SessionRecords\\Commands.HDInsight.Test.ScenarioTests.HDInsightSetGatewayCredentialTest\\TestSetGatewayCredential.json",
       "_justification": "Test resource is deleted"
     },
@@ -607,6 +611,14 @@
     },
     {
       "file": "src\\HDInsight\\HDInsight.Test\\SessionRecords\\Commands.HDInsight.Test.ScenarioTests.HDInsightClusterTests\\TestCreateClusterWithComputeIsolation.json",
+      "_justification": "Test resource is deleted"
+    },
+    {
+      "file": "src\\HDInsight\\HDInsight.Test\\SessionRecords\\Commands.HDInsight.Test.ScenarioTests.HDInsightClusterTests\\TestCreateClusterWithAvailabilityZones.json",
+      "_justification": "Test resource is deleted"
+    },
+    {
+      "file": "src\\HDInsight\\HDInsight.Test\\SessionRecords\\Commands.HDInsight.Test.ScenarioTests.HDInsightClusterTests\\TestCreateClusterWithPrivateLinkConfiguration.json",
       "_justification": "Test resource is deleted"
     },
     {

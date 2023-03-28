@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find Bicep. Please add Bicep to your PATH or visit https://github.com/Azure/bicep/blob/main/docs/installing.md to install Bicep..
+        ///   Looks up a localized string similar to Cannot find Bicep. Please add Bicep to your PATH or visit https://aka.ms/bicep-install to install Bicep..
         /// </summary>
         internal static string BicepNotFound {
             get {
@@ -84,6 +84,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Properties {
         internal static string BicepVersionRequirement {
             get {
                 return ResourceManager.GetString("BicepVersionRequirement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build bicep file &apos;{0}&apos; to json failed..
+        /// </summary>
+        internal static string BuildBicepFileToJsonFailed {
+            get {
+                return ResourceManager.GetString("BuildBicepFileToJsonFailed", resourceCulture);
             }
         }
         
@@ -710,6 +719,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating feature registration ....
+        /// </summary>
+        internal static string NewFeatureRegistrationMessage {
+            get {
+                return ResourceManager.GetString("NewFeatureRegistrationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replacing resource group ....
         /// </summary>
         internal static string NewResourceGroupMessage {
@@ -913,6 +931,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Properties {
         internal static string RemoveApplication {
             get {
                 return ResourceManager.GetString("RemoveApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing feature registration ....
+        /// </summary>
+        internal static string RemoveFeatureRegistrationMessage {
+            get {
+                return ResourceManager.GetString("RemoveFeatureRegistrationMessage", resourceCulture);
             }
         }
         

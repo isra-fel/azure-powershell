@@ -127,18 +127,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
         public SwitchParameter FullUri { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Encryption scope to use when sending requests authorized with this SAS URI.")]
+        [ValidateNotNullOrEmpty]
+        public string EncryptionScope { get; set; }
+
         // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
         public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
+        public override string TagCondition { get; set; }
 
         protected override bool UseTrack2Sdk()
         {
-            if (SasTokenHelper.IsTrack2Permission(this.Permission))
-            {
-                return true;
-            }
-            return base.UseTrack2Sdk();
+            return true;
         }
 
         /// <summary>
@@ -244,7 +245,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 //Create SAS builder
-                BlobSasBuilder sasBuilder = SasTokenHelper.SetBlobSasBuilder_FromBlob(blobClient, identifier, this.Permission, this.StartTime, this.ExpiryTime, this.IPAddressOrRange, this.Protocol);                
+                BlobSasBuilder sasBuilder = SasTokenHelper.SetBlobSasBuilder_FromBlob(blobClient, identifier, this.Permission, this.StartTime, this.ExpiryTime, this.IPAddressOrRange, this.Protocol, this.EncryptionScope);                
 
                 //Create SAS and ourput
                 string sasToken = SasTokenHelper.GetBlobSharedAccessSignature(Channel.StorageContext, sasBuilder, generateUserDelegationSas, ClientOptions, CmdletCancellationToken);
@@ -280,6 +281,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="blob">CloudBlob object</param>
         /// <param name="accessPolicy">SharedAccessBlobPolicy object</param>
         /// <param name="policyIdentifier">The existing policy identifier.</param>
+        /// <param name="protocol"></param>
+        /// <param name="iPAddressOrRange"></param>
+        /// <param name="generateUserDelegationSas"></param>
         /// <returns></returns>
         private string GetBlobSharedAccessSignature(CloudBlob blob, SharedAccessBlobPolicy accessPolicy, string policyIdentifier, SharedAccessProtocol? protocol, IPAddressOrRange iPAddressOrRange, bool generateUserDelegationSas)
         {
@@ -298,7 +302,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <summary>
         /// Update the access policy
         /// </summary>
-        /// <param name="policy">Access policy object</param>
+        /// <param name="accessPolicy">Access policy object</param>
         /// <param name="shouldSetExpiryTime">Should set the default expiry time</param>
         private void SetupAccessPolicy(SharedAccessBlobPolicy accessPolicy, bool shouldSetExpiryTime)
         {

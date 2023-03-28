@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
-online version: https://docs.microsoft.com/powershell/module/az.resources/get-azmanagementgroupdeploymentwhatifresult
+online version: https://learn.microsoft.com/powershell/module/az.resources/get-azmanagementgroupdeploymentwhatifresult
 schema: 2.0.0
 ---
 
@@ -43,6 +43,14 @@ Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId 
  [<CommonParameters>]
 ```
 
+### ByTemplateSpecResourceIdAndParamsObject
+```
+Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
+ [-ResultFormat <WhatIfResultFormat>] [-ExcludeChangeType <String[]>] -TemplateParameterObject <Hashtable>
+ -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
 ### ByTemplateObjectAndParameterFile
 ```
 Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
@@ -64,6 +72,14 @@ Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId 
 Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
  [-ResultFormat <WhatIfResultFormat>] [-ExcludeChangeType <String[]>] -TemplateParameterFile <String>
  -TemplateUri <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
+### ByTemplateSpecResourceIdAndParams
+```
+Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
+ [-ResultFormat <WhatIfResultFormat>] [-ExcludeChangeType <String[]>] -TemplateParameterFile <String>
+ -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
@@ -91,6 +107,14 @@ Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId 
  [<CommonParameters>]
 ```
 
+### ByTemplateSpecResourceIdAndParamsUri
+```
+Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
+ [-ResultFormat <WhatIfResultFormat>] [-ExcludeChangeType <String[]>] -TemplateParameterUri <String>
+ -TemplateSpecId <String> [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
 ### ByTemplateObjectWithNoParameters
 ```
 Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
@@ -105,6 +129,13 @@ Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId 
  [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### ByTemplateSpecResourceId
+```
+Get-AzManagementGroupDeploymentWhatIfResult [-Name <String>] -ManagementGroupId <String> -Location <String>
+ [-ResultFormat <WhatIfResultFormat>] [-ExcludeChangeType <String[]>] -TemplateSpecId <String>
+ [-SkipTemplateParameterPrompt] [-Pre] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Get-AzManagementGroupDeploymentWhatIfResult** cmdlet gets the ARM template What-If result for a template deployment at the specified management group scope. It returns a list of changes indicating what resources will be updated if the deployment is applied without making any changes to real resources. To specify the format for the returning result, use the *ResultFormat* parameter.
 
@@ -112,7 +143,7 @@ The **Get-AzManagementGroupDeploymentWhatIfResult** cmdlet gets the ARM template
 
 ### Example 1: Get a What-If result at management group scope
 ```powershell
-PS C:\> Get-AzManagementGroupDeploymentWhatIfResult `
+Get-AzManagementGroupDeploymentWhatIfResult `
     -DeploymentName "deploy-01" `
     -Location "West US" `
     -ManagementGroupId "myManagementGroup" `
@@ -130,7 +161,7 @@ The command uses the *ResultFormat* parameter to set the What-If result to inclu
 
 ### Example 2: Get a What-If result at management group scope with ResourceIdOnly
 ```powershell
-PS C:\> Get-AzManagementGroupDeploymentWhatIfResult `
+Get-AzManagementGroupDeploymentWhatIfResult `
     -DeploymentName "deploy-01" `
     -Location "West US" `
     -ManagementGroupId "myManagementGroup" `
@@ -308,7 +339,7 @@ A file that has the template parameters.
 
 ```yaml
 Type: System.String
-Parameter Sets: ByTemplateObjectAndParameterFile, ByTemplateFileAndParameterFile, ByTemplateUriAndParameterFile
+Parameter Sets: ByTemplateObjectAndParameterFile, ByTemplateFileAndParameterFile, ByTemplateUriAndParameterFile, ByTemplateSpecResourceIdAndParams
 Aliases:
 
 Required: True
@@ -323,7 +354,7 @@ A hash table which represents the parameters.
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: ByTemplateObjectAndParameterObject, ByTemplateFileAndParameterObject, ByTemplateUriAndParameterObject
+Parameter Sets: ByTemplateObjectAndParameterObject, ByTemplateFileAndParameterObject, ByTemplateUriAndParameterObject, ByTemplateSpecResourceIdAndParamsObject
 Aliases:
 
 Required: True
@@ -338,7 +369,22 @@ Uri to the template parameter file.
 
 ```yaml
 Type: System.String
-Parameter Sets: ByTemplateObjectAndParameterUri, ByTemplateFileAndParameterUri, ByTemplateUriAndParameterUri
+Parameter Sets: ByTemplateObjectAndParameterUri, ByTemplateFileAndParameterUri, ByTemplateUriAndParameterUri, ByTemplateSpecResourceIdAndParamsUri
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -TemplateSpecId
+Resource ID of the templateSpec to be deployed.
+
+```yaml
+Type: System.String
+Parameter Sets: ByTemplateSpecResourceIdAndParamsObject, ByTemplateSpecResourceIdAndParams, ByTemplateSpecResourceIdAndParamsUri, ByTemplateSpecResourceId
 Aliases:
 
 Required: True

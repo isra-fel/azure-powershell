@@ -78,6 +78,23 @@ namespace Microsoft.Azure.Commands.Network
         public PSTrafficSelectorPolicy[] TrafficSelectorPolicy { get; set; }
 
         [Parameter(
+            Mandatory = false,
+            HelpMessage = "The list of ingress NAT rules that are associated with this Connection.")]
+        public PSResourceId[] IngressNatRule { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "The list of egress  NAT rules that are associated with this Connection.")]
+        public PSResourceId[] EgressNatRule { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The GatewayCustomBgpIpAddress of Virtual network gateway used in this connection.")]
+        [AllowEmptyCollection]
+        public PSGatewayCustomBgpIpConfiguration[] GatewayCustomBgpIpAddress { get; set; }
+
+        [Parameter(
             Mandatory = true,
             ParameterSetName = VirtualNetworkGatewayParameterSets.UpdateResourceWithTags,
             HelpMessage = "A hashtable which represents resource tags.")]
@@ -140,6 +157,72 @@ namespace Microsoft.Azure.Commands.Network
                     if (this.TrafficSelectorPolicy != null)
                     {
                         this.VirtualNetworkGatewayConnection.TrafficSelectorPolicies = this.TrafficSelectorPolicy?.ToList();
+                    }
+
+                    if (this.IngressNatRule != null)
+                    {
+                        this.VirtualNetworkGatewayConnection.IngressNatRules = new List<PSResourceId>();
+                        foreach (var resource in this.IngressNatRule)
+                        {
+                            this.VirtualNetworkGatewayConnection.IngressNatRules.Add(
+                                new PSResourceId()
+                                {
+                                    Id = resource.Id
+                                });
+                        }
+                    }
+
+                    if (this.EgressNatRule != null)
+                    {
+                        this.VirtualNetworkGatewayConnection.EgressNatRules = new List<PSResourceId>();
+                        foreach (var resource in this.EgressNatRule)
+                        {
+                            this.VirtualNetworkGatewayConnection.EgressNatRules.Add(
+                                new PSResourceId()
+                                {
+                                    Id = resource.Id
+                                });
+                        }
+                    }
+
+                    if (this.GatewayCustomBgpIpAddress != null && this.GatewayCustomBgpIpAddress.Length > 0)
+                    {
+                        if (this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses == null)
+                        {
+                            this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses = new List<PSGatewayCustomBgpIpConfiguration>();
+
+                            foreach (var reqaddress in this.GatewayCustomBgpIpAddress)
+                            {
+                                this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses.Add(reqaddress);
+                            }
+                        }
+                        else
+                        {
+                            foreach (var reqaddress in this.GatewayCustomBgpIpAddress)
+                            {
+                                bool isGatewayIpConfigurationExists = this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses.Any(
+                                bgpaddress => bgpaddress.IpconfigurationId.Equals(reqaddress.IpconfigurationId, StringComparison.OrdinalIgnoreCase));
+
+                                if (isGatewayIpConfigurationExists)
+                                {
+                                    var bgpPeeringPropertiesInRequest = this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses.FirstOrDefault(
+                                        x => x.IpconfigurationId.Equals(reqaddress.IpconfigurationId, StringComparison.OrdinalIgnoreCase));
+
+                                    bgpPeeringPropertiesInRequest.CustomBgpIpAddress = reqaddress.CustomBgpIpAddress;
+                                }
+                                else
+                                {
+                                    this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses.Add(reqaddress);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses != null && this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses.Count > 0)
+                        {
+                            this.VirtualNetworkGatewayConnection.GatewayCustomBgpIpAddresses.Clear();
+                        }
                     }
 
                     var vnetGatewayConnectionModel = NetworkResourceManagerProfile.Mapper.Map<MNM.VirtualNetworkGatewayConnection>(this.VirtualNetworkGatewayConnection);

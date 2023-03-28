@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Kusto
-online version: https://docs.microsoft.com/powershell/module/az.kusto/get-azkustodatabaseprincipal
+online version: https://learn.microsoft.com/powershell/module/az.kusto/get-azkustodatabaseprincipal
 schema: 2.0.0
 ---
 
@@ -24,8 +24,10 @@ Returns a list of database principals of the given Kusto cluster and database.
 
 ### Example 1: List of database principals of the given Kusto cluster and database
 ```powershell
-PS C:\> Get-AzKustoDatabasePrincipal -ResourceGroupName testrg -ClusterName testnewkustocluster -DatabaseName mykustodatabase
+Get-AzKustoDatabasePrincipal -ResourceGroupName testrg -ClusterName testnewkustocluster -DatabaseName mykustodatabase
+```
 
+```output
 AppId Email                   Fqn                                                                               Name        Role  TenantName Type
 ----- -----                   ---                                                                               ----        ----  ---------- ----
       someuser@microsoft.com  aaduser=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx Some User   Admin Microsoft  User
@@ -67,7 +69,8 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultProfile
-The credentials, account, tenant, and subscription used for communication with Azure.
+The DefaultProfile parameter is not functional.
+Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
 
 ```yaml
 Type: System.Management.Automation.PSObject
@@ -150,7 +153,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20200918.IDatabasePrincipal
+### Microsoft.Azure.PowerShell.Cmdlets.Kusto.Models.Api20221229.IDatabasePrincipal
 
 ## NOTES
 

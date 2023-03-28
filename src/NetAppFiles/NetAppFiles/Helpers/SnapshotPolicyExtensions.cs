@@ -33,12 +33,14 @@ namespace Microsoft.Azure.Commands.NetAppFiles.Helpers
                 Name = snapshotPolicy.Name,
                 Type = snapshotPolicy.Type,
                 Tags = snapshotPolicy.Tags,
+                Etag = snapshotPolicy.Etag,
                 ProvisioningState = snapshotPolicy.ProvisioningState,
                 Enabled = snapshotPolicy.Enabled,                
                 HourlySchedule = snapshotPolicy.HourlySchedule.ConvertToPs(),
                 DailySchedule = snapshotPolicy.DailySchedule.ConvertToPs(),
                 WeeklySchedule = snapshotPolicy.WeeklySchedule.ConvertToPs(),
-                MonthlySchedule = snapshotPolicy.MonthlySchedule.ConvertToPs()
+                MonthlySchedule = snapshotPolicy.MonthlySchedule.ConvertToPs(),
+                SystemData = snapshotPolicy.SystemData.ToPsSystemData()
             };
             return psSnapshotPolicy;
         }

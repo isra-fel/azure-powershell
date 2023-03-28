@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.StorageSync.dll-Help.xml
 Module Name: Az.StorageSync
-online version: https://docs.microsoft.com/powershell/module/Az.storagesync/new-Azstoragesyncserverendpoint
+online version: https://learn.microsoft.com/powershell/module/Az.storagesync/new-Azstoragesyncserverendpoint
 schema: 2.0.0
 ---
 
@@ -17,15 +17,15 @@ This command creates a new server endpoint on a registered server. This enables 
 New-AzStorageSyncServerEndpoint [-ResourceGroupName] <String> [-StorageSyncServiceName] <String>
  [-SyncGroupName] <String> -Name <String> -ServerResourceId <String> -ServerLocalPath <String> [-CloudTiering]
  [-VolumeFreeSpacePercent <Int32>] [-TierFilesOlderThanDays <Int32>] [-InitialDownloadPolicy <String>]
- [-LocalCacheMode <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-LocalCacheMode <String>] [-InitialUploadPolicy <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ObjectParameterSet
 ```
 New-AzStorageSyncServerEndpoint [-ParentObject] <PSSyncGroup> -Name <String> -ServerResourceId <String>
  -ServerLocalPath <String> [-CloudTiering] [-VolumeFreeSpacePercent <Int32>] [-TierFilesOlderThanDays <Int32>]
- [-InitialDownloadPolicy <String>] [-LocalCacheMode <String>] [-AsJob]
+ [-InitialDownloadPolicy <String>] [-LocalCacheMode <String>] [-InitialUploadPolicy <String>] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -33,7 +33,7 @@ New-AzStorageSyncServerEndpoint [-ParentObject] <PSSyncGroup> -Name <String> -Se
 ```
 New-AzStorageSyncServerEndpoint [-ParentResourceId] <String> -Name <String> -ServerResourceId <String>
  -ServerLocalPath <String> [-CloudTiering] [-VolumeFreeSpacePercent <Int32>] [-TierFilesOlderThanDays <Int32>]
- [-InitialDownloadPolicy <String>] [-LocalCacheMode <String>] [-AsJob]
+ [-InitialDownloadPolicy <String>] [-LocalCacheMode <String>] [-InitialUploadPolicy <String>] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -44,8 +44,8 @@ This command creates a new server endpoint on a registered server. This enables 
 
 ### Example 1
 ```powershell
-PS C:\> $RegisteredServer = Get-AzStorageSyncServer -ResourceGroupName "myResourceGroup" -StorageSyncServiceName "myStorageSyncServiceName"
-PS C:\> New-AzStorageSyncServerEndpoint -ResourceGroupName "myResourceGroup" -StorageSyncServiceName "myStorageSyncServiceName" -SyncGroupName "mySyncGroupName" -Name "myServerEndpointName" -ServerResourceId $RegisteredServer.ResourceId -ServerLocalPath "myServerLocalPath" -CloudTiering -TierFilesOlderThanDays "myTierFilesOlderThanDays"
+$RegisteredServer = Get-AzStorageSyncServer -ResourceGroupName "myResourceGroup" -StorageSyncServiceName "myStorageSyncServiceName"
+New-AzStorageSyncServerEndpoint -ResourceGroupName "myResourceGroup" -StorageSyncServiceName "myStorageSyncServiceName" -SyncGroupName "mySyncGroupName" -Name "myServerEndpointName" -ServerResourceId $RegisteredServer.ResourceId -ServerLocalPath "myServerLocalPath" -CloudTiering -TierFilesOlderThanDays "myTierFilesOlderThanDays"
 ```
 
 This command creates a new server endpoint on a registered server and inserts it into a sync group. THis way it is part of a topology of other endpoints and file metadata and content will immediately start to sync between all locations referenced as endpoints in the sync group.
@@ -98,13 +98,29 @@ Accept wildcard characters: False
 ```
 
 ### -InitialDownloadPolicy
-Local cache mode Parameter
+Initial download policy Parameter
 
 ```yaml
 Type: System.String
 Parameter Sets: (All)
 Aliases:
 Accepted values: AvoidTieredFiles, NamespaceOnly, NamespaceThenModifiedFiles
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InitialUploadPolicy
+Initial upload policy Parameter
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: Merge, ServerAuthoritative
 
 Required: False
 Position: Named

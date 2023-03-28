@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
 {
     using static Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Extensions;
+    using System;
 
     /// <summary>Create or update an applicationGroup.</summary>
     /// <remarks>
     /// [OpenAPI] CreateOrUpdate=>PUT:"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}"
     /// </remarks>
     [global::System.Management.Automation.Cmdlet(global::System.Management.Automation.VerbsCommon.New, @"AzWvdApplicationGroup_CreateExpanded", SupportsShouldProcess = true)]
-    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup))]
+    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup))]
     [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Description(@"Create or update an applicationGroup.")]
     [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Generated]
     public partial class NewAzWvdApplicationGroup_CreateExpanded : global::System.Management.Automation.PSCmdlet,
@@ -27,16 +28,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// <summary>A unique id generatd for the this cmdlet when ProcessRecord() is called.</summary>
         private string __processRecordId;
 
+        /// <summary>Represents a ApplicationGroup definition.</summary>
+        private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup _applicationGroupBody = new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ApplicationGroup();
+
         /// <summary>
         /// The <see cref="global::System.Threading.CancellationTokenSource" /> for this operation.
         /// </summary>
         private global::System.Threading.CancellationTokenSource _cancellationTokenSource = new global::System.Threading.CancellationTokenSource();
-
-        /// <summary>Backing field for <see cref="ApplicationGroupBody" /> property.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup _applicationGroupBody= new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ApplicationGroup();
-
-        /// <summary>Represents a ApplicationGroup definition.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup ApplicationGroupBody { get => this._applicationGroupBody; set => this._applicationGroupBody = value; }
 
         /// <summary>Resource Type of ApplicationGroup.</summary>
         [global::System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "Resource Type of ApplicationGroup.")]
@@ -48,7 +46,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         SerializedName = @"applicationGroupType",
         PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ApplicationGroupType) })]
         [global::System.Management.Automation.ArgumentCompleter(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ApplicationGroupType))]
-        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ApplicationGroupType ApplicationGroupType { get => ApplicationGroupBody.ApplicationGroupType; set => ApplicationGroupBody.ApplicationGroupType = value; }
+        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ApplicationGroupType ApplicationGroupType { get => _applicationGroupBody.ApplicationGroupType; set => _applicationGroupBody.ApplicationGroupType = value; }
 
         /// <summary>Wait for .NET debugger to attach</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Wait for .NET debugger to attach")]
@@ -76,7 +74,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         Description = @"Description of ApplicationGroup.",
         SerializedName = @"description",
         PossibleTypes = new [] { typeof(string) })]
-        public string Description { get => ApplicationGroupBody.Description ?? null; set => ApplicationGroupBody.Description = value; }
+        public string Description { get => _applicationGroupBody.Description ?? null; set => _applicationGroupBody.Description = value; }
 
         /// <summary>Friendly name of ApplicationGroup.</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "Friendly name of ApplicationGroup.")]
@@ -87,7 +85,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         Description = @"Friendly name of ApplicationGroup.",
         SerializedName = @"friendlyName",
         PossibleTypes = new [] { typeof(string) })]
-        public string FriendlyName { get => ApplicationGroupBody.FriendlyName ?? null; set => ApplicationGroupBody.FriendlyName = value; }
+        public string FriendlyName { get => _applicationGroupBody.FriendlyName ?? null; set => _applicationGroupBody.FriendlyName = value; }
 
         /// <summary>HostPool arm path of ApplicationGroup.</summary>
         [global::System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "HostPool arm path of ApplicationGroup.")]
@@ -98,7 +96,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         Description = @"HostPool arm path of ApplicationGroup.",
         SerializedName = @"hostPoolArmPath",
         PossibleTypes = new [] { typeof(string) })]
-        public string HostPoolArmPath { get => ApplicationGroupBody.HostPoolArmPath ?? null; set => ApplicationGroupBody.HostPoolArmPath = value; }
+        public string HostPoolArmPath { get => _applicationGroupBody.HostPoolArmPath ?? null; set => _applicationGroupBody.HostPoolArmPath = value; }
 
         /// <summary>SendAsync Pipeline Steps to be appended to the front of the pipeline</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "SendAsync Pipeline Steps to be appended to the front of the pipeline")]
@@ -112,27 +110,91 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Runtime)]
         public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.SendAsyncStep[] HttpPipelinePrepend { get; set; }
 
+        /// <summary>The identity type.</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The identity type.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The identity type.",
+        SerializedName = @"type",
+        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ResourceIdentityType) })]
+        [global::System.Management.Automation.ArgumentCompleter(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ResourceIdentityType))]
+        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ResourceIdentityType IdentityType { get => _applicationGroupBody.IdentityType ?? ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.ResourceIdentityType)""); set => _applicationGroupBody.IdentityType = value; }
+
         /// <summary>Accessor for our copy of the InvocationInfo.</summary>
         public global::System.Management.Automation.InvocationInfo InvocationInformation { get => __invocationInfo = __invocationInfo ?? this.MyInvocation ; set { __invocationInfo = value; } }
 
-        /// <summary>The geo-location where the resource lives</summary>
-        [global::System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "The geo-location where the resource lives")]
+        /// <summary>
+        /// Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are
+        /// a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value.")]
         [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
         [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
-        Required = true,
+        Required = false,
+        ReadOnly = false,
+        Description = @"Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value.",
+        SerializedName = @"kind",
+        PossibleTypes = new [] { typeof(string) })]
+        public string Kind { get => _applicationGroupBody.Kind ?? null; set => _applicationGroupBody.Kind = value; }
+
+        /// <summary>The geo-location where the resource lives</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The geo-location where the resource lives")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
         ReadOnly = false,
         Description = @"The geo-location where the resource lives",
         SerializedName = @"location",
         PossibleTypes = new [] { typeof(string) })]
-        public string Location { get => ApplicationGroupBody.Location ?? null; set => ApplicationGroupBody.Location = value; }
+        public string Location { get => _applicationGroupBody.Location ?? null; set => _applicationGroupBody.Location = value; }
 
         /// <summary>
-        /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
+        /// The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another
+        /// Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template
+        /// since it is managed by another resource.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.",
+        SerializedName = @"managedBy",
+        PossibleTypes = new [] { typeof(string) })]
+        public string ManagedBy { get => _applicationGroupBody.ManagedBy ?? null; set => _applicationGroupBody.ManagedBy = value; }
+
+        /// <summary>
+        /// <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
         global::System.Action Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
 
-        /// <summary><see cref="IEventListener" /> cancellation token.</summary>
+        /// <summary><see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener" /> cancellation token.</summary>
         global::System.Threading.CancellationToken Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener.Token => _cancellationTokenSource.Token;
+
+        /// <summary>The path to the legacy object to migrate.</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The path to the legacy object to migrate.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The path to the legacy object to migrate.",
+        SerializedName = @"migrationPath",
+        PossibleTypes = new [] { typeof(string) })]
+        public string MigrationRequestMigrationPath { get => _applicationGroupBody.MigrationRequestMigrationPath ?? null; set => _applicationGroupBody.MigrationRequestMigrationPath = value; }
+
+        /// <summary>The type of operation for migration.</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The type of operation for migration.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The type of operation for migration.",
+        SerializedName = @"operation",
+        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.Operation) })]
+        [global::System.Management.Automation.ArgumentCompleter(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.Operation))]
+        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.Operation MigrationRequestOperation { get => _applicationGroupBody.MigrationRequestOperation ?? ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.Operation)""); set => _applicationGroupBody.MigrationRequestOperation = value; }
 
         /// <summary>Backing field for <see cref="Name" /> property.</summary>
         private string _name;
@@ -153,6 +215,66 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// The instance of the <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.HttpPipeline" /> that the remote call will use.
         /// </summary>
         private Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.HttpPipeline Pipeline { get; set; }
+
+        /// <summary>A user defined name of the 3rd Party Artifact that is being procured.</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "A user defined name of the 3rd Party Artifact that is being procured.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"A user defined name of the 3rd Party Artifact that is being procured.",
+        SerializedName = @"name",
+        PossibleTypes = new [] { typeof(string) })]
+        public string PlanName { get => _applicationGroupBody.PlanName ?? null; set => _applicationGroupBody.PlanName = value; }
+
+        /// <summary>
+        /// The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at
+        /// the time of Data Market onboarding.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. ")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. ",
+        SerializedName = @"product",
+        PossibleTypes = new [] { typeof(string) })]
+        public string PlanProduct { get => _applicationGroupBody.PlanProduct ?? null; set => _applicationGroupBody.PlanProduct = value; }
+
+        /// <summary>
+        /// A publisher provided promotion code as provisioned in Data Market for the said product/artifact.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "A publisher provided promotion code as provisioned in Data Market for the said product/artifact.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"A publisher provided promotion code as provisioned in Data Market for the said product/artifact.",
+        SerializedName = @"promotionCode",
+        PossibleTypes = new [] { typeof(string) })]
+        public string PlanPromotionCode { get => _applicationGroupBody.PlanPromotionCode ?? null; set => _applicationGroupBody.PlanPromotionCode = value; }
+
+        /// <summary>The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic",
+        SerializedName = @"publisher",
+        PossibleTypes = new [] { typeof(string) })]
+        public string PlanPublisher { get => _applicationGroupBody.PlanPublisher ?? null; set => _applicationGroupBody.PlanPublisher = value; }
+
+        /// <summary>The version of the desired product/artifact.</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The version of the desired product/artifact.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The version of the desired product/artifact.",
+        SerializedName = @"version",
+        PossibleTypes = new [] { typeof(string) })]
+        public string PlanVersion { get => _applicationGroupBody.PlanVersion ?? null; set => _applicationGroupBody.PlanVersion = value; }
 
         /// <summary>The URI for the proxy server to use</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "The URI for the proxy server to use")]
@@ -184,6 +306,72 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Path)]
         public string ResourceGroupName { get => this._resourceGroupName; set => this._resourceGroupName = value; }
 
+        /// <summary>
+        /// If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the
+        /// resource this may be omitted.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.",
+        SerializedName = @"capacity",
+        PossibleTypes = new [] { typeof(int) })]
+        public int SkuCapacity { get => _applicationGroupBody.SkuCapacity ?? default(int); set => _applicationGroupBody.SkuCapacity = value; }
+
+        /// <summary>
+        /// If the service has different generations of hardware, for the same SKU, then that can be captured here.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "If the service has different generations of hardware, for the same SKU, then that can be captured here.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"If the service has different generations of hardware, for the same SKU, then that can be captured here.",
+        SerializedName = @"family",
+        PossibleTypes = new [] { typeof(string) })]
+        public string SkuFamily { get => _applicationGroupBody.SkuFamily ?? null; set => _applicationGroupBody.SkuFamily = value; }
+
+        /// <summary>The name of the SKU. Ex - P3. It is typically a letter+number code</summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The name of the SKU. Ex - P3. It is typically a letter+number code")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The name of the SKU. Ex - P3. It is typically a letter+number code",
+        SerializedName = @"name",
+        PossibleTypes = new [] { typeof(string) })]
+        public string SkuName { get => _applicationGroupBody.SkuName ?? null; set => _applicationGroupBody.SkuName = value; }
+
+        /// <summary>
+        /// The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. ")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. ",
+        SerializedName = @"size",
+        PossibleTypes = new [] { typeof(string) })]
+        public string SkuSize { get => _applicationGroupBody.SkuSize ?? null; set => _applicationGroupBody.SkuSize = value; }
+
+        /// <summary>
+        /// This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required
+        /// on a PUT.
+        /// </summary>
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Category(global::Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.",
+        SerializedName = @"tier",
+        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.SkuTier) })]
+        [global::System.Management.Automation.ArgumentCompleter(typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.SkuTier))]
+        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.SkuTier SkuTier { get => _applicationGroupBody.SkuTier ?? ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Support.SkuTier)""); set => _applicationGroupBody.SkuTier = value; }
+
         /// <summary>Backing field for <see cref="SubscriptionId" /> property.</summary>
         private string _subscriptionId;
 
@@ -211,50 +399,55 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         ReadOnly = false,
         Description = @"Resource tags.",
         SerializedName = @"tags",
-        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api10.ITrackedResourceTags) })]
-        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api10.ITrackedResourceTags Tag { get => ApplicationGroupBody.Tag ?? null /* object */; set => ApplicationGroupBody.Tag = value; }
+        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api10.IResourceModelWithAllowedPropertySetTags) })]
+        public Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api10.IResourceModelWithAllowedPropertySetTags Tag { get => _applicationGroupBody.Tag ?? null /* object */; set => _applicationGroupBody.Tag = value; }
 
         /// <summary>
         /// <c>overrideOnCreated</c> will be called before the regular onCreated has been processed, allowing customization of what
         /// happens on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onCreated method should be processed, or if the method should
         /// return immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnCreated(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnCreated(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// <c>overrideOnDefault</c> will be called before the regular onDefault has been processed, allowing customization of what
         /// happens on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onDefault method should be processed, or if the method should
         /// return immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// <c>overrideOnOk</c> will be called before the regular onOk has been processed, allowing customization of what happens
         /// on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onOk method should be processed, or if the method should return
         /// immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// (overrides the default BeginProcessing method in global::System.Management.Automation.PSCmdlet)
         /// </summary>
         protected override void BeginProcessing()
         {
+            var telemetryId = Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Module.Instance.GetTelemetryId.Invoke();
+            if (telemetryId != "" && telemetryId != "internal")
+            {
+                __correlationId = telemetryId;
+            }
             Module.Instance.SetProxyConfiguration(Proxy, ProxyCredential, ProxyUseDefaultCredentials);
             if (Break)
             {
@@ -266,7 +459,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// <summary>Performs clean-up after the command execution</summary>
         protected override void EndProcessing()
         {
-            ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletEndProcessing).Wait(); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+
         }
 
         /// <summary>Handles/Dispatches events during the call to the REST service.</summary>
@@ -300,7 +493,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                     case Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.Information:
                     {
                         var data = messageData();
-                        WriteInformation(data, new[] { data.Message });
+                        WriteInformation(data.Message, new string[]{});
                         return ;
                     }
                     case Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.Debug:
@@ -377,7 +570,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         {
             using( NoSynchronizationContext )
             {
-                await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletProcessRecordAsyncStart); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletGetPipeline); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 Pipeline = Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Module.Instance.CreatePipeline(InvocationInformation, __correlationId, __processRecordId, this.ParameterSetName);
                 if (null != HttpPipelinePrepend)
@@ -392,12 +584,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                 try
                 {
                     await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletBeforeAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                    await this.Client.ApplicationGroupsCreateOrUpdate(SubscriptionId, ResourceGroupName, Name, ApplicationGroupBody, onOk, onCreated, onDefault, this, Pipeline);
+                    await this.Client.ApplicationGroupsCreateOrUpdate(SubscriptionId, ResourceGroupName, Name, _applicationGroupBody, onOk, onCreated, onDefault, this, Pipeline);
                     await ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.Events.CmdletAfterAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 }
                 catch (Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.UndeclaredResponseException urexception)
                 {
-                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  SubscriptionId=SubscriptionId,ResourceGroupName=ResourceGroupName,Name=Name,body=ApplicationGroupBody})
+                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  SubscriptionId=SubscriptionId,ResourceGroupName=ResourceGroupName,Name=Name,body=_applicationGroupBody})
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(urexception.Message) { RecommendedAction = urexception.Action }
                     });
@@ -418,12 +610,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 201 (Created).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onCreated(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup> response)
+        private async global::System.Threading.Tasks.Task onCreated(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup> response)
         {
             using( NoSynchronizationContext )
             {
@@ -435,7 +627,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                     return ;
                 }
                 // onCreated - response for 201 / application/json
-                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup
+                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup
                 WriteObject((await response));
             }
         }
@@ -444,12 +636,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
         /// a delegate that is called when the remote service returns default (any response code not handled elsewhere).
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError> response)
+        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError> response)
         {
             using( NoSynchronizationContext )
             {
@@ -466,15 +658,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                 if ((null == code || null == message))
                 {
                     // Unrecognized Response. Create an error record based on what we have.
-                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.ICloudError>(responseMessage, await response);
-                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, ResourceGroupName=ResourceGroupName, Name=Name, body=ApplicationGroupBody })
+                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.ICloudError>(responseMessage, await response);
+                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, ResourceGroupName=ResourceGroupName, Name=Name, body=_applicationGroupBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(ex.Message) { RecommendedAction = ex.Action }
                     });
                 }
                 else
                 {
-                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, ResourceGroupName=ResourceGroupName, Name=Name, body=ApplicationGroupBody })
+                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { SubscriptionId=SubscriptionId, ResourceGroupName=ResourceGroupName, Name=Name, body=_applicationGroupBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(message) { RecommendedAction = global::System.String.Empty }
                     });
@@ -484,12 +676,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup">Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup> response)
+        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup> response)
         {
             using( NoSynchronizationContext )
             {
@@ -501,7 +693,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Cmdlets
                     return ;
                 }
                 // onOk - response for 200 / application/json
-                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210201Preview.IApplicationGroup
+                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.DesktopVirtualization.Models.Api20210712.IApplicationGroup
                 WriteObject((await response));
             }
         }

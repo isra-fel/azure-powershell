@@ -355,7 +355,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkClient
                 }
 
                 //If nested deployment, get the operations under those deployments as well
-                if (operation.Properties.TargetResource != null && operation.Properties.TargetResource.ResourceType.Equals(Constants.MicrosoftResourcesDeploymentType, StringComparison.OrdinalIgnoreCase))
+                if (operation.Properties.TargetResource?.ResourceType?.Equals(Constants.MicrosoftResourcesDeploymentType, StringComparison.OrdinalIgnoreCase) == true)
                 {
                     HttpStatusCode statusCode;
                     Enum.TryParse<HttpStatusCode>(operation.Properties.StatusCode, out statusCode);
@@ -453,11 +453,16 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkClient
             {
                 if (!string.IsNullOrEmpty(parameters.TemplateFile))
                 {
-                    deployment.Properties.Template = JObject.Parse(FileUtilities.DataStore.ReadFileAsText(parameters.TemplateFile));
+                    // NOTE(jcotillo): JsonExtensions.FromJson<> extension uses a custom serialization settings
+                    // that preserves DateTime values as string (DateParseHandling = DateParseHandling.None),
+                    // plus other custom settings (see: JsonExtensions.JsonObjectTypeSerializer)
+                    deployment.Properties.Template =
+                        FileUtilities.DataStore.ReadFileAsStream(parameters.TemplateFile).FromJson<JObject>();
                 }
                 else
                 {
-                    deployment.Properties.Template = JObject.Parse(PSJsonSerializer.Serialize(parameters.TemplateObject));
+                    deployment.Properties.Template = 
+                        PSJsonSerializer.Serialize(parameters.TemplateObject).FromJson<JObject>();
                 }
             }
 
@@ -475,8 +480,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkClient
                 string parametersContent = parametersDictionary != null
                     ? PSJsonSerializer.Serialize(parametersDictionary)
                     : null;
+                // NOTE(jcotillo): Adding FromJson<> to parameters as well 
                 deployment.Properties.Parameters = !string.IsNullOrEmpty(parametersContent)
-                    ? JObject.Parse(parametersContent)
+                    ? parametersContent.FromJson<JObject>()
                     : null;
             }
 
@@ -758,9 +764,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkClient
                 StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public PSResourceProvider RegisterProvider(string providerName)
+        public PSResourceProvider RegisterProvider(string providerName, ProviderRegistrationRequest providerRegistrationRequest = null)
         {
-            var response = this.ResourceManagementClient.Providers.Register(providerName);
+            var response = this.ResourceManagementClient.Providers.Register(providerName, providerRegistrationRequest);
 
             if (response == null)
             {
@@ -1365,6 +1371,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkClient
         /// Executes deployment What-If at the specified scope.
         /// </summary>
         /// <param name="parameters"></param>
+        /// <param name="excludeChangeTypeNames"></param>
         /// <returns></returns>
         public virtual PSWhatIfOperationResult ExecuteDeploymentWhatIf(PSDeploymentWhatIfCmdletParameters parameters, string[] excludeChangeTypeNames)
         {
@@ -1667,11 +1674,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.SdkClient
         /// Validates a given deployment.
         /// </summary>
         /// <param name="parameters">The deployment create options</param>
-        /// <param name="deploymentMode">The deployment mode</param>
         /// <returns>The validation errors if there's any, or empty list otherwise.</returns>
         public virtual List<PSResourceManagerError> ValidateDeployment(PSDeploymentCmdletParameters parameters)
         {
-            parameters.DeploymentName = GenerateDeploymentName(parameters);
+            if (parameters.DeploymentName == null){
+                parameters.DeploymentName = GenerateDeploymentName(parameters);
+            }
             Deployment deployment = CreateBasicDeployment(parameters, parameters.DeploymentMode, null);
 
             var validationInfo = this.GetTemplateValidationResult(parameters, deployment);

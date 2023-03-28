@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Compute.dll-Help.xml
 Module Name: Az.Compute
 ms.assetid: 1BECAC91-BB43-46EB-B2C9-C965C6FBC831
-online version: https://docs.microsoft.com/powershell/module/az.compute/new-azvmconfig
+online version: https://learn.microsoft.com/powershell/module/az.compute/new-azvmconfig
 schema: 2.0.0
 ---
 
@@ -18,7 +18,10 @@ Creates a configurable virtual machine object.
 New-AzVMConfig [-VMName] <String> [-VMSize] <String> [[-AvailabilitySetId] <String>] [[-LicenseType] <String>]
  [-Zone <String[]>] [-ProximityPlacementGroupId <String>] [-HostId <String>] [-VmssId <String>]
  [-MaxPrice <Double>] [-EvictionPolicy <String>] [-Priority <String>] [-Tags <Hashtable>] [-EnableUltraSSD]
- [-EncryptionAtHost] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-EncryptionAtHost] [-CapacityReservationGroupId <String>] [-ImageReferenceId <String>]
+ [-DiskControllerType <String>] [-UserData <String>] [-PlatformFaultDomain <Int32>] [-HibernationEnabled]
+ [-vCPUCountAvailable <Int32>] [-vCPUCountPerCore <Int32>] [-SharedGalleryImageId <String>]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### ExplicitIdentityParameterSet
@@ -26,20 +29,31 @@ New-AzVMConfig [-VMName] <String> [-VMSize] <String> [[-AvailabilitySetId] <Stri
 New-AzVMConfig [-VMName] <String> [-VMSize] <String> [[-AvailabilitySetId] <String>] [[-LicenseType] <String>]
  [-IdentityType] <ResourceIdentityType> [-IdentityId <String[]>] [-Zone <String[]>]
  [-ProximityPlacementGroupId <String>] [-HostId <String>] [-VmssId <String>] [-MaxPrice <Double>]
- [-EvictionPolicy <String>] [-Priority <String>] [-Tags <Hashtable>] [-EnableUltraSSD]
- [-EncryptionAtHost] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-EvictionPolicy <String>] [-Priority <String>] [-Tags <Hashtable>] [-EnableUltraSSD] [-EncryptionAtHost]
+ [-CapacityReservationGroupId <String>] [-ImageReferenceId <String>] [-DiskControllerType <String>]
+ [-UserData <String>] [-PlatformFaultDomain <Int32>] [-HibernationEnabled] [-vCPUCountAvailable <Int32>]
+ [-vCPUCountPerCore <Int32>] [-SharedGalleryImageId <String>] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The **New-AzVMConfig** cmdlet creates a configurable local virtual machine object for Azure.
-Other cmdlets can be used to configure a virtual machine object, such as Set-AzVMOperatingSystem, Set-AzVMSourceImage, Add-AzVMNetworkInterface, and Set-AzVMOSDisk.
+The **New-AzVMConfig** cmdlet creates a configurable local virtual machine object for Azure. <br>
+
+The following cmdlets are used to set different properties of the virtual machine object: <br>
+- **[Add-AzVMNetworkInterface](https://learn.microsoft.com/en-us/powershell/module/az.compute/add-azvmnetworkinterface)** to set the network profile.<br>
+- **[Set-AzVMOperatingSystem](https://learn.microsoft.com/en-us/powershell/module/az.compute/set-azvmoperatingsystem)** to set the OS profile. <br>
+- **[Set-AzVMSourceImage](https://learn.microsoft.com/en-us/powershell/module/az.compute/set-azvmsourceimage)** to set the source image.<br>
+- **[Set-AzVMOSDisk](https://learn.microsoft.com/en-us/powershell/module/az.compute/set-azvmosdisk)** to set the OS disk (storage profile).<br>
+- **[Get-AzComputeResourceSku](https://learn.microsoft.com/en-us/powershell/module/az.compute/get-azcomputeresourcesku)** can also be used to find out available virtual machine sizes for your subscription and region.<br>
+<br>
+See [Quickstart: Create a Windows virtual machine in Azure with PowerShell](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-powershell) for tutorial. <br>
 
 ## EXAMPLES
 
 ### Example 1: Create a virtual machine object
-```
-PS C:\> $AvailabilitySet = Get-AzAvailabilitySet -ResourceGroupName "ResourceGroup11" -Name "AvailabilitySet03"
-PS C:\> $VirtualMachine = New-AzVMConfig -VMName "VirtualMachine07" -VMSize "Standard_A1" -AvailabilitySetID $AvailabilitySet.Id
+```powershell
+$AvailabilitySet = Get-AzAvailabilitySet -ResourceGroupName "ResourceGroup11" -Name "AvailabilitySet03"
+$VirtualMachine = New-AzVMConfig -VMName "VirtualMachine07" -VMSize "Standard_A1" -AvailabilitySetID $AvailabilitySet.Id -Zone "1"
 ```
 
 The first command gets the availability set named AvailabilitySet03 in the resource group named ResourceGroup11, and then stores that object in the $AvailabilitySet variable.
@@ -71,6 +85,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -CapacityReservationGroupId
+Id of the capacity reservation Group that is used to allocate.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with azure.
 
@@ -78,6 +107,21 @@ The credentials, account, tenant, and subscription used for communication with a
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskControllerType
+Specifies the disk controller type configured for the VM and VirtualMachineScaleSet. This property is only supported for virtual machines whose operating system disk and VM sku supports Generation 2 (https://learn.microsoft.com/en-us/azure/virtual-machines/generation-2), please check the HyperVGenerations capability returned as part of VM sku capabilities in the response of Microsoft.Compute SKUs api for the region contains V2 (https://learn.microsoft.com/rest/api/compute/resourceskus/list) . <br> For more information about Disk Controller Types supported please refer to https://aka.ms/azure-diskcontrollertypes.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -103,11 +147,43 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -EncryptionAtHost
+EncryptionAtHost property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set.
+This will enable the encryption for all the disks including Resource/Temp disk at host itself.
+Default: The Encryption at host will be disabled unless this property is set to true for the resource.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -EvictionPolicy
 The eviction policy for the Azure Spot virtual machine.  Supported values are 'Deallocate' and 'Delete'.
 
 ```yaml
 Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -HibernationEnabled
+The flag that enables or disables hibernation capability on the VM.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -165,11 +241,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ImageReferenceId
+Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LicenseType
 Specifies a license type, which indicates that the image or disk for the virtual machine was licensed on-premises.
 Possible values for Windows Server are:
 - Windows_Client
 - Windows_Server
+
 Possible values for Linux Server operating system are:
 - RHEL_BYOS (for RHEL)
 - SLES_BYOS (for SUSE)
@@ -201,20 +293,18 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -EncryptionAtHost
-EncryptionAtHost property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set.
-This will enable the encryption for all the disks including Resource/Temp disk at host itself.
-Default: The Encryption at host will be disabled unless this property is set to true for the resource.
+### -PlatformFaultDomain
+Specifies the fault domain of the virtual machine.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: False
-Accept pipeline input: False
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -251,6 +341,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -SharedGalleryImageId
+Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tags
 The tags attached to the resource.
 
@@ -258,6 +363,51 @@ The tags attached to the resource.
 Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases: Tag
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UserData
+UserData for the VM, which will be base-64 encoded. Customer should not pass any secrets in here.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -vCPUCountAvailable
+Specifies the number of vCPUs available for the VM. When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://learn.microsoft.com/en-us/rest/api/compute/resource-skus/list).
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -vCPUCountPerCore
+Specifies the vCPU to physical core ratio. When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://learn.microsoft.com/en-us/rest/api/compute/resource-skus/list). Setting this property to 1 also means that hyper-threading is disabled.
+
+```yaml
+Type: System.Int32
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -282,7 +432,7 @@ Accept wildcard characters: False
 ```
 
 ### -VMSize
-Specifies the size for the virtual machine.
+Specifies the size for the virtual machine. [Get-AzComputeResourceSku](https://learn.microsoft.com/en-us/powershell/module/az.compute/get-azcomputeresourcesku) can be used to find out available sizes for your subscription and region. 
 
 ```yaml
 Type: System.String
@@ -312,7 +462,8 @@ Accept wildcard characters: False
 ```
 
 ### -Zone
-Specifies the availability zone list for the virtual machine. The allowed values depend on the capabilities of the region. Allowed values will normally be 1,2,3.
+Specifies the availability zone for the virtual machine. Although it takes in an array of zones, virtual machines do not support multiple availability zones.
+The allowed value depends on the capabilities of the region. Allowed value will normally be 1, 2, or 3. More information on [Azure availability zones](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview#availability-zones).
 
 ```yaml
 Type: System.String[]

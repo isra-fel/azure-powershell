@@ -2,14 +2,14 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Compute.dll-Help.xml
 Module Name: Az.Compute
 ms.assetid: 39AADD19-2EDD-4C1F-BC9E-22186DD9A085
-online version: https://docs.microsoft.com/powershell/module/az.compute/set-azvmoperatingsystem
+online version: https://learn.microsoft.com/powershell/module/az.compute/set-azvmoperatingsystem
 schema: 2.0.0
 ---
 
 # Set-AzVMOperatingSystem
 
 ## SYNOPSIS
-Sets operating system properties for a virtual machine.
+Sets operating system properties during the creation of a new virtual machine.
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Sets operating system properties for a virtual machine.
 ```
 Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Windows] [-ComputerName] <String>
  [-Credential] <PSCredential> [[-CustomData] <String>] [-ProvisionVMAgent] [-EnableAutoUpdate]
- [[-TimeZone] <String>] [-WinRMHttp] [-PatchMode <String>] [-EnableHotpatching]
+ [[-TimeZone] <String>] [-WinRMHttp] [-PatchMode <String>] [-EnableHotpatching] [-AssessmentMode <String>]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -26,14 +26,15 @@ Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Windows] [-ComputerName] <Str
 Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Windows] [-ComputerName] <String>
  [-Credential] <PSCredential> [[-CustomData] <String>] [-ProvisionVMAgent] [-EnableAutoUpdate]
  [[-TimeZone] <String>] [-WinRMHttp] [-WinRMHttps] [-WinRMCertificateUrl] <Uri> [-PatchMode <String>]
- [-EnableHotpatching] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-EnableHotpatching] [-AssessmentMode <String>] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ### WindowsDisableVMAgent
 ```
 Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Windows] [-ComputerName] <String>
  [-Credential] <PSCredential> [[-CustomData] <String>] [-DisableVMAgent] [-EnableAutoUpdate]
- [[-TimeZone] <String>] [-WinRMHttp] [-PatchMode <String>] [-EnableHotpatching]
+ [[-TimeZone] <String>] [-WinRMHttp] [-PatchMode <String>] [-EnableHotpatching] [-AssessmentMode <String>]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -42,24 +43,25 @@ Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Windows] [-ComputerName] <Str
 Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Windows] [-ComputerName] <String>
  [-Credential] <PSCredential> [[-CustomData] <String>] [-DisableVMAgent] [-EnableAutoUpdate]
  [[-TimeZone] <String>] [-WinRMHttp] [-WinRMHttps] [-WinRMCertificateUrl] <Uri> [-PatchMode <String>]
- [-EnableHotpatching] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-EnableHotpatching] [-AssessmentMode <String>] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ### Linux
 ```
 Set-AzVMOperatingSystem [-VM] <PSVirtualMachine> [-Linux] [-ComputerName] <String> [-Credential] <PSCredential>
- [[-CustomData] <String>] [-PatchMode <String>] [-DisablePasswordAuthentication]
+ [[-CustomData] <String>] [-PatchMode <String>] [-DisablePasswordAuthentication] [-AssessmentMode <String>]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The **Set-AzVMOperatingSystem** cmdlet sets operating system properties for a virtual machine.
+The **Set-AzVMOperatingSystem** cmdlet sets operating system properties during the creation of a new virtual machine.
 You can specify logon credentials, computer name, and operating system type.
 
 ## EXAMPLES
 
 ### Example 1: Set operating system properties for a new virtual machine
-```
+```powershell
 $SecurePassword = ConvertTo-SecureString "Password" -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ("FullerP", $SecurePassword); 
 $AvailabilitySet = Get-AzAvailabilitySet -ResourceGroupName "ResourceGroup11" -Name "AvailabilitySet03" 
@@ -87,7 +89,7 @@ The command uses the credentials stored in $Credential.
 The command uses variables assigned in previous commands for some parameters.
 
 ### Example 2: Set operating system properties for a new virtual machine with hot patching enabled
-```
+```powershell
 $SecurePassword = ConvertTo-SecureString "Password" -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ("FullerP", $SecurePassword); 
 $AvailabilitySet = Get-AzAvailabilitySet -ResourceGroupName "ResourceGroup11" -Name "AvailabilitySet03" 
@@ -116,7 +118,7 @@ The command uses variables assigned in previous commands for some parameters.
 The command enables Hotpatching on the virtual machine.
 
 ### Example 3: Set operating system properties for a new Linux virtual machine
-```
+```powershell
 $SecurePassword = ConvertTo-SecureString "Password" -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ("FullerP", $SecurePassword); 
 $AvailabilitySet = Get-AzAvailabilitySet -ResourceGroupName "ResourceGroup11" -Name "AvailabilitySet03" 
@@ -141,6 +143,21 @@ The command uses variables assigned in previous commands for some parameters.
 The command sets the patch mode value on the virtual machine to "AutomaticByPlatform".
 
 ## PARAMETERS
+
+### -AssessmentMode
+Automatic assessment mode value for the virtual machine. Possible values are ImageDefault and AutomaticByPlatform.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -ComputerName
 Specifies the name of the computer.
@@ -175,7 +192,7 @@ Accept wildcard characters: False
 ```
 
 ### -CustomData
-Specifies a string to be passed to the virtual machine. For more information see [Custom Data on Azure VMs](https://docs.microsoft.com/en-us/azure/virtual-machines/custom-data).
+Specifies a string to be passed to the virtual machine. For more information see [Custom Data on Azure VMs](https://learn.microsoft.com/azure/virtual-machines/custom-data).
 **Note: It is not recommended to store sensitive information in custom data.**
 
 
@@ -318,7 +335,7 @@ Accept wildcard characters: False
 
 ### -TimeZone
 Specifies the time zone of the virtual machine. e.g. \"Pacific Standard Time\". <br>
-Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
+Possible values can be [TimeZoneInfo.Id](https://learn.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://learn.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
 
 ```yaml
 Type: System.String

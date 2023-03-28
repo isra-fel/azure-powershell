@@ -19,6 +19,61 @@
 -->
 
 ## Upcoming Release
+* Introduced restorable apis support for Gremlin and Table, which includes:
+    - Added the apis for RestorableGremlinDatabases, RestorableGremlinGraphs, RestorableGremlinResources,RestorableTables, RestorableResources.
+    - Added RetrieveContinuousBackupInfo apis for Gremlin and Table which help in determining the restore point of time and the resources to restore.
+    - Added GremlinDatabasesToRestore and TablesToRestore field to provision and restore database account api.
+    - Added StartTime and EndTime support for listing restorable containers event feed.
+
+## Version 1.9.1
+* Updated Azure.Core to 1.28.0.
+
+## Version 1.9.0
+* Added support for Cosmos DB Service related cmdlets.
+
+## Version 1.8.2
+* Added support for partition key and id paths to be part of client encryption policy.
+* Fixed bug related to Update-AzCosmosDBSqlContainer command on containers with Client Encryption Policy.
+
+## Version 1.8.1
+* Fixed bug related to Update-AzCosmosDBSqlContainer command on containers with Client Encryption Policy.
+* Fixed the optional Location paramater of New-AzCosmosDBAccount cmdlet.
+
+## Version 1.8.0
+* Introduced support for creating containers with Client Encryption Policy. The current supported version of Client Encryption Policy is 1.
+
+## Version 1.7.0
+* Introduced support for client encryption key resource management required for CosmosDB Client-Side Encryption by adding support for creating, updating and retrieving client encryption keys with following cmdlets: `Get-AzCosmosDbClientEncryptionKey`, `New-AzCosmosDbClientEncryptionKey` and `Update-AzCosmosDbClientEncryptionKey`
+
+## Version 1.5.1
+* Exposed BackupPolicyMigrationState as a part of Get-AzCosmosDBAccount response.
+  - This shew the status of a backup policy migration state when an account was being converted from peroidic backup mode to continuous.
+
+## Version 1.5.0
+* Fixed when a warning about the value of AnalyticalStorageSchemaType is displayed when no value was given.
+* Added support for managed Cassandra.
+
+## Version 1.4.0
+* Introduced Get-AzCosmosDBMongoDBBackupInformation to retrieve latest backup information for MongoDB.
+* Updated New-AzCosmosDBAccount, Update-AzCosmosDBAccount to accept BackupStorageRedundancy
+* Introduced Get-AzCosmosDBLocation to list Azure CosmosDB Account and its locations properties.
+
+## Version 1.3.1
+* Fixed a bug where the restore of deleted database accounts fail.
+
+## Version 1.3.0
+* This release introduces the cmdlets for the features of Continuous Backup(Point in time restore):
+  - Introduced support for creating accounts with continuous mode backup policy.
+  - Introduced support for Point in time restore for accounts with continuous mode backup policy.
+  - Introduced support to update the backup interval and backup retention for accounts with periodic mode backup policy.
+  - Introduced support to list the restorable resources in a live database account.
+  - Introduces support to specify analytical storage schema type on account creation/update.
+  - The following cmdlets are added:
+    - Restore-AzCosmosDBAccount, New-AzCosmosDBDatabaseToRestore, Get-AzCosmosDBRestorableDatabaseAccount,
+    - Get-AzCosmosDBSqlRestorableDatabase, Get-AzCosmosDBSqlRestorableContainer, Get-AzCosmosDBSqlRestorableResource,
+    - Get-AzCosmosDBMongoDBRestorableDatabase, Get-AzCosmosDBMongoDBRestorableCollection, Get-AzCosmosDBMongoDBRestorableResource.
+
+## Version 1.2.0
 * Introduced support for Sql data plane RBAC, allowing the creation, updating, removal, and retrieval of Role Definitions and Role Assignments
   - The following cmdlets are added:
     - Get-AzCosmosDBSqlRoleDefinition, Get-AzCosmosDBSqlRoleAssignment,

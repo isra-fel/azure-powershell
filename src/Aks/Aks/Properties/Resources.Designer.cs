@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -214,6 +214,42 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Since control-plane-only argument is specified, this will upgrade only the control plane to {0}. Node pool will not change. Continue?.
+        /// </summary>
+        internal static string ConfirmControlPlaneOnly {
+            get {
+                return ResourceManager.GetString("ConfirmControlPlaneOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legacy clusters do not support control plane only upgrade. All node pools will be upgraded to {0} as well. Continue?.
+        /// </summary>
+        internal static string ConfirmControlPlaneOnlyInVMASCluster {
+            get {
+                return ResourceManager.GetString("ConfirmControlPlaneOnlyInVMASCluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Since control-plane-only argument is not specified, this will upgrade the control plane AND all node pools to version {0}. Continue?.
+        /// </summary>
+        internal static string ConfirmNotControlPlaneOnly {
+            get {
+                return ResourceManager.GetString("ConfirmNotControlPlaneOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This node image upgrade operation will run across every node pool in the cluster and might take a while, do you wish to continue?.
+        /// </summary>
+        internal static string ConfirmOnlyUpgradeNodeVersion {
+            get {
+                return ResourceManager.GetString("ConfirmOnlyUpgradeNodeVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not add &apos;acrpull&apos; role assignment, please make sure you have right permission..
         /// </summary>
         internal static string CouldNotAddAcrRoleAssignment {
@@ -268,7 +304,7 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find SSH public key in default path &apos;{0}&apos; which is required for creating k8s cluster. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys or https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ssh-from-windows for generating a key pair manually; or you could try to add switch parameter -GenerateSshKey during calling New-AzAksCluster which will automatically generate SSH key file if you have ssh-keygen installed..
+        ///   Looks up a localized string similar to Could not find SSH public key in default path &apos;{0}&apos; which is required for creating k8s cluster. See https://learn.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys or https://learn.microsoft.com/en-us/azure/virtual-machines/linux/ssh-from-windows for generating a key pair manually; or you could try to add switch parameter -GenerateSshKey during calling New-AzAksCluster which will automatically generate SSH key file if you have ssh-keygen installed..
         /// </summary>
         internal static string CouldNotFindSshPublicKeyInError {
             get {
@@ -394,6 +430,15 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to execute the command on cluster {0}?.
+        /// </summary>
+        internal static string DoYouWantToExecuteCommandOnCluster {
+            get {
+                return ResourceManager.GetString("DoYouWantToExecuteCommandOnCluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to import the Kubernetes config?.
         /// </summary>
         internal static string DoYouWantToImportTheKubernetesConfig {
@@ -408,6 +453,15 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         internal static string DoYouWantToOverwriteExistingFile {
             get {
                 return ResourceManager.GetString("DoYouWantToOverwriteExistingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executing command on cluster {0}..
+        /// </summary>
+        internal static string ExecutingCommandOnCluster {
+            get {
+                return ResourceManager.GetString("ExecutingCommandOnCluster", resourceCulture);
             }
         }
         
@@ -511,6 +565,24 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please set &apos;-EnableManagedIdentity&apos; first if you want to set &apos;AssignIdentity&apos;..
+        /// </summary>
+        internal static string NeedEnableManagedIdentity {
+            get {
+                return ResourceManager.GetString("NeedEnableManagedIdentity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot attach folder with anothe file or folder at the same time. Please put them in a same parent folder..
+        /// </summary>
+        internal static string NeedSameParentFolder {
+            get {
+                return ResourceManager.GetString("NeedSameParentFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NetworkPlugin must be azure if you want to use Windows..
         /// </summary>
         internal static string NetworkPluginShouldBeAzure {
@@ -561,6 +633,15 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         internal static string NotSupportOnThisOs {
             get {
                 return ResourceManager.GetString("NotSupportOnThisOs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This cluster is not using VirtualMachineScaleSets. Node image upgrade only operation can only be applied on VirtualMachineScaleSets cluster..
+        /// </summary>
+        internal static string NotUsingVirtualMachineScaleSets {
+            get {
+                return ResourceManager.GetString("NotUsingVirtualMachineScaleSets", resourceCulture);
             }
         }
         
@@ -799,6 +880,15 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conflicting flags. Upgrading the Kubernetes version will also upgrade node image version. If you only want to upgrade the node version please use the &quot;-NodeImageOnly&quot; option only..
+        /// </summary>
+        internal static string UpdateKubernetesVersionAndNodeImageOnlyConflict {
+            get {
+                return ResourceManager.GetString("UpdateKubernetesVersionAndNodeImageOnlyConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update or create a managed Kubernetes cluster..
         /// </summary>
         internal static string UpdateOrCreateAManagedKubernetesCluster {
@@ -849,6 +939,15 @@ namespace Microsoft.Azure.Commands.Aks.Properties {
         internal static string UpdatingNodeOsDiskSize {
             get {
                 return ResourceManager.GetString("UpdatingNodeOsDiskSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating node pool labels.
+        /// </summary>
+        internal static string UpdatingNodePoolLabels {
+            get {
+                return ResourceManager.GetString("UpdatingNodePoolLabels", resourceCulture);
             }
         }
         

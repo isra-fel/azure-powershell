@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
 {
     using static Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Extensions;
+    using System;
 
     /// <summary>Updates container group tags with specified values.</summary>
     /// <remarks>
     /// [OpenAPI] Update=>PATCH:"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}"
     /// </remarks>
     [global::System.Management.Automation.Cmdlet(global::System.Management.Automation.VerbsData.Update, @"AzContainerGroup_UpdateViaIdentityExpanded", SupportsShouldProcess = true)]
-    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup))]
+    [global::System.Management.Automation.OutputType(typeof(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup))]
     [global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Description(@"Updates container group tags with specified values.")]
     [global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Generated]
     public partial class UpdateAzContainerGroup_UpdateViaIdentityExpanded : global::System.Management.Automation.PSCmdlet,
@@ -31,6 +32,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         /// The <see cref="global::System.Threading.CancellationTokenSource" /> for this operation.
         /// </summary>
         private global::System.Threading.CancellationTokenSource _cancellationTokenSource = new global::System.Threading.CancellationTokenSource();
+
+        /// <summary>The Resource model definition.</summary>
+        private Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IResource _resourceBody = new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.Resource();
 
         /// <summary>Wait for .NET debugger to attach</summary>
         [global::System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Wait for .NET debugger to attach")]
@@ -81,14 +85,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         Description = @"The resource location.",
         SerializedName = @"location",
         PossibleTypes = new [] { typeof(string) })]
-        public string Location { get => ResourceBody.Location ?? null; set => ResourceBody.Location = value; }
+        public string Location { get => _resourceBody.Location ?? null; set => _resourceBody.Location = value; }
 
         /// <summary>
-        /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
+        /// <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
         global::System.Action Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
 
-        /// <summary><see cref="IEventListener" /> cancellation token.</summary>
+        /// <summary><see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener" /> cancellation token.</summary>
         global::System.Threading.CancellationToken Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener.Token => _cancellationTokenSource.Token;
 
         /// <summary>
@@ -112,12 +116,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         [global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Category(global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.ParameterCategory.Runtime)]
         public global::System.Management.Automation.SwitchParameter ProxyUseDefaultCredentials { get; set; }
 
-        /// <summary>Backing field for <see cref="ResourceBody" /> property.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResource _resourceBody= new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.Resource();
-
-        /// <summary>The Resource model definition.</summary>
-        private Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResource ResourceBody { get => this._resourceBody; set => this._resourceBody = value; }
-
         /// <summary>The resource tags.</summary>
         [global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.ExportAs(typeof(global::System.Collections.Hashtable))]
         [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The resource tags.")]
@@ -127,38 +125,55 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         ReadOnly = false,
         Description = @"The resource tags.",
         SerializedName = @"tags",
-        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResourceTags) })]
-        public Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IResourceTags Tag { get => ResourceBody.Tag ?? null /* object */; set => ResourceBody.Tag = value; }
+        PossibleTypes = new [] { typeof(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IResourceTags) })]
+        public Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IResourceTags Tag { get => _resourceBody.Tag ?? null /* object */; set => _resourceBody.Tag = value; }
+
+        /// <summary>The zones for the container group.</summary>
+        [global::System.Management.Automation.AllowEmptyCollection]
+        [global::System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The zones for the container group.")]
+        [global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Category(global::Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.ParameterCategory.Body)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"The zones for the container group.",
+        SerializedName = @"zones",
+        PossibleTypes = new [] { typeof(string) })]
+        public string[] Zone { get => _resourceBody.Zone ?? null /* arrayOf */; set => _resourceBody.Zone = value; }
 
         /// <summary>
         /// <c>overrideOnDefault</c> will be called before the regular onDefault has been processed, allowing customization of what
         /// happens on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onDefault method should be processed, or if the method should
         /// return immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// <c>overrideOnOk</c> will be called before the regular onOk has been processed, allowing customization of what happens
         /// on that response. Implement this method in a partial class to enable this behavior
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup">Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup</see>
+        /// from the remote call</param>
         /// <param name="returnNow">/// Determines if the rest of the onOk method should be processed, or if the method should return
         /// immediately (set to true to skip further processing )</param>
 
-        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
+        partial void overrideOnOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup> response, ref global::System.Threading.Tasks.Task<bool> returnNow);
 
         /// <summary>
         /// (overrides the default BeginProcessing method in global::System.Management.Automation.PSCmdlet)
         /// </summary>
         protected override void BeginProcessing()
         {
+            var telemetryId = Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Module.Instance.GetTelemetryId.Invoke();
+            if (telemetryId != "" && telemetryId != "internal")
+            {
+                __correlationId = telemetryId;
+            }
             Module.Instance.SetProxyConfiguration(Proxy, ProxyCredential, ProxyUseDefaultCredentials);
             if (Break)
             {
@@ -170,7 +185,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         /// <summary>Performs clean-up after the command execution</summary>
         protected override void EndProcessing()
         {
-            ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.CmdletEndProcessing).Wait(); if( ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+
         }
 
         /// <summary>Handles/Dispatches events during the call to the REST service.</summary>
@@ -204,7 +219,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
                     case Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Information:
                     {
                         var data = messageData();
-                        WriteInformation(data, new[] { data.Message });
+                        WriteInformation(data.Message, new string[]{});
                         return ;
                     }
                     case Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.Debug:
@@ -273,7 +288,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         {
             using( NoSynchronizationContext )
             {
-                await ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.CmdletProcessRecordAsyncStart); if( ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.CmdletGetPipeline); if( ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 Pipeline = Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Module.Instance.CreatePipeline(InvocationInformation, __correlationId, __processRecordId, this.ParameterSetName);
                 if (null != HttpPipelinePrepend)
@@ -290,7 +304,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
                     await ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.CmdletBeforeAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                     if (InputObject?.Id != null)
                     {
-                        await this.Client.ContainerGroupsUpdateViaIdentity(InputObject.Id, ResourceBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.ContainerGroupsUpdateViaIdentity(InputObject.Id, _resourceBody, onOk, onDefault, this, Pipeline);
                     }
                     else
                     {
@@ -307,13 +321,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
                         {
                             ThrowTerminatingError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception("InputObject has null value for InputObject.ContainerGroupName"),string.Empty, global::System.Management.Automation.ErrorCategory.InvalidArgument, InputObject) );
                         }
-                        await this.Client.ContainerGroupsUpdate(InputObject.SubscriptionId ?? null, InputObject.ResourceGroupName ?? null, InputObject.ContainerGroupName ?? null, ResourceBody, onOk, onDefault, this, Pipeline);
+                        await this.Client.ContainerGroupsUpdate(InputObject.SubscriptionId ?? null, InputObject.ResourceGroupName ?? null, InputObject.ContainerGroupName ?? null, _resourceBody, onOk, onDefault, this, Pipeline);
                     }
                     await ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Signal(Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.Events.CmdletAfterAPICall); if( ((Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 }
                 catch (Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.UndeclaredResponseException urexception)
                 {
-                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  body=ResourceBody})
+                    WriteError(new global::System.Management.Automation.ErrorRecord(urexception, urexception.StatusCode.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new {  body=_resourceBody})
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(urexception.Message) { RecommendedAction = urexception.Action }
                     });
@@ -344,12 +358,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
         /// a delegate that is called when the remote service returns default (any response code not handled elsewhere).
         /// </summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError">Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError> response)
+        private async global::System.Threading.Tasks.Task onDefault(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError> response)
         {
             using( NoSynchronizationContext )
             {
@@ -366,15 +380,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
                 if ((null == code || null == message))
                 {
                     // Unrecognized Response. Create an error record based on what we have.
-                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.ICloudError>(responseMessage, await response);
-                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=ResourceBody })
+                    var ex = new Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Runtime.RestException<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.ICloudError>(responseMessage, await response);
+                    WriteError( new global::System.Management.Automation.ErrorRecord(ex, ex.Code, global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=_resourceBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(ex.Message) { RecommendedAction = ex.Action }
                     });
                 }
                 else
                 {
-                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=ResourceBody })
+                    WriteError( new global::System.Management.Automation.ErrorRecord(new global::System.Exception($"[{code}] : {message}"), code?.ToString(), global::System.Management.Automation.ErrorCategory.InvalidOperation, new { body=_resourceBody })
                     {
                       ErrorDetails = new global::System.Management.Automation.ErrorDetails(message) { RecommendedAction = global::System.String.Empty }
                     });
@@ -384,12 +398,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
 
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
         /// <param name="responseMessage">the raw response message as an global::System.Net.Http.HttpResponseMessage.</param>
-        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup"
-        /// /> from the remote call</param>
+        /// <param name="response">the body result as a <see cref="Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup">Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup</see>
+        /// from the remote call</param>
         /// <returns>
         /// A <see cref="global::System.Threading.Tasks.Task" /> that will be complete when handling of the method is completed.
         /// </returns>
-        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup> response)
+        private async global::System.Threading.Tasks.Task onOk(global::System.Net.Http.HttpResponseMessage responseMessage, global::System.Threading.Tasks.Task<Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup> response)
         {
             using( NoSynchronizationContext )
             {
@@ -401,7 +415,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Cmdlets
                     return ;
                 }
                 // onOk - response for 200 / application/json
-                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20210301.IContainerGroup
+                // (await response) // should be Microsoft.Azure.PowerShell.Cmdlets.ContainerInstance.Models.Api20221001Preview.IContainerGroup
                 WriteObject((await response));
             }
         }

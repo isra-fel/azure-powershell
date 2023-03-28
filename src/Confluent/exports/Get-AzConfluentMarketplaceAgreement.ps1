@@ -29,7 +29,7 @@ confluent   Microsoft.Confluent/offertypes
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IConfluentAgreementResource
 .Link
-https://docs.microsoft.com/powershell/module/az.confluent/get-azconfluentmarketplaceagreement
+https://learn.microsoft.com/powershell/module/az.confluent/get-azconfluentmarketplaceagreement
 #>
 function Get-AzConfluentMarketplaceAgreement {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.Confluent.Models.Api20200301.IConfluentAgreementResource])]
@@ -103,6 +103,8 @@ begin {
         if (('List') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.Confluent.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

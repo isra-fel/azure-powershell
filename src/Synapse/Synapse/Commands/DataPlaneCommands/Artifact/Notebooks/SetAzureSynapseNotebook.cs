@@ -1,4 +1,18 @@
-﻿using Azure.Analytics.Synapse.Artifacts.Models;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using Azure.Analytics.Synapse.Artifacts.Models;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Commands.Synapse.Common;
@@ -43,6 +57,10 @@ namespace Microsoft.Azure.Commands.Synapse
         [Alias("NotebookName")]
         public string Name { get; set; }
 
+        [Parameter(ValueFromPipelineByPropertyName = false, Mandatory = false, HelpMessage = HelpMessages.NoteBookFolderPath)]
+        [ValidateNotNullOrEmpty]
+        public string FolderPath { get; set; }
+
         [Parameter(ValueFromPipelineByPropertyName = false, ParameterSetName = SetByNameAndSparkPool,
             Mandatory = true, HelpMessage = HelpMessages.SparkPoolName)]
         [Parameter(ValueFromPipelineByPropertyName = false, ParameterSetName = SetByObjectAndSparkPool,
@@ -54,8 +72,8 @@ namespace Microsoft.Azure.Commands.Synapse
             Mandatory = false, HelpMessage = HelpMessages.ExecutorSize)]
         [Parameter(ValueFromPipelineByPropertyName = false, ParameterSetName = SetByObjectAndSparkPool,
             Mandatory = false, HelpMessage = HelpMessages.ExecutorSize)]
-        [ValidateSet(Management.Synapse.Models.NodeSize.Small, Management.Synapse.Models.NodeSize.Medium, Management.Synapse.Models.NodeSize.Large, IgnoreCase = true)]
-        [PSArgumentCompleter(Management.Synapse.Models.NodeSize.Small, Management.Synapse.Models.NodeSize.Medium, Management.Synapse.Models.NodeSize.Large)]
+        [ValidateSet(Management.Synapse.Models.NodeSize.Small, Management.Synapse.Models.NodeSize.Medium, Management.Synapse.Models.NodeSize.Large, Management.Synapse.Models.NodeSize.XLarge, Management.Synapse.Models.NodeSize.XXLarge, Management.Synapse.Models.NodeSize.XXXLarge, IgnoreCase = true)]
+        [PSArgumentCompleter(Management.Synapse.Models.NodeSize.Small, Management.Synapse.Models.NodeSize.Medium, Management.Synapse.Models.NodeSize.Large, Management.Synapse.Models.NodeSize.XLarge, Management.Synapse.Models.NodeSize.XXLarge, Management.Synapse.Models.NodeSize.XXXLarge)]
         public string ExecutorSize { get; set; } = Management.Synapse.Models.NodeSize.Small;
 
         [Parameter(ValueFromPipelineByPropertyName = false, ParameterSetName = SetByNameAndSparkPool,
@@ -114,10 +132,17 @@ namespace Microsoft.Azure.Commands.Synapse
                     options["name"] = this.SparkPoolName;
                     options["sparkVersion"] = sparkPoolInfo.SparkVersion;
                     options["type"] = "Spark";
-                    metadata["a365ComputeOptions"] = options;
+                    metadata.AdditionalProperties.Add("a365ComputeOptions", options);
 
                     notebookResource.Properties.BigDataPool = new BigDataPoolReference(BigDataPoolReferenceType.BigDataPoolReference, this.SparkPoolName);
                     notebookResource.Properties.SessionProperties = new NotebookSessionProperties(options["memory"] + "g", (int)options["cores"], options["memory"] + "g", (int)options["cores"], (int)options["nodeCount"]);
+                }
+
+                if (this.IsParameterBound(c => c.FolderPath))
+                {
+                    NotebookFolder folder = new NotebookFolder();
+                    folder.Name = this.FolderPath;
+                    notebookResource.Properties.Folder = folder;
                 }
 
                 WriteObject(new PSNotebookResource(SynapseAnalyticsClient.CreateOrUpdateNotebook(this.Name, notebookResource), this.WorkspaceName));

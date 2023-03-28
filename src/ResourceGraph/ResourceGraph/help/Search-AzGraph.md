@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceGraph.dll-Help.xml
 Module Name: Az.ResourceGraph
-online version: https://docs.microsoft.com/powershell/module/az.resourcegraph/search-azgraph
+online version: https://learn.microsoft.com/powershell/module/az.resourcegraph/search-azgraph
 schema: 2.0.0
 ---
 
@@ -18,10 +18,16 @@ Search-AzGraph [-Query] <String> [-Subscription <String[]>] [-First <Int32>] [-S
  [-SkipToken <String>] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### ManagementGroupScopedQuery
+```
+Search-AzGraph [-Query] <String> -ManagementGroup <String[]> [-AllowPartialScope] [-First <Int32>]
+ [-Skip <Int32>] [-SkipToken <String>] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
 ### TenantScopedQuery
 ```
-Search-AzGraph [-Query] <String> [-ManagementGroup <String[]>] [-AllowPartialScope] [-First <Int32>]
- [-Skip <Int32>] [-SkipToken <String>] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Search-AzGraph [-Query] <String> [-UseTenantScope] [-AllowPartialScope] [-First <Int32>] [-Skip <Int32>]
+ [-SkipToken <String>] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,28 +37,33 @@ Learn more about the query syntax here: https://aka.ms/resource-graph/learntoque
 
 ### Example 1
 ```powershell
-PS C:\> Search-AzGraph "project id, name, type, location, tags" -First 3
+Search-AzGraph "project id, name, type, location, tags" -First 3
+```
 
-
+```output
 id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.Compute/virtualMachineScaleSets/nt
 name       : nt
 type       : microsoft.compute/virtualmachinescalesets
 location   : eastus
 tags       : @{resourceType=Service Fabric; clusterName=gov-art-int-nt-a}
+ResourceId : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.Compute/virtualMachineScaleSets/nt
 
 id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.EventGrid/topics/egtopic-1
 name       : egtopic-1
 type       : microsoft.eventgrid/topics
 location   : westus2
 tags       :
+ResourceId : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.EventGrid/topics/egtopic-1
 ```
 
 Simple resources query requesting a subset of resource fields.
 
 ### Example 2
 ```powershell
-PS C:\> Search-AzGraph "project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
+Search-AzGraph "project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
+```
 
+```output
 location      count_
 --------      ------
 eastus            66
@@ -64,34 +75,45 @@ A complex query on resources featuring field selection, filtering and summarizin
 
 ### Example 3
 ```powershell
-PS C:\> Search-AzGraph -Query 'project id, name' -SkipToken 'skiptokenvaluefromthepreviousquery=='
-
-
-id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-b/providers/Microsoft.Compute/virtualMachineScaleSets/nt2
-name       : nt2
-
-id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-b/providers/Microsoft.EventGrid/topics/egtopic-2
-name       : egtopic-2
+$response = Search-AzGraph -Query "project id, name, type, location" -First 2
+Search-AzGraph -Query "project id, name, type, location" -SkipToken $response.SkipToken
 ```
 
-A query with the skip token passed from the previous query results
+```output
+id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/test/providers/Microsoft.Network/networkInterfaces/17ni
+name       : 17ni
+type       : microsoft.network/networkinterfaces
+location   : westeurope
+ResourceId : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/test/providers/Microsoft.Network/networkInterfaces/17ni
+
+id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/test/providers/Microsoft.Network/networkSecurityGroups/17nsg
+name       : 17nsg
+type       : microsoft.network/networksecuritygroups
+location   : westeurope
+ResourceId : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/test/providers/Microsoft.Network/networkSecurityGroups/17nsg
+```
+
+A query with the skip token passed from the previous query results. Please note that keeping id in the results is mandatory to get back a skip token.
 
 ### Example 4
 ```powershell
-PS C:\> Search-AzGraph -Query 'project id, name, type, location, tags' -First 2 -ManagementGroup 'MyManagementGroupId' -AllowPartialScope
+Search-AzGraph -Query "project id, name, type, location, tags" -First 2 -ManagementGroup MyManagementGroupId -AllowPartialScope
+```
 
-
+```output
 id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.Compute/virtualMachineScaleSets/nt
 name       : nt
 type       : microsoft.compute/virtualmachinescalesets
 location   : eastus
 tags       : @{resourceType=Service Fabric; clusterName=gov-art-int-nt-a}
+ResourceId : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.Compute/virtualMachineScaleSets/nt
 
 id         : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.EventGrid/topics/egtopic-1
 name       : egtopic-1
 type       : microsoft.eventgrid/topics
 location   : westus2
 tags       :
+ResourceId : /subscriptions/1ef51df4-f8a9-4b69-9919-1ef51df4eff6/resourceGroups/Service-INT-a/providers/Microsoft.EventGrid/topics/egtopic-1
 ```
 
 A query scoped to the management group that allows the query to succeed with partial scope result if MyManagementGroupId has more than N subscriptions underneath.
@@ -104,7 +126,7 @@ Indicates if query should succeed when only partial number of subscriptions unde
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: TenantScopedQuery
+Parameter Sets: ManagementGroupScopedQuery, TenantScopedQuery
 Aliases:
 
 Required: False
@@ -134,10 +156,10 @@ Management group(s) to run query against.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: TenantScopedQuery
+Parameter Sets: ManagementGroupScopedQuery
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -155,7 +177,7 @@ Aliases:
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -183,6 +205,21 @@ Parameter Sets: SubscriptionScopedQuery
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseTenantScope
+Run query across all available subscriptions in the current tenant.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: TenantScopedQuery
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -229,7 +266,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.Commands.ResourceGraph.Models.PSResourceGraphResponse
+### Microsoft.Azure.Commands.ResourceGraph.Models.PSResourceGraphResponse`1[[System.Management.Automation.PSObject]]
 
 ## NOTES
 

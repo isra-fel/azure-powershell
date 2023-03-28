@@ -33,6 +33,13 @@ namespace Microsoft.Azure.Commands.Compute.Test.ScenarioTests
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetInEdgeZone()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetInEdgeZone");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestVirtualMachineScaleSet_ManagedDisks()
         {
             TestRunner.RunTestScript("Test-VirtualMachineScaleSet-ManagedDisks");
@@ -198,6 +205,111 @@ namespace Microsoft.Azure.Commands.Compute.Test.ScenarioTests
         public void TestVirtualMachineScaleSetExtRollingUpgrade()
         {
             TestRunner.RunTestScript("Test-VirtualMachineScaleSetExtRollingUpgrade");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetSpotRestorePolicy()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetSpotRestorePolicy");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetFlexibleOModeDefaulting()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetFlexibleOModeDefaulting");
+        }
+        
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestAddAzVmssRunCommand()
+        {
+            TestRunner.RunTestScript("Test-AddAndRemoveAzVmssRunCommand");
+        }
+        
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetUserdata()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetUserdata");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetDiffDiskPlacement()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetDiffDiskPlacement");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetEnableHotPatching()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetEnableHotPatching");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestRemoveVmssForceDeletion()
+        {
+            TestRunner.RunTestScript("Test-RemoveVmssForceDeletion");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetRepairsAction()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetRepairsAction");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetOrchestrationModeNullChecks()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetOrchestrationModeNullChecks");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetGuestAttestation()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetGuestAttestation");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtuaMachineScaleSetPriorityMixPolicy()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetPriorityMixPolicy");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetConfidentialVMSSSecurityType()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetConfidentialVMSSSecurityType");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetConfidentialVMSecurityTypeDiskWithVMGuestStatePMK()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetConfidentialVMDiskWithVMGuestStatePMK");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetConfidentialVMSecurityTypeVMGuestStateOnlyPMK()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetConfidentialVMVMGuestStateOnlyPMK");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineScaleSetConfidentialVMSecurityTypeDiskWithVMGuestStateCMK()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineScaleSetConfidentialVMDiskWithVMGuestStateCMK");
         }
     }
 }

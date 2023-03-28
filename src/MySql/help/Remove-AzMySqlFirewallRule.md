@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.MySql
-online version: https://docs.microsoft.com/powershell/module/az.mysql/remove-azmysqlfirewallrule
+online version: https://learn.microsoft.com/powershell/module/az.mysql/remove-azmysqlfirewallrule
 schema: 2.0.0
 ---
 
@@ -32,17 +32,15 @@ Deletes a server firewall rule.
 
 ### Example 1: Remove MySql Firewall Rule by name
 ```powershell
-PS C:\> Remove-AzMySqlFirewallRule -Name rule -ResourceGroupName PowershellMySqlTest -ServerName mysql-test
-
+Remove-AzMySqlFirewallRule -Name rule -ResourceGroupName PowershellMySqlTest -ServerName mysql-test
 ```
 
 This cmdlet removes MySql Firewall Rule by name.
 
 ### Example 2: Remove MySql Firewall Rule by identity
 ```powershell
-PS C:\> $ID = "/subscriptions/<SubscriptionId>/resourceGroups/PowershellMySqlTest/providers/Microsoft.DBforMySQL/servers/mysql-test/firewallRules/rule"
-PS C:\> Remove-AzMySqlFirewallRule -InputObject $ID
- 
+$ID = "/subscriptions/<SubscriptionId>/resourceGroups/PowershellMySqlTest/providers/Microsoft.DBforMySQL/servers/mysql-test/firewallRules/rule"
+Remove-AzMySqlFirewallRule -InputObject $ID
 ```
 
 These cmdlets remove MySql Firewall Rule by identity.
@@ -237,12 +235,12 @@ COMPLEX PARAMETER PROPERTIES
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 
-INPUTOBJECT <IMySqlIdentity>: Identity Parameter
+`INPUTOBJECT <IMySqlIdentity>`: Identity Parameter
+  - `[BackupName <String>]`: The name of the backup.
   - `[ConfigurationName <String>]`: The name of the server configuration.
   - `[DatabaseName <String>]`: The name of the database.
   - `[FirewallRuleName <String>]`: The name of the server firewall rule.
   - `[Id <String>]`: Resource identity path
-  - `[KeyName <String>]`: The name of the server key.
   - `[LocationName <String>]`: The name of the location.
   - `[ResourceGroupName <String>]`: The name of the resource group. The name is case insensitive.
   - `[SecurityAlertPolicyName <SecurityAlertPolicyName?>]`: The name of the security alert policy.

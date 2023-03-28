@@ -141,8 +141,43 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Model
         public string BackupStorageRedundancy { get; set; }
 
         /// <summary>
+        /// Gets or sets the managed instance requested backup storage redundancy
+        /// </summary>
+        public string RequestedBackupStorageRedundancy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the managed instance current backup storage redundancy
+        /// </summary>
+        public string CurrentBackupStorageRedundancy { get; set; }
+
+        /// <summary>
         /// Gets or sets the managed instance maintenance configuration id
         /// </summary>
         public string MaintenanceConfigurationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Azure SQL Managed Instance Active Directory administrator
+        /// </summary>
+        public Management.Sql.Models.ManagedInstanceExternalAdministrator Administrators { get; set; }
+
+        /// <summary>
+        /// Gets or sets the resource id of a user assigned identity to be used
+        /// </summary>
+        public string PrimaryUserAssignedIdentityId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a CMK URI of the key to use for encryption.
+        /// </summary>
+        public string KeyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether or not the multi-az is enabled
+        /// </summary>
+        public bool? ZoneRedundant { get; set; }
+
+        /// <summary>
+        /// Gets or sets the service principal object
+        /// </summary>
+        public Common.ServicePrincipal ServicePrincipal { get; set; }
     }
 }

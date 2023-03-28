@@ -16,14 +16,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-
 using Microsoft.Azure.Commands.Aks.Models;
 using Microsoft.Azure.Commands.Aks.Properties;
 using Microsoft.Azure.Commands.Common.Exceptions;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Commands.ResourceManager.Common.Tags;
-using Microsoft.Azure.Graph.RBAC.Version1_6;
-using Microsoft.Azure.Graph.RBAC.Version1_6.Models;
 using Microsoft.Azure.Management.Authorization.Version2015_07_01;
 using Microsoft.Azure.Management.Authorization.Version2015_07_01.Models;
 using Microsoft.Azure.Management.ContainerService;
@@ -33,14 +30,11 @@ using Microsoft.Azure.Management.Internal.Resources.Models;
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
 using Microsoft.Rest.Azure.OData;
 using Microsoft.WindowsAzure.Commands.Common;
-using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Aks
 {
-    [CmdletDeprecation(ReplacementCmdletName = "Set-AzAksCluster")]
     [Cmdlet("Set", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "AksCluster", DefaultParameterSetName = DefaultParamSet, SupportsShouldProcess = true)]
-    [Alias("Set-" + ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "Aks")]
     [OutputType(typeof(PSKubernetesCluster))]
     public class SetAzureRmAks : CreateOrUpdateKubeBase
     {
@@ -61,6 +55,13 @@ namespace Microsoft.Azure.Commands.Aks
         [Parameter(Mandatory = false, HelpMessage = "Disable the 'acrpull' role assignment to the ACR specified by name or resource ID, e.g. myacr")]
         public string AcrNameToDetach { get; set; }
 
+
+        [Parameter(Mandatory = false, HelpMessage = "Will only upgrade the node image of agent pools.")]
+        public SwitchParameter NodeImageOnly { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Will only upgrade control plane to target version.")]
+        public SwitchParameter ControlPlaneOnly { get; set; }
+
         /// <summary>
         /// Cluster name
         /// </summary>
@@ -72,6 +73,12 @@ namespace Microsoft.Azure.Commands.Aks
         [ValidateNotNullOrEmpty]
         [Alias("ResourceId")]
         public string Id { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "The parameters to be applied to the cluster-autoscaler.")]
+        public ManagedClusterPropertiesAutoScalerProfile AutoScalerProfile { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Whether to use use Uptime SLA.")]
+        public SwitchParameter EnableUptimeSLA { get; set; }
 
         private ManagedCluster BuildNewCluster()
         {
@@ -122,6 +129,13 @@ namespace Microsoft.Azure.Commands.Aks
             return managedCluster;
         }
 
+        private ContainerServiceNetworkProfile SetNetworkProfile(ContainerServiceNetworkProfile networkProfile)
+        {
+            networkProfile.LoadBalancerProfile = CreateOrUpdateLoadBalancerProfile(networkProfile.LoadBalancerProfile);
+
+            return networkProfile;
+        }
+
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
@@ -139,7 +153,7 @@ namespace Microsoft.Azure.Commands.Aks
                 case InputObjectParameterSet:
                 {
                     WriteVerbose(Resources.UsingClusterFromPipeline);
-                    cluster = PSMapper.Instance.Map<ManagedCluster>(InputObject);
+                    cluster = AdapterHelper<PSKubernetesCluster, ManagedCluster>.Adapt(InputObject);
                     var resource = new ResourceIdentifier(cluster.Id);
                     ResourceGroupName = resource.ResourceGroupName;
                     Name = resource.ResourceName;
@@ -257,12 +271,89 @@ namespace Microsoft.Azure.Commands.Aks
                                 WriteVerbose(Resources.UpdatingNodePoolMode);
                                 defaultAgentPoolProfile.Mode = NodePoolMode;
                             }
+                            if (this.IsParameterBound(c => c.NodePoolLabel))
+                            {
+                                WriteVerbose(Resources.UpdatingNodePoolLabels);
+                                defaultAgentPoolProfile.NodeLabels = new Dictionary<string, string>();
+                                foreach (var key in NodePoolLabel.Keys)
+                                {
+                                    defaultAgentPoolProfile.NodeLabels.Add(key.ToString(), NodePoolLabel[key].ToString());
+                                }
+                            }
+                            if (this.IsParameterBound(c => c.NodePoolTag))
+                            {
+                                defaultAgentPoolProfile.Tags = new Dictionary<string, string>();
+                                foreach (var key in NodePoolTag.Keys)
+                                {
+                                    defaultAgentPoolProfile.Tags.Add(key.ToString(), NodePoolTag[key].ToString());
+                                }
+                            }
                         }
 
+                        if (this.IsParameterBound(c => c.KubernetesVersion) && this.IsParameterBound(c => c.NodeImageOnly))
+                        {
+                            throw new AzPSArgumentException(Resources.UpdateKubernetesVersionAndNodeImageOnlyConflict, "KubernetesVersion");
+                        }
+
+                        bool allAgentPoolVirtualMachineScaleSets = cluster.AgentPoolProfiles.All(c => c.Type.ToLower().Equals("virtualmachinescalesets"));
+                        if (this.IsParameterBound(c => c.NodeImageOnly))
+                        {
+                            if (!ShouldProcess(Resources.ConfirmOnlyUpgradeNodeVersion, ""))
+                            {
+                                return;
+                            }
+
+                            foreach (var agentPoolProfile in cluster.AgentPoolProfiles)
+                            {
+                                if (!allAgentPoolVirtualMachineScaleSets)
+                                {
+                                    throw new AzPSApplicationException(Resources.NotUsingVirtualMachineScaleSets);
+                                }
+                                var agentPoolClient = Client.AgentPools.Get(ResourceGroupName, Name, agentPoolProfile.Name);
+                                Client.AgentPools.UpgradeNodeImageVersion(ResourceGroupName, Name, agentPoolProfile.Name);
+                            }
+                            cluster = Client.ManagedClusters.Get(ResourceGroupName, Name);
+                            WriteObject(AdapterHelper<ManagedCluster, PSKubernetesCluster>.Adapt(cluster));
+                            return;
+                        }
                         if (this.IsParameterBound(c => c.KubernetesVersion))
                         {
                             WriteVerbose(Resources.UpdatingKubernetesVersion);
                             cluster.KubernetesVersion = KubernetesVersion;
+                        }
+                        bool upgradeAllNode = false;
+                        if (cluster.MaxAgentPools < 8 || !allAgentPoolVirtualMachineScaleSets)
+                        {
+                            if (this.IsParameterBound(c => c.ControlPlaneOnly))
+                            {
+                                if (!ShouldProcess(string.Format(Resources.ConfirmControlPlaneOnlyInVMASCluster, KubernetesVersion), ""))
+                                {
+                                    return;
+                                }
+                            }
+                            upgradeAllNode = true;
+                        }
+                        else
+                        {
+                            if (!this.IsParameterBound(c => c.ControlPlaneOnly))
+                            {
+                                if (!ShouldProcess(string.Format(Resources.ConfirmNotControlPlaneOnly, KubernetesVersion), ""))
+                                {
+                                    return;
+                                }
+                                upgradeAllNode = true;
+                            }
+                            else
+                            {
+                                if (!ShouldProcess(string.Format(Resources.ConfirmControlPlaneOnly, KubernetesVersion), ""))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                        if (upgradeAllNode)
+                        {
+                            cluster.AgentPoolProfiles.ForEach(c => c.OrchestratorVersion = KubernetesVersion);
                         }
 
                         if (this.IsParameterBound(c => c.Tag))
@@ -289,22 +380,64 @@ namespace Microsoft.Azure.Commands.Aks
                         cluster = BuildNewCluster();
                     }
 
-                    acsServicePrincipal = EnsureServicePrincipal(ServicePrincipalIdAndSecret?.UserName, ServicePrincipalIdAndSecret?.Password?.ConvertToString());
-                    if (this.IsParameterBound(c => c.AcrNameToAttach))
+                    if (this.IsParameterBound(c => c.AcrNameToAttach) ||
+                        this.IsParameterBound(c => c.AcrNameToDetach))
                     {
-                        AddAcrRoleAssignment(AcrNameToAttach, nameof(AcrNameToAttach), acsServicePrincipal);
+                        acsServicePrincipal = EnsureServicePrincipal(ServicePrincipalIdAndSecret?.UserName, ServicePrincipalIdAndSecret?.Password?.ConvertToString());
+                        if (this.IsParameterBound(c => c.AcrNameToAttach))
+                        {
+                            AddAcrRoleAssignment(AcrNameToAttach, nameof(AcrNameToAttach), acsServicePrincipal);
+                        }
+                        if (this.IsParameterBound(c => c.AcrNameToDetach))
+                        {
+                            RemoveAcrRoleAssignment(AcrNameToDetach, nameof(AcrNameToDetach), acsServicePrincipal);
+                        }
                     }
-                    if (this.IsParameterBound(c => c.AcrNameToDetach))
+                    cluster.NetworkProfile = SetNetworkProfile(cluster.NetworkProfile);
+                    cluster.ApiServerAccessProfile = CreateOrUpdateApiServerAccessProfile(cluster.ApiServerAccessProfile);
+                    cluster.HttpProxyConfig = CreateOrUpdateHttpProxyConfig(cluster.HttpProxyConfig);
+                    cluster.AutoUpgradeProfile = CreateOrUpdateAutoUpgradeProfile(cluster.AutoUpgradeProfile);
+                    if (this.IsParameterBound(c => c.FqdnSubdomain))
                     {
-                        RemoveAcrRoleAssignment(AcrNameToDetach, nameof(AcrNameToDetach), acsServicePrincipal);
+                        cluster.FqdnSubdomain = FqdnSubdomain;
                     }
+                    if (this.IsParameterBound(c => c.AutoScalerProfile))
+                    {
+                        cluster.AutoScalerProfile = AutoScalerProfile;
+                    }
+                    if (this.IsParameterBound(c => c.EnableUptimeSLA))
+                    {
+                        if (EnableUptimeSLA.ToBool())
+                        {
+                            cluster.Sku = new ManagedClusterSKU(name: "Basic", tier: "Paid");
+                        }
+                        else
+                        {
+                            cluster.Sku = new ManagedClusterSKU(name: "Basic", tier: "Free");
+                        }
+                    }
+                    if (this.IsParameterBound(c => c.AadProfile))
+                    {
+                        cluster.AadProfile = AadProfile;
+                    }
+                    SetIdentity(cluster);
 
-                    var kubeCluster = Client.ManagedClusters.CreateOrUpdate(ResourceGroupName, Name, cluster);
+                    var kubeCluster = this.CreateOrUpdate(ResourceGroupName, Name, cluster);
 
-                    WriteObject(PSMapper.Instance.Map<PSKubernetesCluster>(kubeCluster));
+                    if (this.IsParameterBound(c => c.DiskEncryptionSetID))
+                    {
+                        cluster.DiskEncryptionSetID = DiskEncryptionSetID;
+                    }
+                    if (DisableLocalAccount.IsPresent)
+                    {
+                        cluster.DisableLocalAccounts = DisableLocalAccount;
+                    }
+                    
+                    WriteObject(AdapterHelper<ManagedCluster, PSKubernetesCluster>.Adapt(kubeCluster));
                 });
             }
         }
+
         private void RemoveAcrRoleAssignment(string acrName, string acrParameterName, AcsServicePrincipal acsServicePrincipal)
         {
             string acrResourceId = null;
@@ -346,7 +479,8 @@ namespace Microsoft.Azure.Commands.Aks
             return this.IsParameterBound(c => c.NodeCount) || this.IsParameterBound(c => c.NodeOsDiskSize) ||
                 this.IsParameterBound(c => c.NodeVmSize) || this.IsParameterBound(c => c.EnableNodeAutoScaling) ||
                 this.IsParameterBound(c => c.NodeMinCount) || this.IsParameterBound(c => c.NodeMaxCount) || 
-                this.IsParameterBound(c => c.NodePoolMode);
+                this.IsParameterBound(c => c.NodePoolMode) || this.IsParameterBound(c => c.NodePoolLabel) ||
+                this.IsParameterBound(c => c.NodePoolTag);
         }
     }
 }

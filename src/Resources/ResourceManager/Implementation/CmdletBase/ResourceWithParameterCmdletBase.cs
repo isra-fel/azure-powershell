@@ -156,7 +156,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
         public SwitchParameter SkipTemplateParameterPrompt { get; set; }
 
         /// <summary>
-        /// Gets or sets the Template Specs Azure SDK client 
+        /// Gets or sets the Template Specs Azure SDK client
         /// </summary>
         public ITemplateSpecsClient TemplateSpecsClient
         {
@@ -177,11 +177,23 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
             set { this.templateSpecsClient = value; }
         }
 
-        public virtual object GetDynamicParameters()
+        protected override void OnBeginProcessing()
         {
+            TemplateFile = this.TryResolvePath(TemplateFile);
+            TemplateParameterFile = this.TryResolvePath(TemplateParameterFile);
+            base.OnBeginProcessing();
+        }
+
+        public new virtual object GetDynamicParameters()
+        {
+            if (BicepUtility.IsBicepFile(TemplateUri))
+            {
+                throw new NotSupportedException($"'-TemplateUri {TemplateUri}' is not supported. Please download the bicep file and pass it using -TemplateFile.");
+            }
+
             if (BicepUtility.IsBicepFile(TemplateFile))
                 BuildAndUseBicepTemplate();
-                
+
             if (!this.IsParameterBound(c => c.SkipTemplateParameterPrompt))
             {
                 // Resolve the static parameter names for this cmdlet:
@@ -269,7 +281,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                     if (!string.IsNullOrEmpty(resourceIdentifier.Subscription) &&
                         TemplateSpecsClient.SubscriptionId != resourceIdentifier.Subscription)
                     {
-                        // The template spec is in a different subscription than our default 
+                        // The template spec is in a different subscription than our default
                         // context. Force the client to use that subscription:
                         TemplateSpecsClient.SubscriptionId = resourceIdentifier.Subscription;
                     }
@@ -326,7 +338,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
         protected Hashtable GetTemplateParameterObject(Hashtable templateParameterObject)
         {
             // NOTE(jogao): create a new Hashtable so that user can re-use the templateParameterObject.
-            var prameterObject = new Hashtable();
+            var parameterObject = new Hashtable();
             if (templateParameterObject != null)
             {
                 foreach (var parameterKey in templateParameterObject.Keys)
@@ -335,21 +347,24 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                     var hashtableParameter = templateParameterObject[parameterKey] as Hashtable;
                     if (hashtableParameter != null && hashtableParameter.ContainsKey("reference"))
                     {
-                        prameterObject[parameterKey] = templateParameterObject[parameterKey];
+                        parameterObject[parameterKey] = templateParameterObject[parameterKey];
                     }
                     else
                     {
-                        prameterObject[parameterKey] = new Hashtable { { "value", templateParameterObject[parameterKey] } };
+                        parameterObject[parameterKey] = new Hashtable { { "value", templateParameterObject[parameterKey] } };
                     }
                 }
             }
 
             // Load parameters from the file
             string templateParameterFilePath = this.ResolvePath(TemplateParameterFile);
-            if (templateParameterFilePath != null && FileUtilities.DataStore.FileExists(templateParameterFilePath))
+            if (templateParameterFilePath != null)
             {
-                var parametersFromFile = TemplateUtility.ParseTemplateParameterFileContents(templateParameterFilePath);
-                parametersFromFile.ForEach(dp =>
+                // Check whether templateParameterFilePath exists
+                if (FileUtilities.DataStore.FileExists(templateParameterFilePath))
+                {
+                    var parametersFromFile = TemplateUtility.ParseTemplateParameterFileContents(templateParameterFilePath);
+                    parametersFromFile.ForEach(dp =>
                     {
                         var parameter = new Hashtable();
                         if (dp.Value.Value != null)
@@ -361,18 +376,25 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                             parameter.Add("reference", dp.Value.Reference);
                         }
 
-                        prameterObject[dp.Key] = parameter;
+                        parameterObject[dp.Key] = parameter;
                     });
-            }
 
+                }
+                else
+                {
+                    // To not break previous behavior, just output a warning.
+                    WriteWarning("${templateParameterFilePath} does not exist");
+                }
+            }
+            
             // Load dynamic parameters
             IEnumerable<RuntimeDefinedParameter> parameters = PowerShellUtilities.GetUsedDynamicParameters(this.AsJobDynamicParameters, MyInvocation);
             if (parameters.Any())
             {
-                parameters.ForEach(dp => prameterObject[((ParameterAttribute)dp.Attributes[0]).HelpMessage] = new Hashtable { { "value", dp.Value } });
+                parameters.ForEach(dp => parameterObject[((ParameterAttribute)dp.Attributes[0]).HelpMessage] = new Hashtable { { "value", dp.Value } });
             }
 
-            return prameterObject;
+            return parameterObject;
         }
 
         protected string GetDeploymentDebugLogLevel(string deploymentDebugLogLevel)
@@ -436,7 +458,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
 
         protected void BuildAndUseBicepTemplate()
         {
-            TemplateFile = BicepUtility.BuildFile(this.ResolvePath(TemplateFile), this.WriteVerbose);
+            TemplateFile = BicepUtility.BuildFile(this.ResolvePath(TemplateFile), this.WriteVerbose, this.WriteWarning);
         }
     }
 }

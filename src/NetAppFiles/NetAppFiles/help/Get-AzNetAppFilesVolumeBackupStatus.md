@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.NetAppFiles.dll-Help.xml
 Module Name: Az.NetAppFiles
-online version:https://docs.microsoft.com/powershell/module/az.netappfiles/get-aznetappfilesvolumebackupstatus
+online version: https://learn.microsoft.com/powershell/module/az.netappfiles/get-aznetappfilesvolumebackupstatus
 schema: 2.0.0
 ---
 
@@ -43,7 +43,7 @@ The **Get-AzNetAppFilesVolumeBackupStatus** cmdLet gets the status of the backup
 
 ### Example 1
 ```powershell
-PS C:\> Get-AzNetAppFilesVolumeBackupStatus -ResourceGroupName MyGroup -AccountName MyAccount -PoolName MyPool -Name MyVolume
+Get-AzNetAppFilesVolumeBackupStatus -ResourceGroupName MyGroup -AccountName MyAccount -PoolName MyPool -Name MyVolume
 ```
 
 This command gets the status of a backup of volume named "MyVolume".
@@ -54,7 +54,7 @@ This command gets the status of a backup of volume named "MyVolume".
 The name of the ANF account
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByFieldsParameterSet
 Aliases:
 
@@ -69,7 +69,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -84,7 +84,7 @@ Accept wildcard characters: False
 The volume object to get backup status for
 
 ```yaml
-Type: PSNetAppFilesVolume
+Type: Microsoft.Azure.Commands.NetAppFiles.Models.PSNetAppFilesVolume
 Parameter Sets: ByObjectParameterSet
 Aliases:
 
@@ -99,7 +99,7 @@ Accept wildcard characters: False
 The name of the ANF volume
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByFieldsParameterSet
 Aliases: VolumeName
 
@@ -114,7 +114,7 @@ Accept wildcard characters: False
 The name of the ANF pool
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByFieldsParameterSet
 Aliases:
 
@@ -129,7 +129,7 @@ Accept wildcard characters: False
 The pool object containing the volume to return
 
 ```yaml
-Type: PSNetAppFilesPool
+Type: Microsoft.Azure.Commands.NetAppFiles.Models.PSNetAppFilesPool
 Parameter Sets: ByParentObjectParameterSet
 Aliases:
 
@@ -144,7 +144,7 @@ Accept wildcard characters: False
 The resource group of the ANF volume
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByFieldsParameterSet
 Aliases:
 
@@ -159,7 +159,7 @@ Accept wildcard characters: False
 The resource id of the ANF volume
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
@@ -188,3 +188,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[New-AzNetAppFilesBackup](./New-AzNetAppFilesBackup.md)
+[Remove-AzNetAppFilesBackup](./Remove-AzNetAppFilesBackup.md)
+[Update-AzNetAppFilesBackup](./Update-AzNetAppFilesBackup.md)
+[Get-AzNetAppFilesBackupPolicy](./Get-AzNetAppFilesBackupPolicy.md)
+[New-AzNetAppFilesBackupPolicy](./New-AzNetAppFilesBackupPolicy.md)
+[Update-AzNetAppFilesBackupPolicy](./Update-AzNetAppFilesBackupPolicy.md)
+[Remove-AzNetAppFilesBackupPolicy](./Remove-AzNetAppFilesBackupPolicy.md)
+[Set-AzNetAppFilesBackupPolicy](./Set-AzNetAppFilesBackupPolicy.md)
+[Get-AzNetAppFilesVault](./Get-AzNetAppFilesVault.md)
+[Get-AzNetAppFilesVolume](./Get-AzNetAppFilesVolume.md)
+[New-AzNetAppFilesVolume](./New-AzNetAppFilesVolume.md)
+[Update-AzNetAppFilesVolume](./Update-AzNetAppFilesVolume.md)
+[Remove-AzNetAppFilesVolume](./Remove-AzNetAppFilesVolume.md)

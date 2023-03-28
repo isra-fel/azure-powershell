@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.dll-Help.xml
 Module Name: Az.RecoveryServices
 ms.assetid: C635D723-0F03-4EF8-9435-24DBE0859899
-online version: https://docs.microsoft.com/powershell/module/az.recoveryservices/set-azrecoveryservicesbackupproperty
+online version: https://learn.microsoft.com/powershell/module/az.recoveryservices/set-azrecoveryservicesbackupproperty
 schema: 2.0.0
 ---
 
@@ -14,8 +14,9 @@ Sets the properties for backup management.
 ## SYNTAX
 
 ```
-Set-AzRecoveryServicesBackupProperty -Vault <ARSVault>  [-BackupStorageRedundancy <AzureRmRecoveryServicesBackupStorageRedundancyType>]
- [-EnableCrossRegionRestore] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-AzRecoveryServicesBackupProperty -Vault <ARSVault>
+ [-BackupStorageRedundancy <AzureRmRecoveryServicesBackupStorageRedundancyType>] [-EnableCrossRegionRestore]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,9 +25,9 @@ The **Set-AzRecoveryServicesBackupProperty** cmdlet sets backup storage properti
 ## EXAMPLES
 
 ### Example 1: Set GeoRedundant storage for a vault
-```
-PS C:\> $Vault01 = Get-AzRecoveryServicesVault -Name "TestVault"
-PS C:\> Set-AzRecoveryServicesBackupProperty -Vault $Vault01 -BackupStorageRedundancy GeoRedundant
+```powershell
+$Vault01 = Get-AzRecoveryServicesVault -Name "TestVault"
+Set-AzRecoveryServicesBackupProperty -Vault $Vault01 -BackupStorageRedundancy GeoRedundant
 ```
 
 The first command gets the vault named TestVault, and then stores it in the $Vault01 variable.
@@ -57,6 +58,21 @@ The credentials, account, tenant, and subscription used for communication with a
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableCrossRegionRestore
+Enable CRR on a vault. Please make sure to set BackupStorageRedundancy to GeoRedundant before enabling CRR.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

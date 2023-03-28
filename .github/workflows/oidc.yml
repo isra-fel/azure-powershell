@@ -1,0 +1,64 @@
+name: Test OIDC flow
+on:
+  workflow_dispatch:
+  push:
+    branches: [test-oidc]
+
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    environment: Azure-SP
+    steps:
+      - name: "Azure PowerShell login"
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: "Install Az modules"
+        run: |
+          Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+          Install-Module -Name Az.Accounts
+          Install-Module -Name Az.Resources
+          Get-Module -ListAvailable -Name "Az.*" | Select Name, Version
+        shell: pwsh
+      - name: "Get resource group: 1"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (20*60)
+        shell: pwsh
+      - name: "Get resource group: 2"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (20*60)
+        shell: pwsh
+      - name: "Get resource group: 3"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (20*60)
+        shell: pwsh
+      - name: "Get resource group: 4"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (20*60)
+        shell: pwsh
+      - name: "Get resource group: 5"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (20*60)
+        shell: pwsh
+      - name: "Get resource group: 6"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          Start-Sleep -Seconds (20*60)
+        shell: pwsh
+      - name: "Get resource group: 7"
+        run: |
+          Get-AzResourceGroup | Select-Object -First 1 -Property ProvisioningState
+          # Start-Sleep -Seconds (20*60)
+        shell: pwsh

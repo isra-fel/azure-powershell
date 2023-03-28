@@ -20,6 +20,8 @@ using System.Management.Automation;
 using Microsoft.Azure.Commands.Compute.Common;
 using Microsoft.Azure.Commands.Compute.Models;
 using Microsoft.Azure.Management.Compute.Models;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Compute
 {
@@ -38,8 +40,10 @@ namespace Microsoft.Azure.Commands.Compute
 
         [Parameter(
            Mandatory = false,
-           ValueFromPipelineByPropertyName = true)]
-        public SecurityTypes SecurityType { get; set; }
+           ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. By default, UefiSettings will not be enabled unless this property is set. Possible values are 'ConfidentialVM' and 'TrustedLaunch'.")]
+        [PSArgumentCompleter("TrustedLaunch", "ConfidentialVM")]
+        public string SecurityType { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -48,7 +52,14 @@ namespace Microsoft.Azure.Commands.Compute
                 this.VM.SecurityProfile = new SecurityProfile();
             }
 
-            this.VM.SecurityProfile.SecurityType = SecurityType;
+            if (this.IsParameterBound(c => c.SecurityType))
+            {
+                if (this.VM.SecurityProfile == null)
+                {
+                    this.VM.SecurityProfile = new SecurityProfile();
+                }
+                this.VM.SecurityProfile.SecurityType = SecurityType;
+            }
 
             WriteObject(this.VM);
         }

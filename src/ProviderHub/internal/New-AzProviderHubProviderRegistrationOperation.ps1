@@ -48,7 +48,7 @@ INPUTOBJECT <IProviderHubIdentity>: Identity Parameter
   [Sku <String>]: The SKU.
   [SubscriptionId <String>]: The ID of the target subscription.
 .Link
-https://docs.microsoft.com/powershell/module/az.providerhub/new-azproviderhubproviderregistrationoperation
+https://learn.microsoft.com/powershell/module/az.providerhub/new-azproviderhubproviderregistrationoperation
 #>
 function New-AzProviderHubProviderRegistrationOperation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ProviderHub.Models.Api20201120.IOperationsDefinition])]
@@ -136,6 +136,7 @@ begin {
         if (('Generate') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
+
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
         $scriptCmd = {& $wrappedCmd @PSBoundParameters}
         $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)

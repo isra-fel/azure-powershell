@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
-online version: https://docs.microsoft.com/powershell/module/az.keyvault/add-azkeyvaultnetworkrule
+online version: https://learn.microsoft.com/powershell/module/az.keyvault/add-azkeyvaultnetworkrule
 schema: 2.0.0
 ---
 
@@ -16,21 +16,21 @@ Adds a rule meant to restrict access to a key vault based on the client's intern
 ```
 Add-AzKeyVaultNetworkRule [-VaultName] <String> [[-ResourceGroupName] <String>] [-IpAddressRange <String[]>]
  [-VirtualNetworkResourceId <String[]>] [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Confirm] [-SubscriptionId <String>] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Add-AzKeyVaultNetworkRule [-InputObject] <PSKeyVault> [-IpAddressRange <String[]>]
  [-VirtualNetworkResourceId <String[]>] [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Confirm] [-SubscriptionId <String>] [<CommonParameters>]
 ```
 
 ### ByResourceId
 ```
 Add-AzKeyVaultNetworkRule [-ResourceId] <String> [-IpAddressRange <String[]>]
  [-VirtualNetworkResourceId <String[]>] [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Confirm] [-SubscriptionId <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,11 +42,13 @@ Please note that any IP range inside `10.0.0.0-10.255.255.255` (private IP addre
 
 ### Example 1
 ```powershell
-PS C:\> $frontendSubnet = New-AzVirtualNetworkSubnetConfig -Name frontendSubnet -AddressPrefix "10.0.1.0/24" -ServiceEndpoint Microsoft.KeyVault 
-PS C:\> $virtualNetwork = New-AzVirtualNetwork -Name myVNet -ResourceGroupName myRG -Location westus -AddressPrefix "10.0.0.0/16" -Subnet $frontendSubnet
-PS C:\> $myNetworkResId = (Get-AzVirtualNetwork -Name myVNet -ResourceGroupName myRG).Subnets[0].Id
-PS C:\> Add-AzKeyVaultNetworkRule -VaultName myvault -IpAddressRange "10.0.1.0/24" -VirtualNetworkResourceId $myNetworkResId -PassThru
+$frontendSubnet = New-AzVirtualNetworkSubnetConfig -Name frontendSubnet -AddressPrefix "10.0.1.0/24" -ServiceEndpoint Microsoft.KeyVault 
+$virtualNetwork = New-AzVirtualNetwork -Name myVNet -ResourceGroupName myRG -Location westus -AddressPrefix "10.0.0.0/16" -Subnet $frontendSubnet
+$myNetworkResId = (Get-AzVirtualNetwork -Name myVNet -ResourceGroupName myRG).Subnets[0].Id
+Add-AzKeyVaultNetworkRule -VaultName myvault -IpAddressRange "124.56.78.0/24" -VirtualNetworkResourceId $myNetworkResId -PassThru
+```
 
+```output
 Vault Name                       : myvault
 Resource Group Name              : myRG
 Location                         : westus
@@ -78,7 +80,7 @@ Access Policies                  :
 Network Rule Set                 :
                                    Default Action                             : Allow
                                    Bypass                                     : AzureServices
-                                   IP Rules                                   : 10.0.1.0/24
+                                   IP Rules                                   : 124.56.78.0/24
                                    Virtual Network Rules                      : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-
                                    xxxxxxxxxxxxx/resourcegroups/myRG/providers/microsoft.network/virtualnetworks/myvn
                                    et/subnets/frontendsubnet
@@ -176,6 +178,23 @@ Aliases:
 
 Required: True
 Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -SubscriptionId
+The ID of the subscription.
+By default, cmdlets are executed in the subscription that is set in the current context. If the user specifies another subscription, the current cmdlet is executed in the subscription specified by the user.
+Overriding subscriptions only take effect during the lifecycle of the current cmdlet. It does not change the subscription in the context, and does not affect subsequent cmdlets.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

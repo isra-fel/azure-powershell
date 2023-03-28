@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 
-using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Commands.Common.Authentication;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core;
@@ -32,7 +31,7 @@ using System.Management.Automation;
 namespace Microsoft.Azure.Commands.Common
 {
     /// <summary>
-    /// Class providing telemtry usage based on the user's data collection settings
+    /// Class providing telemetry usage based on the user's data collection settings
     /// </summary>
     public class TelemetryProvider : IDictionary<string, AzurePSQoSEvent>, IDisposable
     {
@@ -103,20 +102,21 @@ namespace Microsoft.Azure.Commands.Common
         }
 
         /// <summary>
-        /// Log a telemtry event
+        /// Log a telemetry event
         /// </summary>
-        /// <param name="qosEvent">The event to log</param>
-        public virtual void LogEvent(string key)
+        /// <param name="qosEventKey">The event to log</param>
+        public virtual void LogEvent(string qosEventKey)
         {
             var dataCollection = _dataCollectionProfile.EnableAzureDataCollection;
             var enabled = dataCollection.HasValue ? dataCollection.Value : true;
 
-            AzurePSQoSEvent qos;
-            if (this.TryGetValue(key, out qos))
+            AzurePSQoSEvent qosEvent;
+            if (this.TryGetValue(qosEventKey, out qosEvent))
             {
-                qos.FinishQosEvent();
-                _helper.LogQoSEvent(qos, enabled, enabled);
-                this.Remove(key);
+                qosEvent.FinishQosEvent();
+                _helper.LogQoSEvent(qosEvent, enabled, enabled);
+                _helper.FlushMetric();
+                this.Remove(qosEventKey);
             }
         }
 
@@ -134,30 +134,28 @@ namespace Microsoft.Azure.Commands.Common
         /// <param name="invocationInfo"></param>
         /// <param name="parameterSetName"></param>
         /// <param name="correlationId"></param>
+        /// <param name="processRecordId"></param>
         /// <returns></returns>
         public virtual AzurePSQoSEvent CreateQosEvent(InvocationInfo invocationInfo, string parameterSetName, string correlationId, string processRecordId)
         {
             var qosEvent = new AzurePSQoSEvent
             {
                 CommandName = invocationInfo?.MyCommand?.Name,
-                ModuleVersion = invocationInfo?.MyCommand?.Module?.Version?.ToString(),
-                SessionId = correlationId,
+                ModuleVersion = TrimModuleVersion(invocationInfo?.MyCommand?.Module?.Version),
+                ModuleName = TrimModuleName(invocationInfo?.MyCommand?.ModuleName),
+                SourceScript = invocationInfo?.ScriptName,
+                ScriptLineNumber = invocationInfo?.ScriptLineNumber ?? 0,
+                SessionId = MetricHelper.SessionId,
                 ParameterSetName = parameterSetName,
                 InvocationName = invocationInfo?.InvocationName,
-                InputFromPipeline = invocationInfo?.PipelineLength > 0
+                InputFromPipeline = invocationInfo?.PipelineLength > 0,
+                UserAgent = AzurePSCmdlet.UserAgent,
+                AzVersion = AzurePSCmdlet.AzVersion,
+                AzAccountsVersion = AzurePSCmdlet.AzAccountsVersion,
+                PSVersion = AzurePSCmdlet.PowerShellVersion,
+                HostVersion = AzurePSCmdlet.PSHostVersion,
+                PSHostName = AzurePSCmdlet.PSHostName,
             };
-
-            // below is workaround that current invocationInfo only contains private module name. Trimming '.private' is a workaround for the time being.
-            const string privateModuleSuffix = ".private";
-            string moduleName = invocationInfo?.MyCommand?.ModuleName;
-            if (moduleName != null && moduleName.StartsWith("Az.") && moduleName.EndsWith(privateModuleSuffix))
-            {
-                moduleName = moduleName.Substring(0, moduleName.Length - privateModuleSuffix.Length);
-            }
-            qosEvent.ModuleName = moduleName;
-
-            qosEvent.UserAgent = AzurePSCmdlet.UserAgent;
-            qosEvent.AzVersion = AzurePSCmdlet.AzVersion;
 
             if (invocationInfo != null)
             {
@@ -182,15 +180,40 @@ namespace Microsoft.Azure.Commands.Common
             return qosEvent;
         }
 
+        private const string privateAssemblySuffix = ".private";
+        private const string privateAssemblyPrefix = "Az.";
+        private static readonly int privateAssemblyPrefixLength = privateAssemblyPrefix.Length;
+        /// <summary>
+        /// below is workaround that current invocationInfo only contains private module name. Trimming '.private' is a workaround for the time being.
+        /// </summary>
+        /// <param name="moduleName"></param>
+        /// <returns></returns>
+        internal static string TrimModuleName(string moduleName)
+        {
+            if (moduleName != null && moduleName.StartsWith(privateAssemblyPrefix) && moduleName.EndsWith(privateAssemblySuffix))
+            {
+                int splitter = moduleName.Substring(privateAssemblyPrefixLength).IndexOf('.');
+                moduleName = moduleName.Substring(0, splitter + privateAssemblyPrefixLength);
+            }
+            return moduleName;
+
+        }
+        /// <summary>
+        /// PowerShell module doesn't support revision. Trim it from sematic version.
+        /// </summary>
+        /// <param name="moduleVersion"></param>
+        /// <returns></returns>
+        internal static string TrimModuleVersion(Version moduleVersion)
+        {
+            if (moduleVersion == null)
+                return "0.0.0";
+            return $"{moduleVersion.Major}.{moduleVersion.Minor}.{moduleVersion.Build}";
+        }
 
         private static MetricHelper CreateMetricHelper(AzurePSDataCollectionProfile profile)
         {
             var result = new MetricHelper(profile);
-            result.AddTelemetryClient(new TelemetryClient
-            {
-                InstrumentationKey = "7df6ff70-8353-4672-80d6-568517fed090"
-            });
-
+            result.AddDefaultTelemetryClient();
             return result;
         }
 
@@ -203,7 +226,7 @@ namespace Microsoft.Azure.Commands.Common
             }
 
             warningLogger(Resources.DataCollectionEnabledWarning);
-            return new AzurePSDataCollectionProfile(true);
+            return new AzurePSDataCollectionProfile();
         }
 
         public void Dispose()

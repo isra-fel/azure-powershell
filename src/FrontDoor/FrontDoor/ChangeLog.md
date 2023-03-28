@@ -19,6 +19,13 @@
 -->
 ## Upcoming Release
 
+## Version 1.10.0
+* Fixed New-AzFrontDoorWafPolicy cmdlet to support adding Tags for the Azure Frontdoor waf policy
+
+## Version 1.9.0
+* Allowed rule engine action creation without RouteConfigurationOverride for `New-AzFrontDoorRulesEngineActionObject`.
+* Fixed DynamicCompression parameter being ignored issue of `New-AzFrontDoorRulesEngineActionObject`.
+
 ## Version 1.8.0
 * Allowed Enable-AzFrontDoorCustomDomainHttps's SecretVersion parameter to be optional to support bring-your-own-certificate auto-rotation
 * Added Sku / RuleSetAction parameters for WAF

@@ -16,6 +16,7 @@ using Microsoft.Azure.Commands.Sql.Database.Model;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Commands.ResourceManager.Common.Tags;
 using Microsoft.Azure.Commands.Sql.Database.Services;
+using Microsoft.Azure.Commands.Sql.Common;
 using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -25,6 +26,7 @@ using System.Management.Automation;
 using System.Collections;
 using System.Globalization;
 using System;
+using DatabaseKey = Microsoft.Azure.Management.Sql.Models.DatabaseKey;
 
 namespace Microsoft.Azure.Commands.Sql.Database.Cmdlet
 {
@@ -212,8 +214,8 @@ namespace Microsoft.Azure.Commands.Sql.Database.Cmdlet
         /// Gets or sets the database backup storage redundancy.
         /// </summary>
         [Parameter(Mandatory = false,
-            HelpMessage = "The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone and Geo.")]
-        [ValidateSet("Local", "Zone", "Geo", IgnoreCase = false)]
+            HelpMessage = "The Backup storage redundancy used to store backups for the SQL Database. Options are: Local, Zone, Geo, and GeoZone.")]
+        [ValidateSet("Local", "Zone", "Geo", "GeoZone", IgnoreCase = false)]
         public string BackupStorageRedundancy { get; set; }
 
         /// <summary>
@@ -230,6 +232,58 @@ namespace Microsoft.Azure.Commands.Sql.Database.Cmdlet
         [Parameter(Mandatory = false,
             HelpMessage = "The Maintenance configuration id for the SQL Database.")]
         public string MaintenanceConfigurationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ledger option to assign to the Azure SQL Database
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Creates a ledger database, in which the integrity of all data is protected by the ledger feature. All tables in the ledger database must be ledger tables. Note: the value of this property cannot be changed after the database has been created.")]
+        public SwitchParameter EnableLedger { get; set; }
+
+        /// <summary>
+        /// Gets or sets the preferred enclave type requested on the database.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The preferred enclave type for the Azure Sql database. Possible values are Default and VBS.")]
+        [PSArgumentCompleter(
+            "Default",
+            "VBS")]
+        public string PreferredEnclaveType { get; set; }
+
+        /// <summary>
+        /// Switch parameter to control if database identity is to be assigned.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "Generate and assign an Azure Active Directory Identity for this database for use with key management services like Azure KeyVault.")]
+        public SwitchParameter AssignIdentity { get; set; }
+
+        /// <summary>
+        /// Database encryption protector
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The encryption protector key for SQL Database.")]
+        public string EncryptionProtector { get; set; }
+
+        /// <summary>
+        /// List of user assigned managed identities
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The list of user assigned identity for the SQL Database.")]
+        public string[] UserAssignedIdentityId { get; set; }
+
+        /// <summary>
+        /// List of Azure Key vault keys
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The list of AKV keys for the SQL Database.")]
+        public string[] KeyList { get; set; }
+
+        /// <summary>
+        /// Federated client id
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The federated client id for the SQL Database. It is used for cross tenant CMK scenario.")]
+        public Guid? FederatedClientId { get; set; }
 
         /// <summary>
         /// Overriding to add warning message
@@ -315,6 +369,12 @@ namespace Microsoft.Azure.Commands.Sql.Database.Cmdlet
                 RequestedBackupStorageRedundancy = BackupStorageRedundancy,
                 SecondaryType = SecondaryType,
                 MaintenanceConfigurationId = MaintenanceConfigurationId,
+                EnableLedger = this.IsParameterBound(p => p.EnableLedger) ? EnableLedger.ToBool() : (bool?)null,
+                PreferredEnclaveType = this.PreferredEnclaveType,
+                Identity = DatabaseIdentityAndKeysHelper.GetDatabaseIdentity(this.AssignIdentity.IsPresent, this.UserAssignedIdentityId),
+                Keys = DatabaseIdentityAndKeysHelper.GetDatabaseKeysDictionary(this.KeyList),
+                EncryptionProtector = this.EncryptionProtector,
+                FederatedClientId = this.FederatedClientId
             };
 
             if (ParameterSetName == DtuDatabaseParameterSet)

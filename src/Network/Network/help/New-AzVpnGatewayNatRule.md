@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/powershell/module/az.network/new-azvpngatewaynatrule
+online version: https://learn.microsoft.com/powershell/module/az.network/new-azvpngatewaynatrule
 schema: 2.0.0
 ---
 
@@ -16,21 +16,23 @@ Creates a NAT rule on a VpnGateway which can be associated with VpnSiteLinkConne
 ```
 New-AzVpnGatewayNatRule -ResourceGroupName <String> -ParentResourceName <String> -Name <String>
  [-Type <String>] [-Mode <String>] -InternalMapping <String[]> -ExternalMapping <String[]>
- [-IpConfigurationId <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-InternalPortRange <String[]>] [-ExternalPortRange <String[]>] [-IpConfigurationId <String>] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByVpnGatewayObject
 ```
 New-AzVpnGatewayNatRule -ParentObject <PSVpnGateway> -Name <String> [-Type <String>] [-Mode <String>]
- -InternalMapping <String[]> -ExternalMapping <String[]> [-IpConfigurationId <String>] [-AsJob]
+ -InternalMapping <String[]> -ExternalMapping <String[]> [-InternalPortRange <String[]>]
+ [-ExternalPortRange <String[]>] [-IpConfigurationId <String>] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByVpnGatewayResourceId
 ```
 New-AzVpnGatewayNatRule -ParentResourceId <String> -Name <String> [-Type <String>] [-Mode <String>]
- -InternalMapping <String[]> -ExternalMapping <String[]> [-IpConfigurationId <String>] [-AsJob]
+ -InternalMapping <String[]> -ExternalMapping <String[]> [-InternalPortRange <String[]>]
+ [-ExternalPortRange <String[]>] [-IpConfigurationId <String>] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -42,19 +44,23 @@ Creates a NAT rule on a VpnGateway which can be associated with VpnGateway.
 ### Example 1
 
 ```powershell
-PS C:\> New-AzResourceGroup -Location "West US" -Name "testRG"
-PS C:\> $virtualWan = New-AzVirtualWan -ResourceGroupName testRG -Name myVirtualWAN -Location "West US"
-PS C:\> $virtualHub = New-AzVirtualHub -VirtualWan $virtualWan -ResourceGroupName "testRG" -Name "westushub" -AddressPrefix "10.0.0.1/24"
-PS C:\> New-AzVpnGateway -ResourceGroupName "testRG" -Name "testvpngw" -VirtualHubId $virtualHub.Id -BGPPeeringWeight 10 -VpnGatewayScaleUnit 2
-PS C:\> $vpnGateway = Get-AzVpnGateway -ResourceGroupName "testRG" -Name "testvpngw"
+New-AzResourceGroup -Location "West US" -Name "testRG"
+$virtualWan = New-AzVirtualWan -ResourceGroupName testRG -Name myVirtualWAN -Location "West US"
+$virtualHub = New-AzVirtualHub -VirtualWan $virtualWan -ResourceGroupName "testRG" -Name "westushub" -AddressPrefix "10.0.0.1/24"
+New-AzVpnGateway -ResourceGroupName "testRG" -Name "testvpngw" -VirtualHubId $virtualHub.Id -VpnGatewayScaleUnit 2
+$vpnGateway = Get-AzVpnGateway -ResourceGroupName "testRG" -Name "testvpngw"
 
-PS C:\> New-AzVpnGatewayNatRule -ResourceGroupName $vpnGateway.ResourceGroupName -ParentResourceName $vpnGateway.Name -Name "testNatRule" -Type Static -Mode EgressSnat -InternalMapping "10.0.0.1/26" -ExternalMapping "192.168.0.0/26"
+New-AzVpnGatewayNatRule -ResourceGroupName $vpnGateway.ResourceGroupName -ParentResourceName $vpnGateway.Name -Name "testNatRule" -Type Static -Mode EgressSnat -InternalMapping "10.0.0.1/26" -ExternalMapping "192.168.0.0/26" -InternalPortRange "100-100" -ExternalPortRange "200-200"
+```
 
+```output
 Type             		  : Static
 Mode                      : EgressSnat
 VpnConnectionProtocolType : IKEv2
 InternalMappings          : 10.0.0.1/26
 ExternalMappings          : 192.168.0.0/26
+InternalPortRange         : 100-100
+ExternalPortRange         : 200-200
 IpConfigurationId   	  :
 IngressVpnSiteLinkConnections : [Microsoft.Azure.Commands.Network.Models.PSResourceId]
 EgressVpnSiteLinkConnections  : [Microsoft.Azure.Commands.Network.Models.PSResourceId]
@@ -113,6 +119,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ExternalPortRange
+The list of external port range mappings for NAT subnets
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -InternalMapping
 The list of private IP address subnet internal mappings for NAT
 
@@ -122,6 +143,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InternalPortRange
+The list of internal port range mappings for NAT subnets
+
+```yaml
+Type: System.String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

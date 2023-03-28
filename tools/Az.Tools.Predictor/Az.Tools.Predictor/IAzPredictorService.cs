@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 using System.Management.Automation.Language;
-using System.Management.Automation.Subsystem;
+using System.Management.Automation.Subsystem.Prediction;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,16 +32,17 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor
         /// <param name="suggestionCount">The number of suggestion to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="maxAllowedCommandDuplicate">The maximum amount of the same commnds in the list of predictions.</param>
-        /// <returns>The suggestions for <paramref name="context"/>. The maximum number of suggestions is <paramref name="suggestionCount"/>. A null will be returned if there the user input context isn't valid/supported at all.</returns>
+        /// <returns>The suggestions for <paramref name="context"/>. The maximum number of suggestions is <paramref name="suggestionCount"/>.</returns>
         public CommandLineSuggestion GetSuggestion(PredictionContext context, int suggestionCount, int maxAllowedCommandDuplicate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Requests predictions, given a command string.
         /// </summary>
         /// <param name="commands">A list of commands.</param>
+        /// <param name="requestId">The guid to correlate the telemetry event and the http request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A boolean means that a request is made.</returns>
-        public Task<bool> RequestPredictionsAsync(IEnumerable<string> commands, CancellationToken cancellationToken);
+        /// <returns>Null when no request is made. The boolean values indicates a request is made and whether it's successful.</returns>
+        public Task<bool?> RequestPredictionsAsync(IEnumerable<string> commands, string requestId, CancellationToken cancellationToken);
 
         /// <summary>
         /// Record the history from PSReadLine.
@@ -50,8 +51,8 @@ namespace Microsoft.Azure.PowerShell.Tools.AzPredictor
         public void RecordHistory(CommandAst history);
 
         /// <summary>
-        /// Return true if command is part of known set of Az cmdlets, false otherwise.
+        /// Return true if command of the name is part of known set of Az cmdlets, false otherwise.
         /// </summary>
-        public bool IsSupportedCommand(string cmd);
+        public bool IsSupportedCommand(string commandName);
     }
 }

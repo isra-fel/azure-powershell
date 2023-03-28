@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.CosmosDB.dll-Help.xml
 Module Name: Az.CosmosDB
-online version: https://docs.microsoft.com/powershell/module/az.cosmosdb/update-azcosmosdbaccount
+online version: https://learn.microsoft.com/powershell/module/az.cosmosdb/update-azcosmosdbaccount
 schema: 2.0.0
 ---
 
@@ -22,6 +22,7 @@ Update-AzCosmosDBAccount [-EnableAutomaticFailover <Boolean>] [-EnableMultipleWr
  [-PublicNetworkAccess <String>] [-KeyVaultKeyUri <String>] [-EnableAnalyticalStorage <Boolean>] [-AsJob]
  [-NetworkAclBypass <String>] [-NetworkAclBypassResourceId <String[]>] [-ServerVersion <String>]
  [-BackupIntervalInMinutes <Int32>] [-BackupRetentionIntervalInHours <Int32>]
+ [-BackupStorageRedundancy <String>] [-BackupPolicyType <String>] [-AnalyticalStorageSchemaType <String>]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -35,6 +36,7 @@ Update-AzCosmosDBAccount -ResourceId <String> [-EnableAutomaticFailover <Boolean
  [-PublicNetworkAccess <String>] [-KeyVaultKeyUri <String>] [-EnableAnalyticalStorage <Boolean>] [-AsJob]
  [-NetworkAclBypass <String>] [-NetworkAclBypassResourceId <String[]>] [-ServerVersion <String>]
  [-BackupIntervalInMinutes <Int32>] [-BackupRetentionIntervalInHours <Int32>]
+ [-BackupStorageRedundancy <String>] [-BackupPolicyType <String>] [-AnalyticalStorageSchemaType <String>]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -48,6 +50,7 @@ Update-AzCosmosDBAccount -InputObject <PSDatabaseAccountGetResults> [-EnableAuto
  [-PublicNetworkAccess <String>] [-KeyVaultKeyUri <String>] [-EnableAnalyticalStorage <Boolean>] [-AsJob]
  [-NetworkAclBypass <String>] [-NetworkAclBypassResourceId <String[]>] [-ServerVersion <String>]
  [-BackupIntervalInMinutes <Int32>] [-BackupRetentionIntervalInHours <Int32>]
+ [-BackupStorageRedundancy <String>] [-BackupPolicyType <String>] [-AnalyticalStorageSchemaType <String>]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -58,8 +61,10 @@ Update the properties of a CosmosDB account. Cannot update Account Regions simul
 
 ### Example 1
 ```powershell
-PS C:\> Update-AzCosmosDBAccount -ResourceGroupName resourceGroupName -Name accountName -DefaultConsistencyLevel "Strong" -EnableAutomaticFailover 1 -EnableMultipleWriteLocations 1 -EnableVirtualNetwork 1
+Update-AzCosmosDBAccount -ResourceGroupName resourceGroupName -Name accountName -DefaultConsistencyLevel "Strong" -EnableAutomaticFailover 1 -EnableMultipleWriteLocations 1 -EnableVirtualNetwork 1
+```
 
+```output
 Kind                          : GlobalDocumentDB
 ProvisioningState             : Initializing
 DocumentEndpoint              :
@@ -86,6 +91,21 @@ NetworkAclBypassResourceIds   : {}
 Updated DefaultConsistencyLevel to "Strong", Enabled AutomaticFailover, Enabled MultipleWriteLocations and Enabled VirtualNetwork for CosmosDB Account with name accountName. 
 
 ## PARAMETERS
+
+### -AnalyticalStorageSchemaType
+The schema type for analytical storage. Valid values include: 'WellDefined' and 'FullFidelity'.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -AsJob
 Run cmdlet in the background
@@ -117,11 +137,41 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -BackupPolicyType
+The type of backups on the Cosmos DB account. Accepted values: Periodic, Continuous
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -BackupRetentionIntervalInHours
 The time(in hours) for which each backup is retained (only for accounts with periodic mode backups)
 
 ```yaml
 Type: System.Nullable`1[System.Int32]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackupStorageRedundancy
+The redundancy type of the backup Storage account
+
+```yaml
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -506,11 +556,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.Commands.CosmosDB.Models.PSCorsRule[]
+### Microsoft.Azure.Commands.CosmosDB.Models.PSDatabaseAccountGetResults
 
 ## OUTPUTS
 
-### Microsoft.Azure.Commands.CosmosDB.Models.PSDatabaseAccount
+### Microsoft.Azure.Commands.CosmosDB.Models.PSDatabaseAccountGetResults
 
 ## NOTES
 

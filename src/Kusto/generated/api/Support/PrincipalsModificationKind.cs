@@ -25,7 +25,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         /// <param name="value">the value to convert to an instance of <see cref="PrincipalsModificationKind" />.</param>
         internal static object CreateFrom(object value)
         {
-            return new PrincipalsModificationKind(System.Convert.ToString(value));
+            return new PrincipalsModificationKind(global::System.Convert.ToString(value));
         }
 
         /// <summary>Compares values of enum type PrincipalsModificationKind</summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
             return this._value.GetHashCode();
         }
 
-        /// <summary>Creates an instance of the <see cref="PrincipalsModificationKind" Enum class./></summary>
+        /// <summary>Creates an instance of the <see cref="PrincipalsModificationKind"/> Enum class.</summary>
         /// <param name="underlyingValue">the value to create an instance for.</param>
         private PrincipalsModificationKind(string underlyingValue)
         {
@@ -82,8 +82,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         }
 
         /// <summary>Overriding != operator for enum PrincipalsModificationKind</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are not equal to the same value</returns>
         public static bool operator !=(Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.PrincipalsModificationKind e1, Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.PrincipalsModificationKind e2)
         {
@@ -91,8 +91,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support
         }
 
         /// <summary>Overriding == operator for enum PrincipalsModificationKind</summary>
-        /// <param name="e1">the value to compare against <see cref="e2" /></param>
-        /// <param name="e2">the value to compare against <see cref="e1" /></param>
+        /// <param name="e1">the value to compare against <paramref name="e2" /></param>
+        /// <param name="e2">the value to compare against <paramref name="e1" /></param>
         /// <returns><c>true</c> if the two instances are equal to the same value</returns>
         public static bool operator ==(Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.PrincipalsModificationKind e1, Microsoft.Azure.PowerShell.Cmdlets.Kusto.Support.PrincipalsModificationKind e2)
         {

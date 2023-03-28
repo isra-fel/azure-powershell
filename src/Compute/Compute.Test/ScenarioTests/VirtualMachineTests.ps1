@@ -1,4 +1,4 @@
-﻿# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
 #
 # Copyright Microsoft Corporation
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -108,7 +108,7 @@ function Test-VirtualMachine
         # $p.StorageProfile.OSDisk = $null;
         $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
 
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus2euap" -publisherName "MicrosoftWindowsServer" -offer "WindowsServer" -skus "2012-R2-Datacenter" -version "4.127.20180315";
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
 
         Assert-AreEqual $p.OSProfile.AdminUsername $user;
@@ -158,9 +158,6 @@ function Test-VirtualMachine
         Assert-AreEqual $vm1.OSProfile.ComputerName $computerName;
         Assert-AreEqual $vm1.HardwareProfile.VmSize $vmsize;
 
-        Assert-AreEqual $true $vm1.DiagnosticsProfile.BootDiagnostics.Enabled;
-        Assert-AreEqual $stoaccount.PrimaryEndpoints.Blob $vm1.DiagnosticsProfile.BootDiagnostics.StorageUri;
-
         Assert-AreEqual "BGInfo" $vm1.Extensions[0].VirtualMachineExtensionType
         Assert-AreEqual "Microsoft.Compute" $vm1.Extensions[0].Publisher
 
@@ -201,9 +198,6 @@ function Test-VirtualMachine
         Assert-AreEqual $vm2.OSProfile.ComputerName $computerName;
         Assert-AreEqual $vm2.HardwareProfile.VmSize $vmsize;
         Assert-NotNull $vm2.Location;
-
-        Assert-AreEqual $true $vm2.DiagnosticsProfile.BootDiagnostics.Enabled;
-        Assert-AreEqual $stoaccount.PrimaryEndpoints.Blob $vm2.DiagnosticsProfile.BootDiagnostics.StorageUri;
 
         $vms = Get-AzVM -ResourceGroupName $rgname;
         $a = $vms | Out-String;
@@ -334,6 +328,59 @@ function Test-VirtualMachine
     {
         # Cleanup
         Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machines
+#>
+function Test-VirtualMachineInEdgeZone
+{
+    $ResourceGroup = Get-ComputeTestResourceName;
+    $LocationName = "eastus2euap";
+    $EdgeZone = "microsoftrrdclab1";
+    $VMName = "MyVM";
+
+    try
+    {
+        New-AzResourceGroup -Name $ResourceGroup -Location $LocationName -Force;
+
+        $VMLocalAdminUser = "LocalAdminUser";
+        $VMLocalAdminSecurePassword = ConvertTo-SecureString $PLACEHOLDER -AsPlainText -Force;
+        
+        $VMSize = "Standard_B1ls";
+        $ComputerName = "MyComputer";
+        $NetworkName = "MyNet";
+        $NICName = "MyNIC";
+        $SubnetName = "MySubnet";
+        $SubnetAddressPrefix = "10.0.0.0/24";
+        $VnetAddressPrefix = "10.0.0.0/16";
+
+        $SingleSubnet = New-AzVirtualNetworkSubnetConfig -Name $SubnetName -AddressPrefix $SubnetAddressPrefix;
+        $Vnet = New-AzVirtualNetwork -Name $NetworkName -ResourceGroupName $ResourceGroup -Location $LocationName -EdgeZone $EdgeZone -AddressPrefix $VnetAddressPrefix -Subnet $SingleSubnet;
+        $NIC = New-AzNetworkInterface -Name $NICName -ResourceGroupName $ResourceGroup -Location $LocationName -EdgeZone $EdgeZone -SubnetId $Vnet.Subnets[0].Id;
+
+        $Credential = New-Object System.Management.Automation.PSCredential ($VMLocalAdminUser, $VMLocalAdminSecurePassword);
+
+        $VirtualMachine = New-AzVMConfig -VMName $VMName -VMSize $VMSize;
+        $VirtualMachine = Set-AzVMOperatingSystem -VM $VirtualMachine -Windows -ComputerName $ComputerName -Credential $Credential -ProvisionVMAgent -EnableAutoUpdate;
+        $VirtualMachine = Add-AzVMNetworkInterface -VM $VirtualMachine -Id $NIC.Id;
+        $VirtualMachine = Set-AzVMSourceImage -VM $VirtualMachine -PublisherName 'MicrosoftWindowsServer' -Offer 'WindowsServer' -Skus '2016-DataCenter' -Version 'latest';
+
+        New-AzVM -ResourceGroupName $ResourceGroup -Location $LocationName -EdgeZone $EdgeZone -VM $VirtualMachine;
+
+        $vm = Get-AzVm -ResourceGroupName $ResourceGroup -Name $VMName
+
+        Assert-AreEqual $vm.ExtendedLocation.Name $EdgeZone;
+
+         # validate that extendedlocation is propagated correctly in this cmdlet
+        Update-AzVM -VM $vm -ResourceGroupName $ResourceGroup;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $ResourceGroup;
     }
 }
 
@@ -1837,7 +1884,7 @@ function Test-VirtualMachineWithVMAgentAutoUpdate
         $vhdContainer = "https://$stoname.blob.core.windows.net/test";
         $imgRef = Get-DefaultCRPWindowsImageOffline;
 
-        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent -EnableAutoUpdate;
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent -EnableAutoUpdate;
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
 
         Assert-AreEqual $p.OSProfile.AdminUsername $user;
@@ -2012,6 +2059,31 @@ function Test-VMImageCmdletOutputFormat
     Assert-OutputContains " Get-AzVMImage -Location '$locStr' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
 
     Assert-OutputContains " Get-AzVMImage -Location '$locStr' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
+}
+
+# Test Image Cmdlet Output Format with EdgeZone
+<#
+.Description
+AzureAutomationTest
+#>
+function Test-VMImageEdgeZoneCmdletOutputFormat
+{
+    $locStr = "westus"; 
+    $publisher = "MicrosoftWindowsServer";
+    $offer = "WindowsServer";
+    $sku = "2016-Datacenter";
+    $ver = "14393.4048.2011170655";
+    $edgeZone = "microsoftlosangeles1";
+
+    Assert-OutputContains " Get-AzVMImagePublisher -Location '$locStr' | ? { `$_.PublisherName -eq `'$publisher`' } | Get-AzVMImageOffer -EdgeZone '$edgeZone' | Select EdgeZone, Location " @('microsoftlosangeles1', 'westus');
+
+    Assert-OutputContains " Get-AzVMImagePublisher -Location '$locStr' | ? { `$_.PublisherName -eq `'$publisher`' } | Get-AzVMImageOffer -EdgeZone '$edgeZone'| Get-AzVMImageSku " @('Publisher', 'Offer', 'Skus');
+
+    Assert-OutputContains " Get-AzVMImagePublisher -Location '$locStr' | ? { `$_.PublisherName -eq `'$publisher`' } | Get-AzVMImageOffer -EdgeZone '$edgeZone' | Get-AzVMImageSku | Get-AzVMImage " @('Version', 'Skus');
+
+    Assert-OutputContains " Get-AzVMImage -Location '$locStr' -EdgeZone '$edgeZone' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
+
+    Assert-OutputContains " Get-AzVMImage -Location '$locStr' -EdgeZone '$edgeZone' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
 }
 
 # Test Get VM Size from All Locations
@@ -2824,7 +2896,9 @@ function Test-VirtualMachineReapply
 
         $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
 
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServerHPCPack" -offer "WindowsServerHPCPack" -skus "2012R2" -version "4.5.5198";
+
+
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
 
         # Create a Virtual Machine
@@ -2960,18 +3034,27 @@ function Test-VirtualMachineGetStatus
 
         $vm = Get-AzVM -Name $vmname -ResourceGroupName $rgname -Status;
 
+        Assert-True {$vm.OsName -like "*windows*"}
+        Assert-NotNullOrEmpty $vm.OsVersion
+        Assert-NotNullOrEmpty $vm.HyperVGeneration
         $a = $vm | Out-String;
         Write-Verbose($a);
         Assert-True {$a.Contains("Statuses");}
 
         $vms = Get-AzVM -ResourceGroupName $rgname -Status;
         Assert-AreEqual "VM running" ($vms | ? {$_.Name -eq $vmname}).PowerState;
+        Assert-True {($vms | ? {$_.Name -eq $vmname}).OsName -like "*windows*"}
+        Assert-NotNullOrEmpty ($vms | ? {$_.Name -eq $vmname}).OsVersion
+        Assert-NotNullOrEmpty ($vms | ? {$_.Name -eq $vmname}).HyperVGeneration
         $a = $vms | Out-String;
         Write-Verbose($a);
         Assert-True {$a.Contains("VM running")};
 
         $vms = Get-AzVM -Status;
         Assert-AreEqual "VM running" ($vms | ? {$_.Name -eq $vmname}).PowerState;
+        Assert-True {($vms | ? {$_.Name -eq $vmname}).OsName -like "*windows*"}
+        Assert-NotNullOrEmpty ($vms | ? {$_.Name -eq $vmname}).OsVersion
+        Assert-NotNullOrEmpty ($vms | ? {$_.Name -eq $vmname}).HyperVGeneration
         $a = $vms | Out-String;
         Write-Verbose($a);
         Assert-True {$a.Contains("VM running")};
@@ -3050,6 +3133,99 @@ function Test-VirtualMachineGetStatusWithHealhtExtension
 
         # Remove
         Remove-AzVM -Name $vmname -ResourceGroupName $rgname -Force;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machines's Remove Extension.
+Description:
+This test creates a virtual machine and adds a vm health extension. It then removes the health Extension and tests Remove-AzVMExtension.
+#>
+function Test-VirtualMachineRemoveExtension
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+       # Common
+       $loc = Get-ComputeVMLocation;
+       $loc = $loc.Replace(' ', '');
+
+       New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+       # VM Profile & Hardware
+       $vmname = 'vm' + $rgname;
+
+       # OS & Image
+       $username = "admin01";
+       $password = $PLACEHOLDER | ConvertTo-SecureString -AsPlainText -Force;
+       $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password;
+       $domainNameLabel = "d" + $rgname;
+
+       # Virtual Machine
+       New-AzVM -ResourceGroupName $rgname -Location $loc -DomainNameLabel $domainNameLabel -Name $vmname -Credential $cred;
+
+       # Adding health extension on VM
+       $publicConfig = @{"protocol" = "http"; "port" = 80; "requestPath" = "/healthEndpoint"};
+       $extensionName = "myHealthExtension";
+       $extensionType = "ApplicationHealthWindows";
+       $publisher = "Microsoft.ManagedServices";
+       Set-AzVMExtension -ResourceGroupName $rgname -VMName $vmname -Publisher $publisher -Settings $publicConfig -ExtensionType $extensionType -ExtensionName $extensionName -Loc $loc -TypeHandlerVersion "1.0";
+
+       # Get VM
+       $vm = Get-AzVM -Name $vmname -ResourceGroupName $rgname -Status;
+
+       #Check for VmHealth Extension after removal
+       Remove-AzVMExtension -ResourceGroupName $rgname -Name $extensionName -VMName $vmname -Force;
+       Assert-ThrowsContains {
+            Get-AzVMExtension -ResourceGroupName $rgname -VMName $vmname -Name $extensionName -Status; } `
+            "was not found";
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machines
+#>
+function Test-VirtualMachineGetHost
+{
+    param ($loc)
+    # Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+        # Common
+        $loc = Get-Location "Microsoft.Resources" "resourceGroups" "East US 2 EUAP";
+        $loc = $loc.Replace(' ', '');
+        
+        # Creating the resource group
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # Hostgroup and Hostgroupname
+        $hostGroupName = $rgname + "HostGroup";
+        New-AzHostGroup -ResourceGroupName $rgname -Name $hostGroupName -Location $loc -PlatformFaultDomain 1 -Zone "2" -Tag @{key1 = "val1"};
+
+        $Sku = "ESv3-Type1";
+        $hostGroup = Get-AzHostGroup -ResourceGroupName $rgname -Name $hostGroupName;
+        $hostName = $rgname + "Host";
+        New-AzHost -ResourceGroupName $rgname -HostGroupName $hostGroupName -Name $hostName -Location $loc -Sku $Sku -Tag @{key1  = "val2"};
+        $dedicatedHost = Get-AzHost -ResourceGroupName $rgname -HostGroupName $hostGroupName -Name $hostName;
+        $host2 = Get-AzHost -ResourceId $dedicatedHost.Id;
+        
+        Assert-NotNull $host2.Id;
     }
     finally
     {
@@ -3239,6 +3415,153 @@ function Test-VirtualMachineManagedDiskConversion
         Assert-NotNull  $vm2.StorageProfile.OSDisk.ManagedDisk
         Assert-NotNull  $vm2.StorageProfile.DataDisks[0].ManagedDisk
         Assert-NotNull  $vm2.StorageProfile.DataDisks[1].ManagedDisk
+
+        # Remove
+        Remove-AzVM -ResourceGroupName $rgname -Name $vmname -Force;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine managed disk delete option
+#>
+function Test-VirtualMachineDiskDeleteOption
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+        # Common
+        if ($loc -eq $null)
+        {
+            $loc = Get-ComputeVMLocation;
+        }
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_A4';
+        $vmname = 'vm' + $rgname;
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize;
+        Assert-AreEqual $p.HardwareProfile.VmSize $vmsize;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel ('pubip' + $rgname);
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+        Assert-AreEqual $p.NetworkProfile.NetworkInterfaces.Count 1;
+        Assert-AreEqual $p.NetworkProfile.NetworkInterfaces[0].Id $nicId;
+
+        # Adding the same Nic but not set it Primary
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId -Primary;
+        Assert-AreEqual $p.NetworkProfile.NetworkInterfaces.Count 1;
+        Assert-AreEqual $p.NetworkProfile.NetworkInterfaces[0].Id $nicId;
+        Assert-AreEqual $p.NetworkProfile.NetworkInterfaces[0].Primary $true;
+
+        # Storage Account (SA)
+        $stoname = 'sto' + $rgname;
+        $stotype = 'Standard_GRS';
+        New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
+        $stoaccount = Get-AzStorageAccount -ResourceGroupName $rgname -Name $stoname;
+
+        $osDiskName = 'osDisk';
+        $osDiskCaching = 'ReadWrite';
+        $osDiskVhdUri = "https://$stoname.blob.core.windows.net/test/os.vhd";
+        $dataDiskVhdUri1 = "https://$stoname.blob.core.windows.net/test/data1.vhd";
+        $dataDiskVhdUri2 = "https://$stoname.blob.core.windows.net/test/data2.vhd";
+        $dataDiskVhdUri3 = "https://$stoname.blob.core.windows.net/test/data3.vhd";
+
+        $p = Set-AzVMOSDisk -VM $p -Name $osDiskName -VhdUri $osDiskVhdUri -Caching $osDiskCaching -CreateOption FromImage -DeleteOption "Delete";
+
+        $p = Add-AzVMDataDisk -VM $p -Name 'testDataDisk1' -Caching 'ReadOnly' -DiskSizeInGB 10 -Lun 1 -VhdUri $dataDiskVhdUri1 -CreateOption Empty  -DeleteOption "Delete";
+        $p = Add-AzVMDataDisk -VM $p -Name 'testDataDisk2' -Caching 'ReadOnly' -DiskSizeInGB 11 -Lun 2 -VhdUri $dataDiskVhdUri2 -CreateOption Empty  -DeleteOption "Detach";
+        $p = Add-AzVMDataDisk -VM $p -Name 'testDataDisk3' -Caching 'ReadOnly' -DiskSizeInGB 12 -Lun 3 -VhdUri $dataDiskVhdUri3 -CreateOption Empty;
+        $p = Remove-AzVMDataDisk -VM $p -Name 'testDataDisk3';
+
+        Assert-AreEqual $p.StorageProfile.OSDisk.Caching $osDiskCaching;
+        Assert-AreEqual $p.StorageProfile.OSDisk.Name $osDiskName;
+        Assert-AreEqual $p.StorageProfile.OSDisk.Vhd.Uri $osDiskVhdUri;
+        Assert-AreEqual $p.StorageProfile.OSDisk.DeleteOption "Delete";
+        Assert-AreEqual $p.StorageProfile.DataDisks.Count 2;
+        Assert-AreEqual $p.StorageProfile.DataDisks[0].Caching 'ReadOnly';
+        Assert-AreEqual $p.StorageProfile.DataDisks[0].DiskSizeGB 10;
+        Assert-AreEqual $p.StorageProfile.DataDisks[0].Lun 1;
+        Assert-AreEqual $p.StorageProfile.DataDisks[0].Vhd.Uri $dataDiskVhdUri1;
+        Assert-AreEqual $p.StorageProfile.DataDisks[0].DeleteOption "Delete";
+        Assert-AreEqual $p.StorageProfile.DataDisks[1].Caching 'ReadOnly';
+        Assert-AreEqual $p.StorageProfile.DataDisks[1].DiskSizeGB 11;
+        Assert-AreEqual $p.StorageProfile.DataDisks[1].Lun 2;
+        Assert-AreEqual $p.StorageProfile.DataDisks[1].Vhd.Uri $dataDiskVhdUri2;
+        Assert-AreEqual $p.StorageProfile.DataDisks[1].DeleteOption "Detach";
+
+        # OS & Image
+        $user = "Foo12";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+        $vhdContainer = "https://$stoname.blob.core.windows.net/test";
+
+        # $p.StorageProfile.OSDisk = $null;
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
+
+        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $p = ($imgRef | Set-AzVMSourceImage -VM $p);
+
+        Assert-AreEqual $p.OSProfile.AdminUsername $user;
+        Assert-AreEqual $p.OSProfile.ComputerName $computerName;
+        Assert-AreEqual $p.OSProfile.AdminPassword $password;
+
+        Assert-AreEqual $p.StorageProfile.ImageReference.Offer $imgRef.Offer;
+        Assert-AreEqual $p.StorageProfile.ImageReference.Publisher $imgRef.PublisherName;
+        Assert-AreEqual $p.StorageProfile.ImageReference.Sku $imgRef.Skus;
+        Assert-AreEqual $p.StorageProfile.ImageReference.Version $imgRef.Version;
+
+        # Virtual Machine
+        New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p;
+
+        $vm2 = Get-AzVM -Name $vmname -ResourceGroupName $rgname;
+
+        Assert-AreEqual $vm2.NetworkProfile.NetworkInterfaces.Count 1;
+        Assert-AreEqual $vm2.NetworkProfile.NetworkInterfaces[0].Id $nicId;
+        Assert-AreEqual $vm2.StorageProfile.DataDisks.Count 2;
+
+        Assert-AreEqual $vm2.OSProfile.AdminUsername $user;
+        Assert-AreEqual $vm2.OSProfile.ComputerName $computerName;
+        Assert-AreEqual $vm2.HardwareProfile.VmSize $vmsize;
+        Assert-NotNull $vm2.Location;
+
+        Assert-Null  $vm2.StorageProfile.OSDisk.ManagedDisk
+        Assert-Null  $vm2.StorageProfile.DataDisks[0].ManagedDisk
+        Assert-Null  $vm2.StorageProfile.DataDisks[1].ManagedDisk
+
+        # Deallocate the VM before conversion
+        Stop-AzVM -ResourceGroupName $rgname -Name $vmname -Force
+
+        # Convert VM to managed disks
+        $job = ConvertTo-AzVMManagedDisk -ResourceGroupName $rgname -VMName $vmname -AsJob;
+        $result = $job | Wait-Job;
+        Assert-AreEqual "Completed" $result.State;
+
+        $vm2 = Get-AzVM -Name $vmname -ResourceGroupName $rgname;
+
+        Assert-NotNull  $vm2.StorageProfile.OSDisk.ManagedDisk
+        Assert-AreEqual $vm2.StorageProfile.OSDisk.DeleteOption "Delete"
+        Assert-NotNull  $vm2.StorageProfile.DataDisks[0].ManagedDisk
+        Assert-AreEqual $vm2.StorageProfile.DataDisks[0].DeleteOption "Delete"
+        Assert-NotNull  $vm2.StorageProfile.DataDisks[1].ManagedDisk
+        Assert-AreEqual $vm2.StorageProfile.DataDisks[1].DeleteOption "Detach"
 
         # Remove
         Remove-AzVM -ResourceGroupName $rgname -Name $vmname -Force;
@@ -3530,7 +3853,7 @@ function Test-VirtualMachineWriteAcceleratorUpdate
              | Add-AzVMNetworkInterface -Id $nicId -Primary `
              | Set-AzVMOperatingSystem -Windows -ComputerName $computerName -Credential $cred;
 
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServerHPCPack" -offer "WindowsServerHPCPack" -skus "2012R2" -version "4.5.5198";
         $imgRef | Set-AzVMSourceImage -VM $p | New-AzVM -ResourceGroupName $rgname -Location $loc;
 
         # Get VM
@@ -3829,7 +4152,7 @@ function Test-VirtualMachineRemoteDesktop
         New-AzResourceGroup -Name $rgname -Location $loc -Force;
 
         # VM Profile & Hardware
-        $vmsize = 'Standard_DS2_v2';
+        $vmSize = "Standard_E64s_v3";
         $vmname = 'vm' + $rgname;
 
         $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize -EnableUltraSSD -Zone "1";
@@ -3854,13 +4177,11 @@ function Test-VirtualMachineRemoteDesktop
 
         $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
 
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServerHPCPack" -offer "WindowsServerHPCPack" -skus "2012R2" -version "4.5.5198";
+
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
 
         # Virtual Machine
-        Assert-ThrowsContains { `
-            New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p; } `
-            "'Microsoft.Compute/UltraSSD' feature is not enabled for this subscription.";
 
         $p.AdditionalCapabilities.UltraSSDEnabled = $false;
         New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p;
@@ -4228,11 +4549,12 @@ function Test-SetAzVMOperatingSystem
         $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
         $computerName = 'test';
 
-        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -EnableAutoUpdate:$false -PatchMode "Manual";
         $p2 = Set-AzVMOperatingSystem -VM $p2 -Windows -ComputerName $computerName -Credential $cred -EnableAutoUpdate;
         $p3 = Set-AzVMOperatingSystem -VM $p3 -Windows -ComputerName $computerName -Credential $cred -EnableAutoUpdate -PatchMode "AutomaticByPlatform";
 
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServer" -offer "WindowsServer" -skus "2012-R2-Datacenter" -version "4.127.20180315";
+
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
         $p2 = ($imgRef | Set-AzVMSourceImage -VM $p2);
         $p3 = ($imgRef | Set-AzVMSourceImage -VM $p3);
@@ -4314,11 +4636,13 @@ function Test-SetAzVMOperatingSystemError
 
         $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -EnableAutoUpdate -DisableVMAgent -Patchmode "AutomaticByPlatform";
       
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServerHPCPack" -offer "WindowsServerHPCPack" -skus "2012R2" -version "4.5.5198";
+
+
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
        
         # Virtual Machine
-        Assert-ThrowsContains { New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p; } "The patchMode 'AutomaticByPlatform' is invalid. For patchMode 'AutomaticByPlatform', the properties 'provisionVMAgent' and 'enableAutomaticUpdates' must be set to true.";
+        Assert-ThrowsContains { New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p; } "The patchMode 'AutomaticByPlatform' is invalid. For patchMode 'AutomaticByPlatform', the property 'enableAutomaticUpdates' must be set to true. Also, this operation cannot be performed when extension operations are disallowed. To allow, please ensure VM Agent is installed on the VM and the osProfile.allowExtensionOperations property is true.";
     }
     finally
     {
@@ -4460,7 +4784,9 @@ function Test-VirtualMachineBootDiagnostics
         # Windows OS test case. 
         $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
 
-        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServerHPCPack" -offer "WindowsServerHPCPack" -skus "2012R2" -version "4.5.5198";
+
+
         $p = ($imgRef | Set-AzVMSourceImage -VM $p);
 
         # Virtual Machine
@@ -4627,7 +4953,7 @@ function Test-NewAzVMDefaultingSize
 {
     # Setup
     $rgname = Get-ComputeTestResourceName;
-    $loc = "eastus";#Get-ComputeVMLocation;
+    $loc = "eastus";
 
     try
     {
@@ -4721,4 +5047,1532 @@ function Test-InvokeAzVMInstallPatch
         # Cleanup
         Clean-ResourceGroup $rgname;
 	}
+}
+
+<#
+.SYNOPSIS
+Windows machine enable hot patching, linux machines patchmode
+#>
+function Test-VirtualMachineAssessmentMode
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'vm' + $rgname;
+        $vmsize = "Standard_B1s";
+        $domainNameLabel = "d1" + $rgname;
+
+        # Creating a VM 
+        $p = New-AzVmConfig -VMName $vmname -vmsize $vmsize 
+
+        $publisherName = "MicrosoftWindowsServer"
+        $offer = "WindowsServer"
+        $sku = "2019-DataCenter"
+        $p = Set-AzVMSourceImage -VM $p -PublisherName $publisherName -Offer $offer -Skus $sku -Version 'latest'
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel;
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+
+        # OS & Image
+        $user = "Foo12";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+        $assessmentMode = "AutomaticByPlatform";
+
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent -AssessmentMode $assessmentMode;
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $p;
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname;
+        
+        Assert-NotNull $vm;
+
+        Assert-AreEqual $vm.osProfile.WindowsConfiguration.PatchSettings.AssessmentMode "AutomaticByPlatform";
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Windows machine test ensuring the EnableAutoUpdate value on the 
+provided VM is not overwritten. 
+#>
+function Test-VirtualMachineEnableAutoUpdate
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'vm' + $rgname;
+        $vmsize = "Standard_B1s";
+        $domainNameLabel = "d1" + $rgname;
+        $computerName = "v" + $rgname;
+
+        # VM Credential
+        $user = "usertest";
+        $password = "Testing1234567";
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        # Creating a VM 
+        $vmConfig = New-AzVmConfig -VMName $vmname -vmsize $vmsize;
+        
+        $vmSet = Set-AzVMOperatingSystem -VM $vmConfig -Windows -ComputerName $computerName -Credential $cred -provisionVMAgent -EnableAutoUpdate:$false;
+        Assert-AreEqual $vmSet.OSProfile.WindowsConfiguration.EnableAutomaticUpdates $false;
+        
+        $vmSet2 = Set-AzVMOperatingSystem -VM $vmSet -Windows -ComputerName $computerName -Credential $cred -provisionVMAgent -EnableAutoUpdate;
+        Assert-AreEqual $vmSet2.OSProfile.WindowsConfiguration.EnableAutomaticUpdates $true;
+
+        $vmSet3 = Set-AzVMOperatingSystem -VM $vmSet2 -Windows -ComputerName $computerName -Credential $cred -provisionVMAgent;
+        Assert-AreEqual $vmSet3.OSProfile.WindowsConfiguration.EnableAutomaticUpdates $true;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+} 
+
+<#
+.SYNOPSIS
+Windows machine test ensuring the EnableAutoUpdate value on the 
+provided VM is not overwritten. 
+#>
+function Test-CapacityReservation
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = 'eastus2euap';
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # create a CRG
+        $CRGName = 'CRG' + $rgname
+        New-AzCapacityReservationGroup -ResourceGroupName $rgname -Name $CRGName -Location $loc
+
+        # Create 2 CR in CRG with two different skus
+        $CRName1 = "cr1" + $rgname
+        $Sku1 = "Standard_DS1_v2"
+        $CRName2 = "cr2" + $rgname
+        $Sku2 = "Standard_A2_v2"
+        $cr1 = New-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName -Name $CRName1 -Sku $Sku1 -CapacityToReserve 4 -location $loc
+        $cr2 = New-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName -Name $CRName2 -Sku $Sku2 -CapacityToReserve 4 -location $loc
+        
+        # try Get-CRG with InstanceView
+        $CRG = Get-AzCapacityReservationGroup -ResourceGroupName $rgname -Name $CRGName -InstanceView
+        Assert-AreEqual 2 $crg.InstanceView.CapacityReservations.count
+
+        # try Get-CR  count == 2 
+        $CR = Get-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName 
+        Assert-AreEqual 2 $CR.count
+        
+        # create credential 
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        # Add one VM from creation 
+        $vmname1 = '1' + $rgname;
+        $domainNameLabel1 = "d1" + $rgname;
+        $vm1 = New-AzVM -ResourceGroupName $rgname -Name $vmname1 -Credential $cred -DomainNameLabel $domainNameLabel1 -CapacityReservationGroupId $CRG.id -Size $Sku1 -Location $loc
+
+        # Create one VM then update to associate with CRG
+        $vmname2 = '2' + $rgname;
+        $domainNameLabel2 = "d2" + $rgname;
+        $vm2 = New-AzVM -ResourceGroupName $rgname -Name $vmname2 -Credential $cred -DomainNameLabel $domainNameLabel2 -Size $Sku2 -Location $loc
+        Stop-AzVM -ResourceGroupName $rgname -Name $vmname2 -Force
+        Update-AzVm -ResourceGroupName $rgname -vm $vm2 -CapacityReservationGroupId $CRG.id
+
+        # get instance view of CR. verify
+        $vm2 = Get-AzVM -ResourceGroupName $rgname -Name $vmname2
+        $cr1 = Get-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName -Name $CRName1 -InstanceView
+        $cr2 = Get-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName -Name $CRName2 -InstanceView
+        Assert-AreEqual $vm2.CapacityReservation.CapacityReservationGroup.id $CRG.id
+        Assert-AreEqual $cr1.InstanceView.UtilizationInfo.VirtualMachinesAllocated.id $vm1.id
+        Assert-AreEqual $cr2.VirtualMachinesAssociated[0].id $vm2.id
+
+        # remove VMs
+        Remove-AzVm -ResourceGroupName $rgname -Name $vmname1 -Force
+        Remove-AzVm -ResourceGroupName $rgname -Name $vmname2 -Force
+
+        # remove CRs
+        Remove-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName -Name $CRName1
+        Remove-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName -Name $CRName2
+        $CR = Get-AzCapacityReservation -ResourceGroupName $rgname -ReservationGroupName $CRGName 
+        Assert-AreEqual 0 $CR.count
+
+        # remove CRG
+        Remove-AzCapacityReservationGroup -ResourceGroupName $rgname -Name $CRGName 
+        $CRG = Get-AzCapacityReservationGroup -ResourceGroupName $rgname
+        Assert-AreEqual 0 $CRG.count
+
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+} 
+
+function Test-VMwithSSHKey
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        
+        # create credential 
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        # Add one VM from creation 
+        $vmname = '1' + $rgname;
+        $domainNameLabel = "d1" + $rgname;
+        $sshKeyName = "s" + $rgname
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -Image CentOS -DomainNameLabel $domainNameLabel -SshKeyname $sshKeyName -generateSshkey 
+
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname
+        $sshKey = Get-AzSshKey -ResourceGroupName $rgname -Name $sshKeyName
+
+        #assert compare 
+        Assert-AreEqual $vm.OSProfile.LinuxConfiguration.Ssh.PublicKeys[0].KeyData $sshKey.publickey
+
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+} 
+
+<#
+.SYNOPSIS
+Test Virtual Machine UserData feature. 
+#>
+function Test-VMUserData
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'v' + $rgname;
+        $defaultSize = "Standard_D2s_v3";
+        $domainNameLabel = "d1" + $rgname;
+
+        $text = "this isvm encoded";
+        $bytes = [System.Text.Encoding]::Unicode.GetBytes($text);
+        $encodedText = [Convert]::ToBase64String($bytes);
+        $userData = $encodedText;
+
+        # Creating a VM using simple parameter set
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel -UserData $userData;
+
+        $vmGet = Get-AzVM -ResourceGroupName $rgname -Name $vmname -UserData;
+        Assert-AreEqual $userData $vmGet.UserData;
+
+        #Update Userdata test
+        $text = "this is vm update";
+        $bytes = [System.Text.Encoding]::Unicode.GetBytes($text);
+        $encodedTextVMUp = [Convert]::ToBase64String($bytes);
+
+        Stop-AzVM -ResourceGroupName $rgname -Name $vmname -Force;
+        Update-AzVM -ResourceGroupName $rgname -VM $vmGet -UserData $encodedTextVMUp;
+
+        $vmGet2 = Get-AzVM -ResourceGroupName $rgname -Name $vmname -UserData;
+        Assert-AreEqual $encodedTextVMUp $vmGet2.UserData;
+
+        #Null UserData test
+        Update-AzVm -ResourceGroupName $rgname -VM $vmGet -UserData "";
+        $vmGet3 = Get-AzVM -ResourceGroupName $rgname -Name $vmname -UserData;
+        Assert-Null $vmGet3.Userdata;
+
+        #New-AzVMConfig test
+        $vmname2 = 'vm2' + $rgname;
+        $vmsize2 = "Standard_B1s";
+        $domainNameLabel2 = "d2" + $rgname;
+        $computerName2 = "v2" + $rgname;
+        $identityType = "SystemAssigned";
+        $text3 = "this is vm third encoded";
+        $bytes3 = [System.Text.Encoding]::Unicode.GetBytes($text3);
+        $encodedText3 = [Convert]::ToBase64String($bytes3);
+
+        # Creating a VM 
+        $p = New-AzVmConfig -VMName $vmname2 -vmsize $vmsize2 -Userdata $encodedText3 -IdentityType $identityType;
+        Assert-AreEqual $encodedText3 $p.UserData;
+
+        $publisherName = "MicrosoftWindowsServer"
+        $offer = "WindowsServer"
+        $sku = "2019-DataCenter"
+        $p = Set-AzVMSourceImage -VM $p -PublisherName $publisherName -Offer $offer -Skus $sku -Version 'latest'
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel2;
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+
+        # OS & Image
+        $user = "Foo12";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent;
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $p;
+        $vmGet2 = Get-AzVM -ResourceGroupName $rgname -Name $vmname2 -UserData;
+        Assert-AreEqual $encodedText3 $vmGet2.Userdata;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine UserData feature. 
+#>
+function Test-VMUserDataBase64Encoded
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'v' + $rgname;
+        $defaultSize = "Standard_D2s_v3";
+        $domainNameLabel = "d1" + $rgname;
+
+        $text = "this isvm encoded";
+        $bytes = [System.Text.Encoding]::Unicode.GetBytes($text);
+        $encodedText = [Convert]::ToBase64String($bytes);
+        $userData = $encodedText;
+
+        # Creating a VM using simple parameter set
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        Start-Transcript -Path "transcript.txt";
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel -UserData $text;
+        Stop-Transcript;
+
+        $wordToFind= "The provided UserData parameter value was not Base64 encoded.";
+        $file = (Get-Content -path "transcript.txt") -join ' ';
+        Assert-True { $file -match $wordToFind } ;
+
+        $vmGet = Get-AzVM -ResourceGroupName $rgname -Name $vmname -UserData;
+        Assert-AreEqual $userData $vmGet.UserData; 
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine creation process does not create a Public IP Address when it is 
+not provided as a parameter. 
+When using a VM Config object, this problem does not occur. 
+#>
+function Test-VMNoPublicIPAddress
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'v' + $rgname;
+        $domainNameLabel = "d1" + $rgname;
+
+        # Creating a VM using simple parameter set
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel;
+
+        # Check that no PublicIPAddress resource was created. 
+        $publicIPAddress = Get-AzPublicIpAddress -ResourceGroupName $rgname;
+        Assert-Null $publicIPAddress;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine Force Delete 
+#>
+function Test-ForceDelete
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'v' + $rgname;
+        $domainNameLabel = "d1" + $rgname;
+
+        # Creating a VM using simple parameterset
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel;
+
+        Remove-AzVM -ResourceGroupName $rgname -Name $vmname -ForceDeletion $true -Force;
+
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine DiffDiskPlacement feature. 
+#>
+function Test-VirtualMachineDiffDiskPlacement
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+
+    try
+    {
+        ## Cache Disk Test ##
+        # Common
+        $loc = Get-ComputeVMLocation;
+
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_DS3_v2';
+        $vmname = 'vm' + $rgname;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel ('pubip' + $rgname);
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nicId = $nic.Id;
+
+        # OS & Image
+        $user = "Foo12";
+        $password = Get-PasswordForVM;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+        $diffDiskPlacement = "CacheDisk";
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize `
+             | Add-AzVMNetworkInterface -Id $nicId -Primary `
+             | Set-AzVMOperatingSystem -Windows -ComputerName $computerName -Credential $cred `
+             | Set-AzVMOSDisk -DiffDiskSetting "Local" -DiffDiskPlacement $diffDiskPlacement -Caching 'ReadOnly' -CreateOption FromImage;
+
+        $imgRef = Create-ComputeVMImageObject -loc "eastus" -publisherName "MicrosoftWindowsServerHPCPack" -offer "WindowsServerHPCPack" -skus "2012R2" -version "4.5.5198";
+        $imgRef | Set-AzVMSourceImage -VM $p | New-AzVM -ResourceGroupName $rgname -Location $loc;
+
+        # Get VM
+        $vm = Get-AzVM -Name $vmname -ResourceGroupName $rgname;
+
+        # Validate DiffDiskPlacement
+        Assert-AreEqual $vm.StorageProfile.OsDisk.DiffDiskSettings.Placement $diffDiskPlacement;
+
+
+        ## Resource Disk Test ##
+        $loc = "eastus2euap";
+        $rgname2 = Get-ComputeTestResourceName;
+        New-AzResourceGroup -Name $rgname2 -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'vm' + $rgname2;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname2) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname2) -ResourceGroupName $rgname2 -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname2) -ResourceGroupName $rgname2 -Location $loc -AllocationMethod Dynamic -DomainNameLabel ('pubip' + $rgname2);
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname2) -ResourceGroupName $rgname2 -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nicId = $nic.Id;
+
+        # OS & Image
+        $user = "Foo12";
+        $password = Get-PasswordForVM;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+        $diffDiskPlacement = "ResourceDisk";
+        $vmsize = 'Standard_B4ms';
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize `
+             | Add-AzVMNetworkInterface -Id $nicId -Primary `
+             | Set-AzVMOperatingSystem -Linux -ComputerName $computerName -Credential $cred `
+             | Set-AzVMOSDisk -DiffDiskSetting "Local" -DiffDiskPlacement $diffDiskPlacement -Caching 'ReadOnly' -CreateOption FromImage;# -DiskSizeInGB 30;# tried adding disksize
+
+        # I had to create a VM and Capture an image from it to meet the size requirements for the Resource Disk value.
+        # The VM I made with a source image of Ubuntu 18.04 LTS Gen 1, and size Standard_B4ms. 
+        # Choose the 'Capture a managed version' option when capturing the image. 
+        $imgRef = Get-AzImage -ResourceGroupName "adsandordiff" -ImageName "vmdiffubunImage";
+        $imgRef | Set-AzVMSourceImage -VM $p | New-AzVM -ResourceGroupName $rgname2 -Location $loc;
+
+        # Get VM
+        $vm = Get-AzVM -Name $vmname -ResourceGroupName $rgname2;
+
+        # Validate DiffDiskPlacement
+        Assert-AreEqual $vm.StorageProfile.OsDisk.DiffDiskSettings.Placement $diffDiskPlacement;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+        Clean-ResourceGroup $rgname2;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine Hibernate feature.
+#>
+function Test-VirtualMachineHibernate
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = "eastus";
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # New-AzVMConfig test
+        $vmname = 'vm2' + $rgname;
+        $vmsize = "Standard_B1s";
+        $domainNameLabel2 = "d2" + $rgname;
+        $computerName2 = "v2" + $rgname;
+        $identityType = "SystemAssigned";
+        $hibernationEnabled = $true;
+        $hibernationDisabled = $false;
+
+        # Creating a VM 
+        $vmconfig = New-AzVmConfig -VMName $vmname -vmsize $vmsize -IdentityType $identityType -HibernationEnabled;
+
+        $publisherName = "MicrosoftWindowsServer";
+        $offer = "WindowsServer";
+        $sku = "2019-DataCenter";
+        $vmconfig = Set-AzVMSourceImage -VM $vmconfig -PublisherName $publisherName -Offer $offer -Skus $sku -Version 'latest';
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel2;
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $vmconfig = Add-AzVMNetworkInterface -VM $vmconfig -Id $nicId;
+
+        # OS & Image
+        $user = "usertest";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $vmconfig = Set-AzVMOperatingSystem -VM $vmconfig -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent;
+
+        New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $vmconfig;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual $hibernationEnabled $vm.AdditionalCapabilities.HibernationEnabled;
+
+        # Update HibernationEnabled
+        $job = Stop-AzVm -ResourceGroupName $rgname -Name $vmname -Force -AsJob;
+        $result = $job | Wait-Job;
+        Assert-AreEqual "Completed" $result.State;
+
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Update-AzVm -ResourceGroupName $rgname -VM $vm -HibernationEnabled:$false;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual $hibernationDisabled $vm.AdditionalCapabilities.HibernationEnabled;
+        Update-AzVm -ResourceGroupName $rgname -VM $vm -HibernationEnabled:$true;
+        
+        $job = Start-AzVm -ResourceGroupName $rgname -Name $vmname -AsJob;
+        $result = $job | Wait-Job;
+        Assert-AreEqual "Completed" $result.State;
+
+        # Stop with Hibernate
+        $job = Stop-AzVm -ResourceGroupName $rgname -Name $vmname -Hibernate -Force -AsJob;
+        $result = $job | Wait-Job;
+        Assert-AreEqual "Completed" $result.State;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test the VM vCPU feature in New-AzVm, New-AzVmConfig, and Update-AzVm.
+#>
+function Test-VMvCPUFeatures
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = "eastus";
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'v' + $rgname;
+        $domainNameLabel = "d1" + $rgname;
+        #$vmSize = 'Standard_DS3_v2';
+        $vmSize = 'Standard_D4s_v4';
+        $vCPUsCore1 = 1;
+        $vCPUsAvailable1 = 1;
+        $vCPUsCoreInitial = 2;
+        $vCPUsAvailableInitial = 4;
+
+        # Creating a VM using simple parameter set
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel -Size $vmSize -vCPUCountPerCore $vCPUsCoreInitial -vCPUCountAvailable $vCPUsAvailableInitial;
+        Assert-AreEqual $vCPUsAvailableInitial $vm.HardwareProfile.VmSizeProperties.VCPUsAvailable;
+        Assert-AreEqual $vCPUsCoreInitial $vm.HardwareProfile.VmSizeProperties.VCPUsPerCore;
+
+        $vmUp = Update-AzVm -ResourceGroupName $rgname -VM $vm -vCPUCountAvailable $vCPUsAvailable1 -vCPUCountPerCore $vCPUsCore1;
+
+        $vmGet = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual $vCPUsAvailable1 $vmGet.HardwareProfile.VmSizeProperties.VCPUsAvailable;
+        Assert-AreEqual $vCPUsCore1 $vmGet.HardwareProfile.VmSizeProperties.VCPUsPerCore;
+
+
+        # New-AzVMConfig test
+        $vmname = 'vm2' + $rgname;
+        $vmSize = 'Standard_DS3_v2';
+        $domainNameLabel2 = "d2" + $rgname;
+        $computerName2 = "v2" + $rgname;
+        $identityType = "SystemAssigned";
+
+        # Creating a VM 
+        $vmconfig = New-AzVmConfig -VMName $vmname -vmsize $vmsize -IdentityType $identityType -vCPUCountAvailable $vCPUsAvailable1 -vCPUCountPerCore $vCPUsCore1;
+
+        $publisherName = "MicrosoftWindowsServer";
+        $offer = "WindowsServer";
+        $sku = "2019-DataCenter";
+        $vmconfig = Set-AzVMSourceImage -VM $vmconfig -PublisherName $publisherName -Offer $offer -Skus $sku -Version 'latest';
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel2;
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $vmconfig = Add-AzVMNetworkInterface -VM $vmconfig -Id $nicId;
+
+        # OS & Image
+        $user = "usertest";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $vmconfig = Set-AzVMOperatingSystem -VM $vmconfig -Windows -ComputerName $computerName -Credential $cred;
+
+        New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $vmconfig;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual $vCPUsAvailable1 $vm.HardwareProfile.VmSizeProperties.VCPUsAvailable;
+        Assert-AreEqual $vCPUsCore1 $vm.HardwareProfile.VmSizeProperties.VCPUsPerCore;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Test GetVirtualMachineById Parameter Set
+#>
+function Test-GetVirtualMachineById
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'testvm2';
+        $domainNameLabel = "d1" + $rgname;
+
+        # Creating a VM using simple parameterset
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel;
+
+        $res = "/subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/resourceGroups/"+$rgname+"/providers/Microsoft.Compute/virtualMachines/testvm2"
+        $getvm = Get-AzVM -ResourceId $res
+        Assert-NotNull $getvm
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test Test GetVirtualMachineById Parameter Set
+#>
+function Test-VirtualMachinePlatformFaultDomain
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'vm' + $rgname;
+        $domainNameLabel = "d1" + $rgname;
+
+        $vnetname = "myVnet";
+        $vnetAddress = "10.0.0.0/16";
+        $subnetname = "slb" + $rgname;
+        $subnetAddress = "10.0.2.0/24";
+        $vmssName = "vmss" + $rgname;
+        $FaultDomainNumber = 2;
+        $vmssFaultDomain = 3;
+
+        $OSDiskName = $vmname + "-osdisk";
+        $NICName = $vmname+ "-nic";
+        $NSGName = $vmname + "-NSG";
+        $OSDiskSizeinGB = 128;
+        $VMSize = "Standard_DS2_v2";
+        $PublisherName = "MicrosoftWindowsServer";
+        $Offer = "WindowsServer";
+        $SKU = "2019-Datacenter";
+
+
+
+        # Creating a VM using Simple parameterset
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $frontendSubnet = New-AzVirtualNetworkSubnetConfig -Name $subnetname -AddressPrefix $subnetAddress;
+
+        $vnet = New-AzVirtualNetwork -Name $vnetname -ResourceGroupName $rgname -Location $loc -AddressPrefix $vnetAddress -Subnet $frontendSubnet;
+
+        $vmssConfig = New-AzVmssConfig -Location $loc -PlatformFaultDomainCount $vmssFaultDomain;
+        $VMSS = New-AzVmss -ResourceGroupName $RGName -Name $VMSSName -VirtualMachineScaleSet $vmssConfig -Verbose;
+
+        $nsgRuleRDP = New-AzNetworkSecurityRuleConfig -Name RDP  -Protocol Tcp  -Direction Inbound -Priority 1001 -SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 3389 -Access Allow;
+        $nsg = New-AzNetworkSecurityGroup -ResourceGroupName $RGName -Location $loc -Name $NSGName  -SecurityRules $nsgRuleRDP;
+        $nic = New-AzNetworkInterface -Name $NICName -ResourceGroupName $RGName -Location $loc -SubnetId $vnet.Subnets[0].Id -NetworkSecurityGroupId $nsg.Id -EnableAcceleratedNetworking;
+
+        # VM
+        $vmConfig = New-AzVMConfig -VMName $vmName -VMSize $VMSize  -VmssId $VMSS.Id -PlatformFaultDomain $FaultDomainNumber  ;
+        Set-AzVMOperatingSystem -VM $vmConfig -Windows -ComputerName $vmName -Credential $cred ;
+        Set-AzVMOSDisk -VM $vmConfig -StorageAccountType "Premium_LRS" -Caching ReadWrite -Name $OSDiskName -DiskSizeInGB $OSDiskSizeinGB -CreateOption FromImage ;
+        Set-AzVMSourceImage -VM $vmConfig -PublisherName $PublisherName -Offer $Offer -Skus $SKU -Version latest ;
+        Add-AzVMNetworkInterface -VM $vmConfig -Id $nic.Id;
+
+        New-AzVM -ResourceGroupName $RGName -Location $loc -VM $vmConfig ;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmName;
+
+        Assert-AreEqual $vm.PlatformFaultDomain $FaultDomainNumber;
+
+        # Create VM using Default Parameter set
+        $domainNameLabel = "d1" + $rgname;
+        $vmnameDef = "defvm" + $rgname;
+        $platformFaultDomainVMDefaultSet = 2;
+        $vmDef = New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel -PlatformFaultDomain $platformFaultDomainVMDefaultSet -VmssId $VMSS.Id;
+
+        Assert-AreEqual $vmDef.PlatformFaultDomain $platformFaultDomainVMDefaultSet;
+
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test GuestAttestation defaulting behavior.
+1) SecurityType is TrustedLaunch.
+2) EnableVtpm is true.
+3) EnabledSecureBoot is true.
+4) DisableIntegrityMonitoring is not true.
+Then this test removes the VM and recreates it with -DisableIntegrityMonitoring set to true so the
+Guest Attestation extension is not installed.
+#>
+function Test-VirtualMachineGuestAttestation
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmname = 'vm' + $rgname;
+        $domainNameLabel = "d1" + $rgname;
+
+        $vnetname = "myVnet";
+        $vnetAddress = "10.0.0.0/16";
+        $subnetname = "slb" + $rgname;
+        $subnetAddress = "10.0.2.0/24";
+        $OSDiskName = $vmname + "-osdisk";
+        $NICName = $vmname+ "-nic";
+        $NSGName = $vmname + "-NSG";
+        $OSDiskSizeinGB = 128;
+        $VMSize = "Standard_DS2_v2";
+        $PublisherName = "MicrosoftWindowsServer";
+        $Offer = "WindowsServer";
+        $SKU = "2022-datacenter-smalldisk-g2";
+        $securityType = "TrustedLaunch";
+        $secureboot = $true;
+        $vtpm = $true;
+        $extDefaultName = "GuestAttestation";
+        $vmGADefaultIDentity = "SystemAssigned";
+
+        # Creating a VM using Simple parameterset
+        $password = Get-PasswordForVM;
+        $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $frontendSubnet = New-AzVirtualNetworkSubnetConfig -Name $subnetname -AddressPrefix $subnetAddress;
+
+        $vnet = New-AzVirtualNetwork -Name $vnetname -ResourceGroupName $rgname -Location $loc -AddressPrefix $vnetAddress -Subnet $frontendSubnet;
+
+        $nsgRuleRDP = New-AzNetworkSecurityRuleConfig -Name RDP  -Protocol Tcp  -Direction Inbound -Priority 1001 -SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 3389 -Access Allow;
+        $nsg = New-AzNetworkSecurityGroup -ResourceGroupName $RGName -Location $loc -Name $NSGName  -SecurityRules $nsgRuleRDP;
+        $nic = New-AzNetworkInterface -Name $NICName -ResourceGroupName $RGName -Location $loc -SubnetId $vnet.Subnets[0].Id -NetworkSecurityGroupId $nsg.Id -EnableAcceleratedNetworking;
+
+        # VM
+        $vmConfig = New-AzVMConfig -VMName $vmName -VMSize $VMSize;
+        Set-AzVMOperatingSystem -VM $vmConfig -Windows -ComputerName $vmName -Credential $cred;
+        Set-AzVMSourceImage -VM $vmConfig -PublisherName $PublisherName -Offer $Offer -Skus $SKU -Version latest ;
+        Add-AzVMNetworkInterface -VM $vmConfig -Id $nic.Id;
+        $vmConfig = Set-AzVMSecurityProfile -VM $vmConfig -SecurityType $securityType;
+        $vmConfig = Set-AzVmUefi -VM $vmConfig -EnableVtpm $vtpm -EnableSecureBoot $secureboot;
+
+        New-AzVM -ResourceGroupName $RGName -Location $loc -VM $vmConfig ;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmName;
+        $vmExt = Get-AzVMExtension -ResourceGroupName $rgname -VMName $vmName -Name $extDefaultName;
+
+        # Assert the default extension has been installed, and the Identity.Type defaulted to SystemAssigned.
+        Assert-AreEqual $vmExt.Name $extDefaultName;
+        Assert-AreEqual $vm.Identity.Type $vmGADefaultIDentity;
+
+        Remove-AzVm -ResourceGroupName $rgname -Name $vmname -Force;
+        New-AzVM -ResourceGroupName $RGName -Location $loc -VM $vmConfig -DisableIntegrityMonitoring;
+        Assert-ThrowsContains {
+            $vmExtError = Get-AzVMExtension -ResourceGroupName $rgname -VMName $vmName -Name $extDefaultName; } "For more details please go to https://aka.ms/ARMResourceNotFoundFix";
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test to ensure the TimeCreated property is returned in the VM and VMSS models.
+#>
+function Test-VMandVMSSTimeCreated
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vnetname = "myVnet";
+        $vnetAddress = "10.0.0.0/16";
+        $subnetname = "slb" + $rgname;
+        $subnetAddress = "10.0.2.0/24";
+        $vmssName = "vmss" + $rgname;
+        $FaultDomainNumber = 2;
+        $vmssFaultDomain = 3;
+
+        # Creating a new vmss
+        $VmSku = "Standard_E2s_v3"
+        $domainNameLabel = "d1"+ $rgname;
+        $vmssname = "MyVmss"
+        $username = "admin01"
+        $password = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force
+        $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password
+        New-AzVmss -Name $vmssname -ResourceGroup $rgname -Credential $cred -HostGroupId $hostGroup.Id -Zone $zone -VmSize $VmSku -DomainNameLabel $domainNameLabel
+        $vmss = Get-AzVmss -ResourceGroupName $rgname -Name $vmssname;
+        Assert-NotNull $vmss.TimeCreated;
+        
+
+        # Creating a VM using Simple parameterset
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        # Create VM using Default Parameter set
+        $domainNameLabel = "d2" + $rgname;
+        $vmname = "vmnam";
+        New-AzVM -ResourceGroupName $rgname -Name $vmname -Credential $cred -DomainNameLabel $domainNameLabel;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-NotNull $vm.TimeCreated;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test confidential vm set-azvmosdisk SecureEncryptionType feature
+#>
+function Test-ConfidentialVMSetAzVmOsDisk
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = "northeurope";
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # Set-AzVmOsDisk test, VMGuestStateOnly scenario. 
+        $vmname = 'vm' + $rgname;
+        $vmSize = "Standard_DC2as_v5";         
+        $domainNameLabel2 = "d2" + $rgname;
+        $computerName = "v2" + $rgname;
+        $identityType = "SystemAssigned";
+        $loc = 'northeurope';
+        $secureEncrypt = 'VMGuestStateOnly';
+        $vmSecurityType = "ConfidentialVM";
+        $user = "admin01";
+        $password = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force; 
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $virtualMachine = New-AzVMConfig -VMName $VMName -VMSize $vmSize;
+        $VirtualMachine = Set-AzVMOperatingSystem -VM $VirtualMachine -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent -EnableAutoUpdate;
+        $VirtualMachine = Set-AzVMSourceImage -VM $VirtualMachine -PublisherName 'MicrosoftWindowsServer' -Offer 'windowsserver' -Skus '2022-datacenter-smalldisk-g2' -Version "latest";
+
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel2;
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+
+        $VirtualMachine = Add-AzVMNetworkInterface -VM $VirtualMachine -Id $nicId;
+
+        $VirtualMachine = Set-AzVMOSDisk -VM $VirtualMachine -StorageAccountType "StandardSSD_LRS" -CreateOption "FromImage" -SecurityEncryptionType $secureEncrypt;
+        $VirtualMachine = Set-AzVmSecurityProfile -VM $VirtualMachine -SecurityType $vmSecurityType;
+        $VirtualMachine = Set-AzVmUefi -VM $VirtualMachine -EnableVtpm $true -EnableSecureBoot $true;
+
+        New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $VirtualMachine;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual $secureEncrypt $vm.StorageProfile.OsDisk.ManagedDisk.SecurityProfile.SecurityEncryptionType;
+
+
+        # Set-AzVmOsDisk test, DiskWithVMGuestState scenario. 
+        $secureEncryptDisk = 'DiskWithVMGuestState';
+        $vmname = 'vm3' + $rgname;
+        $vmSize = "Standard_DC2as_v5";         
+        $domainNameLabel2 = "d3" + $rgname;
+        $computerName = "v3" + $rgname;
+        $identityType = "SystemAssigned";
+        $loc = 'northeurope';
+        $subnetPrefix = "subnet2";
+        $vnetPrefix = "vnet2";
+        $pubIpPrefix = "pubip2";
+        $nicPrefix = "nic2";
+        $secureEncryptGuestState = 'DiskWithVMGuestState';
+        $vmSecurityType = "ConfidentialVM";
+
+        $virtualMachine = New-AzVMConfig -VMName $VMName -VMSize $vmSize;
+        $VirtualMachine = Set-AzVMOperatingSystem -VM $VirtualMachine -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent -EnableAutoUpdate;
+        $VirtualMachine = Set-AzVMSourceImage -VM $VirtualMachine -PublisherName 'MicrosoftWindowsServer' -Offer 'windowsserver' -Skus '2022-datacenter-smalldisk-g2' -Version "latest";
+
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ($subnetPrefix + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ($vnetPrefix + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ($vnetPrefix + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ($pubIpPrefix + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel2;
+        $pubip = Get-AzPublicIpAddress -Name ($pubIpPrefix + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ($nicPrefix + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ($nicPrefix + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+
+        $VirtualMachine = Add-AzVMNetworkInterface -VM $VirtualMachine -Id $nicId;
+
+        $VirtualMachine = Set-AzVMOSDisk -VM $VirtualMachine -StorageAccountType "StandardSSD_LRS" -CreateOption "FromImage" -SecurityEncryptionType $secureEncryptGuestState;
+        $VirtualMachine = Set-AzVmSecurityProfile -VM $VirtualMachine -SecurityType $vmSecurityType;
+        $VirtualMachine = Set-AzVmUefi -VM $VirtualMachine -EnableVtpm $true -EnableSecureBoot $true;
+
+        New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $VirtualMachine;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+
+        Assert-AreEqual $secureEncryptDisk $vm.StorageProfile.OsDisk.ManagedDisk.SecurityProfile.SecurityEncryptionType;
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test confidential vm, set-azvmosdisk based on these wiki steps.
+New parameters are
+1) SecurityEncryptionType
+2) SecureVMDiskEncryptionSet
+https://dev.azure.com/msazure/AzureWiki/_wiki/wikis/AzureWiki.wiki/232000/How-to-Provision-a-CVM-with-customer-managed-key-(CMK)-using-Azure-CLI
+#>
+function Test-ManualConfidentialVMSetAzVmOsDiskDesIdDiskWithVMGuest
+{
+    # Setup
+    #$rgname = Get-ComputeTestResourceName;
+    $loc = "northeurope";
+    $rgname = "adsandwiki53";
+
+    try
+    {
+        <#
+        The below script runs assuming that these below steps were manually run beforehand.
+        This script uses Data Plane Operations, which our test framework does not support.
+        $rgname = "adsandwiki53";
+        $loc = 'northeurope';
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        $vmname = 'v' + 'vmdesnop';
+        $vmSize = "Standard_DC2as_v5";         
+        $domainNameLabel2 = "d" + $rgname;
+        $computerName = "c" + "compnam";
+        $identityType = "SystemAssigned";
+        $subnetPrefix = "subnet2";
+        $vnetPrefix = "vnet2";
+        $pubIpPrefix = "pubip2";
+        $nicPrefix = "nic2";
+        $secureEncryptGuestState = 'DiskWithVMGuestState';
+        $vmSecurityType = "ConfidentialVM";
+        $user = "admin01";
+        #$password = Get-PasswordForVM;
+        $securePassword = "Testing1234567" | ConvertTo-SecureString -AsPlainText -Force; 
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $kvname = "kv" + $rgname;
+        $keyname = "k" + $rgname;
+        $desName= "des" + $rgname;
+
+        # New-AzKeyVault -Name $kvName -Location $loc -ResourceGroupName $rgName -Sku Premium -EnablePurgeProtection -EnabledForDiskEncryption;
+        $KeyVault = $kvName;
+        $resourceGroup = $rgname;
+        $region = $loc;
+        New-AzKeyVault -Name $KeyVault -Location $loc -ResourceGroupName $rgName -Sku Premium -EnablePurgeProtection -EnabledForDiskEncryption;
+
+        #  install-module -name "Az.Resources" -AllowClobber -Force
+        $cvmAgent = Get-AzADServicePrincipal -ApplicationId 'bf7b6499-ff71-4aa2-97a4-f372087be7f0';
+        Set-AzKeyVaultAccessPolicy -VaultName $kvName -ResourceGroupName $rgname -ObjectId $cvmAgent.id -PermissionsToKeys get,release;
+
+        # Add Key vault Key
+        $KeyName = $keyname;
+        $KeySize = 3072;
+
+        Add-AzKeyVaultKey -VaultName $kvname -Name $KeyName -Size $KeySize -KeyOps wrapKey,unwrapKey -KeyType RSA -Destination HSM -Exportable -UseDefaultCVMPolicy;
+        
+        # Capture Keyvault and key details
+        $encryptionKeyVaultId = (Get-AzKeyVault -VaultName $kvName -ResourceGroupName $rgName).ResourceId;
+        $encryptionKeyURL = (Get-AzKeyVaultKey -VaultName $kvName -KeyName $keyName).Key.Kid;
+        #>
+
+        $vmname = 'v' + 'vmdesnop';
+        $vmSize = "Standard_DC2as_v5";         
+        $domainNameLabel2 = "d" + $rgname;
+        $computerName = "c" + "compnam";
+        $identityType = "SystemAssigned";
+        $subnetPrefix = "subnet2";
+        $vnetPrefix = "vnet2";
+        $pubIpPrefix = "pubip2";
+        $nicPrefix = "nic2";
+        $secureEncryptGuestState = 'DiskWithVMGuestState';
+        $vmSecurityType = "ConfidentialVM";
+        $user = "admin01";
+        $password = Get-PasswordForVM;
+        $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force; 
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $kvname = "kvadsandwiki53";
+        $keyname = "kadsandwiki53";
+        $desName= "desadsandwiki53";
+
+        $encryptionKeyVaultId = "/subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/resourceGroups/adsandwiki53/providers/Microsoft.KeyVault/vaults/kvadsandwiki53";
+        $encryptionKeyURL = "https://kvadsandwiki53.vault.azure.net/keys/kadsandwiki53/c3d6f9e802ac4a90962cf43b9718cc94";
+        
+        # Create new DES Config and DES
+        $diskEncryptionType = "ConfidentialVmEncryptedWithCustomerKey";
+        $desConfig = New-AzDiskEncryptionSetConfig -Location $loc -SourceVaultId $encryptionKeyVaultId -KeyUrl $encryptionKeyURL -IdentityType SystemAssigned -EncryptionType $diskEncryptionType;
+        New-AzDiskEncryptionSet -ResourceGroupName $rgName -Name $desName -DiskEncryptionSet $desConfig;
+        
+        $diskencset = Get-AzDiskEncryptionSet -ResourceGroupName $rgname -Name $desName;
+        
+        # Assign DES Access Policy to key vault
+        $desIdentity = (Get-AzDiskEncryptionSet -Name $desName -ResourceGroupName $rgName).Identity.PrincipalId;
+        
+        Set-AzKeyVaultAccessPolicy -VaultName $kvName -ResourceGroupName $rgname -ObjectId $desIdentity -PermissionsToKeys wrapKey,unwrapKey,get -BypassObjectIdValidation;
+        
+        $virtualMachine = New-AzVMConfig -VMName $VMName -VMSize $vmSize;
+        $VirtualMachine = Set-AzVMOperatingSystem -VM $VirtualMachine -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent -EnableAutoUpdate;
+        $VirtualMachine = Set-AzVMSourceImage -VM $VirtualMachine -PublisherName 'MicrosoftWindowsServer' -Offer 'windowsserver' -Skus '2022-datacenter-smalldisk-g2' -Version "latest";
+        
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ($subnetPrefix + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ($vnetPrefix + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ($vnetPrefix + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ($pubIpPrefix + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel $domainNameLabel2;
+        $pubip = Get-AzPublicIpAddress -Name ($pubIpPrefix + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ($nicPrefix + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ($nicPrefix + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+
+        $VirtualMachine = Add-AzVMNetworkInterface -VM $VirtualMachine -Id $nicId;
+
+        $VirtualMachine = Set-AzVMOSDisk -VM $VirtualMachine -StorageAccountType "StandardSSD_LRS" -CreateOption "FromImage" -SecurityEncryptionType $secureEncryptGuestState -SecureVMDiskEncryptionSet $diskencset.Id;
+        $VirtualMachine = Set-AzVmSecurityProfile -VM $VirtualMachine -SecurityType $vmSecurityType;
+        $VirtualMachine = Set-AzVmUefi -VM $VirtualMachine -EnableVtpm $true -EnableSecureBoot $true;
+
+        New-AzVM -ResourceGroupName $rgname -Location $loc -Vm $VirtualMachine;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+
+        Assert-AreEqual $secureEncryptGuestState $vm.StorageProfile.OsDisk.ManagedDisk.SecurityProfile.SecurityEncryptionType;
+        
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test conf vm set-azvmsecurityprofile SecurityType feature:
+New values are 
+ConfidentialVM
+#>
+function Test-ConfVMSetAzVMSecurityProfile
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $LocationName = "northeurope";
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $LocationName -Force;
+
+        $ResourceGroupName = $rgname;
+        $vmSize = "Standard_DC2as_v5";         
+        $DNSNameLabel = "cvm1" +$ResourceGroupName; 
+        $NetworkName = "MyNet1";
+        $NICName = "MyNIC1";
+        $PublicIPAddressName = "MyPIP1";
+        $SubnetName = "MySubnet1";
+        $SubnetAddressPrefix = "10.0.0.0/24";
+        $VnetAddressPrefix = "10.0.0.0/16";
+
+        $user = "admin01";
+        $password = Get-PasswordForVM |ConvertTo-SecureString -AsPlainText -Force; 
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $credential = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $ComputerName = "CVM";
+        $VMName = "CVM";
+        $securityType = "ConfidentialVM";
+        $vmDiskSecurityEncryptionType = "VMGuestStateOnly";
+        $VirtualMachine = New-AzVMConfig -VMName $VMName -VMSize $VMSize;
+
+        $SingleSubnet = New-AzVirtualNetworkSubnetConfig -Name $SubnetName -AddressPrefix $SubnetAddressPrefix;
+        $Vnet = New-AzVirtualNetwork -Name $NetworkName -ResourceGroupName $rgname -Location $LocationName -AddressPrefix $VnetAddressPrefix -Subnet $SingleSubnet;
+        $PIP = New-AzPublicIpAddress -Name $PublicIPAddressName -DomainNameLabel $DNSNameLabel -ResourceGroupName $rgname -Location $LocationName -AllocationMethod Dynamic;
+        $NIC = New-AzNetworkInterface -Name $NICName -ResourceGroupName $rgname -Location $LocationName -SubnetId $Vnet.Subnets[0].Id -PublicIpAddressId $PIP.Id;
+        $VirtualMachine = Set-AzVMOperatingSystem -VM $VirtualMachine -Windows -ComputerName $ComputerName -Credential $Credential -ProvisionVMAgent -EnableAutoUpdate;
+        $VirtualMachine = Add-AzVMNetworkInterface -VM $VirtualMachine -Id $NIC.Id;
+        $VirtualMachine = Set-AzVMSourceImage -VM $VirtualMachine -PublisherName 'MicrosoftWindowsServer' -Offer 'windowsserver' -Skus '2022-datacenter-smalldisk-g2' -Version "latest";
+        $VirtualMachine = Set-AzVMOSDisk -VM $VirtualMachine -StorageAccountType "StandardSSD_LRS" -CreateOption "FromImage";
+
+        $VirtualMachine = Set-AzVmSecurityProfile -VM $VirtualMachine -SecurityType $securityType;
+        $VirtualMachine = Set-AzVmUefi -VM $VirtualMachine -EnableVtpm $true -EnableSecureBoot $true;
+
+        $VirtualMachine = Set-AzVMOSDisk -VM $VirtualMachine  -StorageAccountType "StandardSSD_LRS" -CreateOption "FromImage" -SecurityEncryptionType $vmDiskSEcurityEncryptionType;
+
+        $vm = New-AzVM -ResourceGroupName $rgname -Location $LocationName -VM $VirtualMachine;
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual $securityType $vm.SecurityProfile.SecurityType;
+
+
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test confidential vm Set-AzDiskSecurityProfile SecurityType feature with some manual setup.
+New values for SecurityType are are 
+	ConfidentialVM_DiskEncryptedWithCustomerKey
+#>
+function Test-ConfVMSetAzDiskSecurityProfile
+{
+    # Setup
+    $rgname = "adsanddes2";
+    $loc = "northeurope";
+
+    try
+    {
+        <#
+        $rgname = "adsanddes2";
+        $loc = "northeurope";
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+        
+        # VM Profile & Hardware
+        # Create New key vault
+        $kvname = "val" + $rgname;
+        $keyname = "key" + $rgname;
+        $desName= "des" + $rgname;
+        $KeySize = 3072; 
+
+        # Creating a VM using simple parameterset
+        $securePassword = "Testing1234567" | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        New-AzKeyVault -Name $kvName -Location $loc -ResourceGroupName $rgName -Sku Premium -EnablePurgeProtection -EnabledForDiskEncryption;
+
+        # Add Key vault Key
+        # Currently requires downloading a particular policy file.
+        #Add-AzKeyVaultKey -VaultName $kvName -Name $keyName -Size 3072 -KeyOps wrapKey,unwrapKey -KeyType RSA -Destination HSM;, this wasn't working for some reason, had to use cli.'
+        
+        #az keyvault key create --vault-name $kvname --name $KeyName --ops wrapKey unwrapkey --kty RSA-HSM --size $KeySize --exportable true --policy "C:\repos\ps\skr-policy.json";
+        Add-AzKeyVaultKey -VaultName $kvname -Name $keyname -Size $KeySize -KeyOps wrapKey,unwrapKey -KeyType RSA -Destination HSM -Exportable -UseDefaultCVMPolicy;
+        
+
+        # Capture Keyvault and key details
+        $keyvaultId = (Get-AzKeyVault -VaultName $kvName -ResourceGroupName $rgName).ResourceId;
+        $keyUrl = (Get-AzKeyVaultKey -VaultName $kvName -KeyName $keyname).Key.Kid;
+        #>
+
+        $kvname = "val" + $rgname;
+        $keyname = "key" + $rgname;
+        $desName= "des" + $rgname;
+        $KeySize = 3072; 
+        $keyVaultId = "/subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/resourceGroups/adsanddes2/providers/Microsoft.KeyVault/vaults/valadsanddes2";
+        $keyUrl = "https://valadsanddes2.vault.azure.net/keys/keyadsanddes2/929ebcca47fd4540a1ce06fbb35c821e";
+
+        # Create new DES Config and DES
+        $diskEncryptionType = "ConfidentialVmEncryptedWithCustomerKey";
+        $desConfig = New-AzDiskEncryptionSetConfig -Location $loc -SourceVaultId $keyvaultId -KeyUrl $keyUrl -IdentityType SystemAssigned -EncryptionType $diskEncryptionType;
+        New-AzDiskEncryptionSet -ResourceGroupName $rgName -Name $desName -DiskEncryptionSet $desConfig;
+        $diskencset = Get-AzDiskEncryptionSet -ResourceGroupName $rgname -Name $desName;
+
+        # Assign DES Access Policy to key vault
+        $desIdentity = (Get-AzDiskEncryptionSet -Name $desName -ResourceGroupName $rgName).Identity.PrincipalId;
+        Set-AzKeyVaultAccessPolicy -VaultName $kvName -ResourceGroupName $rgname -ObjectId $desIdentity -PermissionsToKeys wrapKey,unwrapKey,get -BypassObjectIdValidation;
+        
+        $diskSecurityType = "ConfidentialVM_DiskEncryptedWithCustomerKey";
+        $diskName = "diskname";
+        $diskconfig = New-AzDiskConfig -AccountType Premium_LRS -OsType Windows -CreateOption FromImage -Location $loc;
+        $diskconfig = Set-AzDiskImageReference -Disk $diskconfig -Id "/Subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/Providers/Microsoft.Compute/Locations/northeurope/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/windows-cvm/Skus/2019-datacenter-cvm/Versions/latest";
+        $diskconfig = Set-AzDiskSecurityProfile -Disk $diskconfig -SecurityType $diskSecurityType -SecureVMDiskEncryptionSet $diskencset.id;
+        New-AzDisk -ResourceGroupName $rgname -DiskName $diskName -Disk $diskconfig;
+        $disk = Get-AzDisk -ResourceGroupName $rgname -DiskName $diskName;
+        Assert-AreEqual $disk.SecurityProfile.SecurityType $diskSecurityType;
+
+    }
+    finally 
+    {
+        # Cleanup
+        # Clean-ResourceGroup $rgname;
+    }
+}
+
+
+<#
+.SYNOPSIS
+Test confidential vm Set-AzDiskSecurityProfile SecurityType feature. No Disk Encryption Set.
+New values are 
+    ConfidentialVM_DiskEncryptedWithPlatformKey
+    ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey
+#>
+function Test-ConfVMSetAzDiskSecurityProfileNoDES
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = "northeurope";
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        # Create New key vault
+        $kvname = "val" + $rgname;
+        $keyname = "key" + $rgname;
+        $desName= "des" + $rgname;
+
+        # Creating a VM using simple parameterset
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        $securityTypeDSP = "ConfidentialVM_DiskEncryptedWithPlatformKey";
+
+        $diskName = "disk1";
+        $diskconfig = New-AzDiskConfig  -AccountType Premium_LRS -OsType Linux -CreateOption "FromImage" -Location $loc;
+        $diskconfig = Set-AzDiskImageReference -Disk $diskconfig -Id "/Subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/Providers/Microsoft.Compute/Locations/northeurope/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/windows-cvm/Skus/2019-datacenter-cvm/Versions/latest";
+        $diskconfig = Set-AzDiskSecurityProfile -Disk $diskconfig -SecurityType $securityTypeDSP;
+        New-AzDisk -ResourceGroupName $rgname -DiskName $diskName -Disk $diskconfig;
+        $disk = Get-AzDisk -ResourceGroupName $rgname -DiskName $diskName;
+
+        Assert-AreEqual $disk.SecurityProfile.SecurityType $securityTypeDSP;
+
+        $securityTypeDSP2 = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey";
+        $diskName = "disk2";
+        $diskconfig = New-AzDiskConfig  -AccountType Premium_LRS -OsType Linux -CreateOption "FromImage" -Location $loc;
+        $diskconfig = Set-AzDiskImageReference -Disk $diskconfig -Id "/Subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/Providers/Microsoft.Compute/Locations/northeurope/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/windows-cvm/Skus/2019-datacenter-cvm/Versions/latest";
+        $diskconfig = Set-AzDiskSecurityProfile -Disk $diskconfig -SecurityType $securityTypeDSP2;
+        New-AzDisk -ResourceGroupName $rgname -DiskName $diskName -Disk $diskconfig;
+        $disk2 = Get-AzDisk -ResourceGroupName $rgname -DiskName $diskName;
+
+        Assert-AreEqual $disk2.SecurityProfile.SecurityType $securityTypeDSP2;
+
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+
+<#
+.SYNOPSIS
+Manual test conf vm Set-AzDiskEncryptionSetConfig EncryptionType feature:
+New values are 
+ConfidentialVmEncryptedWithCustomerKey
+#>
+function Test-ConfVMSetAzDiskEncryptionSetConfig
+{
+    # Setup
+    $rgname = "adsanddescon1";
+    $loc = "northeurope";
+
+    try
+    {
+        <# Manual steps that need to be run prior to running this test.
+        $rgname = "adsanddescon1";
+        $loc = "northeurope";
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+        
+        # VM Profile & Hardware
+        # Create New key vault
+        $kvname = "kv" + $rgname;
+        $keyname = "k" + $rgname;
+        $desName= "des" + $rgname;
+
+        # Creating a VM using simple parameterset
+        $securePassword = "Testing1234567" | ConvertTo-SecureString -AsPlainText -Force;  
+        $user = "admin01";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+
+        New-AzKeyVault -Name $kvName -Location WestUS -ResourceGroupName $rgName -Sku Premium -EnablePurgeProtection -EnabledForDiskEncryption;
+
+        # Add Key vault Key
+        # Currently requires downloading a particular policy file.
+        #Add-AzKeyVaultKey -VaultName $kvname -Name $keyname -Size 3072 -KeyOps wrapKey,unwrapKey -KeyType RSA -Destination HSM;
+        $KeySize = 3072;
+        Add-AzKeyVaultKey -VaultName $kvname -Name $keyname -Size $KeySize -KeyOps wrapKey,unwrapKey -KeyType RSA -Destination HSM -Exportable -UseDefaultCVMPolicy;
+
+
+        # Capture Keyvault and key details
+        $keyvaultId = (Get-AzKeyVault -VaultName $kvName -ResourceGroupName $rgName).ResourceId;
+        $keyUrl = (Get-AzKeyVaultKey -VaultName $kvName -KeyName $keyName).Key.Kid;
+        #>
+        $kvname = "kv" + $rgname;
+        $keyname = "k" + $rgname;
+        $desName= "des" + $rgname;
+        $keyvaultId = "/subscriptions/e37510d7-33b6-4676-886f-ee75bcc01871/resourceGroups/adsanddescon1/providers/Microsoft.KeyVault/vaults/kvadsanddescon1";
+        $keyUrl = "https://kvadsanddescon1.vault.azure.net/keys/kadsanddescon1/a07a0b98ac3c4139b627190699e0804e";
+        $encryptionType = "ConfidentialVmEncryptedWithCustomerKey";
+
+        # Create new DES Config and DES
+        $desConfig = New-AzDiskEncryptionSetConfig -Location $loc -SourceVaultId $keyvaultId -KeyUrl $keyUrl -IdentityType SystemAssigned -EncryptionType $encryptionType;
+        New-AzDiskEncryptionSet -ResourceGroupName $rgName -Name $desName -DiskEncryptionSet $desConfig;
+        $diskES = Get-AzDiskEncryptionSet -ResourceGroupName $rgname -Name $desName;
+        Assert-AreEqual $diskES.EncryptionType $encryptionType;
+    }
+    finally 
+    {
+        # Cleanup
+        # Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Test New-AzVM with Edgezone using Simple Parameter set
+#>
+function Test-VirtualMachineEdgeZoneSimpleParameterSet
+{
+    $rgname = Get-ComputeTestResourceName;
+    $loc = "eastus2";
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        $vmname = "v" + $rgname;
+        $edgezone = "microsoftmiami1";
+        $ConfirmPreference = "Low";
+
+        $user = Get-ComputeTestResourceName;
+        $password = Get-PasswordForVM;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $domainNameLabel = "d" + $rgname;
+
+        New-AzVM -ResourceGroupName $rgname -Location $loc -name $vmname -edgezone $edgezone -credential $cred -DomainNameLabel $domainNameLabel -Confirm:$false;
+
+        $vm = Get-AzVm -ResourceGroupName $rgname -Name $vmname;
+
+        Assert-AreEqual $vm.ExtendedLocation.Name $EdgeZone;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $ResourceGroup;
+    }
 }

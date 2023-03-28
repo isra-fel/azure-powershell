@@ -37,6 +37,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <param name="startTime">start time of the policy</param>
         /// <param name="expiryTime">end time of the policy</param>
         /// <param name="permission">the permission of the policy</param>
+        /// <param name="noStartTime"></param>
+        /// <param name="noExpiryTime"></param>
         internal static void SetupAccessPolicy<T>(T policy, DateTime? startTime, DateTime? expiryTime, string permission, bool noStartTime = false, bool noExpiryTime = false)
         {
             if (!(typeof(T) == typeof(SharedAccessTablePolicy) ||
@@ -205,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 "Policy",
                 (identifier).GetType().GetProperty("Id").GetValue(identifier),
                 "Permissions",
-                (accessPolicy).GetType().GetProperty("Permissions").GetValue(accessPolicy).ToString(),
+                (accessPolicy).GetType().GetProperty("Permissions").GetValue(accessPolicy) is null ? null: (accessPolicy).GetType().GetProperty("Permissions").GetValue(accessPolicy).ToString(),
                 "StartTime",
                 (accessPolicy).GetType().GetProperty("PolicyStartsOn").GetValue(accessPolicy),
                 "ExpiryTime",
@@ -217,7 +219,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         public static string OrderBlobPermission(string rawPermission)
         {
-            string fullBlobPermission = "racwdxlt";
+            string fullBlobPermission = "racwdxyltfmeopi";
             string OrderedPermission = "";
             int rawLength = rawPermission.Length;
             foreach (char c in fullBlobPermission)
@@ -237,6 +239,5 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 return rawPermission;
             }
         }
-
     }
 }

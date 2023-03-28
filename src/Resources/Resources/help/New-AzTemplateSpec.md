@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
-online version: https://docs.microsoft.com/powershell/module/az.resources/new-aztemplatespec
+online version: https://learn.microsoft.com/powershell/module/az.resources/new-aztemplatespec
 schema: 2.0.0
 ---
 
@@ -30,7 +30,7 @@ New-AzTemplateSpec [-ResourceGroupName] <String> [-Name] <String> -Version <Stri
 
 ## DESCRIPTION
 Creates a new Template Spec version with the specified ARM Template content. The content can either come from a raw 
-JSON string (using **FromJsonStringParameterSet** parameter set) or from a specified JSON file
+JSON string (using **FromJsonStringParameterSet** parameter set) or from a specified JSON/Bicep file
 (using **FromJsonFileParameterSet** parameter set).  
 
 If the root Template Spec does not already exist it will be created along with the Template Spec version. If 
@@ -39,9 +39,9 @@ existing versions will be preserved).
 
 ## EXAMPLES
 
-### Example 1:
+### Example 1
 ```powershell
-PS C:\> $templateJson = @"
+$templateJson = @"
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
@@ -49,7 +49,7 @@ PS C:\> $templateJson = @"
     "resources": []
 }
 "@
-PS C:\> New-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v1.0' -Location 'West US' -TemplateJson $templateJson
+New-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v1.0' -Location 'West US' -TemplateJson $templateJson
 ```
 
 Creates a new Template Spec version "v1.0" in a Template Spec named "myTemplateSpec". The specified version 
@@ -58,9 +58,9 @@ will have $templateJson as the version's ARM Template content.
  **Note:** The ARM Template in the example is a no-op as 
 it contains no actual resources.
 
-### Example 2:
+### Example 2
 ```powershell
-PS C:\> New-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v2.0' -Location 'West US' -TemplateFile 'myTemplateContent.json'
+New-AzTemplateSpec -ResourceGroupName 'myRG' -Name 'myTemplateSpec' -Version 'v2.0' -Location 'West US' -TemplateFile 'myTemplateContent.json'
 ```
 
 Creates a new Template Spec version "v2.0" in a Template Spec named "myTemplateSpec". The specified version 
@@ -189,7 +189,7 @@ Accept wildcard characters: False
 ```
 
 ### -TemplateFile
-The file path to the local Azure Resource Manager template JSON file.
+The file path to the local Azure Resource Manager template JSON/Bicep file.
 
 ```yaml
 Type: System.String

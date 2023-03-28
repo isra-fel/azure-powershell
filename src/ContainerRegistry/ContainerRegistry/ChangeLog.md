@@ -18,6 +18,21 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+
+## Version 3.0.2
+* Updated Azure.Core to 1.28.0.
+
+## Version 3.0.1
+* Fixed bug in `Get-AzContainerRegistryTag` to show correct tags [#20528]
+
+## Version 3.0.0
+* Updated parameter types from bool to bool? for `Update-AzContainerRegistryRepository` [#17857]
+    - `ReadEnabled`
+    - `ListEnabled`
+    - `WriteEnabled`
+    - `DeleteEnabled`
+
+## Version 2.2.3
 * Fixed username and password issue in `Import-AzContainerRegistryImage` [#14971]
 * Fixed data plane operations (repository, tag, manifest) failed cross registry in single Powershell session [#14849]
 

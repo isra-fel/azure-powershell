@@ -31,7 +31,7 @@ Copyright = 'Microsoft Corporation. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'PowerShell .Net Core Microsoft Azure PowerShell - Deployment Manager cmdlets for Azure Resource Manager.
-For more information, visit https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview'
+For more information, visit https://learn.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.1'
@@ -52,7 +52,7 @@ DotNetFrameworkVersion = '4.7.2'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @(@{ModuleName = 'Az.Accounts'; ModuleVersion = '2.2.8'; })
+RequiredModules = @(@{ModuleName = 'Az.Accounts'; ModuleVersion = '2.7.4'; })
 
 # Assemblies that must be loaded prior to importing this module
 RequiredAssemblies = 'Microsoft.Azure.Management.DeploymentManager.dll'

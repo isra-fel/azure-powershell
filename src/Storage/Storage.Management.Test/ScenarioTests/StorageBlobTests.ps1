@@ -33,7 +33,7 @@ function Test-StorageBlobIsVersioningEnabled
         $kind = 'StorageV2'
 	
         Write-Verbose "RGName: $rgname | Loc: $loc"
-        New-AzResourceGroup -Name $rgname -Location $loc;
+        New-AzResourceGroup -Name $rgname -Location $loc -Tag @{Some = 'some'};
 		
         $loc = Get-ProviderLocation_Canary ResourceManagement;
         New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype -Kind $kind 
@@ -165,6 +165,7 @@ function Test-StorageBlobContainerEncryptionScope
 		$containerName2 = "container2"+ $rgname
 		$scopeName = "testscope"
 		$scopeName2 = "testscope2"
+		$scopeName3 = "filtertestscope3"
 
         Write-Verbose "RGName: $rgname | Loc: $loc"
         New-AzResourceGroup -Name $rgname -Location $loc;
@@ -190,8 +191,20 @@ function Test-StorageBlobContainerEncryptionScope
 		
 		#List Scope
 		New-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname -EncryptionScopeName $scopeName2 -StorageEncryption
+		New-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname -EncryptionScopeName $scopeName3 -StorageEncryption
+		Update-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname -EncryptionScopeName $scopeName3 -State Disabled 
 		$scopes = Get-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname 
+		Assert-AreEqual 3 $scopes.Count
+		$scopes = Get-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname -MaxPageSize 1 -Include Disabled 
+		Assert-AreEqual 1 $scopes.Count
+		Assert-AreEqual "Disabled" $scopes[0].State
+		$scopes = Get-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname -Include All -Filter "startswith(name, filter)"
+		Assert-AreEqual 1 $scopes.Count
+		Assert-AreEqual $scopeName3  $scopes[0].Name 
+		$scopes = Get-AzStorageEncryptionScope -ResourceGroupName $rgname -StorageAccountName $stoname -Include Enabled 
 		Assert-AreEqual 2 $scopes.Count
+		Assert-AreEqual "Enabled" $scopes[0].State
+		Assert-AreEqual "Enabled" $scopes[1].State
 
 		#create container
 		New-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName -DefaultEncryptionScope $scopename -PreventEncryptionScopeOverride $true 
@@ -227,14 +240,14 @@ function Test-StorageBlobContainerLegalHold
         # Test
         $stoname = 'sto' + $rgname;
         $stotype = 'Standard_GRS';
-        $loc = Get-ProviderLocation ResourceManagement;
+        $loc = Get-ProviderLocation_Canary ResourceManagement;
         $kind = 'StorageV2'
 		$containerName = "container"+ $rgname
 
         Write-Verbose "RGName: $rgname | Loc: $loc"
         New-AzResourceGroup -Name $rgname -Location $loc;
 
-        New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype -Kind $kind 
+        New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype -Kind $kind -EnableHierarchicalNamespace $true
         $stos = Get-AzStorageAccount -ResourceGroupName $rgname;
 
 		New-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName
@@ -246,7 +259,7 @@ function Test-StorageBlobContainerLegalHold
 		Assert-AreEqual $false $container.HasImmutabilityPolicy
 		Assert-AreEqual none $container.PublicAccess
 		
-        Add-AzRmStorageContainerLegalHold -ResourceGroupName $rgname -StorageAccountName $stoname  -Name $containerName -Tag  tag1,tag2,tag3
+        Add-AzRmStorageContainerLegalHold -ResourceGroupName $rgname -StorageAccountName $stoname  -Name $containerName -Tag  tag1,tag2,tag3 -AllowProtectedAppendWriteAll $true
 		$container = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName
 		Assert-AreEqual $containerName $container.Name
 		Assert-AreEqual 3 $container.LegalHold.Tags.Count
@@ -259,6 +272,7 @@ function Test-StorageBlobContainerLegalHold
 		Assert-AreEqual "tag3" $container.LegalHold.Tags[2].Tag
 		Assert-AreNotEqual $null $container.LegalHold.Tags[2].Timestamp
 		Assert-AreNotEqual $null $container.LegalHold.Tags[2].ObjectIdentifier
+		Assert-AreEqual $true $container.LegalHold.ProtectedAppendWritesHistory.AllowProtectedAppendWritesAll
 
 		Remove-AzRmStorageContainerLegalHold -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName -Tag tag1,tag2 
 		$container = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName
@@ -297,6 +311,85 @@ function Test-StorageBlobContainerLegalHold
     }
 }
 
+<#
+.SYNOPSIS
+Test StorageAccount ObjectLevelWorm
+.DESCRIPTION
+SmokeTest
+#>
+function Test-StorageBlobContainerVLW
+{
+    # Setup
+    $rgname = Get-StorageManagementTestResourceName;
+
+    try
+    {
+        # Test
+        $stoname = 'sto' + $rgname;
+        $stotype = 'Standard_GRS';
+        $loc = Get-ProviderLocation_Canary ResourceManagement;
+        $kind = 'StorageV2'
+        $containerName = "container"+ $rgname
+        $containerName2 = "container2"+ $rgname
+
+        Write-Verbose "RGName: $rgname | Loc: $loc"
+        New-AzResourceGroup -Name $rgname -Location $loc;
+
+        New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype -Kind $kind 
+        $stos = Get-AzStorageAccount -ResourceGroupName $rgname;
+
+        # enabled versioning
+        Update-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname -IsVersioningEnabled $true        
+        $property = Get-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname
+        Assert-AreEqual $true $property.IsVersioningEnabled 
+
+        # create container with ImmutableStorageWithVersioning
+        New-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName -EnableImmutableStorageWithVersioning
+        $container = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName
+        Assert-AreEqual $rgname $container.ResourceGroupName
+        Assert-AreEqual $stoname $container.StorageAccountName
+        Assert-AreEqual $containerName $container.Name
+        Assert-AreEqual $false $container.HasLegalHold
+        Assert-AreEqual $false $container.HasImmutabilityPolicy
+        Assert-AreEqual $true $container.ImmutableStorageWithVersioning.Enabled
+        
+        # migrate container to enable VLW
+        New-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName2
+        $container = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName2
+        Assert-AreEqual $rgname $container.ResourceGroupName
+        Assert-AreEqual $stoname $container.StorageAccountName
+        Assert-AreEqual $containerName2 $container.Name
+        Assert-AreEqual $false $container.HasLegalHold
+        Assert-AreEqual $false $container.HasImmutabilityPolicy
+        Assert-AreNotEqual $true $container.ImmutableStorageWithVersioning.Enabled
+
+        $immutabilityPeriod =1
+        Set-AzRmStorageContainerImmutabilityPolicy -ResourceGroupName $rgname -StorageAccountName $stoname  -ContainerName $containerName2 -ImmutabilityPeriod $immutabilityPeriod
+        $policy = Get-AzRmStorageContainerImmutabilityPolicy -ResourceGroupName $rgname -StorageAccountName $stoname  -ContainerName $containerName2
+        Assert-AreEqual $immutabilityPeriod $policy.ImmutabilityPeriodSinceCreationInDays
+        Assert-AreEqual Unlocked $policy.State
+        
+        $t = Invoke-AzRmStorageContainerImmutableStorageWithVersioningMigration -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName2 -asjob
+        $t | Wait-Job
+        $container = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName2
+        Assert-AreEqual $true $container.ImmutableStorageWithVersioning.Enabled
+        
+        # remove the containers
+        Remove-AzRmStorageContainer -Force -StorageAccount $stos -Name $containerName
+        Remove-AzRmStorageContainer -Force -StorageAccount $stos -Name $containerName2
+        $containers = Get-AzRmStorageContainer -StorageAccount $stos
+        Assert-AreEqual 0 $containers.Count
+
+        Remove-AzStorageAccount -Force -ResourceGroupName $rgname -Name $stoname;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+
 
 function Test-StorageBlobContainerImmutabilityPolicy
 {
@@ -308,7 +401,7 @@ function Test-StorageBlobContainerImmutabilityPolicy
         # Test
         $stoname = 'sto' + $rgname;
         $stotype = 'Standard_GRS';
-        $loc = Get-ProviderLocation ResourceManagement;
+        $loc = Get-ProviderLocation_Canary ResourceManagement;
         $kind = 'StorageV2'
 		$containerName = "container"+ $rgname
 
@@ -352,12 +445,13 @@ function Test-StorageBlobContainerImmutabilityPolicy
 		Assert-AreEqual $true $container.ImmutabilityPolicy.AllowProtectedAppendWrites
 		
 		$immutabilityPeriod =2
-        Set-AzRmStorageContainerImmutabilityPolicy -inputObject $policy -ImmutabilityPeriod $immutabilityPeriod -AllowProtectedAppendWrite $false
+        Set-AzRmStorageContainerImmutabilityPolicy -inputObject $policy -ImmutabilityPeriod $immutabilityPeriod -AllowProtectedAppendWrite $false -AllowProtectedAppendWriteAll $true
 		$policy = Get-AzRmStorageContainerImmutabilityPolicy -ResourceGroupName $rgname -StorageAccountName $stoname  -ContainerName $containerName 
 		Assert-AreEqual $immutabilityPeriod $policy.ImmutabilityPeriodSinceCreationInDays
 		Assert-AreEqual Unlocked $policy.State
 		Assert-AreNotEqual $null $policy.Etag
 		Assert-AreEqual $false $policy.AllowProtectedAppendWrites
+		Assert-AreEqual $true $policy.AllowProtectedAppendWritesAll
 		$container = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $containerName		
 		Assert-AreEqual $containerName $container.Name
 		Assert-AreEqual $immutabilityPeriod $container.ImmutabilityPolicy.ImmutabilityPeriodSinceCreationInDays
@@ -368,6 +462,7 @@ function Test-StorageBlobContainerImmutabilityPolicy
 		Assert-AreNotEqual $null $container.ImmutabilityPolicy.UpdateHistory[0].Timestamp
 		Assert-AreNotEqual $null $container.ImmutabilityPolicy.UpdateHistory[0].ObjectIdentifier
 		Assert-AreEqual $false $container.ImmutabilityPolicy.AllowProtectedAppendWrites
+		Assert-AreEqual $true $container.ImmutabilityPolicy.AllowProtectedAppendWritesAll
 
         Remove-AzRmStorageContainerImmutabilityPolicy -inputObject $policy 
 		$policy = Get-AzRmStorageContainerImmutabilityPolicy -ResourceGroupName $rgname -StorageAccountName $stoname  -ContainerName $containerName 
@@ -482,9 +577,10 @@ function Test-StorageBlobServiceProperties
 		Assert-AreEqual '2018-03-28' $property.DefaultServiceVersion
 		
 		# Enable and Disable Blob Delete Retention Policy
-		$policy = Enable-AzStorageBlobDeleteRetentionPolicy -ResourceGroupName $rgname -StorageAccountName $stoname -PassThru -RetentionDays 3
+		$policy = Enable-AzStorageBlobDeleteRetentionPolicy -ResourceGroupName $rgname -StorageAccountName $stoname -PassThru -RetentionDays 3 -AllowPermanentDelete
 		Assert-AreEqual $true $policy.Enabled
 		Assert-AreEqual 3 $policy.Days
+		Assert-AreEqual $true $policy.AllowPermanentDelete
 		$property = Get-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname
 		Assert-AreEqual '2018-03-28' $property.DefaultServiceVersion
 		Assert-AreEqual $true $property.DeleteRetentionPolicy.Enabled
@@ -659,6 +755,8 @@ function Test-StorageBlobORS
 		Assert-AreEqual dest $srcPolicy.Rules[1].DestinationContainer
 		Assert-AreEqual 3 $srcPolicy.Rules[1].Filters.PrefixMatch.Count
 		Assert-AreEqual $minCreationTime ($srcPolicy.Rules[1].Filters.MinCreationTime.ToUniversalTime().ToString("s")+"Z")
+		$destPolicy | Remove-AzStorageObjectReplicationPolicy 
+		$srcPolicy | Remove-AzStorageObjectReplicationPolicy 
 
 		# disable AllowCrossTenantReplication
 		$sto1 = Set-AzStorageAccount -ResourceGroupName $rgname -StorageAccountName $stoname1  -AllowCrossTenantReplication $false -EnableHttpsTrafficOnly $true 
@@ -755,5 +853,135 @@ function Test-StorageBlobChangeFeed
         Clean-ResourceGroup $rgname
     }
 }
+
+
+
+<#
+.SYNOPSIS
+Test StorageAccount Blob Container SoftDelete in Service Properties
+.DESCRIPTION
+SmokeTest
+#>
+function Test-StorageBlobContainerSoftDelete
+{
+    # Setup
+    $rgname = Get-StorageManagementTestResourceName;
+
+    try
+    {
+        # Test
+        $stoname = 'sto' + $rgname;
+        $stotype = 'Standard_GRS';
+        $loc = Get-ProviderLocation_Canary ResourceManagement;
+        $kind = 'StorageV2'
+	
+        Write-Verbose "RGName: $rgname | Loc: $loc"
+        New-AzResourceGroup -Name $rgname -Location $loc;
+		
+        New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype -Kind $kind 
+        $stos = Get-AzStorageAccount -ResourceGroupName $rgname;
+
+        # Enable Blob Delete Retention Policy
+        $policy = Enable-AzStorageContainerDeleteRetentionPolicy -ResourceGroupName $rgname -StorageAccountName $stoname -PassThru -RetentionDays 30 
+        Assert-AreEqual $true $policy.Enabled
+        Assert-AreEqual 30 $policy.Days
+        $property = Get-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname
+        Assert-AreEqual $true $property.ContainerDeleteRetentionPolicy.Enabled
+        Assert-AreEqual 30 $property.ContainerDeleteRetentionPolicy.Days
+
+        # Create and delete container, then get container
+        $contaierName = "testcontaienr"
+        New-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $contaierName 
+        Remove-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -Name $contaierName -Force
+        $cons = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname
+        Assert-AreEqual 0 $cons.Count
+        $cons = Get-AzRmStorageContainer -ResourceGroupName $rgname -StorageAccountName $stoname -IncludeDeleted
+        Assert-AreEqual 1 $cons.Count
+        Assert-AreEqual $contaierName $cons[0].Name
+        Assert-AreEqual $true $cons[0].Deleted
+
+
+        # Disable Blob Delete Retention Policy
+        $policy = Disable-AzStorageContainerDeleteRetentionPolicy -ResourceGroupName $rgname -StorageAccountName $stoname  -PassThru
+        Assert-AreEqual $false $policy.Enabled
+        $property = Get-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname
+        Assert-AreEqual $false $property.ContainerDeleteRetentionPolicy.Enabled
+
+        Remove-AzStorageAccount -Force -ResourceGroupName $rgname -Name $stoname;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test StorageAccount Blob LastAccessTimeTracking
+.DESCRIPTION
+SmokeTest
+#>
+function Test-StorageBlobLastAccessTimeTracking
+{
+    # Setup
+    $rgname = Get-StorageManagementTestResourceName;
+
+    try
+    {
+        # Test
+        $stoname = 'sto' + $rgname;
+        $stotype = 'Standard_GRS';
+        $loc = Get-ProviderLocation ResourceManagement;
+        $kind = 'StorageV2'
+	
+        Write-Verbose "RGName: $rgname | Loc: $loc"
+        New-AzResourceGroup -Name $rgname -Location $loc;
+		
+        $loc = Get-ProviderLocation_canary ResourceManagement;
+        New-AzStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype -Kind $kind 
+        $stos = Get-AzStorageAccount -ResourceGroupName $rgname;
+		
+        # Enable Blob LastAccessTimeTracking
+        $policy = Enable-AzStorageBlobLastAccessTimeTracking -ResourceGroupName $rgname -StorageAccountName $stoname -PassThru
+        Assert-AreEqual $true $policy.Enable
+        $property = Get-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname
+        Assert-AreEqual $true $property.LastAccessTimeTrackingPolicy.Enable
+
+        # set management policy
+        $action = Add-AzStorageAccountManagementPolicyAction -BaseBlobAction Delete -daysAfterModificationGreaterThan 100
+        $action = Add-AzStorageAccountManagementPolicyAction -BaseBlobAction TierToArchive -DaysAfterLastAccessTimeGreaterThan 50  -InputObject $action
+        $action = Add-AzStorageAccountManagementPolicyAction -BaseBlobAction TierToCool -DaysAfterLastAccessTimeGreaterThan 30  -EnableAutoTierToHotFromCool -InputObject $action
+        $action = Add-AzStorageAccountManagementPolicyAction -SnapshotAction Delete -daysAfterCreationGreaterThan 100 -InputObject $action
+        $filter = New-AzStorageAccountManagementPolicyFilter -PrefixMatch prefix1,prefix2
+        $rule = New-AzStorageAccountManagementPolicyRule -Name Test -Action $action -Filter $filter
+        $policy = Set-AzStorageAccountManagementPolicy -ResourceGroupName $rgname -StorageAccountName $stoname -Rule $rule
+        Assert-AreEqual $true $policy.Rules[0].Definition.Actions.BaseBlob.EnableAutoTierToHotFromCool
+        Assert-AreEqual  30 $policy.Rules[0].Definition.Actions.BaseBlob.TierToCool.DaysAfterLastAccessTimeGreaterThan
+        Assert-AreEqual  50 $policy.Rules[0].Definition.Actions.BaseBlob.TierToArchive.DaysAfterLastAccessTimeGreaterThan
+        Assert-AreEqual  100 $policy.Rules[0].Definition.Actions.BaseBlob.Delete.DaysAfterModificationGreaterThan
+
+        # remove management policy
+        Remove-AzStorageAccountManagementPolicy -ResourceGroupName $rgname -StorageAccountName $stoname 
+
+        # Disable Blob LastAccessTimeTracking
+        $policy = Disable-AzStorageBlobLastAccessTimeTracking -ResourceGroupName $rgname -StorageAccountName $stoname -PassThru
+        # Assert-AreEqual $true (($policy.Enable -eq $false) -or ($policy -eq $null))
+        $property = Get-AzStorageBlobServiceProperty -ResourceGroupName $rgname -StorageAccountName $stoname
+        #Assert-AreEqual $true (($property.LastAccessTimeTrackingPolicy.Enable -eq $false) -or ($property.LastAccessTimeTrackingPolicy -eq $null))
+        # Assert-AreEqual $false $property.LastAccessTimeTrackingPolicy.Enable
+
+        Remove-AzStorageAccount -Force -ResourceGroupName $rgname -Name $stoname;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+
+
+
 
 

@@ -30,6 +30,8 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.Compute.Models;
 using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using CM = Microsoft.Azure.Commands.Compute.Models;
+using Microsoft.Azure.Commands.Compute.Common;
 
 namespace Microsoft.Azure.Commands.Compute.Automation
 {
@@ -37,6 +39,9 @@ namespace Microsoft.Azure.Commands.Compute.Automation
     [OutputType(typeof(PSVirtualMachineScaleSet))]
     public partial class NewAzureRmVmssConfigCommand : Microsoft.Azure.Commands.ResourceManager.Common.AzureRMCmdlet
     {
+    
+        private const string ExplicitIdentityParameterSet = "ExplicitIdentityParameterSet",
+                             DefaultParameterSetName = "DefaultParameterSet";
         [Parameter(
             Mandatory = false,
             Position = 0,
@@ -49,6 +54,11 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             ValueFromPipelineByPropertyName = true)]
         [LocationCompleter("Microsoft.Compute/virtualMachineScaleSets")]
         public string Location { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public string EdgeZone { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -200,6 +210,16 @@ namespace Microsoft.Azure.Commands.Compute.Automation
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
+        public SwitchParameter EnableSpotRestore { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public string SpotRestoreTimeout { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
         [PSArgumentCompleter("Deallocate", "Delete")]
         public string EvictionPolicy { get; set; }
 
@@ -231,20 +251,69 @@ namespace Microsoft.Azure.Commands.Compute.Automation
 
         [Parameter(
             Mandatory = true,
-            ParameterSetName = "ExplicitIdentityParameterSet",
+            ParameterSetName = ExplicitIdentityParameterSet,
             ValueFromPipelineByPropertyName = true)]
         public ResourceIdentityType? IdentityType { get; set; }
 
         [Parameter(
             Mandatory = false,
-            ParameterSetName = "ExplicitIdentityParameterSet",
+            ParameterSetName = ExplicitIdentityParameterSet,
             ValueFromPipelineByPropertyName = true)]
         public string[] IdentityId { get; set; }
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
-        public SwitchParameter EncryptionAtHost { get; set; } 
+        public SwitchParameter EncryptionAtHost { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Specifies the orchestration mode for the virtual machine scale set.")]
+        [PSArgumentCompleter("Uniform", "Flexible")]
+        public string OrchestrationMode { get; set; }
+        
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Id of the capacity reservation Group that is used to allocate.")]
+        [ResourceIdCompleter("Microsoft.Compute/capacityReservationGroups")]
+        public string CapacityReservationGroupId { get; set; }
+        
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "UserData for the VM, which will be Base64 encoded. Customer should not pass any secrets in here.",
+            ValueFromPipelineByPropertyName = true)]
+        public string UserData { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace.",
+            ValueFromPipelineByPropertyName = true)]
+        [PSArgumentCompleter("Replace", "Restart", "Reimage")]
+        public string AutomaticRepairAction { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "The number of VMs that should be regular priority VMs before adding any Spot VMs",
+            ValueFromPipelineByPropertyName = true)]
+        public int BaseRegularPriorityCount { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "The percentage of VMs that should be regular priority after the base number of regular priority VMs has been reached",
+            ValueFromPipelineByPropertyName = true)]
+        public int RegularPriorityPercentage { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Specifies the gallery image resource id for vmss deployment. This can be fetched from the gallery image GET call.")]
+        [ResourceIdCompleter("Microsoft.Compute galleries/images/versions")]
+        public string ImageReferenceId { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.")]
+        public string SharedGalleryImageId { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -282,6 +351,12 @@ namespace Microsoft.Azure.Commands.Compute.Automation
 
             // Identity
             VirtualMachineScaleSetIdentity vIdentity = null;
+
+            // ExtendedLocation
+            CM.PSExtendedLocation vExtendedLocation = null;
+
+            // PriorityMix
+            PriorityMixPolicy vPriorityMixPolicy = null;
 
             if (this.IsParameterBound(c => c.SkuName))
             {
@@ -399,6 +474,19 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.SecurityProfile.EncryptionAtHost = this.EncryptionAtHost;
             }
 
+            if (this.IsParameterBound(c=> c.CapacityReservationGroupId))
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new PSVirtualMachineScaleSetVMProfile();
+                }
+                if (vVirtualMachineProfile.CapacityReservation == null)
+                {
+                    vVirtualMachineProfile.CapacityReservation = new CapacityReservationProfile();
+                }
+                vVirtualMachineProfile.CapacityReservation.CapacityReservationGroup = new SubResource(this.CapacityReservationGroupId);
+            }
+
             if (this.IsParameterBound(c => c.AutomaticRepairGracePeriod))
             {
                 if (vAutomaticRepairsPolicy == null)
@@ -513,6 +601,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.Priority = this.Priority;
             }
 
+
             if (this.IsParameterBound(c => c.EvictionPolicy))
             {
                 if (vVirtualMachineProfile == null)
@@ -611,12 +700,97 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                     vIdentity = new VirtualMachineScaleSetIdentity();
                 }
 
-                vIdentity.UserAssignedIdentities = new Dictionary<string, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue>();
+                vIdentity.UserAssignedIdentities = new Dictionary<string, UserAssignedIdentitiesValue>();
 
                 foreach (var id in this.IdentityId)
                 {
-                    vIdentity.UserAssignedIdentities.Add(id, new VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue());
+                    vIdentity.UserAssignedIdentities.Add(id, new UserAssignedIdentitiesValue());
                 }
+            }
+
+            if (this.IsParameterBound(c => c.EdgeZone))
+            {
+                vExtendedLocation = new CM.PSExtendedLocation(this.EdgeZone);
+            }
+            
+            if (this.IsParameterBound(c => c.UserData))
+            {
+                if (!ValidateBase64EncodedString.ValidateStringIsBase64Encoded(this.UserData))
+                {
+                    this.UserData = ValidateBase64EncodedString.EncodeStringToBase64(this.UserData);
+                    this.WriteInformation(ValidateBase64EncodedString.UserDataEncodeNotification, new string[] { "PSHOST" });
+                }
+
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new PSVirtualMachineScaleSetVMProfile();
+                }
+                vVirtualMachineProfile.UserData = this.UserData;
+            }
+
+            if (this.IsParameterBound(c => c.AutomaticRepairAction))
+            {
+                if (vAutomaticRepairsPolicy == null)
+                {
+                    vAutomaticRepairsPolicy = new AutomaticRepairsPolicy();
+                }
+                vAutomaticRepairsPolicy.RepairAction = this.AutomaticRepairAction;
+            }
+
+            if (this.IsParameterBound(c => c.BaseRegularPriorityCount))
+            {
+                if (vPriorityMixPolicy == null)
+                {
+                    vPriorityMixPolicy = new PriorityMixPolicy();
+                }
+                vPriorityMixPolicy.BaseRegularPriorityCount = this.BaseRegularPriorityCount;
+            }
+
+            if (this.IsParameterBound(c => c.RegularPriorityPercentage))
+            {
+                if (vPriorityMixPolicy == null)
+                {
+                    vPriorityMixPolicy = new PriorityMixPolicy();
+                }
+                vPriorityMixPolicy.RegularPriorityPercentageAboveBase = this.RegularPriorityPercentage;
+            }
+
+            if (this.IsParameterBound(c => c.ImageReferenceId))
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new PSVirtualMachineScaleSetVMProfile();
+                }
+
+                if (vVirtualMachineProfile.StorageProfile == null)
+                {
+                    vVirtualMachineProfile.StorageProfile = new VirtualMachineScaleSetStorageProfile();
+                }
+
+                if (vVirtualMachineProfile.StorageProfile.ImageReference == null)
+                {
+                    vVirtualMachineProfile.StorageProfile.ImageReference = new ImageReference();
+                }
+                vVirtualMachineProfile.StorageProfile.ImageReference.Id = this.ImageReferenceId;
+            }
+
+            if (this.IsParameterBound(c => c.SharedGalleryImageId))
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new PSVirtualMachineScaleSetVMProfile();
+                }
+
+                if (vVirtualMachineProfile.StorageProfile == null)
+                {
+                    vVirtualMachineProfile.StorageProfile = new VirtualMachineScaleSetStorageProfile();
+                }
+
+                if (vVirtualMachineProfile.StorageProfile.ImageReference == null)
+                {
+                    vVirtualMachineProfile.StorageProfile.ImageReference = new ImageReference();
+                }
+                vVirtualMachineProfile.StorageProfile.ImageReference.SharedGalleryImageId = this.SharedGalleryImageId;
             }
 
             var vVirtualMachineScaleSet = new PSVirtualMachineScaleSet
@@ -628,6 +802,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 PlatformFaultDomainCount = this.IsParameterBound(c => c.PlatformFaultDomainCount) ? this.PlatformFaultDomainCount : (int?)null,
                 Zones = this.IsParameterBound(c => c.Zone) ? this.Zone : null,
                 Location = this.IsParameterBound(c => c.Location) ? this.Location : null,
+                ExtendedLocation = vExtendedLocation,
                 Tags = this.IsParameterBound(c => c.Tag) ? this.Tag.Cast<DictionaryEntry>().ToDictionary(ht => (string)ht.Key, ht => (string)ht.Value) : null,
                 Sku = vSku,
                 Plan = vPlan,
@@ -637,7 +812,10 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 ProximityPlacementGroup = vProximityPlacementGroup,
                 AdditionalCapabilities = vAdditionalCapabilities,
                 ScaleInPolicy = vScaleInPolicy,
-                Identity = vIdentity
+                Identity = vIdentity,
+                OrchestrationMode = this.IsParameterBound(c => c.OrchestrationMode) ? this.OrchestrationMode : null,
+                SpotRestorePolicy = this.IsParameterBound(c => c.EnableSpotRestore) ? new SpotRestorePolicy(true, this.SpotRestoreTimeout) : null,
+                PriorityMixPolicy = vPriorityMixPolicy 
             };
 
             WriteObject(vVirtualMachineScaleSet);

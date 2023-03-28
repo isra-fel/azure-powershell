@@ -14,7 +14,9 @@
 
 using Microsoft.Azure.Management.ServiceBus.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Microsoft.Azure.Commands.ServiceBus.Models
@@ -35,23 +37,72 @@ namespace Microsoft.Azure.Commands.ServiceBus.Models
                 Sku = new SBSku { Capacity = evResource.Sku.Capacity,
                                 Name = evResource.Sku.Name,
                                 Tier = evResource.Sku.Tier};
+                
                 if(evResource.ProvisioningState != null)
-                ProvisioningState = evResource.ProvisioningState;                
+                    ProvisioningState = evResource.ProvisioningState;                
+                
                 if(evResource.CreatedAt.HasValue)
-                CreatedAt = evResource.CreatedAt;
+                    CreatedAt = evResource.CreatedAt;
+                
                 if(evResource.UpdatedAt.HasValue)
-                UpdatedAt = evResource.UpdatedAt;
+                    UpdatedAt = evResource.UpdatedAt;
+                
                 if(evResource.ServiceBusEndpoint != null)
-                ServiceBusEndpoint = evResource.ServiceBusEndpoint;
+                    ServiceBusEndpoint = evResource.ServiceBusEndpoint;
+                
                 if(evResource.Location != null)
-                Location = evResource.Location;
+                    Location = evResource.Location;
+                
                 if(evResource.Name != null)
-                Name = evResource.Name;
+                    Name = evResource.Name;
+                
                 if(evResource.Id != null)
-                Id = evResource.Id;
+                    Id = evResource.Id;
+
+                if(evResource.Identity != null)
+                {
+                    Identity = new PSIdentityAttributes(evResource.Identity);
+
+                    IdentityType = evResource.Identity.Type.ToString();
+                    
+                    if(evResource.Identity.UserAssignedIdentities != null)
+                        IdentityId = evResource.Identity.UserAssignedIdentities.Keys.ToArray();
+                }
+                    
+                
+                if(evResource.Encryption != null)
+                {
+
+                    if(evResource.Encryption.KeyVaultProperties != null)
+                    {
+                        EncryptionConfig = evResource.Encryption.KeyVaultProperties.Where(x => x != null).Select(x => {
+
+                            PSEncryptionConfigAttributes kvproperty = new PSEncryptionConfigAttributes(x);
+
+                            return kvproperty;
+                        }).ToArray();
+                    }
+                }
+
+                if (evResource.PrivateEndpointConnections != null)
+                {
+                    PrivateEndpointConnections = evResource.PrivateEndpointConnections.Where(x => x != null).Select(x => new PSServiceBusPrivateEndpointConnectionAttributes(x)).ToArray();
+                }
+
+
+                if (evResource.Tags != null)
+                {
+                    var tagDictionary = new Dictionary<string, string>(evResource.Tags);
+                    Tag = new Hashtable(tagDictionary);
+                }
+                
                 ResourceGroup = Regex.Split(evResource.Id, @"/")[4];
                 ResourceGroupName = Regex.Split(evResource.Id, @"/")[4];
                 Tags = new Dictionary<string, string>(evResource.Tags);
+                if(evResource.ZoneRedundant!=null)
+                ZoneRedundant = evResource.ZoneRedundant;
+                DisableLocalAuth = evResource.DisableLocalAuth;
+                MinimumTlsVersion = evResource.MinimumTlsVersion;
             }
         }
 
@@ -106,6 +157,31 @@ namespace Microsoft.Azure.Commands.ServiceBus.Models
         public string ServiceBusEndpoint { get; set; }
 
         public Dictionary<string, string> Tags = new Dictionary<string, string>();
-        
+
+        public Hashtable Tag { get; set; }
+
+        /// <summary>
+        /// Gets or sets enabling this property creates a Premium Service Bus
+        /// Namespace in regions supported availability zones.
+        /// </summary>
+        public bool? ZoneRedundant { get; set; }
+
+        /// <summary>
+        /// Gets or sets this property disables SAS authentication for the
+        /// Service Bus namespace.
+        /// </summary>
+        public bool? DisableLocalAuth { get; set; }
+
+        public PSIdentityAttributes Identity { get; set; }
+
+        public string IdentityType { get; set; }
+
+        public string[] IdentityId { get; set; }
+
+        public PSEncryptionConfigAttributes[] EncryptionConfig { get; set; }
+
+        public PSServiceBusPrivateEndpointConnectionAttributes[] PrivateEndpointConnections { get; set; }
+
+        public string MinimumTlsVersion { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/powershell/module/az.network/new-azvpngateway
+online version: https://learn.microsoft.com/powershell/module/az.network/new-azvpngateway
 schema: 2.0.0
 ---
 
@@ -15,25 +15,25 @@ Creates a Scalable VPN Gateway.
 ### ByVirtualHubName (Default)
 ```
 New-AzVpnGateway -ResourceGroupName <String> -Name <String> -VpnGatewayScaleUnit <UInt32>
- -VirtualHubName <String> [-VpnConnection <PSVpnConnection[]>] [-EnableRoutingPreferenceInternetFlag] [-VpnGatewayNatRule <PSVpnGatewayNatRule[]>]
- [-Tag <Hashtable>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ -VirtualHubName <String> [-VpnConnection <PSVpnConnection[]>] [-EnableRoutingPreferenceInternetFlag]
+ [-EnableBgpRouteTranslationForNat] [-VpnGatewayNatRule <PSVpnGatewayNatRule[]>] [-Tag <Hashtable>]
+ [-Asn <UInt32>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByVirtualHubObject
 ```
 New-AzVpnGateway -ResourceGroupName <String> -Name <String> -VpnGatewayScaleUnit <UInt32>
- -VirtualHub <PSVirtualHub> [-VpnConnection <PSVpnConnection[]>] [-EnableRoutingPreferenceInternetFlag] [-VpnGatewayNatRule <PSVpnGatewayNatRule[]>]
- [-Tag <Hashtable>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ -VirtualHub <PSVirtualHub> [-VpnConnection <PSVpnConnection[]>] [-EnableRoutingPreferenceInternetFlag]
+ [-EnableBgpRouteTranslationForNat] [-VpnGatewayNatRule <PSVpnGatewayNatRule[]>] [-Tag <Hashtable>]
+ [-Asn <UInt32>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByVirtualHubResourceId
 ```
 New-AzVpnGateway -ResourceGroupName <String> -Name <String> -VpnGatewayScaleUnit <UInt32>
- -VirtualHubId <String> [-VpnConnection <PSVpnConnection[]>] [-EnableRoutingPreferenceInternetFlag] [-VpnGatewayNatRule <PSVpnGatewayNatRule[]>]
- [-Tag <Hashtable>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ -VirtualHubId <String> [-VpnConnection <PSVpnConnection[]>] [-EnableRoutingPreferenceInternetFlag]
+ [-EnableBgpRouteTranslationForNat] [-VpnGatewayNatRule <PSVpnGatewayNatRule[]>] [-Tag <Hashtable>]
+ [-Asn <UInt32>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -50,12 +50,14 @@ The VpnGateway will be in the same location as the referenced VirtualHub.
 ## EXAMPLES
 
 ### Example 1
+```powershell
+New-AzResourceGroup -Location "West US" -Name "testRG"
+$virtualWan = New-AzVirtualWan -ResourceGroupName testRG -Name myVirtualWAN -Location "West US"
+$virtualHub = New-AzVirtualHub -VirtualWan $virtualWan -ResourceGroupName "testRG" -Name "westushub" -AddressPrefix "10.0.0.1/24"
+New-AzVpnGateway -ResourceGroupName "testRG" -Name "testvpngw" -VirtualHubId $virtualHub.Id -VpnGatewayScaleUnit 2 -EnableRoutingPreferenceInternetFlag
 ```
-PS C:\> New-AzResourceGroup -Location "West US" -Name "testRG"
-PS C:\> $virtualWan = New-AzVirtualWan -ResourceGroupName testRG -Name myVirtualWAN -Location "West US"
-PS C:\> $virtualHub = New-AzVirtualHub -VirtualWan $virtualWan -ResourceGroupName "testRG" -Name "westushub" -AddressPrefix "10.0.0.1/24"
-PS C:\> New-AzVpnGateway -ResourceGroupName "testRG" -Name "testvpngw" -VirtualHubId $virtualHub.Id -BGPPeeringWeight 10 -VpnGatewayScaleUnit 2 -EnableRoutingPreferenceInternetFlag
 
+```output
 ResourceGroupName   : testRG
 Name                : testvpngw
 Id                  : /subscriptions/{subscriptionId}/resourceGroups/testRG/providers/Microsoft.Network/vpnGateways/testvpngw
@@ -76,7 +78,7 @@ A VPN gateway will be created thereafter in the Virtual Hub with 2 scale units.
 Run cmdlet in the background
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -87,13 +89,58 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Asn
+The vpn gateway's ASN for BGP over VPN
+
+```yaml
+Type: System.UInt32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableBgpRouteTranslationForNat
+Flag to enable Bgp route translation for NAT on this VpnGateway.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableRoutingPreferenceInternetFlag
+Flag to enable Routing Preference Internet on this VpnGateway.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -106,7 +153,7 @@ Accept wildcard characters: False
 The resource name.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases: ResourceName, VpnGatewayName
 
@@ -121,7 +168,7 @@ Accept wildcard characters: False
 The resource name.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -136,7 +183,7 @@ Accept wildcard characters: False
 A hashtable which represents resource tags.
 
 ```yaml
-Type: Hashtable
+Type: System.Collections.Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -151,7 +198,7 @@ Accept wildcard characters: False
 The VirtualHub this VpnGateway needs to be associated with.
 
 ```yaml
-Type: PSVirtualHub
+Type: Microsoft.Azure.Commands.Network.Models.PSVirtualHub
 Parameter Sets: ByVirtualHubObject
 Aliases:
 
@@ -166,7 +213,7 @@ Accept wildcard characters: False
 The Id of the VirtualHub this VpnGateway needs to be associated with.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByVirtualHubResourceId
 Aliases:
 
@@ -181,7 +228,7 @@ Accept wildcard characters: False
 The Id of the VirtualHub this VpnGateway needs to be associated with.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByVirtualHubName
 Aliases:
 
@@ -196,7 +243,7 @@ Accept wildcard characters: False
 The list of VpnConnections that this VpnGateway needs to have.
 
 ```yaml
-Type: PSVpnConnection[]
+Type: Microsoft.Azure.Commands.Network.Models.PSVpnConnection[]
 Parameter Sets: (All)
 Aliases:
 
@@ -226,7 +273,7 @@ Accept wildcard characters: False
 The scale unit for this VpnGateway.
 
 ```yaml
-Type: UInt32
+Type: System.UInt32
 Parameter Sets: (All)
 Aliases:
 
@@ -237,26 +284,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EnableRoutingPreferenceInternetFlag
-Flag to enable Routing Preference Internet on this VpnGateway.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -272,7 +304,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

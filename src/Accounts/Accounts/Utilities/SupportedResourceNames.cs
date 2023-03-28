@@ -22,6 +22,7 @@ namespace Microsoft.Azure.Commands.Profile
     {
         public const string Arm = "Arm";
         public const string AadGraph = "AadGraph";
+        public const string MSGraph = "MSGraph";
         public const string Batch = "Batch";
         public const string DataLake = "DataLake";
         public const string KeyVault = "KeyVault";
@@ -33,6 +34,7 @@ namespace Microsoft.Azure.Commands.Profile
         public const string Storage = "Storage";
         public const string Synapse = "Synapse";
         public const string ManagedHsm = "ManagedHsm";
+        public const string AppConfiguration = "AppConfiguration";
 
         internal static Dictionary<string, string> ResourceNameMap;
         internal static Dictionary<string, string> DataPlaneResourceNameMap;
@@ -43,6 +45,7 @@ namespace Microsoft.Azure.Commands.Profile
             DataPlaneResourceNameMap = new Dictionary<string, string>()
                     {
                         { AadGraph, AzureEnvironment.Endpoint.GraphEndpointResourceId },
+                        { MSGraph, AzureEnvironment.ExtendedEndpoint.MicrosoftGraphEndpointResourceId },
                         { Batch, AzureEnvironment.Endpoint.BatchEndpointResourceId },
                         { DataLake, AzureEnvironment.Endpoint.DataLakeEndpointResourceId },
                         { KeyVault, AzureEnvironment.Endpoint.AzureKeyVaultServiceEndpointResourceId },
@@ -52,7 +55,8 @@ namespace Microsoft.Azure.Commands.Profile
                         { OperationalInsights, AzureEnvironment.ExtendedEndpoint.OperationalInsightsEndpointResourceId },
                         { Storage, "https://storage.azure.com/" }, //OAuth scope/resource id for Storage, does not add it to ExtenedEndpoint to avoid confusion with StorageEndpointSuffix
                         { Synapse, AzureEnvironment.ExtendedEndpoint.AzureSynapseAnalyticsEndpointResourceId },
-                        { ManagedHsm, AzureEnvironment.ExtendedEndpoint.ManagedHsmServiceEndpointResourceId }
+                        { ManagedHsm, AzureEnvironment.ExtendedEndpoint.ManagedHsmServiceEndpointResourceId },
+                        { AppConfiguration, AzureEnvironment.ExtendedEndpoint.AzureAppConfigurationEndpointResourceId }
                     };
 
             ResourceNameMap = new Dictionary<string, string>(DataPlaneResourceNameMap);
