@@ -59,9 +59,7 @@ RequiredModules = @(@{ModuleName = 'Az.Accounts'; ModuleVersion = '2.12.0'; })
 RequiredAssemblies = 'Azure.CodeSigning.Client.CryptoProvider.dll', 
                'Azure.CodeSigning.Client.CryptoProvider.Models.dll', 
                'Azure.CodeSigning.Client.CryptoProvider.Utilities.dll', 
-               'Azure.CodeSigning.dll', 
-               'Polly.dll', 
-               'Newtonsoft.Json.dll'
+               'Azure.CodeSigning.dll'
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()
