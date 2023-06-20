@@ -187,5 +187,6 @@ namespace Microsoft.Azure.Commands.Common.Authentication
 
         public abstract TokenCachePersistenceOptions GetTokenCachePersistenceOptions();
 
+        public abstract TokenCachePersistenceOptions GetTokenCachePersistenceOptionsForApp();
     }
 }

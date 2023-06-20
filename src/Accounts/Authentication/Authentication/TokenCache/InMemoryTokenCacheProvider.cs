@@ -59,5 +59,10 @@ namespace Microsoft.Azure.Commands.Common.Authentication
         {
             return InMemoryTokenCacheOptions;
         }
+
+        public override TokenCachePersistenceOptions GetTokenCachePersistenceOptionsForApp()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

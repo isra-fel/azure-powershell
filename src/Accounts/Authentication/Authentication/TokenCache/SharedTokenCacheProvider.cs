@@ -28,12 +28,19 @@ namespace Microsoft.Azure.Commands.Common.Authentication
         private byte[] AdalTokenCache { get; set; }
 
         private TokenCachePersistenceOptions TokenCachePersistenceOptions { get; set; }
+        private TokenCachePersistenceOptions TokenCachePersistenceOptionsForApp { get; set; }
 
         public SharedTokenCacheProvider(byte[] adalTokenCache = null)
         {
             AdalTokenCache = adalTokenCache;
             TokenCachePersistenceOptions = new TokenCachePersistenceOptions()
             {
+                Name = "msaluser.cache",
+                UnsafeAllowUnencryptedStorage = true
+            };
+            TokenCachePersistenceOptionsForApp = new TokenCachePersistenceOptions()
+            {
+                Name = "msalapp.cache",
                 UnsafeAllowUnencryptedStorage = true
             };
         }
@@ -142,6 +149,11 @@ namespace Microsoft.Azure.Commands.Common.Authentication
         public override TokenCachePersistenceOptions GetTokenCachePersistenceOptions()
         {
             return TokenCachePersistenceOptions;
+        }
+
+        public override TokenCachePersistenceOptions GetTokenCachePersistenceOptionsForApp()
+        {
+            return TokenCachePersistenceOptionsForApp;
         }
     }
 }
