@@ -36,7 +36,7 @@ $script:TemplateLocation = "$PSScriptRoot\AzureRM.Example.psm1"
 Import-Module "$PSScriptRoot\UpdateModules.psm1"
 Import-Module "$PSScriptRoot\PublishModules.psm1"
 
-Write-Host "ModuleFolder: $ModuleFolder"
+Write-Host "[tools/AddModulePsm1Dependency.ps1] ModuleFolder: $ModuleFolder"
 
 $ModuleFolder = $ModuleFolder.Trim()
 
@@ -50,10 +50,10 @@ $file = Get-Item $moduleSourcePath
 Import-LocalizedData -BindingVariable ModuleMetadata -BaseDirectory $file.DirectoryName -FileName $file.Name
 
 if ($ModuleMetadata.RootModule) {
-  Write-Output "Adding PSM1 dependency is skipped because root module is found"
+  Write-Host "[tools/AddModulePsm1Dependency.ps1] Adding PSM1 dependency is skipped because root module is found"
 } else {
-  Write-Output "Adding PSM1 dependency to $moduleSourcePath"
-  Add-PSM1Dependency -Path $moduleSourcePath 
+  Write-Host "[tools/AddModulePsm1Dependency.ps1] Adding PSM1 dependency to $moduleSourcePath"
+  Add-PSM1Dependency -Path $moduleSourcePath
 }
 
 Remove-ModuleDependencies -Path $moduleSourcePath -KeepRequiredModules
