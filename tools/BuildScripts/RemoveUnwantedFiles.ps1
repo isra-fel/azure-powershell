@@ -12,7 +12,7 @@
 # ----------------------------------------------------------------------------------
 
 <##
-# .SYNOPSIS 
+# .SYNOPSIS
 # Remove unnecessary files before packaging.
 # .DESCRIPTION
 # This script removes the runtime assemblies because PowerShell already has them, as well as the .deps.json files because they are not needed.
@@ -45,23 +45,23 @@ $RuntimeDllsIncludeList = @(
     'Microsoft.CodeAnalysis.CSharp.dll'
 )
 $RuntimeDllsExcludeList = @(
-    'System.Security.Cryptography.ProtectedData.dll',
-    'System.Configuration.ConfigurationManager.dll',
-    'System.Runtime.CompilerServices.Unsafe.dll',
-    'System.IO.FileSystem.AccessControl.dll',
-    'System.Buffers.dll',
-    'System.Text.Encodings.Web.dll',
-    'System.CodeDom.dll',
-    'System.Management.dll',
-    'System.Text.Json.dll',
-    'System.Threading.Tasks.Extensions.dll',
-    'System.IO.Hashing.dll',
-    'System.ClientModel.dll'
+    # 'System.Security.Cryptography.ProtectedData.dll',
+    # 'System.Configuration.ConfigurationManager.dll',
+    # 'System.Runtime.CompilerServices.Unsafe.dll',
+    # 'System.IO.FileSystem.AccessControl.dll',
+    # 'System.Buffers.dll',
+    # 'System.Text.Encodings.Web.dll',
+    # 'System.CodeDom.dll',
+    # 'System.Management.dll',
+    # 'System.Text.Json.dll',
+    # 'System.Threading.Tasks.Extensions.dll',
+    # 'System.IO.Hashing.dll',
+    # 'System.ClientModel.dll'
 )
 
 $toRemove = Get-ChildItem -Path $RootPath -Recurse -Include $RuntimeDllsIncludeList -Exclude $RuntimeDllsExcludeList
     | Where-Object { $_.FullName -notlike '*Accounts*lib*' -and $_.FullName -notlike '*ModuleAlcAssemblies*' }
-Write-Host "Removing $($toRemove.Count) runtime assemblies."    
+Write-Host "Removing $($toRemove.Count) runtime assemblies."
 $toRemove | Remove-Item -Force
 Write-Host "runtime assemblies removed."
 
