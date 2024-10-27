@@ -64,13 +64,13 @@ function New-ModulePsm1 {
 
         # Do not create a psm1 file if the RootModule dependency already has one.
         if ($ModuleMetadata.RootModule) {
-            Write-Host "root modules exists, skipping..."
+            Write-Host "RootModule = $($ModuleMetadata.RootModule), skipping..."
             return
         }
 
         # Create the actual file and insert import statements.
         $templateOutputPath = $manifestPath -replace ".psd1", ".psm1"
-        [string]$importedModules
+        [string]$importedModules = ""
         if ($ModuleMetadata.RequiredModules -ne $null) {
             foreach ($mod in $ModuleMetadata.RequiredModules) {
                 if ($mod["ModuleVersion"]) {
@@ -347,7 +347,7 @@ function Update-RMModule {
             $modulePath = $module.FullName
             Write-Host "Updating $module module from $modulePath"
             New-ModulePsm1 -ModulePath $modulePath -TemplatePath $script:TemplateLocation -IsRMModule
-            Write-Host "Updated $module module`n"
+            Write-Host "Done updating $module module`n"
         }
     }
 }
@@ -377,7 +377,7 @@ function Update-Azure {
     if ($Scope -in $script:AzureRMScopes) {
         Write-Host "Updating profile module"
         New-ModulePsm1 -ModulePath "$script:AzureRMRoot\AzureRM.Profile" -TemplatePath $script:TemplateLocation -IsRMModule
-        Write-Host "Updated profile module"
+        Write-Host "Done updating profile module"
         Write-Host " "
     }
 
@@ -429,7 +429,7 @@ function Update-Stack {
 
     Write-Host "Updating profile module for stack"
     New-ModulePsm1 -ModulePath "$script:StackRMRoot\AzureRM.Profile" -TemplatePath $script:TemplateLocation -IsRMModule
-    Write-Host "Updated profile module"
+    Write-Host "Done updating profile module"
     Write-Host " "
 
     $modulePath = "$script:StackPackages\$buildConfig\Storage\Azure.Storage"
@@ -467,9 +467,9 @@ function Update-Netcore {
     $AzureRMModules = Get-ChildItem -Path $script:AzureRMRoot -Directory
 
     # Publish the Netcore modules and rollup module, if specified.
-    Write-Host "Updating Accounts module"
+    Write-Host "Updating Az.Accounts"
     New-ModulePsm1 -ModulePath "$script:AzureRMRoot\Az.Accounts" -TemplatePath $script:TemplateLocation -IsRMModule -IsNetcore
-    Write-Host "Updated Accounts module"
+    Write-Host "Done updating Az.Accounts`n"
 
     $env:PSModulePath += "$([IO.Path]::PathSeparator)$script:AzureRMRoot\Az.Accounts";
 
@@ -478,17 +478,17 @@ function Update-Netcore {
             $modulePath = $module.FullName
             Write-Host "Updating $module module from $modulePath"
             New-ModulePsm1 -ModulePath $modulePath -TemplatePath $script:TemplateLocation -IsRMModule -IsNetcore
-            Write-Host "Updated $module module"
+            Write-Host "Done updating $module module`n"
         }
     }
 
     $modulePath = "$PSScriptRoot\Az"
-    Write-Host "Updating Netcore module from $modulePath"
+    Write-Host "Updating Az from $modulePath"
     New-ModulePsm1 -ModulePath $modulePath -TemplatePath $script:TemplateLocation -IsNetcore
-    Write-Host "Updated Netcore module"
+    Write-Host "Done updating Az`n"
 
     $modulePath = "$PSScriptRoot\AzPreview"
-    Write-Host "Updating Netcore module from $modulePath"
+    Write-Host "Updating AzPreview from $modulePath"
     New-ModulePsm1 -ModulePath $modulePath -TemplatePath $script:TemplateLocation -IsNetcore
-    Write-Host "Updated Netcore module"
+    Write-Host "Done updating AzPreview`n"
 }
