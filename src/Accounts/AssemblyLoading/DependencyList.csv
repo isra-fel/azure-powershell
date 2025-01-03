@@ -1,0 +1,31 @@
+PackageName, PackageVersion, TargetFramework, LoadOnWinPS, LoadOnPSCore
+Azure.Core, 1.44.1, netstandard2.0, True, True
+Azure.Identity, 1.13.0, netstandard2.0, True, True
+Azure.Identity.Broker, 1.1.0, netstandard2.0, True, True
+Microsoft.Bcl.AsyncInterfaces, 6.0.0, netstandard2.0, True, True
+Microsoft.Identity.Client,4.65.0, netstandard2.0, True, True
+Microsoft.Identity.Client.Broker,4.65.0, netstandard2.0, True, True
+Microsoft.Identity.Client.Extensions.Msal, 4.65.0, netstandard2.0, True, True
+Microsoft.Identity.Client.NativeInterop, 0.16.2, netstandard2.0, True, True
+Microsoft.IdentityModel.Abstractions, 6.35.0, netstandard2.0, True, True
+Newtonsoft.Json, 13.0.2, net45, True, False
+System.Buffers, 4.5.1, netstandard2.0, True, False
+System.ClientModel, 1.1.0, netstandard2.0, True, True
+System.Diagnostics.DiagnosticSource, 6.0.1, net461, True, False
+System.Memory,?, netstandard2.0, True, False
+System.Memory.Data, 6.0.0, netstandard2.0, True, True
+System.Net.Http.WinHttpHandler, 4.6.0, netstandard2.0, True, False
+System.Numerics.Vectors, 4.5.0, net46, True, False
+System.Private.ServiceModel, 4.7.0, netstandard2.0, True, False
+System.Reflection.DispatchProxy, 4.5.0, net461, True, False
+System.Runtime.CompilerServices.Unsafe, 6.0.0, net461, True, False
+System.Security.AccessControl, 4.7.0, netstandard2.0, True, False
+System.Security.Cryptography.Cng, 4.4.0, net47, True, False
+System.Security.Cryptography.ProtectedData, 4.5.0, net461, True, False
+System.Security.Permissions, 4.7.0, netstandard2.0, True, False
+System.Security.Principal.Windows, 4.7.0, netstandard2.0, True, False
+System.ServiceModel.Primitives, 4.7.0, netstandard2.0, True, False
+System.Text.Encodings.Web, 6.0.0, net461, True, False
+System.Text.Json, 6.0.10, netstandard2.0, True, True
+System.Threading.Tasks.Extensions, 4.5.4, netstandard2.0, True, False
+System.Xml.ReaderWriter, 4.3.0, net46, True, False
