@@ -1,0 +1,212 @@
+[
+    {
+        "PackageName": "Azure.Core",
+        "PackageVersion": "1.44.1",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Azure.Identity",
+        "PackageVersion": "1.13.0",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Azure.Identity.Broker",
+        "PackageVersion": "1.1.0",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Microsoft.Bcl.AsyncInterfaces",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Microsoft.Identity.Client",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Microsoft.Identity.Client.Extensions.Msal",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Microsoft.Identity.Client.Broker",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Microsoft.Identity.Client.NativeInterop",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "Microsoft.IdentityModel.Abstractions",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "System.ClientModel",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "System.Memory.Data",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "System.Text.Json",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": true
+    },
+    {
+        "PackageName": "System.Buffers",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Memory",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Net.Http.WinHttpHandler",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Private.ServiceModel",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Security.AccessControl",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Security.Permissions",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Security.Principal.Windows",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.ServiceModel.Primitives",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Threading.Tasks.Extensions",
+        "PackageVersion": "?",
+        "TargetFramework": "netstandard2.0",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "Newtonsoft.Json",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Diagnostics.DiagnosticSource",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Numerics.Vectors",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Reflection.DispatchProxy",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Runtime.CompilerServices.Unsafe",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Security.Cryptography.Cng",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Security.Cryptography.ProtectedData",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Text.Encodings.Web",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    },
+    {
+        "PackageName": "System.Xml.ReaderWriter",
+        "PackageVersion": "?",
+        "TargetFramework": "netfx",
+        "WindowsPowerShell": true,
+        "PowerShell7Plus": false
+    }
+]

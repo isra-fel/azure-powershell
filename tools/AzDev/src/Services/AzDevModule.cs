@@ -31,6 +31,8 @@ namespace AzDev.Services
 
             services.AddSingleton<IContextProvider, DefaultContextProvider>(sp => new DefaultContextProvider(Constants.DevContextFilePath));
             services.AddSingleton<ICodebaseProvider, DefaultCodebaseProvider>(sp => new DefaultCodebaseProvider(sp.GetRequiredService<IContextProvider>()));
+            services.AddSingleton<IAssemblyService, DefaultAssemblyService>();
+            services.AddSingleton<INugetService, DefaultNugetService>();
 
             _serviceProvider = services.BuildServiceProvider();
         }

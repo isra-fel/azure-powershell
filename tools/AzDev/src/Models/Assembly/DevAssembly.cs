@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-
-namespace AzDev.Models {
-    internal static class Constants
+namespace AzDev.Models.Assembly
+{
+    public class DevAssembly
     {
-        public const string DevContextFileName = "DevContext.json";
-        public static string DevContextFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AzPSDev", DevContextFileName);
-        public const string AssemblyManifestFileName = "manifest.json";
+        public string PackageName { get; set; }
+        public string PackageVersion { get; set; }
+        public string TargetFramework { get; set; }
+        public bool WindowsPowerShell { get; set; }
+        public bool PowerShell7Plus { get; set; }
     }
 }

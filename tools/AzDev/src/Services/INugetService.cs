@@ -12,14 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
+using System.IO.Abstractions;
 
-namespace AzDev.Models {
-    internal static class Constants
+namespace AzDev.Services
+{
+    interface INugetService
     {
-        public const string DevContextFileName = "DevContext.json";
-        public static string DevContextFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AzPSDev", DevContextFileName);
-        public const string AssemblyManifestFileName = "manifest.json";
+        void DownloadAssembly(string packageName, string packageVersion, string targetFramework, FileSystemStream downloadTo);
     }
 }

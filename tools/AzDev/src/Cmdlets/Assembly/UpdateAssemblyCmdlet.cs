@@ -12,14 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
+using System.Management.Automation;
+using AzDev.Services;
 
-namespace AzDev.Models {
-    internal static class Constants
+namespace AzDev.Cmdlets.Assembly
+{
+    [Cmdlet("Update", "DevAssembly")]
+    public class UpdateAssemblyCmdlet : DevCmdletBase
     {
-        public const string DevContextFileName = "DevContext.json";
-        public static string DevContextFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AzPSDev", DevContextFileName);
-        public const string AssemblyManifestFileName = "manifest.json";
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+
+            var assemblyService = AzDevModule.GetService<IAssemblyService>();
+            assemblyService.UpdateAssembly(
+                @"C:\Users\yeliu\code\azure-powershell\src\lib\manifest.json",
+                @"C:\Users\yeliu\code\azure-powershell\src\lib",
+                @"C:\Users\yeliu\code\azure-powershell\src\Accounts\AssemblyLoading\ConditionalAssemblyProvider.cs");
+        }
     }
 }
