@@ -52,6 +52,7 @@
         "PackageName": "Microsoft.Identity.Client.NativeInterop",
         "PackageVersion": "0.16.2",
         "TargetFramework": "netstandard2.0",
+        "CopyRuntimeAssemblies": true,
         "WindowsPowerShell": true,
         "PowerShell7Plus": true
     },

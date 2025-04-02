@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 using System;
 using System.IO;
 using System.IO.Abstractions;
@@ -33,39 +32,63 @@ namespace AzDev.Services
 
         private SourceRepository _repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
         private readonly Lazy<FindPackageByIdResource> _findPackageByIdResource;
-        private SourceCacheContext _cache = new SourceCacheContext();
+        private readonly SourceCacheContext _cache = new SourceCacheContext();
+        private readonly IFileSystem _fs;
+        private readonly ILogger _logger;
 
-        public DefaultNugetService()
+        public DefaultNugetService() : this(new FileSystem())
         {
+        }
+
+        public DefaultNugetService(IFileSystem fs)
+        {
+            _fs = fs;
             _findPackageByIdResource = new Lazy<FindPackageByIdResource>(_repository.GetResource<FindPackageByIdResource>, LazyThreadSafetyMode.ExecutionAndPublication);
+            _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
         }
 
-        public void DownloadAssembly(string packageName, string packageVersion, string targetFramework, FileSystemStream downloadTo)
+        public void DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationDir, bool downloadRuntimes)
         {
-            DownloadAssemblyAsync(packageName, packageVersion, targetFramework, downloadTo).GetAwaiter().GetResult();
-        }
-
-        public async Task DownloadAssemblyAsync(string packageName, string packageVersion, string targetFramework, FileSystemStream downloadTo)
-        {
+            _logger.Debug($"[DefaultNugetService] Downloading {packageName} version {packageVersion} for {targetFramework} to {destinationDir}");
             using var packageStream = new MemoryStream();
-            await _findPackageByIdResource.Value.CopyNupkgToStreamAsync(
+            _findPackageByIdResource.Value.CopyNupkgToStreamAsync(
                 packageName,
                 new NuGetVersion(packageVersion),
                 packageStream,
                 _cache,
                 NullLogger.Instance,
-                default);
+                default).ConfigureAwait(false).GetAwaiter().GetResult();
 
             using var packageReader = new PackageArchiveReader(packageStream);
             string assemblyPathRelativeToPackage = $"lib/{targetFramework}/{packageName}.dll";
             if (!packageReader.GetFiles().Contains(assemblyPathRelativeToPackage))
             {
-                Console.WriteLine("not found");
+                _logger.Warning($"[DefaultNugetService] Assembly {packageName}.dll not found in package {packageName} version {packageVersion} for {targetFramework}.");
                 return;
             }
+
+            var destAssemblyPath = _fs.Path.Combine(destinationDir, $"{packageName}.dll");
+            _logger.Debug($"[DefaultNugetService] Assembly {packageName}.dll found in package {packageName} version {packageVersion} for {targetFramework}. Start copying to {destAssemblyPath}.");
             ZipArchiveEntry entry = packageReader.GetEntry(assemblyPathRelativeToPackage);
             using var assemblyStream = entry.Open();
-            assemblyStream.CopyTo(downloadTo);
+            using var destinationStream = _fs.File.Create(destAssemblyPath);
+            assemblyStream.CopyTo(destinationStream);
+            _logger.Debug($"[DefaultNugetService] Assembly {packageName}.dll copied to {destAssemblyPath}.");
+
+            if (downloadRuntimes)
+            {
+                var runtimes = packageReader.GetFiles().Where(f => f.StartsWith("runtimes/") && f.EndsWith(".dll"));
+                foreach (var runtime in runtimes)
+                {
+                    var runtimeFilename = Path.GetFileName(runtime);
+                    var destRuntimePath = Path.Combine(destinationDir, runtimeFilename);
+                    _logger.Debug($"[DefaultNugetService] Copying runtime {runtimeFilename} to {destRuntimePath}.");
+                    using var runtimeStream = packageReader.GetEntry(runtime).Open();
+                    using var destRuntimeStream = _fs.File.OpenWrite(destRuntimePath);
+                    runtimeStream.CopyTo(destRuntimeStream);
+                    _logger.Debug($"[DefaultNugetService] Runtime {runtimeFilename} copied to {destRuntimePath}.");
+                }
+            }
         }
     }
 }

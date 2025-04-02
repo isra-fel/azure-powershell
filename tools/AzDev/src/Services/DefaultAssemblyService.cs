@@ -11,20 +11,22 @@ namespace AzDev.Services
     {
         private readonly IFileSystem _fs;
         private readonly INugetService _nuget;
+        private readonly ILogger _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
 
-        public DefaultAssemblyService(): this(new FileSystem())
+        public DefaultAssemblyService() : this(new FileSystem())
         {
         }
 
         public DefaultAssemblyService(IFileSystem fs)
         {
             _fs = fs;
-            _nuget = AzDevModule.GetService<INugetService>();
+            _nuget = AzDevModule.GetService<INugetService>() ?? throw new InvalidOperationException("Nuget service is not available.");
+            _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
         }
 
         public void UpdateAssembly(string manifestFilePath, string downloadPath, string runtimeMetadataPath)
         {
-            Console.WriteLine($"Updating assembly using manifest: {manifestFilePath}, download path: {downloadPath}, runtime metadata path: {runtimeMetadataPath}");
+            _logger.Information($"Updating assembly using manifest: {manifestFilePath}, download path: {downloadPath}, runtime metadata path: {runtimeMetadataPath}");
 
             if (!_fs.File.Exists(manifestFilePath))
             {
@@ -45,8 +47,7 @@ namespace AzDev.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error reading or parsing manifest file: " + ex.Message);
-                return null;
+                throw new Exception("Error reading or parsing manifest file: " + ex.Message, ex);
             }
         }
 
@@ -55,7 +56,7 @@ namespace AzDev.Services
             var subDirs = _fs.Directory.GetDirectories(downloadPath, "net*");
             foreach (var subDir in subDirs)
             {
-                Console.WriteLine($"Deleting directory: {subDir}");
+                _logger.Information($"Deleting directory: {subDir}");
                 _fs.Directory.Delete(subDir, true);
             }
         }
@@ -73,19 +74,14 @@ namespace AzDev.Services
             var packageName = devAssembly.PackageName;
             var packageVersion = devAssembly.PackageVersion;
             var targetFramework = devAssembly.TargetFramework;
-            var assemblyName = $"{devAssembly.PackageName}.dll";
 
-            string targetPath = Path.Combine(downloadPath, targetFramework);
-            if (!_fs.Directory.Exists(targetPath))
+            string pathWithTargetFramework = Path.Combine(downloadPath, targetFramework);
+            if (!_fs.Directory.Exists(pathWithTargetFramework))
             {
-                _fs.Directory.CreateDirectory(targetPath);
+                _fs.Directory.CreateDirectory(pathWithTargetFramework);
             }
-            string assemblyPath = Path.Combine(targetPath, assemblyName);
 
-            Console.WriteLine($"Downloading {packageName} v{packageVersion} ({targetFramework}) to {assemblyPath}");
-
-            using var downloadTarget = _fs.File.Create(assemblyPath);
-            _nuget.DownloadAssembly(packageName, packageVersion, targetFramework, downloadTarget);
+            _nuget.DownloadAssembly(packageName, packageVersion, targetFramework, pathWithTargetFramework, devAssembly.CopyRuntimeAssemblies);
         }
     }
 }

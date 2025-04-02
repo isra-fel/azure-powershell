@@ -12,12 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO.Abstractions;
-
 namespace AzDev.Services
 {
     interface INugetService
     {
-        void DownloadAssembly(string packageName, string packageVersion, string targetFramework, FileSystemStream downloadTo);
+        void DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationPath, bool downloadRuntimes);
     }
 }

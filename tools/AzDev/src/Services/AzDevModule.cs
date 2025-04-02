@@ -33,6 +33,7 @@ namespace AzDev.Services
             services.AddSingleton<ICodebaseProvider, DefaultCodebaseProvider>(sp => new DefaultCodebaseProvider(sp.GetRequiredService<IContextProvider>()));
             services.AddSingleton<IAssemblyService, DefaultAssemblyService>();
             services.AddSingleton<INugetService, DefaultNugetService>();
+            services.AddSingleton<ILogger, PSCmdletLogger>();
 
             _serviceProvider = services.BuildServiceProvider();
         }

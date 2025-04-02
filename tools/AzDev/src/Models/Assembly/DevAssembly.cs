@@ -19,6 +19,7 @@ namespace AzDev.Models.Assembly
         public string PackageName { get; set; }
         public string PackageVersion { get; set; }
         public string TargetFramework { get; set; }
+        public bool CopyRuntimeAssemblies { get; set; } = false;
         public bool WindowsPowerShell { get; set; }
         public bool PowerShell7Plus { get; set; }
     }

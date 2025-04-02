@@ -79,9 +79,29 @@ namespace AzDev.Cmdlets
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            ILogger logger = new PSCmdletLogger(this);
-            ContextProvider.SetLogger(logger);
-            CodebaseProvider.SetLogger(logger);
+            SetUpCmdletLogger();
+        }
+
+        private void SetUpCmdletLogger()
+        {
+            if (AzDevModule.GetService<ILogger>() is PSCmdletLogger logger)
+            {
+                logger.SetCmdlet(this);
+            }
+        }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+            ClearCmdletLogger();
+        }
+
+        private static void ClearCmdletLogger()
+        {
+            if (AzDevModule.GetService<ILogger>() is PSCmdletLogger logger)
+            {
+                logger.UnsetCmdlet();
+            }
         }
 
         protected T SelectFrom<T>(string message, IEnumerable<T> options, bool retryIfInvalid = true)
