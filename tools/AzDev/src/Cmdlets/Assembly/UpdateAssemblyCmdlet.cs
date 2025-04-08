@@ -28,7 +28,8 @@ namespace AzDev.Cmdlets.Assembly
             assemblyService.UpdateAssembly(
                 @"C:\Users\yeliu\code\azure-powershell\src\lib\manifest.json",
                 @"C:\Users\yeliu\code\azure-powershell\src\lib",
-                @"C:\Users\yeliu\code\azure-powershell\src\Accounts\AssemblyLoading\ConditionalAssemblyProvider.cs");
+                @"C:\Users\yeliu\code\azure-powershell\src\Accounts\AssemblyLoading\ConditionalAssemblyProvider.cs",
+                @"C:\Users\yeliu\code\azure-powershell\src\lib\cgManifest.json");
         }
     }
 }

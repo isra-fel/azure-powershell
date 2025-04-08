@@ -26,9 +26,9 @@ namespace AzDev.Services
             _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
         }
 
-        public void UpdateAssembly(string manifestFilePath, string downloadPath, string runtimeMetadataPath)
+        public void UpdateAssembly(string manifestFilePath, string downloadPath, string runtimeMetadataPath, string cgManifestPath)
         {
-            _logger.Information($"Updating assembly using manifest: {manifestFilePath}, download path: {downloadPath}, runtime metadata path: {runtimeMetadataPath}");
+            _logger.Information($"Updating assembly using manifest: {manifestFilePath}, download path: {downloadPath}, runtime metadata path: {runtimeMetadataPath}, cg manifest path: {cgManifestPath}");
 
             if (!_fs.File.Exists(manifestFilePath))
             {
@@ -43,6 +43,7 @@ namespace AzDev.Services
                 return InspectAssembly(path, da);
             }).OrderBy(x => x.Path).ToList();
             UpdateRuntimeMetadata(inspectedAssemblies, runtimeMetadataPath);
+            UpdateCgManifest(inspectedAssemblies, cgManifestPath);
         }
 
         private List<DevAssembly> ReadAndParseManifests(string manifestsInJson)
@@ -122,6 +123,39 @@ namespace AzDev.Services
             _fs.File.WriteAllText(runtimeMetadataPath, sb.ToString());
         }
 
+        /// <summary>
+        /// Update the Component Governance manifest file.
+        /// The manifest file is a JSON file that contains information about the assemblies used in the project
+        /// that cannot be found from the csproj files.
+        /// </summary>
+        private void UpdateCgManifest(List<InspectedAssembly> inspectedAssemblies, string manifestPath)
+        {
+            var cgManifest = _fs.File.ReadAllText(manifestPath);
+            var cgManifestObj = JsonConvert.DeserializeObject<CgManifest>(cgManifest);
+            if (cgManifestObj == null)
+            {
+                throw new Exception("Error reading or parsing CG manifest file.");
+            }
+
+            cgManifestObj.Registrations = inspectedAssemblies.Select(asm =>
+            {
+                return new CgRegistration
+                {
+                    Component = new CgComponent
+                    {
+                        Type = "nuget",
+                        Nuget = new CgNugetComponent
+                        {
+                            Name = asm.DevAssembly.PackageName,
+                            Version = asm.DevAssembly.PackageVersion
+                        }
+                    }
+                };
+            }).ToList();
+
+            _fs.File.WriteAllText(manifestPath, JsonConvert.SerializeObject(cgManifestObj, Formatting.Indented));
+        }
+
         private class InspectedAssembly
         {
             public string Path { get; set; }
@@ -133,5 +167,41 @@ namespace AzDev.Services
                 DevAssembly = devAssembly;
             }
         }
+    }
+
+    internal class CgManifest
+    {
+        [JsonProperty("$schema")]
+        public string Schema { get; set; }
+
+        [JsonProperty("version")]
+        public int Version { get; set; }
+
+        [JsonProperty("registrations")]
+        public List<CgRegistration> Registrations { get; set; }
+    }
+
+    internal class CgRegistration
+    {
+        [JsonProperty("component")]
+        public CgComponent Component { get; set; }
+    }
+
+    internal class CgComponent
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("nuget")]
+        public CgNugetComponent Nuget { get; set; }
+    }
+
+    internal class CgNugetComponent
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("version")]
+        public string Version { get; set; }
     }
 }
