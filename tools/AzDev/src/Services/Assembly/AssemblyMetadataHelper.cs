@@ -5,58 +5,56 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
-internal class AssemblyMetadataHelper
+namespace AzDev.Services
 {
-    public static AssemblyMetadata GetAssemblyMetadata(string path, string overrideTargetFramework = null)
+    internal static class AssemblyMetadataHelper
     {
-        string[] runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
-        var resolver = new PathAssemblyResolver(runtimeAssemblies);
-        var mlc = new MetadataLoadContext(resolver);
-
-        // todo: reuse mlc?
-        using (mlc)
-        using (var asmStream = File.OpenRead(path))
+        public static AssemblyMetadata ParseAssemblyMetadata(string path, string overrideTargetFramework = null)
         {
-            try
+            string[] runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
+            var resolver = new PathAssemblyResolver(runtimeAssemblies);
+            var mlc = new MetadataLoadContext(resolver);
+
+            // low priority: reuse mlc?
+            using (mlc)
+            using (var asmStream = File.OpenRead(path))
             {
-                Assembly assembly = mlc.LoadFromStream(asmStream);
-                AssemblyName name = assembly.GetName();
-                return new AssemblyMetadata()
+                try
                 {
-                    Name = name?.Name,
-                    Version = name?.Version,
-                    TargetFramework = overrideTargetFramework ?? GetTargetFramework(assembly)
-                };
-            }
-            catch (BadImageFormatException e)
-            {
-                Console.WriteLine($"Skipping {path} due to {e.Message}");
-                return new AssemblyMetadata()
+                    Assembly assembly = mlc.LoadFromStream(asmStream);
+                    AssemblyName name = assembly.GetName();
+                    return new AssemblyMetadata()
+                    {
+                        Name = name?.Name,
+                        Version = name?.Version,
+                        TargetFramework = overrideTargetFramework ?? GetTargetFramework(assembly)
+                    };
+                }
+                catch (BadImageFormatException e)
                 {
-                    Name = path,
-                    Version = null,
-                    TargetFramework = overrideTargetFramework
-                };
+                    Console.WriteLine($"Skipping {path} due to {e.Message}");
+                    return new AssemblyMetadata()
+                    {
+                        Name = path,
+                        Version = null,
+                        TargetFramework = overrideTargetFramework
+                    };
+                }
             }
+        }
+
+        private static string GetTargetFramework(Assembly assembly)
+        {
+            return assembly.GetCustomAttributesData()
+                .FirstOrDefault(x => x.AttributeType.ToString() == typeof(TargetFrameworkAttribute).ToString())
+                ?.ConstructorArguments[0].Value?.ToString();
         }
     }
 
-    private static string GetTargetFramework(Assembly assembly)
+    class AssemblyMetadata
     {
-        return assembly.GetCustomAttributesData()
-            .FirstOrDefault(x => x.AttributeType.ToString() == typeof(TargetFrameworkAttribute).ToString())
-            ?.ConstructorArguments[0].Value?.ToString();
+        public string Name { get; set; }
+        public Version Version { get; set; }
+        public string TargetFramework { get; set; }
     }
-
-    // private static IDictionary<string, string> HardCodedTargetFramework = new Dictionary<string, string>() {
-    //     {"Microsoft.Bcl.AsyncInterfaces", ".NETStandard,Version=v2.0"},
-    //     {"System.Buffers", ".NETStandard,Version=v2.0"}
-    // };
-}
-
-class AssemblyMetadata
-{
-    public string Name { get; set; }
-    public Version Version { get; set; }
-    public string TargetFramework { get; set; }
 }

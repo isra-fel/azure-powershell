@@ -16,6 +16,15 @@ namespace AzDev.Services
 {
     interface INugetService
     {
-        void DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationPath, bool downloadRuntimes);
+        /// <summary>
+        /// Downloads the specified assembly from NuGet and extracts it to the specified directory.
+        /// </summary>
+        /// <param name="packageName"></param>
+        /// <param name="packageVersion"></param>
+        /// <param name="targetFramework"></param>
+        /// <param name="destinationPath"></param>
+        /// <param name="downloadRuntimes"></param>
+        /// <returns>Path to the downloaded assembly, excluding runtime assemblies.</returns>
+        string DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationPath, bool downloadRuntimes);
     }
 }

@@ -47,7 +47,7 @@ namespace AzDev.Services
             _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
         }
 
-        public void DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationDir, bool downloadRuntimes)
+        public string DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationDir, bool downloadRuntimes)
         {
             _logger.Debug($"[DefaultNugetService] Downloading {packageName} version {packageVersion} for {targetFramework} to {destinationDir}");
             using var packageStream = new MemoryStream();
@@ -63,8 +63,7 @@ namespace AzDev.Services
             string assemblyPathRelativeToPackage = $"lib/{targetFramework}/{packageName}.dll";
             if (!packageReader.GetFiles().Contains(assemblyPathRelativeToPackage))
             {
-                _logger.Warning($"[DefaultNugetService] Assembly {packageName}.dll not found in package {packageName} version {packageVersion} for {targetFramework}.");
-                return;
+                throw new FileNotFoundException($"[DefaultNugetService] Assembly {packageName}.dll not found in package {packageName} version {packageVersion} for {targetFramework}.");
             }
 
             var destAssemblyPath = _fs.Path.Combine(destinationDir, $"{packageName}.dll");
@@ -89,6 +88,8 @@ namespace AzDev.Services
                     _logger.Debug($"[DefaultNugetService] Runtime {runtimeFilename} copied to {destRuntimePath}.");
                 }
             }
+
+            return destAssemblyPath;
         }
     }
 }

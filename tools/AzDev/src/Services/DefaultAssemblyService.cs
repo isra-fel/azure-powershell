@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
+using System.Text;
 using AzDev.Models.Assembly;
 using Newtonsoft.Json;
 
@@ -35,7 +37,12 @@ namespace AzDev.Services
 
             var devAssemblies = ReadAndParseManifests(_fs.File.ReadAllText(manifestFilePath));
             CleanDownloadDirectory(downloadPath);
-            DownloadDevAssemblies(devAssemblies, downloadPath);
+            var inspectedAssemblies = devAssemblies.Select(da =>
+            {
+                string path = DownloadDevAssembly(da, downloadPath);
+                return InspectAssembly(path, da);
+            }).OrderBy(x => x.Path).ToList();
+            UpdateRuntimeMetadata(inspectedAssemblies, runtimeMetadataPath);
         }
 
         private List<DevAssembly> ReadAndParseManifests(string manifestsInJson)
@@ -61,15 +68,7 @@ namespace AzDev.Services
             }
         }
 
-        private void DownloadDevAssemblies(List<DevAssembly> devAssemblies, string downloadPath)
-        {
-            foreach (var devAssembly in devAssemblies)
-            {
-                DownloadDevAssembly(devAssembly, downloadPath);
-            }
-        }
-
-        private void DownloadDevAssembly(DevAssembly devAssembly, string downloadPath)
+        private string DownloadDevAssembly(DevAssembly devAssembly, string downloadPath)
         {
             var packageName = devAssembly.PackageName;
             var packageVersion = devAssembly.PackageVersion;
@@ -81,7 +80,58 @@ namespace AzDev.Services
                 _fs.Directory.CreateDirectory(pathWithTargetFramework);
             }
 
-            _nuget.DownloadAssembly(packageName, packageVersion, targetFramework, pathWithTargetFramework, devAssembly.CopyRuntimeAssemblies);
+            return _nuget.DownloadAssembly(packageName, packageVersion, targetFramework, pathWithTargetFramework, devAssembly.CopyRuntimeAssemblies);
+        }
+
+        private InspectedAssembly InspectAssembly(string path, DevAssembly da)
+        {
+            return new InspectedAssembly(da, path)
+            {
+                AssemblyVersion = AssemblyMetadataHelper.ParseAssemblyMetadata(path).Version.ToString()
+            };
+        }
+
+        private void UpdateRuntimeMetadata(IEnumerable<InspectedAssembly> assemblies, string runtimeMetadataPath)
+        {
+            string runtimeMetadataContent = _fs.File.ReadAllText(runtimeMetadataPath);
+            int regionStart = runtimeMetadataContent.IndexOf("#region Generated", StringComparison.OrdinalIgnoreCase);
+            int regionEnd = runtimeMetadataContent.IndexOf("#endregion", regionStart, StringComparison.OrdinalIgnoreCase);
+            const string indent = "    ";
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(runtimeMetadataContent.Substring(0, regionStart + "#region Generated".Length));
+            sb.AppendLine();
+            foreach (var asm in assemblies)
+            {
+                var devAsm = asm.DevAssembly;
+                sb.Append($"{indent}{indent}{indent}{indent}");
+                sb.Append($"CreateAssembly(\"{devAsm.TargetFramework}\", \"{devAsm.PackageName}\", \"{asm.AssemblyVersion}\")");
+                if (devAsm.WindowsPowerShell && !devAsm.PowerShell7Plus)
+                {
+                    sb.Append($".WithWindowsPowerShell()");
+                }
+                if (devAsm.PowerShell7Plus && !devAsm.WindowsPowerShell)
+                {
+                    sb.Append($".WithPowerShellCore()");
+                }
+                sb.AppendLine(",");
+            }
+            sb.Append($"{indent}{indent}{indent}{indent}");
+            sb.Append(runtimeMetadataContent.Substring(regionEnd));
+
+            _fs.File.WriteAllText(runtimeMetadataPath, sb.ToString());
+        }
+
+        private class InspectedAssembly
+        {
+            public string Path { get; set; }
+            public string AssemblyVersion { get; set; }
+            public DevAssembly DevAssembly { get; set; }
+            public InspectedAssembly(DevAssembly devAssembly, string path)
+            {
+                Path = path;
+                DevAssembly = devAssembly;
+            }
         }
     }
 }
