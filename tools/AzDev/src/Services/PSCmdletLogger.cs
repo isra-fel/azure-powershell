@@ -73,7 +73,7 @@ namespace AzDev.Services
 
             public void Information(string message)
             {
-                _cmdlet.WriteInformation(new InformationRecord(message, "AzDev"));
+                _cmdlet.WriteInformation(new HostInformationMessage { Message = message }, ["PSHOST"]);
             }
         }
 

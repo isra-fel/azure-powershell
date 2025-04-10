@@ -29,10 +29,11 @@ namespace AzDev.Cmdlets.Assembly
             var fs = new FileSystem();
 
             var psRoot = Context.AzurePowerShellRepositoryRoot;
-            var libPath = fs.Path.Combine(psRoot, "src", "lib");
+            var libPath = fs.Path.Combine(psRoot, FileOrDirNames.Src, FileOrDirNames.Lib);
             var manifestPath = fs.Path.Combine(libPath, Constants.AssemblyManifestFileName);
-            var cgManifestPath = fs.Path.Combine(libPath, "cgManifest.json");
-            var conditionalAssemblyPath = fs.Path.Combine(psRoot, "src", "Accounts", "AssemblyLoading", "ConditionalAssemblyProvider.cs");
+            var cgManifestPath = fs.Path.Combine(libPath, FileOrDirNames.ComponentGovernanceManifest);
+            var conditionalAssemblyPath = fs.Path.Combine(psRoot, FileOrDirNames.Src, FileOrDirNames.Accounts,
+                FileOrDirNames.AssemblyLoading, FileOrDirNames.ConditionalAssemblyProvider);
 
             assemblyService.UpdateAssembly(
                 manifestPath,

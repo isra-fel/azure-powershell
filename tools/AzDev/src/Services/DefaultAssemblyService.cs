@@ -13,7 +13,7 @@ namespace AzDev.Services
     {
         private readonly IFileSystem _fs;
         private readonly INugetService _nuget;
-        private readonly ILogger _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
+        private readonly ILogger _logger;
 
         public DefaultAssemblyService(IFileSystem fs, INugetService nuget, ILogger logger)
         {
@@ -31,22 +31,23 @@ namespace AzDev.Services
                 throw new FileNotFoundException($"Manifest file does not exist", manifestFilePath);
             }
 
-            var devAssemblies = ReadAndParseManifests(_fs.File.ReadAllText(manifestFilePath));
+            var devAssemblies = ParseManifest(_fs.File.ReadAllText(manifestFilePath));
             CleanDownloadDirectory(downloadPath);
             var inspectedAssemblies = devAssemblies.Select(da =>
             {
                 string path = DownloadDevAssembly(da, downloadPath);
                 return InspectAssembly(path, da);
             }).OrderBy(x => x.Path).ToList();
+            _logger.Information($"Downloaded and inspected {inspectedAssemblies.Count} assemblies.");
             UpdateRuntimeMetadata(inspectedAssemblies, runtimeMetadataPath);
             UpdateCgManifest(inspectedAssemblies, cgManifestPath);
         }
 
-        private List<DevAssembly> ReadAndParseManifests(string manifestsInJson)
+        private static List<DevAssembly> ParseManifest(string manifestInJson)
         {
             try
             {
-                var manifestDataList = JsonConvert.DeserializeObject<List<DevAssembly>>(manifestsInJson);
+                var manifestDataList = JsonConvert.DeserializeObject<List<DevAssembly>>(manifestInJson);
                 return manifestDataList;
             }
             catch (Exception ex)
@@ -60,7 +61,7 @@ namespace AzDev.Services
             var subDirs = _fs.Directory.GetDirectories(downloadPath, "net*");
             foreach (var subDir in subDirs)
             {
-                _logger.Information($"Deleting directory: {subDir}");
+                _logger.Debug($"Deleting directory: {subDir}");
                 _fs.Directory.Delete(subDir, true);
             }
         }
@@ -90,6 +91,7 @@ namespace AzDev.Services
 
         private void UpdateRuntimeMetadata(IEnumerable<InspectedAssembly> assemblies, string runtimeMetadataPath)
         {
+            _logger.Information($"Updating runtime metadata file: {runtimeMetadataPath}");
             string runtimeMetadataContent = _fs.File.ReadAllText(runtimeMetadataPath);
             int regionStart = runtimeMetadataContent.IndexOf("#region Generated", StringComparison.OrdinalIgnoreCase);
             int regionEnd = runtimeMetadataContent.IndexOf("#endregion", regionStart, StringComparison.OrdinalIgnoreCase);
@@ -126,6 +128,7 @@ namespace AzDev.Services
         /// </summary>
         private void UpdateCgManifest(List<InspectedAssembly> inspectedAssemblies, string manifestPath)
         {
+            _logger.Information($"Updating Component Governance manifest file: {manifestPath}");
             var cgManifest = _fs.File.ReadAllText(manifestPath);
             var cgManifestObj = JsonConvert.DeserializeObject<CgManifest>(cgManifest);
             if (cgManifestObj == null)
@@ -152,6 +155,9 @@ namespace AzDev.Services
             _fs.File.WriteAllText(manifestPath, JsonConvert.SerializeObject(cgManifestObj, Formatting.Indented));
         }
 
+        /// <summary>
+        /// Represents an inspected assembly with its path and assembly version.
+        /// </summary>
         private class InspectedAssembly
         {
             public string Path { get; set; }

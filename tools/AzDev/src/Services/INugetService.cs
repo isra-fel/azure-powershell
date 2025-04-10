@@ -14,6 +14,9 @@
 
 namespace AzDev.Services
 {
+    /// <summary>
+    /// Interface for operations related to NuGet packages.
+    /// </summary>
     interface INugetService
     {
         /// <summary>

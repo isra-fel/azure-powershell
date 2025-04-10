@@ -18,5 +18,10 @@ namespace AzDev.Services
     {
         public const string Generated = "generated";
         public const string Src = "src";
+        public const string Lib = "lib";
+        public const string ComponentGovernanceManifest = "cgmanifest.json";
+        public const string Accounts = "Accounts";
+        public const string AssemblyLoading = "AssemblyLoading";
+        public const string ConditionalAssemblyProvider = "ConditionalAssemblyProvider.cs";
     }
 }
