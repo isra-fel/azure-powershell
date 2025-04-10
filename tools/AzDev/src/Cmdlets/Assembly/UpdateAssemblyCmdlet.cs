@@ -12,7 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.IO.Abstractions;
 using System.Management.Automation;
+using AzDev.Models;
 using AzDev.Services;
 
 namespace AzDev.Cmdlets.Assembly
@@ -23,13 +25,20 @@ namespace AzDev.Cmdlets.Assembly
         protected override void ProcessRecord()
         {
             base.ProcessRecord();
-
             var assemblyService = AzDevModule.GetService<IAssemblyService>();
+            var fs = new FileSystem();
+
+            var psRoot = Context.AzurePowerShellRepositoryRoot;
+            var libPath = fs.Path.Combine(psRoot, "src", "lib");
+            var manifestPath = fs.Path.Combine(libPath, Constants.AssemblyManifestFileName);
+            var cgManifestPath = fs.Path.Combine(libPath, "cgManifest.json");
+            var conditionalAssemblyPath = fs.Path.Combine(psRoot, "src", "Accounts", "AssemblyLoading", "ConditionalAssemblyProvider.cs");
+
             assemblyService.UpdateAssembly(
-                @"C:\Users\yeliu\code\azure-powershell\src\lib\manifest.json",
-                @"C:\Users\yeliu\code\azure-powershell\src\lib",
-                @"C:\Users\yeliu\code\azure-powershell\src\Accounts\AssemblyLoading\ConditionalAssemblyProvider.cs",
-                @"C:\Users\yeliu\code\azure-powershell\src\lib\cgManifest.json");
+                manifestPath,
+                libPath,
+                conditionalAssemblyPath,
+                cgManifestPath);
         }
     }
 }

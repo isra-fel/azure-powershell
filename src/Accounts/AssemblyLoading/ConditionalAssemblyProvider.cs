@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,6 +40,7 @@ namespace Microsoft.Azure.PowerShell.AssemblyLoading
             _assemblies = new List<IConditionalAssembly>()
             {
                 // todo: consider moving the list to a standalone config file
+                // do not update this list manually, see src/lib/README.md for details
                 #region Generated
                 CreateAssembly("net45", "Newtonsoft.Json", "13.0.0.0").WithWindowsPowerShell(),
                 CreateAssembly("net46", "System.Numerics.Vectors", "4.1.4.0").WithWindowsPowerShell(),

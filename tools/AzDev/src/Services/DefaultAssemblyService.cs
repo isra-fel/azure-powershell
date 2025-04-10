@@ -15,7 +15,7 @@ namespace AzDev.Services
         private readonly INugetService _nuget;
         private readonly ILogger _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
 
-        public DefaultAssemblyService() : this(new FileSystem())
+        public DefaultAssemblyService() : this(new FileSystem()) // todo: inject FS
         {
         }
 
