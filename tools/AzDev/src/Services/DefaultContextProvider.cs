@@ -26,16 +26,12 @@ namespace AzDev.Services
         private IFileSystem _fileSystem;
         private DevContext _cachedContext;
 
-        public DefaultContextProvider(string contextFilePath) : this(contextFilePath, new FileSystem())
-        {
-        }
-
-        public DefaultContextProvider(string contextFilePath, IFileSystem fileSystem)
+        public DefaultContextProvider(string contextFilePath, IFileSystem fileSystem, ILogger logger)
         {
             _contextFilePath = contextFilePath;
             _fileSystem = fileSystem;
             _cachedContext = null;
-            _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
+            _logger = logger;
         }
 
         public string ContextPath => _contextFilePath;

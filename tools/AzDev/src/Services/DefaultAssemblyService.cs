@@ -15,15 +15,11 @@ namespace AzDev.Services
         private readonly INugetService _nuget;
         private readonly ILogger _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
 
-        public DefaultAssemblyService() : this(new FileSystem()) // todo: inject FS
+        public DefaultAssemblyService(IFileSystem fs, INugetService nuget, ILogger logger)
         {
-        }
-
-        public DefaultAssemblyService(IFileSystem fs)
-        {
+            _logger = logger;
             _fs = fs;
-            _nuget = AzDevModule.GetService<INugetService>() ?? throw new InvalidOperationException("Nuget service is not available.");
-            _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
+            _nuget = nuget;
         }
 
         public void UpdateAssembly(string manifestFilePath, string downloadPath, string runtimeMetadataPath, string cgManifestPath)

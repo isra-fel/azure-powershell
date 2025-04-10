@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.IO.Abstractions;
 using System.Runtime.CompilerServices;
 using AzDev.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,8 +30,9 @@ namespace AzDev.Services
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton<IContextProvider, DefaultContextProvider>(sp => new DefaultContextProvider(Constants.DevContextFilePath));
-            services.AddSingleton<ICodebaseProvider, DefaultCodebaseProvider>(sp => new DefaultCodebaseProvider(sp.GetRequiredService<IContextProvider>()));
+            services.AddSingleton<IFileSystem, FileSystem>();
+            services.AddSingleton<IContextProvider, DefaultContextProvider>(sp => new DefaultContextProvider(Constants.DevContextFilePath, sp.GetRequiredService<IFileSystem>(), sp.GetRequiredService<ILogger>()));
+            services.AddSingleton<ICodebaseProvider, DefaultCodebaseProvider>();
             services.AddSingleton<IAssemblyService, DefaultAssemblyService>();
             services.AddSingleton<INugetService, DefaultNugetService>();
             services.AddSingleton<ILogger, PSCmdletLogger>();

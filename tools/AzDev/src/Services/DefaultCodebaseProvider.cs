@@ -25,9 +25,6 @@ namespace AzDev.Services
         private readonly IFileSystem _fs;
         private Codebase _codebase;
 
-        public DefaultCodebaseProvider(IContextProvider contextProvider)
-            : this(contextProvider, new FileSystem()) { }
-
         public DefaultCodebaseProvider(IContextProvider contextProvider, IFileSystem fs)
         {
             _contextProvider = contextProvider ?? throw new ArgumentNullException(nameof(contextProvider));

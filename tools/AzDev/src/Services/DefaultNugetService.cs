@@ -18,7 +18,6 @@ using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using NuGet.Common;
 using NuGet.Packaging;
 using NuGet.Protocol;
@@ -36,15 +35,11 @@ namespace AzDev.Services
         private readonly IFileSystem _fs;
         private readonly ILogger _logger;
 
-        public DefaultNugetService() : this(new FileSystem())
-        {
-        }
-
-        public DefaultNugetService(IFileSystem fs)
+        public DefaultNugetService(IFileSystem fs, ILogger logger)
         {
             _fs = fs;
+            _logger = logger;
             _findPackageByIdResource = new Lazy<FindPackageByIdResource>(_repository.GetResource<FindPackageByIdResource>, LazyThreadSafetyMode.ExecutionAndPublication);
-            _logger = AzDevModule.GetService<ILogger>() ?? NoopLogger.Instance;
         }
 
         public string DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationDir, bool downloadRuntimes)
