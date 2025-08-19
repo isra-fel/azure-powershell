@@ -26,7 +26,7 @@ For a complete list of the modules found in this repository, see
 Run the following command in a PowerShell session to install the Az PowerShell module:
 
 ```powershell
-Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+Install-Modulse -Name Az -Scope CurrentUser -Repository PSGallery -Force
 ```
 
 [The latest version of PowerShell 7][PowerShellCore] is the recommended version of PowerShell for
