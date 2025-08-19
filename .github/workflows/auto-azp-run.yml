@@ -11,6 +11,8 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: Checkout repository
@@ -18,25 +20,6 @@ jobs:
       with:
         sparse-checkout: |
           tools/GitHubOrgMember
-
-    - name: Set up GitHub CLI
-      shell: pwsh
-      run: |
-        # Install GitHub CLI if not present
-        if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
-          Write-Host "Installing GitHub CLI..."
-          # GitHub CLI is typically pre-installed on GitHub runners
-          gh --version
-        }
-
-    - name: Authenticate with GitHub CLI using token
-      shell: pwsh
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        Write-Host "Authenticating GitHub CLI..."
-        echo $env:GH_TOKEN | gh auth login --with-token
-        gh auth status
 
     - name: Get PR author and check Azure org membership
       shell: pwsh
@@ -68,15 +51,14 @@ jobs:
       shell: pwsh
       env:
         PR_NUMBER: ${{ github.event.pull_request.number }}
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         try {
           Write-Host "PR author is an Azure member. Proceeding to trigger ADO pipeline..."
-          
+
           # Comment "/azp run" on the PR to trigger ADO pipeline
           Write-Host "Commenting '/azp run' on PR #$env:PR_NUMBER to trigger ADO pipeline..."
           gh pr comment $env:PR_NUMBER --body "/azp run"
-          
+
           Write-Host "✅ Successfully triggered ADO pipeline for PR #$env:PR_NUMBER"
         }
         catch {
