@@ -64,6 +64,9 @@ namespace Microsoft.Azure.Commands.Common
                     // this gets called to get the sanitizer info
                     GetTelemetryInfo = module.GetTelemetryInfo,
 
+                    // this gets called when the cmdlet is trying to get a config value
+                    GetConfigValue = module.GetConfigValue,
+
                     // this gets called before the generated cmdlet makes a call across the wire (allows you to change the HTTP pipeline)
                     OnNewRequest = ContextAdapter.Instance.OnNewRequest,
 

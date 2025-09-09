@@ -35,6 +35,7 @@ namespace Microsoft.Azure.Commands.Common
                                         System.Collections.Generic.IDictionary<string, object>>;
     using SanitizerDelegate = Action<object, string>;
     using GetTelemetryInfoDelegate = Func<string, System.Collections.Generic.Dictionary<string, string>>;
+    using GetConfigValueDelegate = Func<string, System.Management.Automation.InvocationInfo, object>;
 
     /// <summary>
     /// The Virtual Call table of the functions to be exported to the generated module
@@ -61,7 +62,7 @@ namespace Microsoft.Azure.Commands.Common
         public TelemetryDelegate Telemetry;
 
         /// <summary>
-        /// The cmdlet will call this for every event during the pipeline. 
+        /// The cmdlet will call this for every event during the pipeline.
         /// </summary>
         /// <example>
         /// <para>id: a <c>string</c> containing the name of the event being raised (well-known events are in <see cref="Microsoft.Azure.Commands.Common.Events"/></para>
@@ -88,7 +89,7 @@ namespace Microsoft.Azure.Commands.Common
         public ModuleLoadPipelineDelegate OnModuleLoad;
 
         /// <summary>
-        /// Called when the cmdlet is constructing a new Request 
+        /// Called when the cmdlet is constructing a new Request
         /// </summary>
         /// <example>
         /// <para>invocationInfo: The <see cref="System.Management.Automation.InvocationInfo" /> from the cmdlet</para>
@@ -127,5 +128,12 @@ namespace Microsoft.Azure.Commands.Common
         /// The name of the currently selected Azure profile
         /// </summary>
         public string ProfileName { get; internal set; }
+
+        /// <summary>
+        /// The cmdlet will call this when it is trying to get a config value.
+        /// Always pass the InvocationInfo from the cmdlet.
+        /// Outputs an object. Cast it to the expected type.
+        /// </summary>
+        public GetConfigValueDelegate GetConfigValue;
     }
 }

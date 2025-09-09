@@ -19,6 +19,7 @@
 -->
 
 ## Upcoming Release
+* Enabled access to config to generated cmdlets.
 
 ## Version 5.3.0
 * Updated `AuthenticationAssemblyLoadContext` project to deprecate .NET 6.0 and build on .NET 8.0.

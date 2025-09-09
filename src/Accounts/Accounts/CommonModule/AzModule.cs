@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.Common.Authentication;
 using Microsoft.Azure.Commands.Common.Exceptions;
 using Microsoft.Azure.Commands.Profile.CommonModule;
+using Microsoft.Azure.PowerShell.Common.Config;
 using Microsoft.Rest.Azure;
 using Microsoft.Rest.Serialization;
 using Microsoft.WindowsAzure.Commands.Common;
@@ -46,6 +47,16 @@ namespace Microsoft.Azure.Commands.Common
         TelemetryProvider _telemetry;
         AdalLogger _logger;
         internal static readonly string[] ClientHeaders = { "x-ms-client-request-id", "client-request-id", "x-ms-request-id", "request-id" };
+        private Lazy<IConfigManager> _configManager = new Lazy<IConfigManager>(() =>
+        {
+            IConfigManager manager = null;
+            if (AzureSession.Instance.TryGetComponent<IConfigManager>(nameof(IConfigManager), out var configManager))
+            {
+                manager = configManager;
+            }
+            return manager;
+        });
+        private IConfigManager ConfigManager => _configManager.Value;
 
         private static JsonSerializerSettings DeserializationSettings = null;
         static AzModule()
@@ -96,12 +107,12 @@ namespace Microsoft.Azure.Commands.Common
         /// <param name="appendStep">a delegate which allows the module to append a step in the HTTP Pipeline</param>
         public void OnModuleLoad(string resourceId, string moduleName, PipelineChangeDelegate prependStep, PipelineChangeDelegate appendStep)
         {
-            // this will be called once when the module starts up 
+            // this will be called once when the module starts up
             // the common module can prepend or append steps to the pipeline at this point.
         }
 
         /// <summary>
-        /// The cmdlet will call this for every event during the pipeline. 
+        /// The cmdlet will call this for every event during the pipeline.
         /// </summary>
         /// <param name="id">a <c>string</c> containing the name of the event being raised (well-known events are in <see cref="Microsoft.Azure.Commands.Common.Events"/></param>
         /// <param name="cancellationToken">a <c>CancellationToken</c> indicating if this request is being cancelled.</param>
@@ -151,7 +162,7 @@ namespace Microsoft.Azure.Commands.Common
         }
 
         /// <summary>
-        /// The cmdlet will call this for every event during the pipeline. 
+        /// The cmdlet will call this for every event during the pipeline.
         /// </summary>
         /// <param name="id">a <c>string</c> containing the name of the event being raised (well-known events are in <see cref="Microsoft.Azure.Commands.Common.Events"/></param>
         /// <param name="invocationInfo">The <see cref="System.Management.Automation.InvocationInfo" /> from the cmdlet</param>
@@ -400,6 +411,19 @@ namespace Microsoft.Azure.Commands.Common
             }
 
             return telemetryInfo;
+        }
+
+        public object GetConfigValue(string configKey, InvocationInfo invocationInfo)
+        {
+            if (ConfigManager != null)
+            {
+                return ConfigManager.GetConfigValue<object>(configKey, invocationInfo);
+            }
+            else
+            {
+                _runtime.WriteDebug($"ConfigManager is not available in the current session. Returning default value for config '{configKey}'.");
+                return default;
+            }
         }
 
         /// <summary>
