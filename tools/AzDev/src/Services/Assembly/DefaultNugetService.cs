@@ -13,13 +13,16 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using NuGet.Common;
+using NuGet.Frameworks;
 using NuGet.Packaging;
+using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
@@ -85,6 +88,83 @@ namespace AzDev.Services.Assembly
             }
 
             return destAssemblyPath;
+        }
+
+        public Dictionary<string, string> GetPackageDependencies(string packageName, string packageVersion, string targetFramework)
+        {
+            _logger.Debug($"[{nameof(DefaultNugetService)}] Getting dependencies for {packageName} version {packageVersion} for {targetFramework}");
+            
+            var dependencies = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var framework = NuGetFramework.ParseFolder(targetFramework);
+            
+            GetPackageDependenciesRecursive(packageName, packageVersion, framework, dependencies, visited);
+            
+            return dependencies;
+        }
+
+        private void GetPackageDependenciesRecursive(string packageName, string packageVersion, NuGetFramework targetFramework, Dictionary<string, string> dependencies, HashSet<string> visited)
+        {
+            var packageKey = $"{packageName}:{packageVersion}";
+            if (visited.Contains(packageKey))
+            {
+                return;
+            }
+            
+            visited.Add(packageKey);
+            
+            try
+            {
+                using var packageStream = new MemoryStream();
+                _findPackageByIdResource.Value.CopyNupkgToStreamAsync(
+                    packageName,
+                    new NuGetVersion(packageVersion),
+                    packageStream,
+                    _cache,
+                    NullLogger.Instance,
+                    default).ConfigureAwait(false).GetAwaiter().GetResult();
+
+                using var packageReader = new PackageArchiveReader(packageStream);
+                var nuspecReader = packageReader.NuspecReader;
+                var dependencyGroups = nuspecReader.GetDependencyGroups();
+                
+                // Find the most compatible dependency group for the target framework
+                var reducer = new FrameworkReducer();
+                var mostCompatible = reducer.GetNearest(targetFramework, dependencyGroups.Select(d => d.TargetFramework));
+                
+                if (mostCompatible != null)
+                {
+                    var targetDependencyGroup = dependencyGroups.FirstOrDefault(d => d.TargetFramework.Equals(mostCompatible));
+                    if (targetDependencyGroup != null)
+                    {
+                        foreach (var dependency in targetDependencyGroup.Packages)
+                        {
+                            var depName = dependency.Id;
+                            var depVersionRange = dependency.VersionRange;
+                            
+                            // Get the minimum version or the specific version
+                            var depVersion = depVersionRange.MinVersion?.ToString();
+                            if (depVersion != null)
+                            {
+                                // Update dependency if it's not already present or if this version is higher
+                                if (!dependencies.ContainsKey(depName) || 
+                                    NuGetVersion.Parse(depVersion).CompareTo(NuGetVersion.Parse(dependencies[depName])) > 0)
+                                {
+                                    dependencies[depName] = depVersion;
+                                }
+                                
+                                // Recursively get dependencies of this package
+                                GetPackageDependenciesRecursive(depName, depVersion, targetFramework, dependencies, visited);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Debug($"[{nameof(DefaultNugetService)}] Warning: Could not get dependencies for {packageName} version {packageVersion}: {ex.Message}");
+                // Continue processing other packages even if one fails
+            }
         }
     }
 }

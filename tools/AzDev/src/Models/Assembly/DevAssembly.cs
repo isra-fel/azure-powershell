@@ -12,6 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 namespace AzDev.Models.Assembly
 {
     /// <summary>
@@ -48,5 +51,11 @@ namespace AzDev.Models.Assembly
         /// Whether to use the assembly in PowerShell 7+.
         /// </summary>
         public bool PowerShell7Plus { get; set; }
+
+        /// <summary>
+        /// List of packages that depend on this package. Used for traceability to understand
+        /// why a dependency is included and to remove it when no longer needed.
+        /// </summary>
+        public List<string> DependantPackages { get; set; } = new List<string>();
     }
 }

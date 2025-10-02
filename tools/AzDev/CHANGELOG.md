@@ -10,6 +10,9 @@
 - Quick start templates
 - Versioning and publishing AzDev module
 
+## 2025/9/24
+- Feature: Added `Update-DevAssemblyManifest` cmdlet to update assembly manifest with a new version of Azure.Core and its dependencies automatically
+
 ## 2025/8/26
 - Feature: Recognize AutoRest.PowerShell version (v3/v4) for AutoRest-based projects and show as `SubType` in `Get-DevProject` output.
 

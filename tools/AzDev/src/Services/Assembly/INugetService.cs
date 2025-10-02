@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace AzDev.Services.Assembly
 {
     /// <summary>
@@ -29,5 +31,14 @@ namespace AzDev.Services.Assembly
         /// <param name="downloadRuntimes"></param>
         /// <returns>Path to the downloaded assembly, excluding runtime assemblies.</returns>
         string DownloadAssembly(string packageName, string packageVersion, string targetFramework, string destinationPath, bool downloadRuntimes);
+
+        /// <summary>
+        /// Gets all dependencies of a package recursively for a specific target framework.
+        /// </summary>
+        /// <param name="packageName">The package name</param>
+        /// <param name="packageVersion">The package version</param>
+        /// <param name="targetFramework">The target framework</param>
+        /// <returns>Dictionary of package name to version for all dependencies</returns>
+        Dictionary<string, string> GetPackageDependencies(string packageName, string packageVersion, string targetFramework);
     }
 }

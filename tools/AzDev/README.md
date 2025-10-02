@@ -10,6 +10,7 @@ Like many other tools, this module targets `net8.0` so always run it in PowerShe
 - [Features](#features)
   - [Repo inventory](#repo-inventory)
   - [Update Assemblies in `src/lib`](#update-assemblies-in-srclib)
+  - [Update Assembly Manifest with Azure.Core](#update-assembly-manifest-with-azurecore)
   - [Connect azure-powershell and azure-powershell-common](#connect-azure-powershell-and-azure-powershell-common)
   - [Autorest helper](#autorest-helper)
     - [Open swagger online](#open-swagger-online)
@@ -79,8 +80,30 @@ Count Name                      Group
 
 ```powershell
 # Update the assembly manifest manually, then
-Update-DevDependency
+Update-DevAssembly
 # Check in all the changes
+```
+
+### Update Assembly Manifest with Package Dependencies
+
+`Update-DevAssemblyManifest` is used to update the assembly manifest with a new version of any package and its dependencies automatically. This cmdlet will:
+
+1. Read the current assembly manifest file and identify the current version of the specified package
+2. Fetch all dependencies for the new package version from NuGet (recursively)
+3. Compare versions and update dependencies that have newer versions
+4. Add any new dependencies that aren't currently in the manifest
+5. Process updated dependencies recursively to ensure all transitive dependencies are up-to-date
+6. Track dependant packages for each dependency to enable traceability and cleanup when no longer needed
+
+```powershell
+# Update Azure.Core to version 1.45.0 and all its dependencies
+Update-DevAssemblyManifest -PackageName "Azure.Core" -NewVersion "1.45.0"
+
+# Update Azure.Identity to version 1.12.0 and all its dependencies
+Update-DevAssemblyManifest -PackageName "Azure.Identity" -NewVersion "1.12.0"
+
+# Update System.Text.Json to version 8.0.0 and all its dependencies
+Update-DevAssemblyManifest -PackageName "System.Text.Json" -NewVersion "8.0.0"
 ```
 
 ### Connect azure-powershell and azure-powershell-common

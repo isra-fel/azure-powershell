@@ -17,5 +17,13 @@ namespace AzDev.Services.Assembly
     interface IAssemblyService
     {
         void UpdateAssembly(string manifestFilePath, string downloadPath, string runtimeMetadataPath, string cgManifestPath);
+
+        /// <summary>
+        /// Updates the assembly manifest with a new version of a package and its dependencies.
+        /// </summary>
+        /// <param name="manifestFilePath">Path to the assembly manifest file</param>
+        /// <param name="packageName">The name of the package to update</param>
+        /// <param name="newVersion">The new version of the package</param>
+        void UpdateAssemblyManifestWithPackage(string manifestFilePath, string packageName, string newVersion);
     }
 }
