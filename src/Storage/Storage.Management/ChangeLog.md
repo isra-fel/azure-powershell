@@ -18,6 +18,13 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Supported cross tenant user delegation SAS token generation with OAuth-based storage contexts
+    - `New-AzStorageBlobSASToken`
+    - `New-AzStorageContainerSASToken`
+    - `New-AzDataLakeGen2SasToken`
+    - `New-AzStorageFileSASToken`
+    - `New-AzStorageShareSASToken`
+    - `New-AzStorageQueueSASToken`
 
 ## Version 9.6.0
 * Supported encryption in transit in file service properties 
