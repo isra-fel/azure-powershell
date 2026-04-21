@@ -1,6 +1,6 @@
 {
   "ModuleName": "Az.Cdn",
-  "ModuleVersion": "6.0.0",
+  "ModuleVersion": "6.0.1",
   "Cmdlets": [
     {
       "VerbName": "Add",
